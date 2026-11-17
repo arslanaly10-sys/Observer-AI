@@ -122,8 +122,9 @@ export async function handleInbound(db: DB, lead: LeadRecord, m: { channel: "wha
   });
   if (error?.code === "23505") return { duplicate: true }; // provider retry
   const now = new Date().toISOString();
-  await db.from("leads").update({ last_inbound_at: now, ...(m.channel === "whatsapp" ? { consent_whatsapp: true } : m.channel === "email" ? { consent_email: true } : {}) }).eq("id", lead.id);
+  await db.from("leads").update({ last_inbound_at: now, ...(m.channel === "whatsapp" ? { consent_whatsapp: true, last_whatsapp_in_at: now } : m.channel === "email" ? { consent_email: true } : {}) }).eq("id", lead.id);
   lead.last_inbound_at = now;
+  if (m.channel === "whatsapp") lead.last_whatsapp_in_at = now;
   // Any reply cancels pending follow-ups.
   await db.from("jobs").update({ status: "cancelled" }).eq("lead_id", lead.id).eq("kind", "followup").eq("status", "pending");
 

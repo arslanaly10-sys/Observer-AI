@@ -124,23 +124,24 @@ export const AR_AREA: Record<string, string> = {
 
 /** The first WhatsApp reply, written the way a good agent would: specific, short, one question. */
 export function draftReply(o: { primary: string; urgent: boolean; researching: boolean; investor: boolean; area: string | null; budget: string | null; lang: "en" | "ar" }) {
+  // Never claims specific homes or prices: a real reply quotes only what the inventory tool returns.
   const { primary, urgent, researching, investor, area, budget, lang } = o;
   if (lang === "ar") {
     const where = area ? ` في ${AR_AREA[area] ?? area}` : "";
     const within = budget ? ` ضمن ميزانية ${budget.replace("AED ", "").replace("M", " مليون").replace("K", " ألف")} درهم` : "";
-    if (primary === "Seller") return `أهلاً بك، شكراً لتواصلك. يسعدني أن أقدّم لك تقييماً مجانياً لعقارك${where} خلال 24 ساعة، مبنياً على صفقات حقيقية في الشارع نفسه. ما مساحة العقار وعدد غرفه؟`;
-    if (researching) return `أهلاً بك، لا عجلة إطلاقاً. سأرسل لك ملخصاً قصيراً عن الأسعار${where} هذا الشهر، وأبقيك على اطلاع عند ظهور ما يناسبك. هل تفضّل شقة أم فيلا؟`;
-    if (investor) return `أهلاً بك. لدي ثلاثة خيارات${where}${within} بعائد إيجاري يتراوح بين 6% و8%. هل تفضّل عقاراً جاهزاً للتأجير أم على الخارطة بخطة سداد؟`;
-    if (urgent) return `أهلاً بك، شكراً لرسالتك. لدي ثلاثة منازل${where}${within} يمكنك معاينتها هذا الأسبوع. هل يناسبك الخميس صباحاً أم السبت؟`;
-    return `أهلاً بك، شكراً لتواصلك. لدي عدة خيارات${where}${within}. هل هي للسكن أم للاستثمار، ومتى تخطط للانتقال؟`;
+    if (primary === "Seller") return `أهلاً بك، شكراً لتواصلك. يسعدني ترتيب تقييم لعقارك${where} مبني على صفقات حقيقية قريبة منه. ما مساحة العقار وعدد غرفه؟`;
+    if (researching) return `أهلاً بك، لا عجلة إطلاقاً. يمكنني أن أرسل لك ملخصاً قصيراً عن الأسعار${where}، وأبقيك على اطلاع عند ظهور ما يناسبك. هل تفضّل شقة أم فيلا؟`;
+    if (investor) return `أهلاً بك. سأتحقق مما هو متاح${where}${within} وأشارك معك الأسعار وخطط السداد والعائد المتوقع هنا. هل تفضّل عقاراً جاهزاً للتأجير أم على الخارطة؟`;
+    if (urgent) return `أهلاً بك، شكراً لرسالتك. سأتحقق مما هو متاح${where}${within} وأرتب لك معاينة هذا الأسبوع. هل يناسبك الخميس صباحاً أم السبت؟`;
+    return `أهلاً بك، شكراً لتواصلك. يمكنني مشاركة الأسعار وخطط السداد${where}${within} هنا مباشرة. هل هي للسكن أم للاستثمار، ومتى تخطط للانتقال؟`;
   }
   const where = area ? ` in ${area}` : "";
   const within = budget ? ` within ${budget}` : "";
-  if (primary === "Seller") return `Thank you for getting in touch. I can give you a free valuation of your home${where} within 24 hours, based on real sales on the same street. How many bedrooms is it, and roughly how large?`;
-  if (researching) return `No rush at all. I'll send you a short note on what prices did${where} this month, and let you know when something fits. Are you thinking apartment or villa?`;
-  if (investor) return `Thanks for reaching out. I have three homes${where}${within} renting at 6 to 8% gross. Would you prefer something ready to let, or off-plan on a payment plan?`;
-  if (urgent) return `Thank you for your message. I have three homes${where}${within} you could see this week. Would Thursday morning or Saturday suit you?`;
-  return `Thanks for getting in touch. I have a few homes${where}${within} that could suit you. Is this for your family or an investment, and when are you hoping to move?`;
+  if (primary === "Seller") return `Thank you for getting in touch. I can arrange a valuation of your home${where}, based on real sales nearby. How many bedrooms is it, and roughly how large?`;
+  if (researching) return `No rush at all. I can send you a short note on prices${where} and let you know when something fits. Are you thinking apartment or villa?`;
+  if (investor) return `Thanks for reaching out. I’ll check what’s available${where}${within} and share prices, payment plans and expected rent right here. Would you prefer something ready to let, or off-plan?`;
+  if (urgent) return `Thank you for your message. I’ll check what’s available${where}${within} and set up a viewing this week. Would Thursday morning or Saturday suit you?`;
+  return `Thanks for getting in touch. I can share prices and payment plans${where}${within} right here. Is this for your family or an investment, and when are you hoping to move?`;
 }
 
 export function rankActions(list: Lead[]) {

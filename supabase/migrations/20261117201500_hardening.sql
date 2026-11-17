@@ -109,3 +109,8 @@ end $$;
 revoke all on function public.claim_due_jobs(integer) from public, anon, authenticated;
 grant execute on function public.claim_due_jobs(integer) to service_role;
 create index if not exists jobs_running_idx on public.jobs (updated_at) where status = 'running';
+
+-- ── WhatsApp's 24-hour window counts only WhatsApp messages ─────────────
+-- last_inbound_at moves for any channel (web form, email, call); free-text WhatsApp is only allowed
+-- within 24 hours of the lead's last *WhatsApp* message.
+alter table public.leads add column last_whatsapp_in_at timestamptz;

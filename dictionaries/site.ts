@@ -7,12 +7,12 @@ import type { Locale } from "@/lib/i18n";
 const en = {
   nav: {
     product: "Product", solutions: "Solutions", pricing: "Pricing", about: "About", contact: "Contact",
-    demo: "Book a demo", app: "Open the app", signin: "Sign in", menu: "Menu", close: "Close", lang: "العربية", skip: "Skip to content",
+    demo: "Book a demo", app: "Try the demo", signin: "Sign in", menu: "Menu", close: "Close", lang: "العربية", skip: "Skip to content",
   },
   footer: {
     line: "The AI sales desk for Gulf real estate.",
     cols: [
-      { h: "Product", links: [["Overview", "/product"], ["Pricing", "/pricing"], ["Open the app", "/app/dashboard"]] },
+      { h: "Product", links: [["Overview", "/product"], ["Pricing", "/pricing"], ["Try the demo", "/app/dashboard"]] },
       { h: "Solutions", links: [["Brokerages", "/solutions/brokerages"], ["Agents", "/solutions/agents"], ["Developers", "/solutions/developers"], ["Investors", "/solutions/investors"]] },
       { h: "Company", links: [["About", "/about"], ["Contact", "/contact"], ["Book a demo", "/contact"]] },
     ],
@@ -23,16 +23,16 @@ const en = {
   home: {
     hero: {
       h1: "The AI sales desk for Gulf real estate.",
-      sub: "Observer answers every enquiry on WhatsApp in under four minutes, reads how serious each buyer is, and tells your agents who to call next. Day and night, in English and Arabic.",
-      cta: "Book a demo", cta2: "See the app",
+      sub: "Every enquiry from your ads, portals and website gets a WhatsApp and an email within two minutes. Observer scores how serious each buyer is, routes them to the right agent, and keeps the conversation going after hours, in ten languages.",
+      cta: "Book a demo", cta2: "Try the demo",
     },
     problem: {
       h2: "Most leads are lost before anyone says hello.",
       body: "A buyer sends the same enquiry to five agencies at eleven at night. Whoever replies first, and well, usually gets the viewing. By morning the others are just a name in a spreadsheet.",
       facts: [
-        { n: "36%", t: "of leads drop before they’re qualified. The usual reason is a first reply that took longer than fifteen minutes." },
-        { n: "41%", t: "go quiet after qualifying, when nobody follows up on WhatsApp." },
-        { n: "89%", t: "of WhatsApp messages are opened. Email manages 28%." },
+        { n: "2 min", t: "from a form or ad to the first WhatsApp and email. You choose the delay, down to zero." },
+        { n: "10", t: "languages, from Arabic, Hindi and Urdu to Russian, Chinese and Farsi, picked up from the buyer’s first message." },
+        { n: "24/7", t: "After office hours Observer keeps talking, answers price questions from your inventory, and books the viewing." },
       ],
     },
     desk: {
@@ -41,7 +41,7 @@ const en = {
     },
     whatsapp: {
       h2: "Replies that sound like your best agent.",
-      body: "Observer writes in your agency’s voice, in English or Arabic, and sends the listing with its photographs. When the buyer replies, one of your agents takes over with the whole conversation in front of them.",
+      body: "Observer replies in the buyer’s own language, quotes only the prices and payment plans in your inventory, and sends the brochure. It says plainly that it is an AI assistant, and hands over to your agent when the buyer is ready, wants to make an offer, or asks for a person.",
       link: "How WhatsApp works in Observer",
     },
     score: {
@@ -50,22 +50,23 @@ const en = {
     },
     cascade: {
       h2: "Follow-up that never forgets.",
-      body: "WhatsApp comes first, then an SMS, then a short call from Observer, then a considered email. The moment the buyer answers on any channel, an agent takes over the conversation and Observer steps back.",
-      steps: ["WhatsApp", "Second WhatsApp", "SMS", "AI call", "Email", "Your agent"],
-      waits: ["0 min", "30 min", "2 hrs", "24 hrs", "48 hrs", "On reply"],
+      body: "The first WhatsApp and email go out within two minutes of an enquiry. If the buyer goes quiet, Observer follows up gently on days one, three and seven, never at night in their time zone. The moment they reply, it answers, and in office hours it hands the conversation to your agent.",
+      steps: ["Enquiry", "WhatsApp + email", "Follow-up", "Follow-up", "Last follow-up", "Your agent"],
+      waits: ["0 min", "2 min", "Day 1", "Day 3", "Day 7", "When ready"],
     },
     gulf: {
       h2: "Made for how property is sold here.",
       body: "Observer is built for Dubai, Abu Dhabi, Riyadh and Doha. That shapes the details, not just the language.",
       items: [
         { h: "Payment plans, with real fees", t: "Mortgage, developer, cash and post-handover plans, side by side, with the 4% DLD fee and trustee costs included." },
-        { h: "Arabic, properly", t: "A full right-to-left interface, and replies that read as if a person wrote them in Arabic." },
+        { h: "Ten languages, Arabic done properly", t: "A full right-to-left interface, and replies in Arabic, Hindi, Urdu, Farsi, Russian, Chinese and more." },
         { h: "GCC developer directory", t: "Developers and flagship projects across six countries, so you can match a buyer to the right launch." },
-        { h: "Your data, protected", t: "Hosted in AWS Europe (Frankfurt) and encrypted in transit and at rest, with UAE and Saudi PDPL controls." },
+        { h: "Your data, protected", t: "Hosted in AWS Europe (Frankfurt), encrypted in transit and at rest, with role-based access for every agent." },
       ],
     },
     results: {
-      h2: "A month into an Observer workspace.",
+      h2: "A month in the demo workspace.",
+      note: "Sample figures from the demo workspace, to show what Observer reports. Not customer results.",
       items: [
         { n: "4 min", t: "average time from enquiry to the first WhatsApp reply" },
         { n: "61.7%", t: "of qualified leads booked a viewing" },
@@ -74,7 +75,7 @@ const en = {
       ],
     },
     who: { h2: "Built for everyone who sells a home." },
-    close: { h2: "Bring a week of your enquiries.", body: "We’ll load them into Observer and show you who you would have called first, and what it was worth.", cta: "Book a demo", cta2: "Open the app" },
+    close: { h2: "Bring a week of your enquiries.", body: "We’ll load them into Observer and show you who you would have called first, and what it was worth.", cta: "Book a demo", cta2: "Try the demo" },
   },
   audiences: {
     brokerages: {
@@ -82,19 +83,19 @@ const en = {
       h1: "Run a faster brokerage without hiring a night shift.",
       sub: "Observer answers every portal, WhatsApp and social enquiry within minutes, scores it, and routes it to the right agent. You get a pipeline you can trust and a team that spends its day on viewings.",
       points: [
-        { h: "No lead waits", t: "Every enquiry gets a personal reply in under four minutes, at any hour, from Bayut, Property Finder, WhatsApp or Instagram." },
-        { h: "Fair, visible routing", t: "Leads go to agents by area, language and capacity. SLA timers show who is waiting, and escalate before a buyer goes cold." },
-        { h: "A forecast you can defend", t: "A weighted pipeline by stage, and channel ROI that shows which portals actually pay for themselves." },
+        { h: "No lead waits", t: "Every enquiry gets a WhatsApp and an email within two minutes, at any hour, from portals, ads, your website or WhatsApp itself." },
+        { h: "Fair, visible routing", t: "Leads go to the agent who speaks the buyer’s language, knows the area and has room. Hot leads reach your top performers first, with a WhatsApp alert." },
+        { h: "A pipeline you can defend", t: "Every lead carries its score, the reason for it, and the whole conversation, so stage changes are based on what buyers actually said." },
       ],
     },
     agents: {
       label: "Agents", short: "Wake up to booked viewings, not a list of people to chase.",
       h1: "Spend your day at viewings, not chasing replies.",
-      sub: "Observer keeps every conversation warm while you’re showing a villa or asleep. It tells you who is ready to buy, drafts the next message, and listens in on calls to suggest what to say.",
+      sub: "Observer keeps every conversation warm while you’re showing a villa or asleep. It tells you who is ready to buy, answers their questions from your inventory, and books viewings into your hours.",
       points: [
         { h: "Know who to call first", t: "A ranked list each morning, built from budget, timing, financing and how quickly people reply." },
-        { h: "Messages that sound like you", t: "Suggested WhatsApp replies in your tone, in English or Arabic. Send them as they are, or edit first." },
-        { h: "A second ear on every call", t: "Live prompts for objections, comparable prices to hand, and notes written for you before you hang up." },
+        { h: "Take over in one tap", t: "Every WhatsApp, email and call sits in one thread. Reply yourself and Observer steps back; switch it on again when you’re busy." },
+        { h: "Your calendar, filled", t: "When a buyer agrees to a viewing or a call, Observer books it into your available hours and alerts you on WhatsApp." },
       ],
     },
     developers: {
@@ -104,47 +105,49 @@ const en = {
       points: [
         { h: "Scale on launch day", t: "Thousands of conversations at once, each with a personal reply, without adding temporary staff." },
         { h: "Payment plans that sell", t: "Buyers see post-handover and developer plans with real fees, worked out for the unit they asked about." },
-        { h: "Brokers and in-house, together", t: "Route enquiries to your own team or partner agencies, and see conversion by channel and by broker." },
+        { h: "Inventory the AI can quote", t: "Upload projects, unit prices, payment plans and brochures, or import a CSV. Observer answers from them and never invents a price." },
       ],
     },
     investors: {
       label: "Investors", short: "The intelligence layer for the region’s fastest-growing property markets.",
       h1: "The intelligence layer for Gulf property sales.",
-      sub: "Gulf real estate is sold on WhatsApp, at speed, in two languages, and most of it still runs on spreadsheets. Observer sits where every enquiry starts, which is where most of the value is lost or won.",
+      sub: "Gulf real estate is sold on WhatsApp, at speed, in many languages, and most of it still runs on spreadsheets. Observer sits where every enquiry starts, which is where most of the value is lost or won.",
       points: [
         { h: "A large, under-served market", t: "Thousands of brokerages and developers across six GCC countries, most still working from spreadsheets and shared phones." },
         { h: "Built where the work happens", t: "WhatsApp-first and Arabic-native, with dirhams, DLD fees and Gulf portals built in. These are hard for global CRMs to copy." },
-        { h: "Compounding data", t: "Every conversation improves the scores and the timing for every other workspace on Observer." },
+        { h: "Built for the Gulf’s real buyer mix", t: "Ten languages from day one, because buyers here write in Arabic, Hindi, Urdu, Russian and Chinese as often as English." },
       ],
     },
   },
   product: {
     h1: "Everything your sales desk does, done faster.",
-    sub: "Eighteen screens, one quiet system. Here is what Observer does from the moment an enquiry arrives to the day the keys change hands.",
+    sub: "One quiet system. Here is what Observer does from the moment an enquiry arrives to the day the keys change hands. Items marked “Soon” are in the demo and on their way to workspaces.",
     groups: [
       { id: "intelligence", h: "Intelligence", t: "Observer reads every lead and every conversation, and turns them into a short list of what to do next.", items: [
         { h: "Lead scoring", t: "A score from 0 to 100, built from seven signals. It shows its working, and your team can adjust the weights." },
         { h: "Intent detection", t: "Highlights the words that matter, such as “cash”, “this week” or “just looking”, and labels buyers, sellers and investors." },
         { h: "Next best action", t: "Ranks the day’s actions by commission at stake, chance to close and how fast that chance is fading." },
-        { h: "Live call assistant", t: "Suggests the next line, handles objections with real comparables, and writes the call notes." },
+        { h: "AI concierge", t: "Answers price, payment-plan and availability questions from your inventory, books viewings into the calendar, and never negotiates." },
+        { h: "Live call assistant", t: "Suggests the next line during an agent’s call and writes the call notes.", soon: true },
       ], shot: "scoring" },
       { id: "channels", h: "Channels", t: "Meet buyers where they already are, with replies that never sound automated.", items: [
         { h: "WhatsApp", t: "A shared inbox with suggested replies, listing cards with photographs, and one-tap viewing bookings." },
-        { h: "Sequences", t: "WhatsApp first, then SMS, then a call, then email, and it stops the moment someone replies." },
-        { h: "Facebook and Instagram", t: "Lead forms, DMs and comments answered in seconds, with a call from Observer if the lead doesn’t close." },
+        { h: "Follow-ups", t: "WhatsApp and email within two minutes, then gentle follow-ups on days one, three and seven, paused at night and stopped the moment someone replies." },
+        { h: "AI phone calls", t: "If a buyer asks for a call, Observer rings them, says it’s an AI assistant, and talks in their language." },
+        { h: "Every lead source", t: "Facebook and Instagram Lead Ads, Google, TikTok and Snapchat lead forms, the portals and your website, all in one queue." },
       ], shot: "whatsapp" },
       { id: "analytics", h: "Analytics", t: "Know what’s working, which channel pays, and which agent needs a hand.", items: [
-        { h: "Conversion funnel", t: "See where leads go quiet, with the most common reason at each stage." },
-        { h: "Channel ROI", t: "Cost per lead and revenue by portal, so you can move the budget to what works." },
-        { h: "Agent performance", t: "Reply times, viewings booked and conversion for every agent, in one table." },
+        { h: "Conversion funnel", t: "See where leads go quiet, with the most common reason at each stage.", soon: true },
+        { h: "Channel ROI", t: "Cost per lead and revenue by portal, so you can move the budget to what works.", soon: true },
+        { h: "Agent performance", t: "Reply times, viewings booked and conversion for every agent, in one table.", soon: true },
       ], shot: "dashboard" },
       { id: "market", h: "GCC market", t: "Tools that only make sense in the Gulf, and that buyers here expect.", items: [
         { h: "Payment plans", t: "Bank, developer, cash and post-handover, side by side, with DLD, agency and trustee fees." },
-        { h: "GCC developers", t: "A directory of developers and flagship projects across the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman." },
+        { h: "GCC developers", t: "A directory of developers and flagship projects across the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman.", soon: true },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "Enterprise", t: "Built for brokerages and developers who answer to a board and a regulator.", items: [
-        { h: "SLA tracking", t: "Live timers on every waiting lead, with escalation before a breach." },
-        { h: "Compliance", t: "Data in Frankfurt, AES-256 encryption, a full audit log, and UAE and Saudi PDPL controls." },
+        { h: "Escalation", t: "Hot scores, offers, upset buyers and legal or visa questions go straight to a person, with a WhatsApp alert." },
+        { h: "Compliance", t: "Data in Frankfurt, encryption in transit and at rest, role-based access, and a full activity log on every lead." },
         { h: "Notifications", t: "Only what needs a person. Observer deals with the rest quietly." },
       ], shot: "sequences" },
     ],
@@ -155,18 +158,18 @@ const en = {
     sub: "Every plan includes WhatsApp, lead scoring, Arabic and English, and encrypted hosting in Frankfurt. Prices exclude VAT.",
     month: "/ month",
     tiers: [
-      { name: "Agent", price: "AED 490", note: "For one agent", cta: "Start with Agent", features: ["One seat", "Up to 300 leads a month", "WhatsApp inbox and suggested replies", "Lead scoring and next best action", "Payment plan calculator"] },
-      { name: "Brokerage", price: "AED 2,900", note: "Up to 15 agents", cta: "Book a demo", featured: true, features: ["Everything in Agent", "Unlimited leads", "Sequences across WhatsApp, SMS and email", "Facebook and Instagram automation", "Routing, SLA timers and agent analytics", "Live call assistant"] },
+      { name: "Agent", price: "AED 490", note: "For one agent", cta: "Talk to us", features: ["One seat", "Up to 300 leads a month", "AI first contact on WhatsApp and email", "Lead scoring with reasons", "Inventory, payment plans and calendar"] },
+      { name: "Brokerage", price: "AED 2,900", note: "Up to 15 agents", cta: "Book a demo", featured: true, features: ["Everything in Agent", "Unlimited leads", "Follow-ups across WhatsApp and email", "Meta, Google, TikTok and Snapchat lead ads", "Routing by language, area and capacity", "AI phone calls"] },
       { name: "Developer", price: "Custom", note: "For launches and large teams", cta: "Talk to us", features: ["Everything in Brokerage", "Launch-day capacity", "Broker partner routing", "AI calling at volume", "Dedicated success manager", "Single sign-on and audit exports"] },
     ],
     popular: "Best for teams",
     faqH: "Questions people ask",
     faq: [
       { q: "Do I need the WhatsApp Business API?", a: "Yes, and we set it up with you. Most teams are sending messages through Observer within a week." },
-      { q: "Will buyers know they’re talking to AI?", a: "Observer writes the first replies and follow-ups in your agency’s voice, and hands over to a person the moment a buyer engages. You decide how it introduces itself." },
-      { q: "Does it work with Bayut and Property Finder?", a: "Yes. Leads from both portals arrive in Observer automatically, along with leads from your website, Facebook and Instagram." },
+      { q: "Will buyers know they’re talking to AI?", a: "Yes. Observer introduces itself as your AI assistant in its first message and never pretends to be a person. Buyers can ask for a colleague at any time, and it hands over straight away." },
+      { q: "Does it work with Bayut and Property Finder?", a: "Yes. The portals send leads by email; an email parser such as Zapier forwards them to Observer in seconds. Your website, Facebook, Instagram, Google, TikTok and Snapchat connect directly." },
       { q: "Where is our data stored?", a: "In AWS Europe (Frankfurt). It’s encrypted at rest and in transit, and backups stay in the same region." },
-      { q: "Can we keep our existing CRM?", a: "Yes. Observer can run alongside it and sync contacts and stages, or replace it entirely. It’s your choice." },
+      { q: "Can we keep our existing CRM?", a: "Yes. Observer runs alongside it, and any tool that can send a webhook can push leads in. Two-way sync is on our roadmap." },
     ],
   },
   about: {
@@ -178,7 +181,7 @@ const en = {
     ],
     principlesH: "What we believe",
     principles: [
-      { h: "Speed is a courtesy", t: "A reply in four minutes tells a buyer they matter. Every product decision starts there." },
+      { h: "Speed is a courtesy", t: "A reply in two minutes tells a buyer they matter. Every product decision starts there." },
       { h: "Show the working", t: "A score nobody can explain is a score nobody trusts. Ours always shows why." },
       { h: "People close", t: "Observer prepares the ground. The handshake, the viewing and the keys stay with your team." },
       { h: "Local by design", t: "Arabic, dirhams, DLD fees and the Gulf portals are built in from the start, not added later." },
@@ -208,12 +211,12 @@ export type SiteDict = typeof en;
 const ar: SiteDict = {
   nav: {
     product: "المنتج", solutions: "الحلول", pricing: "الأسعار", about: "من نحن", contact: "تواصل معنا",
-    demo: "احجز عرضاً توضيحياً", app: "افتح التطبيق", signin: "تسجيل الدخول", menu: "القائمة", close: "إغلاق", lang: "English", skip: "انتقل إلى المحتوى",
+    demo: "احجز عرضاً توضيحياً", app: "جرّب النسخة التجريبية", signin: "تسجيل الدخول", menu: "القائمة", close: "إغلاق", lang: "English", skip: "انتقل إلى المحتوى",
   },
   footer: {
     line: "مكتب المبيعات الذكي لعقارات الخليج.",
     cols: [
-      { h: "المنتج", links: [["نظرة عامة", "/product"], ["الأسعار", "/pricing"], ["افتح التطبيق", "/app/dashboard"]] },
+      { h: "المنتج", links: [["نظرة عامة", "/product"], ["الأسعار", "/pricing"], ["جرّب النسخة التجريبية", "/app/dashboard"]] },
       { h: "الحلول", links: [["شركات الوساطة", "/solutions/brokerages"], ["الوكلاء", "/solutions/agents"], ["المطوّرون", "/solutions/developers"], ["المستثمرون", "/solutions/investors"]] },
       { h: "الشركة", links: [["من نحن", "/about"], ["تواصل معنا", "/contact"], ["احجز عرضاً توضيحياً", "/contact"]] },
     ],
@@ -224,16 +227,16 @@ const ar: SiteDict = {
   home: {
     hero: {
       h1: "مكتب المبيعات الذكي لعقارات الخليج.",
-      sub: "يرد أوبزرفر على كل استفسار عبر واتساب خلال أقل من أربع دقائق، ويقرأ مدى جدية كل مشترٍ، ويخبر وكلاءك بمن يتصلون أولاً. ليلاً ونهاراً، بالعربية والإنجليزية.",
-      cta: "احجز عرضاً توضيحياً", cta2: "شاهد التطبيق",
+      sub: "كل استفسار من إعلاناتك وبواباتك وموقعك يصله رد على واتساب وبريد خلال دقيقتين. يقيّم أوبزرفر جدية كل مشترٍ، ويحوّله إلى الوكيل المناسب، ويواصل المحادثة بعد الدوام، بعشر لغات.",
+      cta: "احجز عرضاً توضيحياً", cta2: "جرّب النسخة التجريبية",
     },
     problem: {
       h2: "معظم العملاء يضيعون قبل أن يقول لهم أحد: مرحباً.",
       body: "يرسل المشتري الاستفسار نفسه إلى خمس وكالات في الحادية عشرة ليلاً. من يرد أولاً، ويرد جيداً، يحصل غالباً على المعاينة. وفي الصباح يصبح الباقون مجرد اسم في جدول.",
       facts: [
-        { n: "36%", t: "من العملاء يضيعون قبل تأهيلهم، والسبب الأكثر شيوعاً ردٌّ أول تأخر أكثر من خمس عشرة دقيقة." },
-        { n: "41%", t: "يصمتون بعد التأهيل حين لا يتابعهم أحد على واتساب." },
-        { n: "89%", t: "من رسائل واتساب تُفتح، مقابل 28% فقط للبريد الإلكتروني." },
+        { n: "2 د", t: "من النموذج أو الإعلان إلى أول رسالة واتساب وبريد. أنت تختار التأخير، حتى الصفر." },
+        { n: "10", t: "لغات، من العربية والهندية والأردية إلى الروسية والصينية والفارسية، تُكتشف من أول رسالة." },
+        { n: "24/7", t: "بعد الدوام يواصل أوبزرفر الحديث، ويجيب عن الأسعار من مخزونك، ويحجز المعاينة." },
       ],
     },
     desk: {
@@ -242,7 +245,7 @@ const ar: SiteDict = {
     },
     whatsapp: {
       h2: "ردود تشبه أفضل وكلائك.",
-      body: "يكتب أوبزرفر بأسلوب وكالتك، بالعربية أو الإنجليزية، ويرسل العقار مع صوره. وحين يرد المشتري، يتولى أحد وكلائك المحادثة والسياق كله أمامه.",
+      body: "يرد أوبزرفر بلغة المشتري نفسها، ولا يذكر إلا الأسعار وخطط السداد الموجودة في مخزونك، ويرسل الكتيّب. ويقول بوضوح إنه مساعد ذكي، ويسلّم المحادثة لوكيلك حين يكون المشتري جاهزاً أو يريد تقديم عرض أو يطلب شخصاً.",
       link: "كيف يعمل واتساب في أوبزرفر",
     },
     score: {
@@ -251,22 +254,23 @@ const ar: SiteDict = {
     },
     cascade: {
       h2: "متابعة لا تنسى أحداً.",
-      body: "واتساب أولاً، ثم رسالة نصية، ثم مكالمة قصيرة من أوبزرفر، ثم بريد مدروس. وفي اللحظة التي يرد فيها المشتري على أي قناة، يتولى أحد وكلائك المحادثة ويتنحى أوبزرفر.",
-      steps: ["واتساب", "واتساب ثانٍ", "رسالة نصية", "مكالمة ذكية", "بريد إلكتروني", "وكيلك"],
-      waits: ["0 دقيقة", "30 دقيقة", "ساعتان", "24 ساعة", "48 ساعة", "عند الرد"],
+      body: "تُرسل أول رسالة واتساب وبريد خلال دقيقتين من الاستفسار. وإن صمت المشتري، يتابعه أوبزرفر بلطف في اليوم الأول والثالث والسابع، ولا يراسله ليلاً بتوقيته. وحين يرد، يجيبه، وفي ساعات الدوام يسلّم المحادثة لوكيلك.",
+      steps: ["الاستفسار", "واتساب + بريد", "متابعة", "متابعة", "آخر متابعة", "وكيلك"],
+      waits: ["0 دقيقة", "دقيقتان", "اليوم 1", "اليوم 3", "اليوم 7", "عند الجاهزية"],
     },
     gulf: {
       h2: "مصمَّم لطريقة بيع العقار هنا.",
       body: "صُمّم أوبزرفر لدبي وأبوظبي والرياض والدوحة، وهذا يظهر في التفاصيل لا في اللغة وحدها.",
       items: [
         { h: "خطط سداد برسوم حقيقية", t: "الرهن العقاري وخطط المطوّر والدفع النقدي وما بعد التسليم جنباً إلى جنب، مع رسوم دائرة الأراضي 4% وأتعاب الأمين." },
-        { h: "عربية كما ينبغي", t: "واجهة كاملة من اليمين إلى اليسار، وردود تُقرأ كأن إنساناً كتبها بالعربية." },
+        { h: "عشر لغات، والعربية كما ينبغي", t: "واجهة كاملة من اليمين إلى اليسار، وردود بالعربية والهندية والأردية والفارسية والروسية والصينية وغيرها." },
         { h: "دليل مطوّري الخليج", t: "المطوّرون ومشاريعهم الرئيسية في ست دول، لتطابق المشتري مع الإطلاق المناسب." },
-        { h: "بياناتك محمية", t: "مستضافة في AWS أوروبا (فرانكفورت)، ومشفّرة أثناء النقل والتخزين، مع ضوابط قوانين حماية البيانات في الإمارات والسعودية." },
+        { h: "بياناتك محمية", t: "مستضافة في AWS أوروبا (فرانكفورت)، ومشفّرة أثناء النقل والتخزين، مع صلاحيات وصول لكل وكيل." },
       ],
     },
     results: {
-      h2: "بعد شهر من العمل على أوبزرفر.",
+      h2: "شهر في مساحة العمل التجريبية.",
+      note: "أرقام نموذجية من مساحة العمل التجريبية لتوضيح ما يعرضه أوبزرفر، وليست نتائج عملاء.",
       items: [
         { n: "4 د", t: "متوسط الوقت من الاستفسار إلى أول رد على واتساب" },
         { n: "61.7%", t: "من العملاء المؤهلين حجزوا معاينة" },
@@ -275,27 +279,27 @@ const ar: SiteDict = {
       ],
     },
     who: { h2: "مصمَّم لكل من يبيع منزلاً." },
-    close: { h2: "أحضر استفسارات أسبوع واحد.", body: "سنحمّلها في أوبزرفر ونريك بمن كنت ستتصل أولاً، وكم كانت قيمة ذلك.", cta: "احجز عرضاً توضيحياً", cta2: "افتح التطبيق" },
+    close: { h2: "أحضر استفسارات أسبوع واحد.", body: "سنحمّلها في أوبزرفر ونريك بمن كنت ستتصل أولاً، وكم كانت قيمة ذلك.", cta: "احجز عرضاً توضيحياً", cta2: "جرّب النسخة التجريبية" },
   },
   audiences: {
     brokerages: {
       label: "شركات الوساطة", short: "كل عميل وكل وكيل وكل رد في مكان واحد، ولا مزيد من خسارة المشترين لمن يرد أسرع.",
       h1: "وساطة أسرع، دون الحاجة إلى نوبة ليلية.",
-      sub: "يرد أوبزرفر على كل استفسار من البوابات وواتساب ووسائل التواصل خلال دقائق، ويقيّمه، ويحوّله إلى الوكيل المناسب. تحصل على خط مبيعات تثق به، وفريق يقضي يومه في المعاينات.",
+      sub: "يرد أوبزرفر على كل استفسار من البوابات والإعلانات وموقعك خلال دقيقتين، ويقيّمه، ويحوّله إلى الوكيل المناسب. تحصل على خط مبيعات تثق به، وفريق يقضي يومه في المعاينات.",
       points: [
-        { h: "لا عميل ينتظر", t: "كل استفسار يحصل على رد شخصي خلال أقل من أربع دقائق، في أي ساعة، من بيوت وبروبرتي فايندر وواتساب وإنستغرام." },
-        { h: "توزيع عادل وواضح", t: "تُوزَّع العملاء حسب المنطقة واللغة والطاقة الاستيعابية، ومؤقتات مستوى الخدمة تُظهر من ينتظر وتصعّد قبل أن يبرد المشتري." },
-        { h: "توقعات يمكنك الدفاع عنها", t: "خط مبيعات مرجّح حسب المرحلة، وعائد لكل قناة يُظهر أي البوابات تستحق ما تدفعه." },
+        { h: "لا عميل ينتظر", t: "كل استفسار يصله رد على واتساب وبريد خلال دقيقتين، في أي ساعة، من البوابات والإعلانات وموقعك أو واتساب نفسه." },
+        { h: "توزيع عادل وواضح", t: "يذهب العميل إلى الوكيل الذي يتحدث لغته ويعرف المنطقة ولديه متسع، والعملاء الساخنون يصلون أفضل وكلائك أولاً مع تنبيه على واتساب." },
+        { h: "خط مبيعات يمكنك الدفاع عنه", t: "كل عميل يحمل تقييمه وسببه والمحادثة كاملة، فتُبنى المراحل على ما قاله المشترون فعلاً." },
       ],
     },
     agents: {
       label: "الوكلاء", short: "استيقظ على معاينات محجوزة، لا على قائمة أشخاص عليك ملاحقتهم.",
       h1: "اقضِ يومك في المعاينات، لا في ملاحقة الردود.",
-      sub: "يبقي أوبزرفر كل محادثة دافئة وأنت تعرض فيلا أو نائم. يخبرك من هو جاهز للشراء، ويكتب الرسالة التالية، ويستمع إلى مكالماتك ليقترح ما تقوله.",
+      sub: "يبقي أوبزرفر كل محادثة دافئة وأنت تعرض فيلا أو نائم. يخبرك من هو جاهز للشراء، ويجيب عن أسئلته من مخزونك، ويحجز المعاينات في ساعاتك.",
       points: [
         { h: "اعرف بمن تتصل أولاً", t: "قائمة مرتّبة كل صباح، مبنية على الميزانية والتوقيت والتمويل وسرعة الرد." },
-        { h: "رسائل بصوتك", t: "ردود واتساب مقترحة بأسلوبك، بالعربية أو الإنجليزية. أرسلها كما هي أو عدّلها أولاً." },
-        { h: "أذن ثانية في كل مكالمة", t: "اقتراحات فورية للاعتراضات، وأسعار مقارنة جاهزة، وملاحظات مكتوبة قبل أن تنهي المكالمة." },
+        { h: "تولَّ المحادثة بلمسة", t: "كل رسائل واتساب والبريد والمكالمات في محادثة واحدة. رُدّ بنفسك فيتنحى أوبزرفر، وأعِده حين تنشغل." },
+        { h: "تقويمك ممتلئ", t: "حين يوافق المشتري على معاينة أو مكالمة، يحجزها أوبزرفر في ساعاتك المتاحة وينبّهك على واتساب." },
       ],
     },
     developers: {
@@ -305,34 +309,36 @@ const ar: SiteDict = {
       points: [
         { h: "قدرة يوم الإطلاق", t: "آلاف المحادثات في الوقت نفسه، كلٌّ برد شخصي، دون موظفين مؤقتين." },
         { h: "خطط سداد تبيع", t: "يرى المشتري خطط ما بعد التسليم وخطط المطوّر برسوم حقيقية، محسوبة للوحدة التي سأل عنها." },
-        { h: "الوسطاء وفريقك معاً", t: "وجّه الاستفسارات إلى فريقك أو الوكالات الشريكة، وتابع التحويل حسب القناة والوسيط." },
+        { h: "مخزون يقتبس منه الذكاء الاصطناعي", t: "حمّل المشاريع وأسعار الوحدات وخطط السداد والكتيّبات أو استورد ملف CSV. يجيب أوبزرفر منها ولا يخترع سعراً أبداً." },
       ],
     },
     investors: {
       label: "المستثمرون", short: "طبقة الذكاء لأسرع أسواق العقار نمواً في المنطقة.",
       h1: "طبقة الذكاء لمبيعات العقار في الخليج.",
-      sub: "يُباع عقار الخليج عبر واتساب، بسرعة، وبلغتين، ومعظمه ما زال يُدار بالجداول. يقف أوبزرفر حيث يبدأ كل استفسار، وهناك تُكسب معظم القيمة أو تُفقد.",
+      sub: "يُباع عقار الخليج عبر واتساب، بسرعة، وبلغات عدة، ومعظمه ما زال يُدار بالجداول. يقف أوبزرفر حيث يبدأ كل استفسار، وهناك تُكسب معظم القيمة أو تُفقد.",
       points: [
         { h: "سوق كبير لم يُخدم بعد", t: "آلاف شركات الوساطة والمطوّرين في ست دول خليجية، ومعظمهم ما زال يعمل بالجداول والهواتف المشتركة." },
         { h: "مبني حيث يحدث العمل", t: "واتساب أولاً، وعربي أصيل، مع الدرهم ورسوم دائرة الأراضي وبوابات العقار الخليجية مدمجة. يصعب على أنظمة إدارة العملاء العالمية تقليد ذلك." },
-        { h: "بيانات تتراكم قيمتها", t: "كل محادثة تحسّن التقييمات والتوقيت لكل مساحة عمل أخرى على أوبزرفر." },
+        { h: "مصمَّم لمزيج المشترين الحقيقي في الخليج", t: "عشر لغات منذ اليوم الأول، لأن المشترين هنا يكتبون بالعربية والهندية والأردية والروسية والصينية بقدر الإنجليزية." },
       ],
     },
   },
   product: {
     h1: "كل ما يفعله مكتب مبيعاتك، أسرع.",
-    sub: "ثماني عشرة شاشة ونظام واحد هادئ. هذا ما يفعله أوبزرفر من لحظة وصول الاستفسار حتى يوم تسليم المفاتيح.",
+    sub: "نظام واحد هادئ. هذا ما يفعله أوبزرفر من لحظة وصول الاستفسار حتى يوم تسليم المفاتيح. العناصر الموسومة «قريباً» موجودة في النسخة التجريبية وفي طريقها إلى مساحات العمل.",
     groups: [
       { id: "intelligence", h: "الذكاء", t: "يقرأ أوبزرفر كل عميل وكل محادثة، ويحوّلها إلى قائمة قصيرة بما يجب فعله.", items: [
         { h: "تقييم العملاء", t: "تقييم من 0 إلى 100 مبني على سبع إشارات. يعرض أسبابه، ويمكن لفريقك تعديل الأوزان." },
         { h: "كشف النية", t: "يبرز الكلمات المهمة مثل «نقداً» و«هذا الأسبوع» و«أتصفح فقط»، ويصنّف المشترين والبائعين والمستثمرين." },
         { h: "أفضل إجراء تالٍ", t: "يرتّب إجراءات اليوم حسب العمولة المعنية وفرصة الإغلاق وسرعة تلاشيها." },
-        { h: "مساعد المكالمات المباشر", t: "يقترح الجملة التالية، ويعالج الاعتراضات بمقارنات حقيقية، ويكتب ملاحظات المكالمة." },
+        { h: "المساعد الذكي", t: "يجيب عن الأسعار وخطط السداد والتوفر من مخزونك، ويحجز المعاينات في التقويم، ولا يفاوض أبداً." },
+        { h: "مساعد المكالمات المباشر", t: "يقترح الجملة التالية خلال مكالمة الوكيل ويكتب ملاحظاتها.", soon: true },
       ], shot: "scoring" },
       { id: "channels", h: "القنوات", t: "قابل المشترين حيث هم، بردود لا تبدو آلية أبداً.", items: [
         { h: "واتساب", t: "صندوق وارد مشترك مع ردود مقترحة، وبطاقات عقارات بالصور، وحجز معاينة بلمسة." },
-        { h: "التسلسلات", t: "واتساب أولاً، ثم رسالة نصية، ثم مكالمة، ثم بريد، وتتوقف لحظة الرد." },
-        { h: "فيسبوك وإنستغرام", t: "نماذج العملاء والرسائل والتعليقات يُرد عليها في ثوانٍ، مع مكالمة من أوبزرفر إن لم يُغلق العميل." },
+        { h: "المتابعات", t: "واتساب وبريد خلال دقيقتين، ثم متابعات لطيفة في الأيام الأول والثالث والسابع، تتوقف ليلاً ولحظة الرد." },
+        { h: "مكالمات ذكية", t: "إن طلب المشتري مكالمة، يتصل به أوبزرفر ويخبره أنه مساعد ذكي ويتحدث بلغته." },
+        { h: "كل مصادر العملاء", t: "إعلانات فيسبوك وإنستغرام، ونماذج Google وتيك توك وسناب شات، والبوابات وموقعك، في قائمة واحدة." },
       ], shot: "whatsapp" },
       { id: "analytics", h: "التحليلات", t: "اعرف ما ينجح، وأي قناة تستحق، وأي وكيل يحتاج إلى مساعدة.", items: [
         { h: "قمع التحويل", t: "اعرف أين يصمت العملاء، والسبب الأكثر شيوعاً في كل مرحلة." },
@@ -345,7 +351,7 @@ const ar: SiteDict = {
       ], shot: "payment-plans" },
       { id: "enterprise", h: "المؤسسات", t: "لشركات الوساطة والمطوّرين المسؤولين أمام مجلس إدارة وجهة تنظيمية.", items: [
         { h: "تتبع مستوى الخدمة", t: "مؤقتات حية لكل عميل ينتظر، مع تصعيد قبل حدوث أي تجاوز." },
-        { h: "الامتثال", t: "البيانات في فرانكفورت، وتشفير AES-256، وسجل تدقيق كامل، وضوابط حماية البيانات الإماراتية والسعودية." },
+        { h: "الامتثال", t: "البيانات في فرانكفورت، وتشفير أثناء النقل والتخزين، وصلاحيات حسب الدور، وسجل نشاط كامل لكل عميل." },
         { h: "الإشعارات", t: "فقط ما يحتاج إلى إنسان. يتعامل أوبزرفر مع الباقي بهدوء." },
       ], shot: "sequences" },
     ],
@@ -356,18 +362,18 @@ const ar: SiteDict = {
     sub: "كل باقة تشمل واتساب وتقييم العملاء والعربية والإنجليزية واستضافة مشفّرة في فرانكفورت. الأسعار لا تشمل ضريبة القيمة المضافة.",
     month: "/ شهرياً",
     tiers: [
-      { name: "الوكيل", price: "490 درهم", note: "لوكيل واحد", cta: "ابدأ بباقة الوكيل", features: ["مقعد واحد", "حتى 300 عميل شهرياً", "صندوق واتساب وردود مقترحة", "تقييم العملاء وأفضل إجراء تالٍ", "حاسبة خطط السداد"] },
-      { name: "الوساطة", price: "2,900 درهم", note: "حتى 15 وكيلاً", cta: "احجز عرضاً توضيحياً", featured: true, features: ["كل ما في باقة الوكيل", "عملاء بلا حدود", "تسلسلات عبر واتساب والرسائل والبريد", "أتمتة فيسبوك وإنستغرام", "التوزيع ومؤقتات الخدمة وتحليلات الوكلاء", "مساعد المكالمات المباشر"] },
+      { name: "الوكيل", price: "490 درهم", note: "لوكيل واحد", cta: "تحدّث إلينا", features: ["مقعد واحد", "حتى 300 عميل شهرياً", "تواصل أول ذكي عبر واتساب والبريد", "تقييم العملاء مع الأسباب", "المخزون وخطط السداد والتقويم"] },
+      { name: "الوساطة", price: "2,900 درهم", note: "حتى 15 وكيلاً", cta: "احجز عرضاً توضيحياً", featured: true, features: ["كل ما في باقة الوكيل", "عملاء بلا حدود", "متابعات عبر واتساب والبريد", "إعلانات ميتا وGoogle وتيك توك وسناب شات", "توزيع حسب اللغة والمنطقة والطاقة", "مكالمات ذكية"] },
       { name: "المطوّر", price: "حسب الطلب", note: "للإطلاقات والفرق الكبيرة", cta: "تحدّث إلينا", features: ["كل ما في باقة الوساطة", "قدرة يوم الإطلاق", "توزيع على الوسطاء الشركاء", "مكالمات ذكية بكثافة", "مدير نجاح مخصص", "تسجيل دخول موحّد وتصدير سجلات التدقيق"] },
     ],
     popular: "الأنسب للفرق",
     faqH: "أسئلة شائعة",
     faq: [
       { q: "هل أحتاج إلى واجهة واتساب للأعمال؟", a: "نعم، ونجهّزها معك. معظم الفرق ترسل رسائلها عبر أوبزرفر خلال أسبوع." },
-      { q: "هل سيعرف المشترون أنهم يتحدثون مع ذكاء اصطناعي؟", a: "يكتب أوبزرفر الردود الأولى والمتابعات بأسلوب وكالتك، ويسلّم المحادثة لإنسان لحظة تفاعل المشتري. وأنت تقرر كيف يعرّف بنفسه." },
-      { q: "هل يعمل مع بيوت وبروبرتي فايندر؟", a: "نعم. يصل العملاء من البوابتين إلى أوبزرفر تلقائياً، مع عملاء موقعك وفيسبوك وإنستغرام." },
+      { q: "هل سيعرف المشترون أنهم يتحدثون مع ذكاء اصطناعي؟", a: "نعم. يعرّف أوبزرفر بنفسه كمساعد ذكي في أول رسالة، ولا يدّعي أبداً أنه إنسان. ويمكن للمشتري طلب أحد الزملاء في أي وقت، فيسلّمه المحادثة فوراً." },
+      { q: "هل يعمل مع بيوت وبروبرتي فايندر؟", a: "نعم. ترسل البوابات العملاء عبر البريد، وتحوّلهم أداة مثل Zapier إلى أوبزرفر خلال ثوانٍ. ويتصل موقعك وفيسبوك وإنستغرام وGoogle وتيك توك وسناب شات مباشرة." },
       { q: "أين تُخزَّن بياناتنا؟", a: "في AWS أوروبا (فرانكفورت)، مشفّرة أثناء التخزين والنقل، والنسخ الاحتياطية في المنطقة نفسها." },
-      { q: "هل يمكننا الإبقاء على نظامنا الحالي لإدارة العملاء؟", a: "نعم. يعمل أوبزرفر إلى جانبه ويزامن جهات الاتصال والمراحل، أو يحل محله بالكامل. القرار لك." },
+      { q: "هل يمكننا الإبقاء على نظامنا الحالي لإدارة العملاء؟", a: "نعم. يعمل أوبزرفر إلى جانبه، ويمكن لأي أداة ترسل Webhook إضافة العملاء إليه. والمزامنة في الاتجاهين ضمن خطتنا القادمة." },
     ],
   },
   about: {

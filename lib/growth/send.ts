@@ -22,7 +22,7 @@ export interface LeadRecord {
   budget_aed: number | null; area: string | null; timeframe: string | null; financing: string | null; stage: string; score: number; temp: "hot" | "warm" | "cold";
   notes: string | null; language: string | null; intent: string | null; score_reason: string | null; channel: string; consent_whatsapp: boolean;
   consent_email: boolean; opted_out: boolean; ai_mode: "ai" | "human" | "paused"; handover_reason: string | null; timezone: string | null;
-  last_inbound_at: string | null; last_outbound_at: string | null; agent_session_id: string | null; created_at: string;
+  last_inbound_at: string | null; last_whatsapp_in_at: string | null; last_outbound_at: string | null; agent_session_id: string | null; created_at: string;
 }
 export type OutChannel = "whatsapp" | "email";
 
@@ -53,7 +53,7 @@ export async function deliver(db: SupabaseClient, s: Settings, lead: LeadRecord,
   let status: "sent" | "sandbox" | "failed" = sandbox ? "sandbox" : "sent";
   let provider_id: string | null = null, error: string | null = null;
   // Outside the 24h window WhatsApp only accepts approved templates.
-  const needTemplate = m.channel === "whatsapp" && !m.document && !inServiceWindow(lead.last_inbound_at);
+  const needTemplate = m.channel === "whatsapp" && !inServiceWindow(lead.last_whatsapp_in_at);
   const template = needTemplate ? m.template : undefined;
   if (needTemplate && !template) {
     // Free text outside the 24-hour window is rejected by WhatsApp. Say so instead of trying.

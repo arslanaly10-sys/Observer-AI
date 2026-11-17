@@ -148,6 +148,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/80" />
         <div className="relative mx-auto max-w-[1180px] px-4 py-24 sm:px-6 md:py-32">
           <Heading h={h.results.h2} dark />
+          <p className="t-caption mx-auto mt-3 max-w-[56ch] text-center text-white/60">{h.results.note}</p>
           <dl className="mx-auto mt-16 grid max-w-[1000px] gap-10 sm:grid-cols-2 lg:grid-cols-4">
             {h.results.items.map((r) => (
               <div key={r.t} className="border-t border-white/20 pt-6">

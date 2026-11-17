@@ -33,7 +33,7 @@ export default async function Product({ params }: { params: Promise<{ locale: Lo
               <dl className="mt-10 space-y-7">
                 {g.items.map((it) => (
                   <div key={it.h} className="border-t border-hairline pt-5">
-                    <dt className="t-tagline">{it.h}</dt>
+                    <dt className="t-tagline flex items-center gap-2">{it.h}{"soon" in it && it.soon && <span className="rounded-full bg-creek-soft px-2 py-0.5 text-[12px] font-medium text-creek">{locale === "ar" ? "قريباً" : "Soon"}</span>}</dt>
                     <dd className="mt-1.5 text-ink-2">{it.t}</dd>
                   </div>
                 ))}

@@ -8,8 +8,8 @@ const fmt = (n: number, locale: string) => Math.round(n).toLocaleString(locale =
 
 /** Pricing page: an honest, inspectable estimate of what slow first replies cost. */
 export function RoiCalculator({ t, locale }: { t: ExtraDict["roi"]; locale: string }) {
-  const [leads, setLeads] = useState(300);
-  const [deal, setDeal] = useState(2_500_000);
+  const [leads, setLeads] = useState(100);
+  const [deal, setDeal] = useState(1_500_000);
   const [pct, setPct] = useState(2);
   const [reply, setReply] = useState<keyof typeof REPLY_FACTOR>("15to60");
   const r = roiEstimate({ leads, dealAED: deal, commissionPct: pct, reply });
