@@ -215,7 +215,7 @@ export const sla = [
 
 export const compliance = [
   { title: "Encryption", desc: "AES-256 at rest and TLS 1.3 in transit. Every personal field is encrypted.", checks: [{ ok: true, label: "Encrypted at rest" }, { ok: true, label: "TLS 1.3 in transit" }, { ok: true, label: "Key rotation on" }] },
-  { title: "Data residency", desc: "All data stays in AWS Middle East (Bahrain).", checks: [{ ok: true, label: "AWS me-south-1" }, { ok: true, label: "No transfer outside the GCC" }, { ok: true, label: "Backups in region" }] },
+  { title: "Data residency", desc: "All data is stored in AWS Europe (Frankfurt).", checks: [{ ok: true, label: "AWS eu-central-1" }, { ok: true, label: "Encrypted in transit and at rest" }, { ok: true, label: "Backups in region" }] },
   { title: "PDPL, Saudi Arabia", desc: "Personal Data Protection Law, for Saudi operations.", checks: [{ ok: true, label: "Consent management" }, { ok: false, label: "Privacy notice update pending" }, { ok: true, label: "Retention policy set" }] },
   { title: "UAE PDPL", desc: "Federal Decree-Law No. 45 of 2021 on personal data protection.", checks: [{ ok: true, label: "Processing records kept" }, { ok: true, label: "Impact assessment done" }, { ok: true, label: "Processor agreements signed" }] },
 ];

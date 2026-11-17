@@ -43,7 +43,7 @@ const en = {
       h1: "Your buyers’ data, kept in the Gulf.",
       sub: "Observer handles names, numbers and budgets. Here is exactly how we look after them.",
       sections: [
-        { h: "Where data lives", t: "All customer data is stored in AWS Middle East (Bahrain), with backups in the same region. It is not transferred outside the GCC." },
+        { h: "Where data lives", t: "All customer data is stored in AWS Europe (Frankfurt), with backups in the same region. It is encrypted in transit and at rest." },
         { h: "Encryption", t: "Data is encrypted at rest with AES-256 and in transit with TLS 1.3. Encryption keys are rotated on a schedule." },
         { h: "Who can see what", t: "Agents see their own leads. Managers see their team. Every record opened, exported or changed is written to an audit log you can review." },
         { h: "Privacy law", t: "Observer is built to support the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021) and Saudi Arabia’s Personal Data Protection Law, including consent records and retention rules." },
@@ -60,7 +60,7 @@ const en = {
         { h: "What we collect on this website", t: "When you request a demo, we collect your name, company, role, phone number, email and anything you choose to tell us. We use it only to arrange and follow up on your demo." },
         { h: "How long we keep it", t: "Demo requests are kept for up to 24 months, then deleted, unless you become a customer." },
         { h: "Your rights", t: "You can ask to see, correct or delete your data at any time by emailing privacy@observer-ai.example." },
-        { h: "Where it is stored", t: "In AWS Middle East (Bahrain)." },
+        { h: "Where it is stored", t: "In AWS Europe (Frankfurt)." },
       ],
     },
     terms: {
@@ -123,7 +123,7 @@ const ar: ExtraDict = {
       h1: "بيانات مشتريك، محفوظة في الخليج.",
       sub: "يتعامل أوبزرفر مع الأسماء والأرقام والميزانيات. وهذه بالضبط طريقتنا في حمايتها.",
       sections: [
-        { h: "أين تُحفظ البيانات", t: "تُخزَّن جميع بيانات العملاء في AWS الشرق الأوسط (البحرين)، والنسخ الاحتياطية في المنطقة نفسها، ولا تُنقل خارج الخليج." },
+        { h: "أين تُحفظ البيانات", t: "تُخزَّن جميع بيانات العملاء في AWS أوروبا (فرانكفورت)، والنسخ الاحتياطية في المنطقة نفسها، وهي مشفّرة أثناء النقل والتخزين." },
         { h: "التشفير", t: "البيانات مشفّرة أثناء التخزين بمعيار AES-256 وأثناء النقل بـTLS 1.3، وتُدوَّر مفاتيح التشفير دورياً." },
         { h: "من يرى ماذا", t: "يرى الوكيل عملاءه فقط، ويرى المدير فريقه. وكل سجل يُفتح أو يُصدَّر أو يُعدَّل يُدوَّن في سجل تدقيق يمكنك مراجعته." },
         { h: "قوانين الخصوصية", t: "صُمّم أوبزرفر لدعم قانون حماية البيانات الشخصية الإماراتي (المرسوم بقانون اتحادي رقم 45 لسنة 2021) ونظام حماية البيانات الشخصية السعودي، بما في ذلك سجلات الموافقة وقواعد الاحتفاظ." },
@@ -140,7 +140,7 @@ const ar: ExtraDict = {
         { h: "ما نجمعه في هذا الموقع", t: "عند طلب عرض توضيحي نجمع اسمك وشركتك ودورك ورقم هاتفك وبريدك وأي معلومات تختار مشاركتها، ونستخدمها فقط لترتيب العرض ومتابعته." },
         { h: "مدة الاحتفاظ", t: "نحتفظ بطلبات العروض مدة أقصاها 24 شهراً ثم نحذفها، ما لم تصبح عميلاً." },
         { h: "حقوقك", t: "يمكنك طلب الاطلاع على بياناتك أو تصحيحها أو حذفها في أي وقت عبر privacy@observer-ai.example." },
-        { h: "مكان التخزين", t: "في AWS الشرق الأوسط (البحرين)." },
+        { h: "مكان التخزين", t: "في AWS أوروبا (فرانكفورت)." },
       ],
     },
     terms: {

@@ -16,7 +16,7 @@ const en = {
       { h: "Solutions", links: [["Brokerages", "/solutions/brokerages"], ["Agents", "/solutions/agents"], ["Developers", "/solutions/developers"], ["Investors", "/solutions/investors"]] },
       { h: "Company", links: [["About", "/about"], ["Contact", "/contact"], ["Book a demo", "/contact"]] },
     ],
-    data: "Customer data is hosted in AWS Middle East (Bahrain).",
+    data: "Customer data is hosted in AWS Europe (Frankfurt).",
     rights: "Observer AI. All rights reserved.",
     credits: "Photographs from Unsplash.",
   },
@@ -61,7 +61,7 @@ const en = {
         { h: "Payment plans, with real fees", t: "Mortgage, developer, cash and post-handover plans, side by side, with the 4% DLD fee and trustee costs included." },
         { h: "Arabic, properly", t: "A full right-to-left interface, and replies that read as if a person wrote them in Arabic." },
         { h: "GCC developer directory", t: "Developers and flagship projects across six countries, so you can match a buyer to the right launch." },
-        { h: "Your data stays in the region", t: "Hosted in AWS Middle East (Bahrain), encrypted end to end, built for UAE and Saudi PDPL." },
+        { h: "Your data, protected", t: "Hosted in AWS Europe (Frankfurt) and encrypted in transit and at rest, with UAE and Saudi PDPL controls." },
       ],
     },
     results: {
@@ -113,7 +113,7 @@ const en = {
       sub: "Gulf real estate is sold on WhatsApp, at speed, in two languages, and most of it still runs on spreadsheets. Observer sits where every enquiry starts, which is where most of the value is lost or won.",
       points: [
         { h: "A large, under-served market", t: "Thousands of brokerages and developers across six GCC countries, most still working from spreadsheets and shared phones." },
-        { h: "Built where the work happens", t: "WhatsApp-first, Arabic-native, and with data hosted in the region. These are hard for global CRMs to copy." },
+        { h: "Built where the work happens", t: "WhatsApp-first and Arabic-native, with dirhams, DLD fees and Gulf portals built in. These are hard for global CRMs to copy." },
         { h: "Compounding data", t: "Every conversation improves the scores and the timing for every other workspace on Observer." },
       ],
     },
@@ -144,7 +144,7 @@ const en = {
       ], shot: "payment-plans" },
       { id: "enterprise", h: "Enterprise", t: "Built for brokerages and developers who answer to a board and a regulator.", items: [
         { h: "SLA tracking", t: "Live timers on every waiting lead, with escalation before a breach." },
-        { h: "Compliance", t: "Data in Bahrain, AES-256 encryption, a full audit log, and UAE and Saudi PDPL controls." },
+        { h: "Compliance", t: "Data in Frankfurt, AES-256 encryption, a full audit log, and UAE and Saudi PDPL controls." },
         { h: "Notifications", t: "Only what needs a person. Observer deals with the rest quietly." },
       ], shot: "sequences" },
     ],
@@ -152,7 +152,7 @@ const en = {
   },
   pricing: {
     h1: "Simple pricing, in dirhams.",
-    sub: "Every plan includes WhatsApp, lead scoring, Arabic and English, and data hosted in the region. Prices exclude VAT.",
+    sub: "Every plan includes WhatsApp, lead scoring, Arabic and English, and encrypted hosting in Frankfurt. Prices exclude VAT.",
     month: "/ month",
     tiers: [
       { name: "Agent", price: "AED 490", note: "For one agent", cta: "Start with Agent", features: ["One seat", "Up to 300 leads a month", "WhatsApp inbox and suggested replies", "Lead scoring and next best action", "Payment plan calculator"] },
@@ -165,7 +165,7 @@ const en = {
       { q: "Do I need the WhatsApp Business API?", a: "Yes, and we set it up with you. Most teams are sending messages through Observer within a week." },
       { q: "Will buyers know they’re talking to AI?", a: "Observer writes the first replies and follow-ups in your agency’s voice, and hands over to a person the moment a buyer engages. You decide how it introduces itself." },
       { q: "Does it work with Bayut and Property Finder?", a: "Yes. Leads from both portals arrive in Observer automatically, along with leads from your website, Facebook and Instagram." },
-      { q: "Where is our data stored?", a: "In AWS Middle East (Bahrain). It’s encrypted at rest and in transit, and it never leaves the region." },
+      { q: "Where is our data stored?", a: "In AWS Europe (Frankfurt). It’s encrypted at rest and in transit, and backups stay in the same region." },
       { q: "Can we keep our existing CRM?", a: "Yes. Observer can run alongside it and sync contacts and stages, or replace it entirely. It’s your choice." },
     ],
   },
@@ -181,10 +181,10 @@ const en = {
       { h: "Speed is a courtesy", t: "A reply in four minutes tells a buyer they matter. Every product decision starts there." },
       { h: "Show the working", t: "A score nobody can explain is a score nobody trusts. Ours always shows why." },
       { h: "People close", t: "Observer prepares the ground. The handshake, the viewing and the keys stay with your team." },
-      { h: "Local by design", t: "Arabic, dirhams, DLD fees and data in the region are built in from the start, not added later." },
+      { h: "Local by design", t: "Arabic, dirhams, DLD fees and the Gulf portals are built in from the start, not added later." },
     ],
     whereH: "Where we are",
-    where: "We’re based in Dubai and work with teams across the UAE, Saudi Arabia and Qatar. Customer data is hosted in Bahrain.",
+    where: "We’re based in Dubai and work with teams across the UAE, Saudi Arabia and Qatar. Customer data is hosted in Frankfurt.",
   },
   contact: {
     h1: "Book a demo.",
@@ -217,7 +217,7 @@ const ar: SiteDict = {
       { h: "الحلول", links: [["شركات الوساطة", "/solutions/brokerages"], ["الوكلاء", "/solutions/agents"], ["المطوّرون", "/solutions/developers"], ["المستثمرون", "/solutions/investors"]] },
       { h: "الشركة", links: [["من نحن", "/about"], ["تواصل معنا", "/contact"], ["احجز عرضاً توضيحياً", "/contact"]] },
     ],
-    data: "بيانات العملاء مستضافة في AWS الشرق الأوسط (البحرين).",
+    data: "بيانات العملاء مستضافة في AWS أوروبا (فرانكفورت).",
     rights: "أوبزرفر AI. جميع الحقوق محفوظة.",
     credits: "الصور من Unsplash.",
   },
@@ -262,7 +262,7 @@ const ar: SiteDict = {
         { h: "خطط سداد برسوم حقيقية", t: "الرهن العقاري وخطط المطوّر والدفع النقدي وما بعد التسليم جنباً إلى جنب، مع رسوم دائرة الأراضي 4% وأتعاب الأمين." },
         { h: "عربية كما ينبغي", t: "واجهة كاملة من اليمين إلى اليسار، وردود تُقرأ كأن إنساناً كتبها بالعربية." },
         { h: "دليل مطوّري الخليج", t: "المطوّرون ومشاريعهم الرئيسية في ست دول، لتطابق المشتري مع الإطلاق المناسب." },
-        { h: "بياناتك تبقى في المنطقة", t: "مستضافة في AWS الشرق الأوسط (البحرين)، مشفّرة بالكامل، ومتوافقة مع قوانين حماية البيانات في الإمارات والسعودية." },
+        { h: "بياناتك محمية", t: "مستضافة في AWS أوروبا (فرانكفورت)، ومشفّرة أثناء النقل والتخزين، مع ضوابط قوانين حماية البيانات في الإمارات والسعودية." },
       ],
     },
     results: {
@@ -314,7 +314,7 @@ const ar: SiteDict = {
       sub: "يُباع عقار الخليج عبر واتساب، بسرعة، وبلغتين، ومعظمه ما زال يُدار بالجداول. يقف أوبزرفر حيث يبدأ كل استفسار، وهناك تُكسب معظم القيمة أو تُفقد.",
       points: [
         { h: "سوق كبير لم يُخدم بعد", t: "آلاف شركات الوساطة والمطوّرين في ست دول خليجية، ومعظمهم ما زال يعمل بالجداول والهواتف المشتركة." },
-        { h: "مبني حيث يحدث العمل", t: "واتساب أولاً، وعربي أصيل، وبيانات مستضافة في المنطقة. يصعب على أنظمة إدارة العملاء العالمية تقليد ذلك." },
+        { h: "مبني حيث يحدث العمل", t: "واتساب أولاً، وعربي أصيل، مع الدرهم ورسوم دائرة الأراضي وبوابات العقار الخليجية مدمجة. يصعب على أنظمة إدارة العملاء العالمية تقليد ذلك." },
         { h: "بيانات تتراكم قيمتها", t: "كل محادثة تحسّن التقييمات والتوقيت لكل مساحة عمل أخرى على أوبزرفر." },
       ],
     },
@@ -345,7 +345,7 @@ const ar: SiteDict = {
       ], shot: "payment-plans" },
       { id: "enterprise", h: "المؤسسات", t: "لشركات الوساطة والمطوّرين المسؤولين أمام مجلس إدارة وجهة تنظيمية.", items: [
         { h: "تتبع مستوى الخدمة", t: "مؤقتات حية لكل عميل ينتظر، مع تصعيد قبل حدوث أي تجاوز." },
-        { h: "الامتثال", t: "البيانات في البحرين، وتشفير AES-256، وسجل تدقيق كامل، وضوابط حماية البيانات الإماراتية والسعودية." },
+        { h: "الامتثال", t: "البيانات في فرانكفورت، وتشفير AES-256، وسجل تدقيق كامل، وضوابط حماية البيانات الإماراتية والسعودية." },
         { h: "الإشعارات", t: "فقط ما يحتاج إلى إنسان. يتعامل أوبزرفر مع الباقي بهدوء." },
       ], shot: "sequences" },
     ],
@@ -353,7 +353,7 @@ const ar: SiteDict = {
   },
   pricing: {
     h1: "أسعار واضحة، بالدرهم.",
-    sub: "كل باقة تشمل واتساب وتقييم العملاء والعربية والإنجليزية واستضافة البيانات في المنطقة. الأسعار لا تشمل ضريبة القيمة المضافة.",
+    sub: "كل باقة تشمل واتساب وتقييم العملاء والعربية والإنجليزية واستضافة مشفّرة في فرانكفورت. الأسعار لا تشمل ضريبة القيمة المضافة.",
     month: "/ شهرياً",
     tiers: [
       { name: "الوكيل", price: "490 درهم", note: "لوكيل واحد", cta: "ابدأ بباقة الوكيل", features: ["مقعد واحد", "حتى 300 عميل شهرياً", "صندوق واتساب وردود مقترحة", "تقييم العملاء وأفضل إجراء تالٍ", "حاسبة خطط السداد"] },
@@ -366,7 +366,7 @@ const ar: SiteDict = {
       { q: "هل أحتاج إلى واجهة واتساب للأعمال؟", a: "نعم، ونجهّزها معك. معظم الفرق ترسل رسائلها عبر أوبزرفر خلال أسبوع." },
       { q: "هل سيعرف المشترون أنهم يتحدثون مع ذكاء اصطناعي؟", a: "يكتب أوبزرفر الردود الأولى والمتابعات بأسلوب وكالتك، ويسلّم المحادثة لإنسان لحظة تفاعل المشتري. وأنت تقرر كيف يعرّف بنفسه." },
       { q: "هل يعمل مع بيوت وبروبرتي فايندر؟", a: "نعم. يصل العملاء من البوابتين إلى أوبزرفر تلقائياً، مع عملاء موقعك وفيسبوك وإنستغرام." },
-      { q: "أين تُخزَّن بياناتنا؟", a: "في AWS الشرق الأوسط (البحرين)، مشفّرة أثناء التخزين والنقل، ولا تغادر المنطقة." },
+      { q: "أين تُخزَّن بياناتنا؟", a: "في AWS أوروبا (فرانكفورت)، مشفّرة أثناء التخزين والنقل، والنسخ الاحتياطية في المنطقة نفسها." },
       { q: "هل يمكننا الإبقاء على نظامنا الحالي لإدارة العملاء؟", a: "نعم. يعمل أوبزرفر إلى جانبه ويزامن جهات الاتصال والمراحل، أو يحل محله بالكامل. القرار لك." },
     ],
   },
@@ -382,10 +382,10 @@ const ar: SiteDict = {
       { h: "السرعة لباقة", t: "الرد خلال أربع دقائق يخبر المشتري أنه مهم. ومن هنا يبدأ كل قرار في المنتج." },
       { h: "أظهِر الأسباب", t: "التقييم الذي لا يستطيع أحد شرحه لا يثق به أحد. تقييمنا يُظهر أسبابه دائماً." },
       { h: "الناس هم من يغلقون الصفقات", t: "يمهّد أوبزرفر الطريق، أما المصافحة والمعاينة والمفاتيح فتبقى مع فريقك." },
-      { h: "محلي بالتصميم", t: "العربية والدرهم ورسوم دائرة الأراضي والبيانات في المنطقة، جزء منه من البداية لا إضافة لاحقة." },
+      { h: "محلي بالتصميم", t: "العربية والدرهم ورسوم دائرة الأراضي وبوابات العقار الخليجية، جزء منه من البداية لا إضافة لاحقة." },
     ],
     whereH: "أين نحن",
-    where: "مقرنا في دبي، ونعمل مع فرق في الإمارات والسعودية وقطر. بيانات العملاء مستضافة في البحرين.",
+    where: "مقرنا في دبي، ونعمل مع فرق في الإمارات والسعودية وقطر. بيانات العملاء مستضافة في فرانكفورت.",
   },
   contact: {
     h1: "احجز عرضاً توضيحياً.",

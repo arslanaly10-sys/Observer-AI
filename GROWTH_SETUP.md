@@ -109,4 +109,4 @@ With sandbox on, open *AI & channels → Try it*, send a test lead, and open the
 
 ## Data residency
 
-The marketing site says data is held in AWS Bahrain (me-south-1). Supabase has no Middle East region; the nearest are Mumbai (`ap-south-1`) and Frankfurt (`eu-central-1`). Either change that claim, or self-host Postgres in a UAE region and point Observer at it. This decision is still open.
+Customer data is hosted in AWS Europe (Frankfurt, `eu-central-1`), and the site says so. Create the Supabase project in that region. Claude, Meta, Resend, Twilio and ElevenLabs process message content in their own regions; list them as subprocessors in your privacy policy.

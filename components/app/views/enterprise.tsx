@@ -52,7 +52,7 @@ export function Compliance() {
       <PageHead title="Compliance" sub="Where your data lives, who touched it, and what still needs doing." />
       <Stats>
         <Stat label="Status" value={t("Compliant")} note="last audit 2 days ago" />
-        <Stat label="Data region" value={t("Bahrain")} note="AWS Middle East" />
+        <Stat label="Data region" value={t("Frankfurt")} note="AWS Europe" />
         <Stat label="Open items" value="1" note="PDPL privacy notice" />
         <Stat label="Encryption" value="AES-256" note="at rest and in transit" />
       </Stats>

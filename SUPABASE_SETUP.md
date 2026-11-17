@@ -5,11 +5,9 @@ Google), workspaces with roles, leads, pipeline, team invitations and demo-reque
 It switches on as soon as two environment variables are set. Until then the site works as before and the
 sign-in pages say accounts are almost ready.
 
-> ⚠️ **Data residency: decide before launch.** The site currently says customer data is hosted in
-> *AWS Middle East (Bahrain)*. Supabase's hosted regions don't include the Middle East; the closest are
-> **Mumbai (`ap-south-1`)** and **Frankfurt (`eu-central-1`)**. Either pick one of those and update the
-> Security page, footer and FAQ copy (`dictionaries/site.ts`, `dictionaries/site-extra.ts`), or self-host
-> Supabase in an AWS Middle East region. Saudi PDPL in particular restricts transfers outside the Kingdom.
+> **Region: Frankfurt (`eu-central-1`).** The site says customer data is hosted in AWS Europe (Frankfurt),
+> so create the Supabase project in that region. Saudi PDPL and UAE data rules limit transfers abroad; check
+> them with your customers' legal teams before onboarding regulated clients.
 
 ## 1. Create the project
 1. Go to [supabase.com/dashboard](https://supabase.com/dashboard) → **New project**.

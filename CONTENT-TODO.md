@@ -21,7 +21,7 @@ live as a public claim until someone at Observer confirms it.
 
 ## Company facts
 - [ ] "Based in Dubai", "teams across the UAE, Saudi Arabia and Qatar" (about)
-- [ ] Data hosted in AWS Middle East (Bahrain), AES-256, PDPL controls (multiple pages)
+- [ ] Data hosted in AWS Europe (Frankfurt), AES-256, PDPL controls (multiple pages)
 - [ ] Integrations named: Bayut, Property Finder, Facebook, Instagram, WhatsApp Business API
 - [ ] Canonical domain: `metadataBase` is set to `https://observer-ai.example` in `app/[locale]/layout.tsx`
 - [ ] Open Graph image `/og.jpg` is a screenshot of the home hero; replace with a designed card if wanted
@@ -47,14 +47,14 @@ live as a public claim until someone at Observer confirms it.
 
 ## Added in v2: also verify
 - [ ] Integrations list (home): Bayut, Property Finder, Dubizzle, WhatsApp Business, Facebook Lead Ads, Instagram, website forms, CRM by API
-- [ ] Security page claims: AWS Bahrain, AES-256, TLS 1.3, key rotation, role-based access, audit log, WhatsApp Business Platform templates
+- [ ] Security page claims: AWS Frankfurt, AES-256, TLS 1.3, key rotation, role-based access, audit log, WhatsApp Business Platform templates
 - [ ] Contact addresses on Security/Privacy/Terms use `@observer-ai.example`; replace with real addresses
 - [ ] Privacy and Terms are drafts (the pages say so); legal review needed before launch
 - [ ] ROI calculator model (pricing): qualification falls with reply time (100% / 75% / 55% / 40% of 64%), 12 in 64 qualified leads close
 - [ ] Set `NEXT_PUBLIC_SITE_URL` in Vercel once you have a custom domain (used for canonical URLs, sitemap and JSON-LD)
 
 ## Backend (Supabase): blocking items
-- [ ] **Data residency claim.** Site copy says data is hosted in AWS Middle East (Bahrain). Supabase has no Middle East region (closest: Mumbai, Frankfurt). Choose a region and update the copy, or self-host. See SUPABASE_SETUP.md.
+- [x] **Data residency claim.** Site copy now says AWS Europe (Frankfurt), matching the Supabase region. Still confirm the PDPL wording with counsel, since hosting outside the Gulf is a cross-border transfer.
 - [ ] Create the Supabase project and set `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in Vercel (SUPABASE_SETUP.md).
 - [ ] Custom SMTP for auth emails (Supabase's default sender is for testing only).
 - [ ] Google OAuth client, if Google sign-in should be live.
