@@ -1,0 +1,38 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { adminClient } from "@/lib/supabase/admin";
+import { checkToken } from "@/lib/growth/verify";
+import { normalizePhone, timezoneFromPhone } from "@/lib/growth/phone";
+import { loadLead, loadSettings } from "@/lib/growth/pipeline";
+import { twilioParams, greeting } from "@/lib/growth/voice-turn";
+import type { LeadRecord } from "@/lib/growth/send";
+
+/**
+ * Start of a call. Outbound calls we placed carry ?lead=&t=; inbound calls to a workspace's number are matched
+ * by the dialled number (voice_from) and the caller's phone, creating a lead if the caller is new.
+ */
+export const maxDuration = 60;
+export async function POST(req: NextRequest) {
+  const { params, valid } = await twilioParams(req);
+  if (!valid) return new NextResponse("bad signature", { status: 401 });
+  const db = adminClient();
+  const leadId = req.nextUrl.searchParams.get("lead");
+  let lead: LeadRecord | null = null;
+  if (leadId && checkToken(leadId, req.nextUrl.searchParams.get("t"), process.env.WORKER_SECRET ?? "")) {
+    lead = await loadLead(db, leadId);
+  } else if (params.Direction === "inbound") {
+    const { data: ws } = await db.from("workspace_settings").select("workspace_id").eq("voice_from", params.To).maybeSingle();
+    const phone = normalizePhone(params.From);
+    if (ws && phone) {
+      const { data: existing } = await db.from("leads").select("*").eq("workspace_id", ws.workspace_id).eq("phone", phone).order("created_at", { ascending: false }).limit(1).maybeSingle();
+      lead = existing as LeadRecord | null;
+      if (!lead) {
+        const s = await loadSettings(db, ws.workspace_id as string);
+        const { data: owner } = await db.from("workspaces").select("created_by").eq("id", ws.workspace_id).single();
+        const { data: created } = await db.from("leads").insert({ workspace_id: ws.workspace_id, created_by: owner!.created_by, name: `+${phone}`, phone, source: "Phone call", channel: "phone", timezone: timezoneFromPhone(phone, s.timezone) }).select("*").single();
+        lead = created as LeadRecord;
+      }
+    }
+  }
+  if (!lead) return new Response(`<?xml version="1.0" encoding="UTF-8"?><Response><Hangup/></Response>`, { headers: { "Content-Type": "text/xml" } });
+  return greeting(db, lead);
+}

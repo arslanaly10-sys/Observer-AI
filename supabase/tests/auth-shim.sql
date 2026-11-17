@@ -14,7 +14,8 @@ create table auth.users (
   raw_app_meta_data jsonb default '{}'::jsonb
 );
 create function auth.uid() returns uuid language sql stable as $$
-  select nullif(current_setting('request.jwt.claims', true)::json ->> 'sub', '')::uuid
+  -- Mirrors Supabase: an unset or empty claim means "no user".
+  select nullif(nullif(current_setting('request.jwt.claims', true), '')::json ->> 'sub', '')::uuid
 $$;
 grant usage on schema auth to anon, authenticated;
 grant execute on function auth.uid() to anon, authenticated;

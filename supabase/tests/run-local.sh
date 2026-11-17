@@ -10,6 +10,11 @@ for f in supabase/migrations/*.sql; do
   echo "migrate  $f"
   psql -U postgres -d $DB -q -v ON_ERROR_STOP=1 -f "$f" || exit 1
 done
-out=$(psql -U postgres -d $DB -v ON_ERROR_STOP=1 -f supabase/tests/rls.test.sql 2>&1); code=$?
-echo "$out" | grep -E "PASS|FAIL|ERROR|PASSED" | sed 's/^psql:[^ ]* NOTICE:  //'
+code=0
+for t in supabase/tests/*.test.sql; do
+  echo "test     $t"
+  out=$(psql -U postgres -d $DB -v ON_ERROR_STOP=1 -f "$t" 2>&1); c=$?
+  echo "$out" | grep -E "PASS|FAIL|ERROR|PASSED" | sed 's/^psql:[^ ]* NOTICE:  //'
+  [ $c -ne 0 ] && { code=$c; break; }
+done
 exit $code
