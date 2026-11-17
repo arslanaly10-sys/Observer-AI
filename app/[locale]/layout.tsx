@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return {
     title: { default: ar ? "أوبزرفر AI · مكتب المبيعات الذكي لعقارات الخليج" : "Observer AI · The AI sales desk for Gulf real estate", template: "%s · Observer AI" },
     description: ar
-      ? "يرد أوبزرفر على كل استفسار عقاري عبر واتساب خلال أربع دقائق، ويقيّم جدية المشتري، ويخبر وكلاءك بمن يتصلون أولاً."
-      : "Observer answers every property enquiry on WhatsApp within four minutes, scores how serious each buyer is, and tells your agents who to call next.",
+      ? "يرد أوبزرفر على كل استفسار عقاري عبر واتساب والبريد خلال دقيقتين، ويقيّم جدية المشتري، ويحوّله إلى الوكيل المناسب، بعشر لغات."
+      : "Observer answers every property enquiry on WhatsApp and email within two minutes, scores how serious each buyer is, and routes them to the right agent, in ten languages.",
     metadataBase: new URL(SITE),
     openGraph: { type: "website", siteName: "Observer AI", images: ["/og.jpg"] },
     icons: { icon: "/icon.svg" },
