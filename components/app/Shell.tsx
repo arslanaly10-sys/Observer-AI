@@ -1,0 +1,280 @@
+"use client";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight } from "@phosphor-icons/react";
+import { navGroups, viewLabel, type ViewId } from "./nav";
+import { LocaleProvider, useT } from "./i18n";
+import { cx, Monogram, Dot, Btn } from "./ui";
+import { Logo } from "@/components/Logo";
+import { workspace, leads } from "@/lib/data";
+import { scoreLead } from "@/lib/engine";
+import { switchPath, otherLocale, type Locale } from "@/lib/i18n";
+
+export function AppShell({ locale, children }: { locale: Locale; children: ReactNode }) {
+  return (
+    <LocaleProvider value={locale}>
+      <ShellInner>{children}</ShellInner>
+    </LocaleProvider>
+  );
+}
+
+function ShellInner({ children }: { children: ReactNode }) {
+  const { t, locale } = useT();
+  const pathname = usePathname();
+  const [menu, setMenu] = useState(false);
+  const [copilot, setCopilot] = useState(false);
+  const [addLead, setAddLead] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const current = (pathname.split("/")[3] || "dashboard") as ViewId;
+
+  useEffect(() => {
+    let stored: string | null = null;
+    try { stored = localStorage.getItem("obs-theme"); } catch {}
+    const initial = stored === "dark" || (!stored && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    setTheme(initial);
+  }, []);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    return () => { delete document.documentElement.dataset.theme; };
+  }, [theme]);
+  useEffect(() => setMenu(false), [pathname]);
+
+  const toggleTheme = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    setTheme(next);
+    try { localStorage.setItem("obs-theme", next); } catch {}
+  };
+
+  const sidebar = (
+    <nav aria-label={t("App navigation")} className="flex h-full flex-col">
+      <div className="flex h-16 items-center gap-2.5 px-5">
+        <Link href={`/${locale}`} className="flex items-center gap-2.5" aria-label="Observer AI home">
+          <Logo className="size-7" />
+          <span className="text-[17px] font-semibold tracking-[-0.02em]">Observer</span>
+        </Link>
+      </div>
+      <div className="mx-3 mb-3 flex items-center gap-3 rounded-[12px] bg-canvas px-3 py-2.5">
+        <span className="flex size-8 items-center justify-center rounded-[9px] bg-tile text-[13px] font-semibold text-white">M</span>
+        <div className="min-w-0">
+          <p className="truncate text-[14px] font-medium leading-tight">{workspace.tenant}</p>
+          <p className="t-fine text-ink-2">{t("Dubai · Enterprise")}</p>
+        </div>
+      </div>
+      <div className="scrollbar-none flex-1 overflow-y-auto px-3 pb-4">
+        {navGroups.map((g) => (
+          <div key={g.label} className="mt-4 first:mt-1">
+            <p className="t-fine px-3 pb-1.5 font-medium text-ink-3">{t(g.label)}</p>
+            <ul className="space-y-0.5">
+              {g.items.map((it) => {
+                const active = current === it.id;
+                const Icon = it.icon;
+                return (
+                  <li key={it.id}>
+                    <Link
+                      href={`/${locale}/app/${it.id}`}
+                      aria-current={active ? "page" : undefined}
+                      className={cx(
+                        "flex h-9 items-center gap-2.5 rounded-[9px] px-3 text-[14px] transition-colors",
+                        active ? "bg-canvas font-medium text-ink shadow-[0_1px_2px_rgb(0_0_0/0.06)]" : "text-ink-2 hover:bg-canvas/60 hover:text-ink",
+                      )}
+                    >
+                      <Icon size={18} weight={active ? "fill" : "regular"} className={active ? "text-creek" : ""} />
+                      <span className="flex-1 truncate">{t(it.label)}</span>
+                      {it.badge && <span className="tnum rounded-full bg-hairline-soft px-1.5 text-[11px] font-medium text-ink-2">{it.badge}</span>}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-3 border-t border-hairline-soft px-5 py-3.5">
+        <Monogram name={workspace.user.name} size={32} />
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-[14px] font-medium leading-tight">{workspace.user.name}</p>
+          <p className="t-fine text-ink-2">{t(workspace.user.role)}</p>
+        </div>
+      </div>
+    </nav>
+  );
+
+  return (
+    <div className="min-h-dvh bg-parchment text-ink">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-3 focus:top-3 focus:z-50 focus:rounded-full focus:bg-canvas focus:px-4 focus:py-2">{t("Skip to content")}</a>
+      <aside className="fixed inset-y-0 start-0 z-30 hidden w-[260px] border-e border-hairline-soft bg-parchment lg:block">{sidebar}</aside>
+      {menu && (
+        <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label={t("Menu")}>
+          <button className="absolute inset-0 bg-black/30" aria-label={t("Close menu")} onClick={() => setMenu(false)} />
+          <aside className="absolute inset-y-0 start-0 w-[280px] bg-parchment shadow-xl">{sidebar}</aside>
+        </div>
+      )}
+      <div className="lg:ps-[260px]">
+        <header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-hairline-soft bg-parchment/80 px-4 backdrop-blur-xl sm:px-6">
+          <button className="flex size-10 items-center justify-center rounded-full hover:bg-canvas lg:hidden" aria-label={t("Open menu")} aria-expanded={menu} onClick={() => setMenu(true)}>
+            <List size={20} />
+          </button>
+          <p className="truncate text-[15px] font-medium lg:hidden">{t(viewLabel[current] ?? "Dashboard")}</p>
+          <label className="relative ms-auto hidden max-w-[360px] flex-1 md:block lg:ms-0">
+            <span className="sr-only">{t("Search leads, agents and homes")}</span>
+            <MagnifyingGlass size={16} className="pointer-events-none absolute start-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
+            <input placeholder={t("Search leads, agents and homes")} className="h-10 w-full rounded-full border border-hairline-soft bg-canvas ps-10 pe-4 text-[14px] outline-none placeholder:text-ink-3 focus:border-creek" />
+          </label>
+          <div className="ms-auto flex items-center gap-1">
+            <span className="me-2 hidden items-center gap-2 text-[13px] text-ink-2 xl:flex"><Dot live /> {t("Observer is working")}</span>
+            <Link href={switchPath(pathname, otherLocale(locale))} className="flex h-10 items-center gap-1.5 rounded-full px-3 text-[14px] hover:bg-canvas" aria-label={t("Switch language")}>
+              <Translate size={18} /> <span className="hidden sm:inline">{locale === "ar" ? "English" : "العربية"}</span>
+            </Link>
+            <button onClick={toggleTheme} className="flex size-10 items-center justify-center rounded-full hover:bg-canvas" aria-label={theme === "dark" ? t("Use light appearance") : t("Use dark appearance")}>
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <span className="ms-1 hidden sm:block"><Btn onClick={() => setAddLead(true)}><Plus size={16} weight="bold" /> {t("Add lead")}</Btn></span>
+            <button className="flex size-10 items-center justify-center rounded-full bg-creek text-on-creek sm:hidden" aria-label={t("Add lead")} onClick={() => setAddLead(true)}><Plus size={18} weight="bold" /></button>
+          </div>
+        </header>
+        <main id="main" className="mx-auto max-w-[1360px] px-4 py-6 sm:px-6 sm:py-8">{children}</main>
+      </div>
+
+      <button
+        onClick={() => setCopilot((v) => !v)}
+        data-copilot
+        className="fixed bottom-5 end-5 z-30 flex h-12 items-center gap-2 rounded-full bg-tile ps-4 pe-5 text-[15px] font-medium text-white shadow-[0_12px_32px_-8px_rgb(0_0_0/0.4)] transition active:scale-[.97]"
+        aria-expanded={copilot}
+      >
+        <Sparkle size={18} weight="fill" className="text-[#6bd3df]" /> {t("Ask Observer")}
+      </button>
+      {copilot && <Copilot onClose={() => setCopilot(false)} />}
+      {addLead && <AddLead onClose={() => setAddLead(false)} />}
+    </div>
+  );
+}
+
+function useEscape(onClose: () => void) {
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    addEventListener("keydown", k);
+    return () => removeEventListener("keydown", k);
+  }, [onClose]);
+}
+
+const answers: { rx: RegExp; en: string }[] = [
+  { rx: /hot|call|who/i, en: "Call Nour Al Mansouri first. Her offer has been pending for two hours and she’s a cash buyer at AED 6M. Then Ahmed Al Khalidi, who has viewed eight listings and hasn’t heard from anyone yet." },
+  { rx: /sla|late|breach/i, en: "Two leads are in breach: Omar Al Farouq and Sara Al Blooshi, both cold. Five more will breach in the next 15 minutes. I’d hand the cold two to the AI call sequence." },
+  { rx: /pipeline|revenue|forecast/i, en: "Weighted pipeline is AED 6.84M. The commit number is AED 4.1M, and most of it rests on two deals: Nour Al Mansouri and Fatima Al Zaabi." },
+];
+
+function Copilot({ onClose }: { onClose: () => void }) {
+  const { t, locale } = useT();
+  const [q, setQ] = useState("");
+  const [log, setLog] = useState<{ me: boolean; text: string }[]>([
+    { me: false, text: t("Ahmed Al Khalidi has been looking at Dubai Hills listings for 40 minutes and nobody has contacted him yet. Want me to send him a WhatsApp?") },
+  ]);
+  const ref = useRef<HTMLInputElement>(null);
+  useEscape(onClose);
+  useEffect(() => ref.current?.focus(), []);
+  const ask = (text: string) => {
+    if (!text.trim()) return;
+    const a = answers.find((x) => x.rx.test(text))?.en ?? "I looked across all 247 leads. The fastest win today is the five hot leads without a reply. Want me to draft the messages?";
+    setLog((l) => [...l, { me: true, text }, { me: false, text: t(a) }]);
+    setQ("");
+  };
+  return (
+    <div role="dialog" aria-label={t("Ask Observer")} className="fixed bottom-20 end-5 z-40 flex h-[min(560px,75dvh)] w-[min(400px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-[22px] border border-hairline-soft bg-canvas shadow-[0_30px_80px_-20px_rgb(0_0_0/0.35)]">
+      <div className="flex items-center gap-3 border-b border-hairline-soft px-4 py-3">
+        <span className="flex size-9 items-center justify-center rounded-full bg-tile"><Sparkle size={18} weight="fill" className="text-[#6bd3df]" /></span>
+        <div className="flex-1">
+          <p className="text-[15px] font-semibold">{t("Observer")}</p>
+          <p className="t-fine flex items-center gap-1.5 text-ink-2"><Dot live /> {t("Watching 247 leads")}</p>
+        </div>
+        <button onClick={onClose} className="flex size-9 items-center justify-center rounded-full hover:bg-parchment" aria-label={t("Close")}><X size={18} /></button>
+      </div>
+      <div className="flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
+        {log.map((m, i) => (
+          <p key={i} className={cx("max-w-[86%] rounded-[16px] px-3.5 py-2.5 text-[15px] leading-snug", m.me ? "ms-auto bg-creek text-on-creek" : "bg-parchment")}>{m.text}</p>
+        ))}
+        {log.length === 1 && (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {["Who should I call first?", "Any SLA breaches?", "How’s the pipeline?"].map((s) => (
+              <button key={s} onClick={() => ask(t(s))} className="rounded-full border border-hairline px-3 py-1.5 text-[13px] text-ink-2 hover:border-creek hover:text-creek">{t(s)}</button>
+            ))}
+          </div>
+        )}
+      </div>
+      <form onSubmit={(e) => { e.preventDefault(); ask(q); }} className="flex items-center gap-2 border-t border-hairline-soft p-3">
+        <label className="sr-only" htmlFor="cop">{t("Ask about leads, scores or next steps")}</label>
+        <input id="cop" ref={ref} value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("Ask about leads, scores or next steps")} className="h-10 flex-1 rounded-full bg-parchment px-4 text-[14px] outline-none" dir={locale === "ar" ? "rtl" : "ltr"} />
+        <button className="flex size-10 items-center justify-center rounded-full bg-creek text-on-creek" aria-label={t("Send")}><PaperPlaneRight size={18} className="rtl:-scale-x-100" /></button>
+      </form>
+    </div>
+  );
+}
+
+function AddLead({ onClose }: { onClose: () => void }) {
+  const { t } = useT();
+  useEscape(onClose);
+  const [f, setF] = useState({ name: "", phone: "", source: "Bayut", budget: "", area: "Dubai Hills", financing: "Cash", timeframe: "1-2 mo" });
+  const [result, setResult] = useState<ReturnType<typeof scoreLead> | null>(null);
+  const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
+  const submit = () => {
+    const budget = f.budget ? `AED ${f.budget}` : "AED 1.5M";
+    setResult(scoreLead({ financing: f.financing, budget, timeframe: f.timeframe, source: f.source, urgency: "serious", temp: "warm", area: f.area }));
+  };
+  const field = "h-11 w-full rounded-[10px] border border-hairline bg-canvas px-3 text-[15px] outline-none focus:border-creek";
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-labelledby="add-lead-title">
+      <button className="absolute inset-0 bg-black/35" aria-label={t("Close")} onClick={onClose} />
+      <div className="relative w-full max-w-[480px] rounded-t-[22px] bg-canvas p-6 shadow-2xl sm:rounded-[22px]">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 id="add-lead-title" className="text-[21px] font-semibold tracking-[-0.016em]">{t("Add a lead")}</h2>
+          <button onClick={onClose} className="flex size-9 items-center justify-center rounded-full hover:bg-parchment" aria-label={t("Close")}><X size={18} /></button>
+        </div>
+        {result ? (
+          <div className="text-center">
+            <p className="t-caption text-ink-2">{t("Observer scored this lead")}</p>
+            <p className="tnum mt-1 text-[64px] font-semibold leading-none tracking-[-0.03em]">{result.score}</p>
+            <p className="mt-2 text-ink-2">{t(result.temp === "hot" ? "Hot. Reply within five minutes." : result.temp === "warm" ? "Warm. Worth a shortlist today." : "Cold. Observer will nurture this one.")}</p>
+            <ul className="mt-5 space-y-2 text-start">
+              {result.parts.slice(0, 4).map((p) => (
+                <li key={p.label} className="flex items-center gap-3 text-[14px]">
+                  <span className="w-32 text-ink-2">{t(p.label)}</span>
+                  <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-hairline-soft"><span className="bar-in block h-full bg-creek" style={{ width: `${(p.pts / p.max) * 100}%` }} /></span>
+                  <span className="tnum w-12 text-end">+{p.pts}</span>
+                </li>
+              ))}
+            </ul>
+            <Btn className="mt-6 w-full" onClick={onClose}>{t("Done")}</Btn>
+          </div>
+        ) : (
+          <form className="grid grid-cols-2 gap-3" onSubmit={(e) => { e.preventDefault(); submit(); }}>
+            <label className="col-span-2 grid gap-1.5 text-[13px] text-ink-2">{t("Full name")}<input required value={f.name} onChange={set("name")} className={field} autoComplete="off" /></label>
+            <label className="col-span-2 grid gap-1.5 text-[13px] text-ink-2">{t("WhatsApp number")}<input value={f.phone} onChange={set("phone")} className={field} inputMode="tel" placeholder="+971" /></label>
+            <label className="grid gap-1.5 text-[13px] text-ink-2">{t("Source")}<select value={f.source} onChange={set("source")} className={field}>{["Bayut", "Property Finder", "WhatsApp", "Referral", "Facebook", "Instagram", "Website"].map((s) => <option key={s}>{s}</option>)}</select></label>
+            <label className="grid gap-1.5 text-[13px] text-ink-2">{t("Budget (AED)")}<input value={f.budget} onChange={set("budget")} className={field} placeholder="3.5M" /></label>
+            <label className="grid gap-1.5 text-[13px] text-ink-2">{t("Area")}<select value={f.area} onChange={set("area")} className={field}>{["Dubai Hills", "Downtown", "Palm Jumeirah", "Emirates Hills", "MBR City", "Business Bay", "JVC", "Sharjah"].map((s) => <option key={s}>{s}</option>)}</select></label>
+            <label className="grid gap-1.5 text-[13px] text-ink-2">{t("Financing")}<select value={f.financing} onChange={set("financing")} className={field}>{["Cash", "Mortgage"].map((s) => <option key={s} value={s}>{t(s)}</option>)}</select></label>
+            <label className="col-span-2 grid gap-1.5 text-[13px] text-ink-2">{t("Moving within")}<select value={f.timeframe} onChange={set("timeframe")} className={field}>{["<1 mo", "1-2 mo", "3 mo", "6 mo", "12 mo"].map((s) => <option key={s}>{s}</option>)}</select></label>
+            <div className="col-span-2 mt-2 flex justify-end gap-2">
+              <Btn variant="secondary" onClick={onClose}>{t("Cancel")}</Btn>
+              <Btn type="submit">{t("Add and score")}</Btn>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function OpenLink({ href, children }: { href: string; children: ReactNode }) {
+  return <Link href={href} className="inline-flex items-center gap-1 text-[14px] text-creek hover:underline">{children}<ArrowUpRight size={14} className="rtl:-scale-x-100" /></Link>;
+}
+
+export function useLocaleHref() {
+  const { locale } = useT();
+  return (view: ViewId) => `/${locale}/app/${view}`;
+}
+
+export function useRouterPush() {
+  return useRouter().push;
+}
+export { leads };
