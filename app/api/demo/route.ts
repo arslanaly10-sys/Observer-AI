@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * Demo requests. Validates and records the request.
- * TODO (CONTENT-TODO.md): forward to the sales inbox / CRM. Set DEMO_WEBHOOK_URL to POST each request onward.
+ * Saved to Supabase `demo_requests` when connected; also POSTed to DEMO_WEBHOOK_URL if set.
  */
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
@@ -15,11 +17,21 @@ export async function POST(req: Request) {
   if (!lead.name || !lead.company || !lead.phone || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email) || body.consent !== "yes")
     return NextResponse.json({ ok: false, error: "invalid_fields" }, { status: 422 });
 
+  // 1) Save it in Supabase (insert-only for the website; nobody can read it back through the public key).
+  if (isSupabaseConfigured) {
+    const supabase = await createClient();
+    const { error } = await supabase.from("demo_requests").insert({
+      name: lead.name, company: lead.company, role: lead.role || null, phone: lead.phone, email: lead.email,
+      team_size: lead.size || null, message: lead.message || null, locale: lead.locale === "ar" ? "ar" : "en",
+    });
+    if (error) return NextResponse.json({ ok: false, error: "save_failed" }, { status: 502 });
+  }
+  // 2) Optionally forward to a sales inbox or CRM.
   const hook = process.env.DEMO_WEBHOOK_URL;
   if (hook) {
     const r = await fetch(hook, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(lead) }).catch(() => null);
     if (!r?.ok) return NextResponse.json({ ok: false, error: "forward_failed" }, { status: 502 });
-  } else {
+  } else if (!isSupabaseConfigured) {
     console.log("[demo-request]", JSON.stringify(lead));
   }
   return NextResponse.json({ ok: true });

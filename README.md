@@ -11,6 +11,8 @@ prototype of the Observer app, built with Next.js and Tailwind.
 | `/en/app/*`, `/ar/app/*` | The app prototype: all 18 screens from v10, redesigned, with mock data and the scoring engine |
 | `/en/security`, `/privacy`, `/terms` | Trust pages (Privacy and Terms are drafts pending legal review) |
 | `/api/demo` | Book-a-demo endpoint. Validates, filters bots (honeypot), then forwards to `DEMO_WEBHOOK_URL` if set (otherwise logs) |
+| `/en/login` | Sign in: email + password, magic link, Google, password reset (Supabase Auth) |
+| `/en/workspace/*` | The real product: workspaces with Owner / Manager / Agent roles, leads, pipeline, team invites, settings |
 | `/sitemap.xml`, `/robots.txt` | Generated, with English and Arabic alternates |
 
 App screens: Dashboard, Pipeline, All leads, Lead scoring, Intent detection, Next best action, Live call assistant,
@@ -35,6 +37,13 @@ Refresh the product screenshots used on the marketing site (needs the dev server
 BASE=http://localhost:3000 npm run shots
 ```
 
+## Backend
+
+Supabase (Postgres + Auth). Setup takes about 10 minutes: see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.
+Without the two `NEXT_PUBLIC_SUPABASE_*` variables the site still runs; sign-in pages show a "not connected" notice.
+Only the publishable key is used. Row-level security in `supabase/migrations/` is the access control, and
+`supabase/tests/rls.test.sql` checks every rule (also in CI).
+
 ## Structure
 
 ```
@@ -51,7 +60,11 @@ DESIGN.md                 the design system (Apple base from awesome-design-md, 
 CONTENT.md                voice and copy rules
 CONTENT-TODO.md           everything to verify or replace before launch
 REVIEW.md                 the critical review, and what v2 fixed
-proxy.ts                  sends "/" to /ar or /en by browser language
+proxy.ts                  "/" → /ar or /en; refreshes Supabase sessions; guards /workspace and /account
+supabase/                 config.toml, migrations, RLS tests
+lib/supabase/             browser and server clients, session refresh
+lib/workspace.ts          server-side workspace context (user, memberships, current workspace)
+app/[locale]/workspace/   the real product (server components + server actions)
 tests/                    Vitest unit tests for lib/engine.ts
 reference/                the original v10 single-file prototype
 .claude/skills/           design and engineering skills for Claude Code sessions on this repo

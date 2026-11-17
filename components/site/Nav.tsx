@@ -86,7 +86,8 @@ export function Nav({ locale, t, audiences, menuLabel }: { locale: Locale; t: Si
             <Link href={switchPath(pathname, otherLocale(locale))} lang={otherLocale(locale)} onClick={() => remember(otherLocale(locale))} className="hidden min-h-11 items-center gap-1.5 rounded-full px-3 text-[14px] opacity-75 hover:opacity-100 sm:flex">
               <Translate size={16} /> {t.lang}
             </Link>
-            <Link href={href("/app/dashboard")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-75 hover:opacity-100 lg:flex">{t.app}</Link>
+            <Link href={href("/app/dashboard")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-75 hover:opacity-100 xl:flex">{t.app}</Link>
+            <Link href={href("/login")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-75 hover:opacity-100 md:flex">{t.signin}</Link>
             <Link href={href("/contact")} className={`btn hidden !min-h-9 !px-4 !text-[14px] sm:inline-flex ${onDark ? "bg-white text-[#1d1d1f] hover:bg-white/90" : "btn-primary"}`}>{t.demo}</Link>
             <button className="flex size-11 items-center justify-center md:hidden" aria-label={open ? t.close : t.menu} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)}>
               {open ? <X size={22} /> : <List size={22} />}
@@ -108,6 +109,7 @@ export function Nav({ locale, t, audiences, menuLabel }: { locale: Locale; t: Si
               </li>
             ))}
             <li><Link href={href("/app/dashboard")} className="flex min-h-14 items-center text-[24px] font-semibold tracking-[-0.02em]">{t.app}</Link></li>
+            <li><Link href={href("/login")} className="flex min-h-14 items-center text-[24px] font-semibold tracking-[-0.02em]">{t.signin}</Link></li>
           </ul>
           <Link href={href("/contact")} className="btn btn-primary mt-8 w-full">{t.demo}</Link>
           <Link href={switchPath(pathname, otherLocale(locale))} lang={otherLocale(locale)} onClick={() => remember(otherLocale(locale))} className="btn btn-ghost mt-3 w-full"><Translate size={18} /> <span>{t.lang}</span></Link>

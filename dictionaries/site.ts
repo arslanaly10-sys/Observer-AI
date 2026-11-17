@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/i18n";
 const en = {
   nav: {
     product: "Product", solutions: "Solutions", pricing: "Pricing", about: "About", contact: "Contact",
-    demo: "Book a demo", app: "Open the app", menu: "Menu", close: "Close", lang: "العربية", skip: "Skip to content",
+    demo: "Book a demo", app: "Open the app", signin: "Sign in", menu: "Menu", close: "Close", lang: "العربية", skip: "Skip to content",
   },
   footer: {
     line: "The AI sales desk for Gulf real estate.",
@@ -208,7 +208,7 @@ export type SiteDict = typeof en;
 const ar: SiteDict = {
   nav: {
     product: "المنتج", solutions: "الحلول", pricing: "الأسعار", about: "من نحن", contact: "تواصل معنا",
-    demo: "احجز عرضاً توضيحياً", app: "افتح التطبيق", menu: "القائمة", close: "إغلاق", lang: "English", skip: "انتقل إلى المحتوى",
+    demo: "احجز عرضاً توضيحياً", app: "افتح التطبيق", signin: "تسجيل الدخول", menu: "القائمة", close: "إغلاق", lang: "English", skip: "انتقل إلى المحتوى",
   },
   footer: {
     line: "مكتب المبيعات الذكي لعقارات الخليج.",

@@ -52,3 +52,10 @@ live as a public claim until someone at Observer confirms it.
 - [ ] Privacy and Terms are drafts (the pages say so); legal review needed before launch
 - [ ] ROI calculator model (pricing): qualification falls with reply time (100% / 75% / 55% / 40% of 64%), 12 in 64 qualified leads close
 - [ ] Set `NEXT_PUBLIC_SITE_URL` in Vercel once you have a custom domain (used for canonical URLs, sitemap and JSON-LD)
+
+## Backend (Supabase): blocking items
+- [ ] **Data residency claim.** Site copy says data is hosted in AWS Middle East (Bahrain). Supabase has no Middle East region (closest: Mumbai, Frankfurt). Choose a region and update the copy, or self-host. See SUPABASE_SETUP.md.
+- [ ] Create the Supabase project and set `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` in Vercel (SUPABASE_SETUP.md).
+- [ ] Custom SMTP for auth emails (Supabase's default sender is for testing only).
+- [ ] Google OAuth client, if Google sign-in should be live.
+- [ ] Invitations are shared as links; add an email sender (e.g. Resend) if you want them emailed automatically.

@@ -22,3 +22,23 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Migrations + row-level security tests
+        env:
+          PGHOST: localhost
+          PGPORT: "5432"
+        run: bash supabase/tests/run-local.sh
