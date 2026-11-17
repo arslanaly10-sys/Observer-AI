@@ -109,12 +109,33 @@ Recording and calling rules differ by country. Check the rules for the countries
 - **Team → Lead routing:** each agent sets languages, areas, an alert WhatsApp number and the hours the AI may book them. Managers set capacity and top performers.
 - **AI & channels:** office hours, holidays, quiet hours, follow-up days, escalation score, and assistant name.
 
+## UAE market data and the broker calculator
+
+`lib/market/uae.ts` holds the market reference the AI and the broker calculator use, checked November 2026 from public sources (each figure lists its source):
+
+- Buying fees by emirate (Dubai DLD 4%, admin and trustee fees, mortgage registration 0.25% + AED 290; Abu Dhabi about 2%; Sharjah and RAK about 4%, where sources disagree).
+- Mortgage rules (loan-to-value 80/70% expat, 85/75% national, 50% off-plan; 50% debt-burden cap; 25 years; age limits), the Central Bank base rate, EIBOR and typical fixed rates.
+- Golden Visa through property (AED 2 million at the official valuation).
+- Twenty areas in Dubai and Abu Dhabi with price per square foot, gross yield and service charges, as ranges.
+- Fifteen developers (Emaar, DAMAC, Azizi, Binghatti, Ellington, Meraas, Nakheel, Imtiaz, Sobha, Danube, Samana, Omniyat, Aldar, Modon, Arada) with their usual payment plans.
+
+The AI gets five tools on top of the inventory ones: `calculate_purchase_costs`, `check_mortgage_eligibility`, `build_payment_schedule`, `check_golden_visa` and `get_market_overview`. It presents market figures as indicative ranges with the month, and quotes a specific home's price only from your inventory.
+
+Brokers use the same maths under **Calculator** (buying costs, mortgage, payment plan, rental yield, commission split, Golden Visa) and can send any result to a lead. **UAE market** shows the data with its sources.
+
+Review `lib/market/uae.ts` every quarter: rates and prices move, and several 2026 rules (Golden Visa, fees) changed during the year.
+
 ## Reliability
 
 - The worker claims jobs with `SKIP LOCKED`, so overlapping runs never double-send. A job left running for 5 minutes (a killed function) is retried, and failed after three attempts.
 - Every AI turn has a hard time limit; when Claude is slow or down the rules engine replies instead.
 - After hours the AI covers a handed-over lead only if no agent has written in the last 30 minutes.
-- Lead scores are refreshed at most every 15 minutes per lead.
+- Lead scores are refreshed at most every 15 minutes per lead. An agent can set a score by hand; automatic rescoring then leaves it alone.
+- **AI & channels → Health** shows when the background worker last ran, overdue and failed jobs, and failed sends.
+- Leads who start on WhatsApp or by phone are scored, routed and announced like any other lead.
+- A reply goes where it can arrive: WhatsApp inside its 24-hour window, otherwise email, otherwise the WhatsApp template.
+- After the AI replies, gentle follow-ups start again if the lead goes quiet (at most six per lead).
+- If a Managed Agent turn fails or times out, the session is interrupted and the lead starts a fresh one.
 - `npm run test:e2e` runs the whole journey (intake, scoring, routing, first contact, reply, booking, hand-over, STOP, limits) against Postgres + PostgREST. CI runs it on every push.
 
 ## Try it before going live

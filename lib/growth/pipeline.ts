@@ -10,12 +10,12 @@ import { runTurn } from "@/lib/ai/agent";
 import { handover, type ToolCtx } from "@/lib/ai/tools";
 import { pickAgent, type Candidate } from "./routing";
 import { detectLanguage } from "./language";
-import { timezoneFromPhone } from "./phone";
+import { timezoneFromPhone, languageFromPhone } from "./phone";
 import { isOfficeOpen, isQuietTime, nextSendTime, type WeekHours } from "./hours";
 export { aiShouldReply };
 import { deliver, reachable, firstName, type LeadRecord, type Settings, type OutChannel } from "./send";
 import { notify } from "./notify";
-import { aiShouldReply, STOP } from "./policy";
+import { aiShouldReply, STOP, replyChannel } from "./policy";
 import { FIRST_CONTACT, FOLLOWUP, TEMPLATE_NAMES, render } from "./templates";
 import { placeCall } from "./channels/voice";
 import { providers, APP_URL } from "./config";
@@ -93,6 +93,34 @@ export async function ingestLead(db: DB, workspaceId: string, n: NormalizedLead)
   return { id: lead.id as string, duplicate: false, score: a.score, temp: a.temp, assigned_to: assigned?.user_id ?? null };
 }
 
+/**
+ * A lead who reached us first on WhatsApp or by phone: score, route and announce them like any other lead,
+ * without a first-contact job (the conversation is already open).
+ */
+export async function createInboundLead(db: DB, workspaceId: string, i: { name: string | null; phone: string; text: string; source: string; channel: "whatsapp" | "phone"; campaign?: string | null; language?: string }) {
+  const settings = await loadSettings(db, workspaceId);
+  const a = await assessLead({ name: i.name ?? i.phone, message: i.text, source: i.source });
+  const language = i.language ?? (i.text ? detectLanguage(i.text) : languageFromPhone(i.phone));
+  const { data: ws } = await db.from("workspaces").select("created_by").eq("id", workspaceId).single();
+  const assigned = await route(db, workspaceId, { language, area: a.area, score: a.score, temp: a.temp });
+  const { data: lead, error } = await db.from("leads").insert({
+    workspace_id: workspaceId, created_by: ws!.created_by, assigned_to: assigned?.user_id ?? null,
+    name: (i.name ?? `+${i.phone}`).slice(0, 120), phone: i.phone, source: i.source.slice(0, 40), channel: i.channel, campaign: i.campaign ?? null,
+    consent_whatsapp: i.channel === "whatsapp", language, intent: a.intent, type: a.intent === "seller" ? "seller" : "buyer",
+    score: a.score, temp: a.temp, score_reason: a.reason.slice(0, 600), area: a.area?.slice(0, 80) ?? null, budget_aed: a.budget_aed,
+    timeframe: a.timeframe, financing: a.financing, timezone: timezoneFromPhone(i.phone, settings.timezone), serious: a.temp !== "cold",
+  }).select("*").single();
+  if (error) throw error;
+  await db.from("activities").insert({ workspace_id: workspaceId, lead_id: lead.id, kind: "created", body: `From ${i.source}. Scored ${a.score} (${a.temp}): ${a.reason}`.slice(0, 2000) });
+  if (assigned) await db.from("activities").insert({ workspace_id: workspaceId, lead_id: lead.id, kind: "assigned", body: `Auto-routed: ${assigned.reason}` });
+  const hot = a.score >= settings.escalate_score;
+  for (const user_id of assigned ? [assigned.user_id] : await managers(db, workspaceId)) {
+    await notify(db, { workspace_id: workspaceId, user_id, lead_id: lead.id, kind: hot ? "hot_lead" : "new_lead", urgent: hot,
+      body: `${hot ? "Hot lead" : "New lead"} on ${i.channel === "phone" ? "the phone" : "WhatsApp"}: ${lead.name}, score ${a.score}. ${a.reason}` }, settings);
+  }
+  return lead as LeadRecord;
+}
+
 async function managers(db: DB, workspaceId: string) {
   const { data } = await db.from("workspace_members").select("user_id").eq("workspace_id", workspaceId).in("role", ["owner", "manager"]);
   return (data ?? []).map((r) => r.user_id as string);
@@ -101,9 +129,8 @@ async function managers(db: DB, workspaceId: string) {
 async function route(db: DB, workspaceId: string, lead: { language: string; area: string | null; score: number; temp: "hot" | "warm" | "cold" }) {
   const { data: profiles } = await db.from("member_profiles").select("*").eq("workspace_id", workspaceId);
   if (!profiles?.length) return null;
-  const { data: open } = await db.from("leads").select("assigned_to").eq("workspace_id", workspaceId).not("stage", "in", "(won,lost)").not("assigned_to", "is", null);
-  const load = new Map<string, number>();
-  for (const r of open ?? []) load.set(r.assigned_to as string, (load.get(r.assigned_to as string) ?? 0) + 1);
+  const { data: open } = await db.rpc("open_lead_counts", { ws: workspaceId });
+  const load = new Map<string, number>((open as { user_id: string; open_leads: number }[] | null ?? []).map((r) => [r.user_id, Number(r.open_leads)]));
   const candidates: Candidate[] = profiles.map((p) => ({ ...p, open_leads: load.get(p.user_id as string) ?? 0 }) as Candidate);
   const picked = pickAgent(lead, candidates);
   if (picked) await db.from("member_profiles").update({ last_assigned_at: new Date().toISOString() }).eq("workspace_id", workspaceId).eq("user_id", picked.user_id);
@@ -140,7 +167,7 @@ export async function handleInbound(db: DB, lead: LeadRecord, m: { channel: "wha
   if (aiShouldReply(settings, lead, new Date(), await lastAgentAt(db, lead.id)) && m.channel !== "voice") {
     // Debounce bursts of short messages into one reply.
     const { data: pending } = await db.from("jobs").select("id").eq("lead_id", lead.id).eq("kind", "ai_reply").eq("status", "pending").limit(1);
-    if (!pending?.length) await enqueue(db, lead.workspace_id, lead.id, "ai_reply", new Date(Date.now() + 8_000), { channel: m.channel === "email" ? "email" : "whatsapp" });
+    if (!pending?.length) await enqueue(db, lead.workspace_id, lead.id, "ai_reply", new Date(Date.now() + 8_000), { channel: m.channel === "email" || m.channel === "whatsapp" ? m.channel : "auto" });
   }
   // Re-score with the conversation (at most every 15 minutes per lead, to bound cost); escalate on a jump.
   const { data: recentRescore } = await db.from("jobs").select("id").eq("lead_id", lead.id).eq("kind", "rescore").gte("created_at", new Date(Date.now() - 15 * 60_000).toISOString()).limit(1);
@@ -189,12 +216,22 @@ export async function processJob(db: DB, job: Job) {
 
     case "ai_reply": {
       if (!lead || !aiShouldReply(settings, lead, new Date(), await lastAgentAt(db, lead.id))) return "skipped";
-      const channel = (job.payload.channel as OutChannel) ?? "whatsapp";
-      if (!reachable(lead).includes(channel)) return "channel not reachable";
+      const choice = replyChannel(lead, (job.payload.channel as string) ?? "auto");
+      if (!choice) return "no channel to reply on";
+      if (choice === "whatsapp-template") {
+        // A web or phone enquiry from someone whose WhatsApp window is closed: re-open it with the template.
+        const lang = lead.language && FIRST_CONTACT[lead.language] ? lead.language : "en";
+        const params = [firstName(lead.name), settings.assistant_name, company];
+        await deliver(db, settings, lead, { channel: "whatsapp", author: "ai", body: render(FIRST_CONTACT[lang], params), template: { name: TEMPLATE_NAMES.first, params } });
+        return "re-opened WhatsApp with the template";
+      }
+      const channel: OutChannel = choice;
       const t = await runTurn({ ctx: ctx(channel), company, agentName: await agentName(db, lead.assigned_to), inbound: await lastInbound(db, lead.id), firstContact: false });
       const fresh = (await loadLead(db, lead.id))!;
       if (fresh.opted_out && !t.actions.includes("opted out")) return "opted out";
       await deliver(db, settings, fresh, { channel, author: "ai", body: t.text, subject: channel === "email" ? `Re: ${subjectFor(fresh.language ?? "en", company)}` : undefined });
+      // If the conversation goes quiet again, follow up gently (capped per lead).
+      if (!fresh.opted_out && fresh.ai_mode === "ai") await rearmFollowups(db, settings, fresh);
       return `replied (${t.by}; ${t.actions.join(", ") || "no tools"})`;
     }
 
@@ -228,6 +265,7 @@ export async function processJob(db: DB, job: Job) {
 
     case "rescore": {
       if (!lead) return "no lead";
+      if ((lead as LeadRecord & { score_locked?: boolean }).score_locked) return "score set by hand";
       const { data: msgs } = await db.from("messages").select("author, body").eq("lead_id", lead.id).order("created_at").limit(30);
       const transcript = (msgs ?? []).map((m) => `${m.author}: ${String(m.body).slice(0, 400)}`).join("\n");
       const a = await assessLead({ name: lead.name, message: "", source: lead.source, area: lead.area, transcript });
@@ -249,6 +287,14 @@ export async function processJob(db: DB, job: Job) {
   return `unknown job ${job.kind}`;
 }
 
+const MAX_FOLLOWUPS = 6;
+async function rearmFollowups(db: DB, s: Settings, lead: LeadRecord) {
+  await db.from("jobs").update({ status: "cancelled" }).eq("lead_id", lead.id).eq("kind", "followup").eq("status", "pending");
+  const { count } = await db.from("jobs").select("id", { count: "exact", head: true }).eq("lead_id", lead.id).eq("kind", "followup").eq("status", "done");
+  const left = MAX_FOLLOWUPS - (count ?? 0);
+  if (left > 0) await scheduleFollowups(db, s, lead, left);
+}
+
 async function lastAgentAt(db: DB, leadId: string) {
   const { data } = await db.from("messages").select("created_at").eq("lead_id", leadId).eq("author", "agent").order("created_at", { ascending: false }).limit(1);
   return (data?.[0]?.created_at as string) ?? null;
@@ -259,9 +305,9 @@ async function lastInbound(db: DB, leadId: string) {
   return (data?.[0]?.body as string) ?? null;
 }
 
-async function scheduleFollowups(db: DB, s: Settings, lead: LeadRecord) {
+async function scheduleFollowups(db: DB, s: Settings, lead: LeadRecord, max = 99) {
   const tz = lead.timezone ?? s.timezone;
-  for (const [i, d] of s.followup_days.entries()) {
+  for (const [i, d] of s.followup_days.slice(0, max).entries()) {
     const at = nextSendTime(new Date(Date.now() + d * 86_400_000), tz, s.quiet_start, s.quiet_end);
     await enqueue(db, lead.workspace_id, lead.id, "followup", at, { n: i + 1 });
   }

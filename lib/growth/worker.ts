@@ -28,5 +28,7 @@ export async function runDue(db: SupabaseClient, opts: { max?: number; budgetMs?
       results.push({ id: job.id, kind: job.kind, result: `error: ${msg}` });
     }
   }
+  // Heartbeat, so AI & channels can warn when the per-minute ping has stopped.
+  await db.from("worker_heartbeat").upsert({ id: 1, last_run_at: new Date().toISOString(), last_processed: results.length });
   return results;
 }

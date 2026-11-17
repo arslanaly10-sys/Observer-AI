@@ -29,9 +29,9 @@ export const navGroups: { label: string; items: { id: ViewId; label: string; ico
     { id: "channel-roi", label: "Channel ROI", icon: ChartPieSlice },
     { id: "agents", label: "Agent performance", icon: Trophy },
   ] },
-  { label: "GCC market", items: [
+  { label: "UAE market", items: [
     { id: "gcc-developers", label: "GCC developers", icon: Buildings },
-    { id: "payment-plans", label: "Payment plans", icon: Calculator },
+    { id: "payment-plans", label: "Broker calculator", icon: Calculator },
   ] },
   { label: "Enterprise", items: [
     { id: "sla", label: "SLA tracking", icon: Timer, badge: "2" },

@@ -36,6 +36,7 @@ export async function runTurn(t: TurnInput): Promise<TurnResult> {
       return { text: await withTimeout(managedTurn(c, t, context, userText), left(), "managed agent turn"), by: "managed-agent", actions: t.ctx.actions };
     } catch (e) {
       console.error("managed agent turn failed; using Messages API", (e as Error).message);
+      await resetSession(c, t);
     }
   }
   if (c && left() > 8_000) {
@@ -108,6 +109,18 @@ async function managedTurn(c: Anthropic, t: TurnInput, context: string, userText
   const text = texts.filter(Boolean).at(-1)?.trim();
   if (!text) throw new Error("managed agent produced no reply");
   return text;
+}
+
+/**
+ * After a failed or timed-out turn the session may still be running, or stuck waiting on a tool result we'll
+ * never send. Interrupt it and start the lead on a fresh session next time (recent messages carry the context).
+ */
+async function resetSession(c: Anthropic, t: TurnInput) {
+  const id = t.ctx.lead.agent_session_id;
+  if (!id) return;
+  try { await c.beta.sessions.events.send(id, { events: [{ type: "user.interrupt" }] }); } catch { /* already idle or gone */ }
+  await t.ctx.db.from("leads").update({ agent_session_id: null }).eq("id", t.ctx.lead.id);
+  t.ctx.lead.agent_session_id = null;
 }
 
 // ── 2. Messages API tool loop ──────────────────────────────────────────────

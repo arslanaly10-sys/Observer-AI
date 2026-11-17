@@ -6,7 +6,7 @@ import { makeT } from "@/lib/tr";
 import { scoreLead, fmtAED } from "@/lib/engine";
 import { Card, CardHead, Monogram, TempBadge, Meter } from "@/components/app/ui";
 import { Thread, type Msg } from "@/components/workspace/Thread";
-import { Composer, AiModeSwitch } from "@/components/workspace/growth";
+import { Composer, AiModeSwitch, ScoreOverride } from "@/components/workspace/growth";
 import { LANGUAGES } from "@/lib/growth/language";
 import { EditLeadForm, StageSelect, AssignSelect, NoteForm, DeleteLeadButton } from "@/components/workspace/forms";
 
@@ -25,7 +25,7 @@ export default async function LeadPage({ params }: { params: Promise<{ locale: s
     supabase.from("appointments").select("id, kind, starts_at, status, created_by_ai").eq("lead_id", id).order("starts_at", { ascending: false }).limit(10),
     supabase.from("workspace_settings").select("assistant_name, timezone").eq("workspace_id", l.workspace_id).maybeSingle(),
   ]);
-  const g = data as LeadRow & { language: string | null; intent: string | null; score_reason: string | null; ai_mode: "ai" | "human" | "paused"; handover_reason: string | null; channel: string; campaign: string | null; consent_whatsapp: boolean; consent_email: boolean; opted_out: boolean };
+  const g = data as LeadRow & { language: string | null; intent: string | null; score_reason: string | null; ai_mode: "ai" | "human" | "paused"; handover_reason: string | null; channel: string; campaign: string | null; consent_whatsapp: boolean; consent_email: boolean; opted_out: boolean; score_locked: boolean };
   const channels = [l.phone && g.consent_whatsapp && "whatsapp", l.email && g.consent_email && "email"].filter(Boolean) as ("whatsapp" | "email")[];
   const manager = canManage(current!.role);
   const editable = manager || l.assigned_to === user.id;
@@ -101,14 +101,20 @@ export default async function LeadPage({ params }: { params: Promise<{ locale: s
           </Card>
           <Card>
             <CardHead title="Why this score" />
-            <ul className="space-y-2.5">
-              {s.parts.map((p) => (
-                <li key={p.label} className="grid grid-cols-[120px_1fr_40px] items-center gap-3 text-[14px]">
-                  <span className="text-ink-2">{t(p.label)}</span><Meter value={(p.pts / p.max) * 100} /><span className="tnum text-end">+{p.pts}</span>
-                </li>
-              ))}
-            </ul>
+            {g.score_reason ? (
+              <p className="text-[15px]" dir="auto">{g.score_reason}</p>
+            ) : (
+              // Leads added by hand are scored by the rules engine; show its working.
+              <ul className="space-y-2.5">
+                {s.parts.map((p) => (
+                  <li key={p.label} className="grid grid-cols-[120px_1fr_40px] items-center gap-3 text-[14px]">
+                    <span className="text-ink-2">{t(p.label)}</span><Meter value={(p.pts / p.max) * 100} /><span className="tnum text-end">+{p.pts}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             {l.budget_aed ? <p className="t-caption mt-4 text-ink-2">{t("Budget")}: <b className="text-ink">{fmtAED(l.budget_aed)}</b></p> : null}
+            <ScoreOverride leadId={l.id} workspaceId={l.workspace_id} score={l.score} locked={g.score_locked} disabled={!editable} />
           </Card>
           {manager && <div className="flex justify-end"><DeleteLeadButton leadId={l.id} /></div>}
         </div>

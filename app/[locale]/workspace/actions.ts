@@ -142,10 +142,14 @@ export async function updateLead(locale: string, leadId: string, _: ActionResult
   const { supabase } = await requireUser();
   const fields = leadFields(f);
   if (!fields.name) return { ok: false, error: "Add the lead’s name." };
-  const { data, error } = await supabase.from("leads").update(fields).eq("id", leadId).select("id, workspace_id");
+  // A score set by hand stays; otherwise the new rules score replaces the old explanation too.
+  const { data: cur } = await supabase.from("leads").select("score_locked").eq("id", leadId).maybeSingle();
+  const { score, temp, ...rest } = fields;
+  const patch = cur?.score_locked ? rest : { ...rest, score, temp, score_reason: null };
+  const { data, error } = await supabase.from("leads").update(patch).eq("id", leadId).select("id, workspace_id");
   if (error || !data?.length) return { ok: false, error: friendly(error ?? { code: "42501" }) };
   revalidatePath(ws(locale), "layout");
-  return { ok: true, message: `Saved. New score ${fields.score}` };
+  return { ok: true, message: cur?.score_locked ? "Saved." : `Saved. New score ${score}` };
 }
 
 export async function setStage(locale: string, leadId: string, stage: Stage): Promise<ActionResult> {

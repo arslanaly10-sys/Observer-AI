@@ -20,13 +20,13 @@ export default async function Inbox({ params, searchParams }: { params: Promise<
     .eq("workspace_id", wsId).not("last_message_at", "is", null);
   if (filter === "mine") q = q.eq("assigned_to", user.id);
   if (filter === "human") q = q.eq("ai_mode", "human");
+  if (filter === "waiting") q = q.eq("last_message_dir", "in");
   const { data: leadRows, count } = await q.order("last_message_at", { ascending: false }).range((page - 1) * PER, page * PER - 1);
   const ids = (leadRows ?? []).map((l) => l.id as string);
   const { data: recent } = ids.length ? await supabase.from("messages").select("lead_id, body, direction, author, created_at").in("lead_id", ids).order("created_at", { ascending: false }).limit(ids.length * 4) : { data: [] };
   const latest = new Map<string, { body: string; author: string; created_at: string; direction: string }>();
   for (const m of recent ?? []) if (!latest.has(m.lead_id as string)) latest.set(m.lead_id as string, m as never);
   let threads = (leadRows ?? []).filter((l) => latest.has(l.id as string)).map((l) => ({ ...l, last: latest.get(l.id as string)! }));
-  if (filter === "waiting") threads = threads.filter((l) => l.last.direction === "in");
   const pages = Math.max(1, Math.ceil((count ?? 0) / PER));
   const active = threads.find((l) => l.id === selected) ?? (selected ? null : threads[0]);
 

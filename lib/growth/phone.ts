@@ -27,3 +27,13 @@ export function timezoneFromPhone(e164: string | null | undefined, fallback = "A
   const match = ZONES.filter(([cc]) => e164.startsWith(cc)).sort((a, b) => b[0].length - a[0].length)[0];
   return match?.[1] ?? fallback;
 }
+
+/** A best guess at the language to greet a caller in, from their country code (English for the UAE). */
+const PHONE_LANG: [string, string][] = [
+  ["971", "en"], ["966", "ar"], ["965", "ar"], ["974", "ar"], ["973", "ar"], ["968", "ar"], ["962", "ar"], ["961", "ar"], ["20", "ar"],
+  ["91", "hi"], ["92", "ur"], ["98", "fa"], ["7", "ru"], ["86", "zh"], ["55", "pt"], ["351", "pt"], ["34", "es"], ["52", "es"], ["33", "fr"],
+];
+export function languageFromPhone(e164: string | null | undefined, fallback = "en") {
+  if (!e164) return fallback;
+  return [...PHONE_LANG].sort((a, b) => b[0].length - a[0].length).find(([p]) => e164.startsWith(p))?.[1] ?? fallback;
+}

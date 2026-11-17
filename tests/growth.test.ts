@@ -219,3 +219,33 @@ describe("AI and agent never talk over each other", async () => {
     expect(aiShouldReply(s, { opted_out: false, ai_mode: "human" }, evening, "2026-11-17T13:00:00Z")).toBe(true);
   });
 });
+
+describe("round 4 fixes", async () => {
+  const { languageFromPhone } = await import("@/lib/growth/phone");
+  const { replyChannel } = await import("@/lib/growth/policy");
+  const { ttsBody, sayLang } = await import("@/lib/growth/channels/voice-text");
+  it("guesses a caller's language from the country code", () => {
+    expect(languageFromPhone("919812345678")).toBe("hi");
+    expect(languageFromPhone("923001234567")).toBe("ur");
+    expect(languageFromPhone("966551234567")).toBe("ar");
+    expect(languageFromPhone("971501234567")).toBe("en");
+    expect(languageFromPhone("79161234567")).toBe("ru");
+  });
+  const base = { phone: "971501234567", email: "a@b.co", consent_whatsapp: true, consent_email: true, opted_out: false, last_whatsapp_in_at: null as string | null };
+  it("answers a repeat web enquiry by email when WhatsApp's window is closed", () => {
+    expect(replyChannel(base, "auto")).toBe("email");
+  });
+  it("uses WhatsApp when its window is open, and the template when there's no email", () => {
+    expect(replyChannel({ ...base, last_whatsapp_in_at: new Date().toISOString() }, "auto")).toBe("whatsapp");
+    expect(replyChannel({ ...base, email: null }, "auto")).toBe("whatsapp-template");
+    expect(replyChannel({ ...base, phone: null, email: null }, "auto")).toBeNull();
+  });
+  it("only sends language_code to ElevenLabs models that accept it", () => {
+    expect(ttsBody("hi", "ar")).not.toHaveProperty("language_code");
+    expect(ttsBody("hi", "ar", "eleven_flash_v2_5")).toMatchObject({ language_code: "ar" });
+  });
+  it("falls back to English for languages Twilio's voice can't speak", () => {
+    expect(sayLang("ur")).toBe("en-US");
+    expect(sayLang("ar")).toBe("ar-AE");
+  });
+});

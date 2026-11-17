@@ -81,3 +81,16 @@ Every item from the third critical review is addressed:
 - **Website:** copy matches the product (no SMS, two-minute first contact, ten languages, honest FAQ on AI disclosure, portals via email parser), sample figures labelled, demo reply no longer invents homes, "Soon" labels on demo-only features, modest ROI defaults, readable nav over photos, faded hero shot, phone notch fixed, branded 404 with the right status and title.
 - **Sign-in:** split layout with Dubai at night and the assistant's overnight work.
 - **Apps:** demo banner, compact Ask button, inbox by latest message with pages and Supabase Realtime, paginated leads, editable inventory, manual bookings and a week strip, "Observer this week" on the overview.
+
+## Review 4 (17 Nov 2026): fixes and UAE market features
+
+- Repeat web enquiries are answered by email (or the WhatsApp template), never dropped.
+- WhatsApp- and phone-originated leads are scored, routed and announced.
+- Timed-out Managed Agent sessions are interrupted and replaced.
+- ElevenLabs requests no longer send `language_code` to models that reject it; Twilio's voice falls back to English for languages it can't speak; unknown callers are greeted in a language guessed from their country code.
+- Health panel (worker heartbeat, overdue and failed jobs, failed sends).
+- Security and privacy pages corrected (no false audit-log or retention claims) and now list every service that processes data, AI use and call recording.
+- The score explanation matches the score; agents can overrule a score and lock it.
+- Follow-ups re-arm after a reply goes quiet (max six); test leads are unique; routing counts in one query; the inbox "waiting" filter runs in the database; unassigned bookings can't double-book.
+- New: UAE market data with sources, broker calculator (costs, mortgage, schedule, yield, commission, Golden Visa) in workspaces and the demo, five new AI tools, Market page.
+- Tests: 81 unit, 85 database checks, end-to-end now covers repeat enquiries, WhatsApp-originated leads, market tools and score locks.

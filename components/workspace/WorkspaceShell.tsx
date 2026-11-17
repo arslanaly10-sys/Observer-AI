@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, useTransition, type ReactNode } from "react";
-import { SquaresFour, UsersThree, Kanban, UsersFour, GearSix, ChatsCircle, Buildings, CalendarDots, Sparkle, SignOut, Translate, List, X, CaretUpDown, Flask, Plus } from "@phosphor-icons/react";
+import { SquaresFour, UsersThree, Kanban, UsersFour, GearSix, ChatsCircle, Buildings, CalendarDots, Sparkle, Calculator as CalcIcon, ChartLineUp, SignOut, Translate, List, X, CaretUpDown, Flask, Plus } from "@phosphor-icons/react";
 import { useT } from "@/components/app/i18n";
 import { Monogram, cx } from "@/components/app/ui";
 import { Logo } from "@/components/Logo";
@@ -27,6 +27,8 @@ export function WorkspaceShell({ children, memberships, currentId, userName, ema
     { href: `${base}/pipeline`, label: "Pipeline", icon: Kanban },
     { href: `${base}/calendar`, label: "Calendar", icon: CalendarDots },
     { href: `${base}/inventory`, label: "Inventory", icon: Buildings },
+    { href: `${base}/calculator`, label: "Calculator", icon: CalcIcon },
+    { href: `${base}/market`, label: "UAE market", icon: ChartLineUp },
     { href: `${base}/ai`, label: "AI & channels", icon: Sparkle },
     { href: `${base}/team`, label: "Team", icon: UsersFour },
     { href: `${base}/settings`, label: "Settings", icon: GearSix },

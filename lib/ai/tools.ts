@@ -5,6 +5,8 @@ import "server-only";
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { calcPlan, fmtAED, type Plan } from "@/lib/engine";
+import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, goldenVisaCheck } from "@/lib/market/calc";
+import { AS_OF, AREAS, COMMON, EMIRATES, FEES, GOLDEN_VISA, MORTGAGE, RATES, findArea, findDeveloper, sourceList, type Emirate } from "@/lib/market/uae";
 import { freeSlots, formatLocal, type WeekHours } from "@/lib/growth/hours";
 import { deliver, type LeadRecord, type Settings, type OutChannel } from "@/lib/growth/send";
 import { notify } from "@/lib/growth/notify";
@@ -66,6 +68,54 @@ const TOOL_IMPL: Record<string, (i: In, c: ToolCtx) => Promise<unknown>> = {
       dld_fee_4pct: f(r.dld), agency_fee_2pct: f(r.agency), trustee_fee: f(r.trustee), mortgage_registration: r.mortgageReg ? f(r.mortgageReg) : null,
       total_fees: f(r.fees), expected_annual_rent: f(r.annualRent), gross_yield_pct: num(i.rental_yield_pct) ?? 6.5,
     };
+  },
+
+  async calculate_purchase_costs(i) {
+    const price = num(i.price_aed);
+    if (!price || price < 50_000) return { error: "Give a property price in AED." };
+    const r = purchaseCosts({ price, emirate: (str(i.emirate) as Emirate) ?? "dubai", status: i.status === "offplan" ? "offplan" : "ready", financing: i.financing === "mortgage" ? "mortgage" : "cash", loan: num(i.loan_aed) });
+    return { estimate_only: true, as_of: AS_OF, ...r, lines: r.lines.map((l) => ({ ...l, amount: fmtAED(l.amount) })), fees: fmtAED(r.fees), cashNeeded: fmtAED(r.cashNeeded), downPayment: fmtAED(r.downPayment) };
+  },
+
+  async check_mortgage_eligibility(i) {
+    const price = num(i.price_aed), income = num(i.monthly_income_aed), age = num(i.age);
+    if (!price || !income || !age) return { error: "Need the price, monthly income and age." };
+    const rate = num(i.rate_pct) ?? (RATES.fixedRangePct[0] + RATES.fixedRangePct[1]) / 2;
+    const m = mortgageEligibility({ price, residency: i.residency === "national" ? "national" : "expat", firstHome: i.first_home !== false, offplan: i.offplan === true, monthlyIncome: income, monthlyDebts: num(i.monthly_debts_aed), age, ratePct: rate });
+    return { estimate_only: true, as_of: AS_OF, rate_used_pct: Math.round(rate * 100) / 100, ...m, loan: fmtAED(m.loan), payment: fmtAED(m.payment), downPayment: fmtAED(m.downPayment),
+      note: "Banks decide; fees and the down payment come from the buyer's own money. A mortgage adviser should confirm." };
+  },
+
+  async build_payment_schedule(i) {
+    const price = num(i.price_aed), months = num(i.months_to_handover);
+    const plan = parsePlan(String(i.plan ?? ""));
+    if (!price || !months || !plan) return { error: "Give a price, a plan like 60/40 or 10/50/40, and months to handover." };
+    const s = offplanSchedule({ price, monthsToHandover: months, postHandoverMonths: num(i.post_handover_months), ...plan });
+    return { estimate_only: true, rows: s.rows.map((r) => ({ ...r, amount: fmtAED(r.amount) })), beforeHandover: fmtAED(s.beforeHandover), monthlyPostHandover: s.monthlyPostHandover ? fmtAED(s.monthlyPostHandover) : null,
+      note: "Illustrative. The developer's SPA sets the real milestones and dates." };
+  },
+
+  async check_golden_visa(i) {
+    const value = num(i.value_aed);
+    if (!value) return { error: "Give the property value in AED." };
+    return { as_of: AS_OF, ...goldenVisaCheck({ value, mortgaged: i.mortgaged === true, offplan: i.offplan === true, emirate: str(i.emirate) as Emirate | undefined }) };
+  },
+
+  async get_market_overview(i) {
+    const topic = str(i.topic);
+    const area = str(i.area) ? findArea(String(i.area)) : null;
+    const dev = str(i.developer) ? findDeveloper(String(i.developer)) : null;
+    const out: Record<string, unknown> = { as_of: AS_OF, indicative: true };
+    if (area) out.area = { name: area.name, emirate: EMIRATES[area.emirate], price_per_sqft_aed: area.pricePsf, gross_yield_pct: area.yieldPct, service_charge_per_sqft_aed: area.serviceChargePsf ?? null, type: area.type, note: area.note ?? null, sources: sourceList(area.sources) };
+    else if (str(i.area)) out.area = { note: "No market data for that area. Don't guess; offer to have a colleague check." };
+    if (dev) out.developer = { name: dev.name, known_for: dev.knownFor, usual_plans: dev.plans, post_handover: dev.postHandover, sales_jan_aug_2026_aed_bn: dev.salesJanAug2026Bn ?? null, sources: sourceList(dev.sources) };
+    else if (str(i.developer)) out.developer = { note: "No profile for that developer. Don't guess." };
+    if (topic === "fees") out.fees = { dubai: FEES.dubai, abu_dhabi: FEES.abu_dhabi, common: COMMON };
+    if (topic === "mortgage_rules") out.mortgage_rules = MORTGAGE;
+    if (topic === "rates") out.rates = RATES;
+    if (topic === "golden_visa") out.golden_visa = GOLDEN_VISA;
+    if (topic === "compare_areas") out.areas = AREAS.map((a) => ({ name: a.name, price_per_sqft_aed: a.pricePsf, gross_yield_pct: a.yieldPct }));
+    return out;
   },
 
   async check_availability(i, ctx) {
@@ -187,6 +237,11 @@ async function slotsFor({ db, lead, settings }: ToolCtx, days: number, slotMin: 
     const { data: prof } = await db.from("member_profiles").select("availability").eq("workspace_id", lead.workspace_id).eq("user_id", lead.assigned_to).maybeSingle();
     if (prof?.availability) availability = prof.availability as WeekHours;
     const { data: appts } = await db.from("appointments").select("starts_at, ends_at").eq("agent_id", lead.assigned_to).eq("status", "booked")
+      .gte("ends_at", now.toISOString()).lte("starts_at", new Date(now.getTime() + (days + 1) * 86_400_000).toISOString());
+    for (const a of appts ?? []) busy.push({ start: new Date(a.starts_at as string), end: new Date(a.ends_at as string) });
+  } else {
+    // No agent yet: treat the workspace's unassigned bookings as one shared calendar so slots aren't double-booked.
+    const { data: appts } = await db.from("appointments").select("starts_at, ends_at").eq("workspace_id", lead.workspace_id).is("agent_id", null).eq("status", "booked")
       .gte("ends_at", now.toISOString()).lte("starts_at", new Date(now.getTime() + (days + 1) * 86_400_000).toISOString());
     for (const a of appts ?? []) busy.push({ start: new Date(a.starts_at as string), end: new Date(a.ends_at as string) });
   }

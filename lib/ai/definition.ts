@@ -19,7 +19,8 @@ Language and tone
 
 Facts
 - Only state prices, availability, payment plans, handover dates, fees, and project details that a tool returned in this conversation. If a tool has nothing, say a colleague will confirm the details and record what they asked with update_lead.
-- Use calculate_payment_plan for any numbers about instalments, mortgages, fees, or yields, and present them as estimates.
+- For costs, use the calculators and present results as estimates: calculate_purchase_costs (fees and cash needed), check_mortgage_eligibility (how much they can borrow), build_payment_schedule (off-plan instalments with dates), calculate_payment_plan (monthly payment and yield), check_golden_visa.
+- For market questions (prices per square foot, rental yields, service charges, developers and their usual payment plans), use get_market_overview. These are indicative ranges from public sources: say so and give the month, and never present them as the price of a specific unit. Quote a specific home's price only from search_inventory or get_project.
 - Quote published list prices and payment plans. Do not negotiate, offer discounts, or agree to terms. If the lead wants to make an offer, reserve, or discuss a deposit or LOI, call handover_to_human with reason "offer".
 - For legal, visa, mortgage-approval, or tax questions, give general information only, then call handover_to_human with reason "specialist".
 - Do not share any other client's information.
@@ -69,6 +70,57 @@ export const TOOLS: ToolDef[] = [
       rate_pct: { type: "number", description: "Annual mortgage rate, default 4.5" },
       rental_yield_pct: { type: "number", description: "Default 6.5" },
     }, required: ["price_aed", "plan"] },
+  },
+  {
+    name: "calculate_purchase_costs",
+    description: "Itemised buying costs in the UAE for a price: transfer/Oqood fee, admin and trustee fees, agency commission on resale, mortgage registration, bank and valuation fees, and total cash needed.",
+    input_schema: { type: "object", properties: {
+      price_aed: { type: "number" },
+      emirate: { type: "string", enum: ["dubai", "abu_dhabi", "sharjah", "rak"] },
+      status: { type: "string", enum: ["ready", "offplan"] },
+      financing: { type: "string", enum: ["cash", "mortgage"] },
+      loan_aed: { type: "number", description: "Mortgage amount, if financing" },
+    }, required: ["price_aed", "status", "financing"] },
+  },
+  {
+    name: "check_mortgage_eligibility",
+    description: "How much a buyer can borrow under UAE Central Bank rules (loan-to-value by residency, first or second home, off-plan; 50% debt-burden cap; age limits) and the monthly payment.",
+    input_schema: { type: "object", properties: {
+      price_aed: { type: "number" },
+      residency: { type: "string", enum: ["expat", "national"] },
+      first_home: { type: "boolean" },
+      offplan: { type: "boolean" },
+      monthly_income_aed: { type: "number" },
+      monthly_debts_aed: { type: "number", description: "Existing loan and card payments" },
+      age: { type: "number" },
+      rate_pct: { type: "number", description: "Default: middle of current fixed rates" },
+    }, required: ["price_aed", "residency", "monthly_income_aed", "age"] },
+  },
+  {
+    name: "build_payment_schedule",
+    description: "An off-plan payment schedule with dates and amounts, from a plan like 10/50/40 or 60/40, including post-handover instalments.",
+    input_schema: { type: "object", properties: {
+      price_aed: { type: "number" },
+      plan: { type: "string", description: "e.g. '60/40', '10/50/40', '20/40/40 post-handover'" },
+      months_to_handover: { type: "number" },
+      post_handover_months: { type: "number" },
+    }, required: ["price_aed", "plan", "months_to_handover"] },
+  },
+  {
+    name: "check_golden_visa",
+    description: "Whether a property purchase is likely to qualify for the UAE 10-year Golden Visa (AED 2 million rule), with conditions to confirm.",
+    input_schema: { type: "object", properties: {
+      value_aed: { type: "number" }, mortgaged: { type: "boolean" }, offplan: { type: "boolean" },
+      emirate: { type: "string", enum: ["dubai", "abu_dhabi", "sharjah", "rak"] },
+    }, required: ["value_aed"] },
+  },
+  {
+    name: "get_market_overview",
+    description: "Indicative UAE market data: an area's price per sq ft, gross rental yield and service charges; a developer's profile and usual payment plans; purchase fees, mortgage rules and current rates. Ranges from public sources, with the date.",
+    input_schema: { type: "object", properties: {
+      area: { type: "string" }, developer: { type: "string" },
+      topic: { type: "string", enum: ["area", "developer", "fees", "mortgage_rules", "rates", "golden_visa", "compare_areas"] },
+    } },
   },
   {
     name: "check_availability",

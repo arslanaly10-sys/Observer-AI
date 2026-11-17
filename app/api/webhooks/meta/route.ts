@@ -3,11 +3,9 @@ import { adminClient } from "@/lib/supabase/admin";
 import { verifyMeta } from "@/lib/growth/verify";
 import { fromMetaLead } from "@/lib/growth/normalize";
 import { fetchMetaLead } from "@/lib/growth/channels/whatsapp";
-import { ingestLead, handleInbound, loadSettings } from "@/lib/growth/pipeline";
+import { ingestLead, handleInbound, createInboundLead } from "@/lib/growth/pipeline";
 import { runDue } from "@/lib/growth/worker";
-import { normalizePhone, timezoneFromPhone } from "@/lib/growth/phone";
-import { detectLanguage } from "@/lib/growth/language";
-import { assessLead } from "@/lib/ai/score";
+import { normalizePhone } from "@/lib/growth/phone";
 import type { LeadRecord } from "@/lib/growth/send";
 
 /** One endpoint for Meta: Lead Ads (Facebook + Instagram) and the WhatsApp Cloud API. */
@@ -79,16 +77,12 @@ async function onWhatsApp(db: ReturnType<typeof adminClient>, v: Record<string, 
       await handleInbound(db, existing as LeadRecord, { channel: "whatsapp", text: String(text), providerId: String(m.id) });
       continue;
     }
-    // Someone messaged the business number directly (click-to-WhatsApp ads, QR codes, the website button).
-    const settings = await loadSettings(db, workspaceId);
-    const a = await assessLead({ name: profileName ?? phone, message: String(text), source: "WhatsApp" });
-    const { data: owner } = await db.from("workspaces").select("created_by").eq("id", workspaceId).single();
-    const { data: lead } = await db.from("leads").insert({
-      workspace_id: workspaceId, created_by: owner!.created_by, name: (profileName ?? `+${phone}`).slice(0, 120), phone, source: m.referral ? "Click-to-WhatsApp ad" : "WhatsApp",
-      channel: "whatsapp", campaign: m.referral?.headline ?? null, consent_whatsapp: true, language: detectLanguage(String(text)), intent: a.intent,
-      score: a.score, temp: a.temp, score_reason: a.reason.slice(0, 600), area: a.area, budget_aed: a.budget_aed, timeframe: a.timeframe, financing: a.financing,
-      timezone: timezoneFromPhone(phone, settings.timezone),
-    }).select("*").single();
+    // Someone messaged the business number directly (click-to-WhatsApp ads, QR codes, the website button):
+    // score, route and announce them like any other lead, then answer.
+    const lead = await createInboundLead(db, workspaceId, {
+      name: profileName ?? null, phone, text: String(text), channel: "whatsapp",
+      source: m.referral ? "Click-to-WhatsApp ad" : "WhatsApp", campaign: m.referral?.headline ?? null,
+    });
     if (lead) {
       await handleInbound(db, lead as LeadRecord, { channel: "whatsapp", text: String(text), providerId: String(m.id) });
     }

@@ -14,6 +14,12 @@ export async function GET(req: NextRequest) {
   const { data: msg } = await db.from("messages").select("body, lead_id, leads(language)").eq("id", Number(m)).maybeSingle();
   if (!msg) return new NextResponse("not found", { status: 404 });
   const lang = (msg.leads as unknown as { language: string | null } | null)?.language ?? "en";
-  const audio = await synthesize(msg.body as string, lang);
+  let audio: Response;
+  try {
+    audio = await synthesize(msg.body as string, lang);
+  } catch (e) {
+    console.error("tts failed", (e as Error).message);
+    return new NextResponse("tts unavailable", { status: 502 });
+  }
   return new Response(audio.body, { headers: { "Content-Type": "audio/mpeg", "Cache-Control": "private, max-age=600" } });
 }

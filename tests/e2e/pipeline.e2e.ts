@@ -7,7 +7,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { createServer, request, type Server } from "node:http";
 import { createHmac } from "node:crypto";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { ingestLead, handleInbound, loadLead, loadSettings } from "@/lib/growth/pipeline";
+import { ingestLead, handleInbound, loadLead, loadSettings, createInboundLead } from "@/lib/growth/pipeline";
 import { runDue } from "@/lib/growth/worker";
 import { runTool } from "@/lib/ai/tools";
 import { fromGeneric } from "@/lib/growth/normalize";
@@ -144,6 +144,52 @@ run("growth engine, end to end (sandbox)", () => {
     expect((await loadLead(db, r.id))!.opted_out).toBe(true);
     const { data: left } = await db.from("jobs").select("id").eq("lead_id", r.id).eq("status", "pending");
     expect(left).toHaveLength(0);
+  });
+
+  it("answers a repeat web enquiry by email when WhatsApp's window is closed", async () => {
+    const r = await ingestLead(db, WS, fromGeneric({ name: "Maya Repeat", phone: "+971 55 700 0001", email: "maya@example.ae", message: "Interested in Dubai Hills" }, "website", "Website")!);
+    await forceDue(r.id); await drain();
+    await ingestLead(db, WS, fromGeneric({ name: "Maya", email: "maya@example.ae", message: "Any 4 bedroom villas under 6M?" }, "website", "Website")!);
+    await forceDue(r.id, "ai_reply"); await drain();
+    const { data: out } = await db.from("messages").select("channel, status, author").eq("lead_id", r.id).eq("direction", "out").order("id");
+    expect(out!.filter((m) => m.channel === "email" && m.author === "ai").length).toBeGreaterThanOrEqual(2);
+    expect(out!.some((m) => m.status === "failed")).toBe(false);
+  });
+
+  it("routes and announces a lead who starts on WhatsApp", async () => {
+    const lead = await createInboundLead(db, WS, { name: "Omar WA", phone: "971559990001", text: "مرحبا، أبحث عن شقة في دبي هيلز", source: "WhatsApp", channel: "whatsapp" });
+    expect(lead.assigned_to).toBe(ALI);
+    expect(lead.language).toBe("ar");
+    const { data: n } = await db.from("notifications").select("kind").eq("lead_id", lead.id);
+    expect(n!.length).toBeGreaterThan(0);
+  });
+
+  it("gives the AI market data and calculators", async () => {
+    const lead = (await loadLead(db, leadId))!;
+    const ctx = { db, settings: await loadSettings(db, WS), lead, channel: "whatsapp" as const, actions: [] as string[] };
+    const costs = JSON.parse((await runTool("calculate_purchase_costs", { price_aed: 3_000_000, status: "ready", financing: "mortgage", loan_aed: 2_400_000 }, ctx)).text);
+    expect(costs.lines[0].amount).toBe("AED 120K");
+    const elig = JSON.parse((await runTool("check_mortgage_eligibility", { price_aed: 3_000_000, residency: "expat", monthly_income_aed: 60_000, age: 40 }, ctx)).text);
+    expect(elig.ltvPct).toBe(80);
+    const sched = JSON.parse((await runTool("build_payment_schedule", { price_aed: 1_000_000, plan: "60/40", months_to_handover: 24 }, ctx)).text);
+    expect(sched.rows.at(-1).label).toBe("Handover");
+    const market = JSON.parse((await runTool("get_market_overview", { area: "Dubai Hills", developer: "Emaar" }, ctx)).text);
+    expect(market.area.name).toBe("Dubai Hills Estate");
+    expect(market.developer.name).toBe("Emaar");
+    expect(market.indicative).toBe(true);
+    const unknown = JSON.parse((await runTool("get_market_overview", { area: "Atlantis Moon" }, ctx)).text);
+    expect(unknown.area.note).toMatch(/Don't guess/);
+    const visa = JSON.parse((await runTool("check_golden_visa", { value_aed: 2_500_000 }, ctx)).text);
+    expect(visa.likelyEligible).toBe(true);
+  });
+
+  it("leaves a hand-set score alone when rescoring", async () => {
+    await db.from("leads").update({ score: 97, score_locked: true }).eq("id", leadId);
+    await db.from("jobs").insert({ workspace_id: WS, lead_id: leadId, kind: "rescore", run_at: new Date(Date.now() - 1000).toISOString() });
+    await drain();
+    const { data: done } = await db.from("jobs").select("status").eq("lead_id", leadId).eq("kind", "rescore").order("id", { ascending: false }).limit(1);
+    expect(done![0].status).toBe("done");
+    expect((await loadLead(db, leadId))!.score).toBe(97);
   });
 
   it("limits a flood of public form submissions from one address", async () => {

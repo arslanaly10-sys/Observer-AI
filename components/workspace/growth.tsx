@@ -203,6 +203,29 @@ export function AiModeSwitch({ leadId, mode, disabled }: { leadId: string; mode:
   );
 }
 
+export function ScoreOverride({ leadId, workspaceId, score, locked, disabled }: { leadId: string; workspaceId: string; score: number; locked: boolean; disabled?: boolean }) {
+  const { t, locale } = useT();
+  const [state, action, pending] = useActionState(G.setScore.bind(null, locale, leadId), null);
+  if (disabled) return null;
+  return (
+    <details className="mt-4 rounded-[12px] border border-hairline-soft px-4 py-3">
+      <summary className="cursor-pointer text-[14px] font-medium text-creek">{t(locked ? "Score set by hand" : "Overrule this score")}</summary>
+      <form action={action} className="mt-3 grid gap-3">
+        <input type="hidden" name="workspace_id" value={workspaceId} />
+        <div className="grid grid-cols-[96px_1fr] gap-2">
+          <input name="score" type="number" min={0} max={100} defaultValue={score} aria-label={t("Score")} className={cx(field, "mt-0")} />
+          <input name="why" required maxLength={300} placeholder={t("Why? e.g. met them, cash ready")} aria-label={t("Reason")} className={cx(field, "mt-0")} />
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <Save pending={pending} label="Set score" />
+          {locked && <button name="unlock" value="1" formNoValidate className="t-caption text-creek">{t("Let Observer score it again")}</button>}
+          <Result state={state} />
+        </div>
+      </form>
+    </details>
+  );
+}
+
 export function MarkReadButton() {
   const { t, locale } = useT();
   const [pending, start] = useTransition();

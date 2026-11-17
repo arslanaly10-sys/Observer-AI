@@ -2,8 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { adminClient } from "@/lib/supabase/admin";
 import { checkToken } from "@/lib/growth/verify";
 import { linkSecret } from "@/lib/growth/guard";
-import { normalizePhone, timezoneFromPhone } from "@/lib/growth/phone";
-import { loadLead, loadSettings } from "@/lib/growth/pipeline";
+import { normalizePhone, languageFromPhone } from "@/lib/growth/phone";
+import { loadLead, createInboundLead } from "@/lib/growth/pipeline";
 import { twilioParams, greeting } from "@/lib/growth/voice-turn";
 import type { LeadRecord } from "@/lib/growth/send";
 
@@ -28,12 +28,7 @@ export async function POST(req: NextRequest) {
     if (ws && phone) {
       const { data: existing } = await db.from("leads").select("*").eq("workspace_id", ws.workspace_id).eq("phone", phone).order("created_at", { ascending: false }).limit(1).maybeSingle();
       lead = existing as LeadRecord | null;
-      if (!lead) {
-        const s = await loadSettings(db, ws.workspace_id as string);
-        const { data: owner } = await db.from("workspaces").select("created_by").eq("id", ws.workspace_id).single();
-        const { data: created } = await db.from("leads").insert({ workspace_id: ws.workspace_id, created_by: owner!.created_by, name: `+${phone}`, phone, source: "Phone call", channel: "phone", timezone: timezoneFromPhone(phone, s.timezone) }).select("*").single();
-        lead = created as LeadRecord;
-      }
+      if (!lead) lead = await createInboundLead(db, ws.workspace_id as string, { name: null, phone, text: "", source: "Phone call", channel: "phone", language: languageFromPhone(phone) });
     }
   }
   if (!lead) return new Response(`<?xml version="1.0" encoding="UTF-8"?><Response><Hangup/></Response>`, { headers: { "Content-Type": "text/xml" } });

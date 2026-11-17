@@ -3,7 +3,8 @@ import type { ViewId } from "../nav";
 import { Dashboard, Pipeline, Leads } from "./core";
 import { Scoring, Intent, NextBestAction, LiveCall } from "./intel";
 import { WhatsApp, Sequences, Social } from "./channels";
-import { Funnel, ChannelROI, Agents, GccDevelopers, PaymentPlans } from "./analytics";
+import { Funnel, ChannelROI, Agents, GccDevelopers } from "./analytics";
+import { DemoCalculator } from "./calculator";
 import { Sla, Compliance, Notifications } from "./enterprise";
 
 const views: Record<ViewId, () => React.JSX.Element> = {
@@ -11,7 +12,7 @@ const views: Record<ViewId, () => React.JSX.Element> = {
   scoring: Scoring, intent: Intent, "next-best-action": NextBestAction, "live-call": LiveCall,
   whatsapp: WhatsApp, sequences: Sequences, social: Social,
   funnel: Funnel, "channel-roi": ChannelROI, agents: Agents,
-  "gcc-developers": GccDevelopers, "payment-plans": PaymentPlans,
+  "gcc-developers": GccDevelopers, "payment-plans": DemoCalculator,
   sla: Sla, compliance: Compliance, notifications: Notifications,
 };
 

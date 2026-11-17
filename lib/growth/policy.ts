@@ -20,3 +20,17 @@ export function aiShouldReply(s: PolicySettings, lead: PolicyLead, at = new Date
 
 /** "STOP" in the languages Observer speaks. */
 export const STOP = /^\s*(stop|unsubscribe|opt ?out|إلغاء|ايقاف|إيقاف|توقف|cancelar|parar|стоп|arrêt|退订|لغو|बंद करें|بند کریں)\s*[.!]?\s*$/i;
+
+type Reachable = { phone: string | null; email: string | null; consent_whatsapp: boolean; consent_email: boolean; opted_out: boolean; last_whatsapp_in_at: string | null };
+
+/** Where to answer an inbound message. WhatsApp needs its 24-hour window; otherwise email; otherwise the template. */
+export function replyChannel(lead: Reachable, wanted: string, now = Date.now()): "whatsapp" | "email" | "whatsapp-template" | null {
+  if (lead.opted_out) return null;
+  const wa = !!lead.phone && lead.consent_whatsapp, em = !!lead.email && lead.consent_email;
+  const waOpen = wa && !!lead.last_whatsapp_in_at && now - Date.parse(lead.last_whatsapp_in_at) < 24 * 3600_000;
+  if (wanted === "email" && em) return "email";
+  if (waOpen) return "whatsapp";
+  if (em) return "email";
+  if (wa) return "whatsapp-template";
+  return null;
+}

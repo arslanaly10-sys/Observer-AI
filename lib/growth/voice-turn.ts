@@ -8,7 +8,7 @@ import { after, type NextRequest } from "next/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { verifyTwilio, signToken } from "./verify";
 import { APP_URL, providers } from "./config";
-import { STT_LANG, twimlTurn } from "./channels/voice";
+import { sayLang, twimlTurn } from "./channels/voice";
 import { runTurn } from "@/lib/ai/agent";
 import { loadSettings, loadLead } from "./pipeline";
 import { linkSecret } from "./guard";
@@ -86,7 +86,7 @@ export async function heard(db: SupabaseClient, lead: LeadRecord, text: string) 
     }
   });
   const lang = lead.language ?? "en";
-  return xml(`<?xml version="1.0" encoding="UTF-8"?><Response><Say language="${STT_LANG[lang] ?? "en-US"}">${esc(ONE_MOMENT[lang] ?? ONE_MOMENT.en)}</Say><Redirect method="POST">${esc(link("/turn/wait", lead.id, secret, `&after=${inbound?.id ?? 0}&n=0`))}</Redirect></Response>`);
+  return xml(`<?xml version="1.0" encoding="UTF-8"?><Response><Say language="${sayLang(lang)}">${esc(ONE_MOMENT[lang] ?? ONE_MOMENT.en)}</Say><Redirect method="POST">${esc(link("/turn/wait", lead.id, secret, `&after=${inbound?.id ?? 0}&n=0`))}</Redirect></Response>`);
 }
 
 /** Twilio polls here once a second until the reply exists (max ~30 s). */

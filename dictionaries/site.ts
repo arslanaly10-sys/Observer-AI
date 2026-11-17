@@ -60,7 +60,7 @@ const en = {
       items: [
         { h: "Payment plans, with real fees", t: "Mortgage, developer, cash and post-handover plans, side by side, with the 4% DLD fee and trustee costs included." },
         { h: "Ten languages, Arabic done properly", t: "A full right-to-left interface, and replies in Arabic, Hindi, Urdu, Farsi, Russian, Chinese and more." },
-        { h: "GCC developer directory", t: "Developers and flagship projects across six countries, so you can match a buyer to the right launch." },
+        { h: "UAE market built in", t: "Developers and their usual payment plans, area prices and yields, fees by emirate and mortgage rules, with sources and dates." },
         { h: "Your data, protected", t: "Hosted in AWS Europe (Frankfurt), encrypted in transit and at rest, with role-based access for every agent." },
       ],
     },
@@ -127,7 +127,7 @@ const en = {
         { h: "Lead scoring", t: "A score from 0 to 100, built from seven signals. It shows its working, and your team can adjust the weights." },
         { h: "Intent detection", t: "Highlights the words that matter, such as “cash”, “this week” or “just looking”, and labels buyers, sellers and investors." },
         { h: "Next best action", t: "Ranks the day’s actions by commission at stake, chance to close and how fast that chance is fading." },
-        { h: "AI concierge", t: "Answers price, payment-plan and availability questions from your inventory, books viewings into the calendar, and never negotiates." },
+        { h: "AI concierge", t: "Answers price, payment-plan and availability questions from your inventory, works out buying costs, mortgages and payment schedules, books viewings, and never negotiates." },
         { h: "Live call assistant", t: "Suggests the next line during an agent’s call and writes the call notes.", soon: true },
       ], shot: "scoring" },
       { id: "channels", h: "Channels", t: "Meet buyers where they already are, with replies that never sound automated.", items: [
@@ -142,8 +142,8 @@ const en = {
         { h: "Agent performance", t: "Reply times, viewings booked and conversion for every agent, in one table.", soon: true },
       ], shot: "dashboard" },
       { id: "market", h: "GCC market", t: "Tools that only make sense in the Gulf, and that buyers here expect.", items: [
-        { h: "Payment plans", t: "Bank, developer, cash and post-handover, side by side, with DLD, agency and trustee fees." },
-        { h: "GCC developers", t: "A directory of developers and flagship projects across the UAE, Saudi Arabia, Qatar, Kuwait, Bahrain and Oman.", soon: true },
+        { h: "Broker calculator", t: "Buying costs by emirate, mortgage eligibility under Central Bank rules, off-plan schedules with dates, yields, commission splits and the Golden Visa. Send any result to a client." },
+        { h: "UAE market data", t: "Emaar, DAMAC, Sobha, Aldar and more, with their usual payment plans, plus price per square foot and yields for twenty areas. The AI quotes them as indicative ranges." },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "Enterprise", t: "Built for brokerages and developers who answer to a board and a regulator.", items: [
         { h: "Escalation", t: "Hot scores, offers, upset buyers and legal or visa questions go straight to a person, with a WhatsApp alert." },
@@ -158,7 +158,7 @@ const en = {
     sub: "Every plan includes WhatsApp, lead scoring, Arabic and English, and encrypted hosting in Frankfurt. Prices exclude VAT.",
     month: "/ month",
     tiers: [
-      { name: "Agent", price: "AED 490", note: "For one agent", cta: "Talk to us", features: ["One seat", "Up to 300 leads a month", "AI first contact on WhatsApp and email", "Lead scoring with reasons", "Inventory, payment plans and calendar"] },
+      { name: "Agent", price: "AED 490", note: "For one agent", cta: "Talk to us", features: ["One seat", "Up to 300 leads a month", "AI first contact on WhatsApp and email", "Lead scoring with reasons", "Inventory, payment plans and calendar", "Broker calculator and UAE market data"] },
       { name: "Brokerage", price: "AED 2,900", note: "Up to 15 agents", cta: "Book a demo", featured: true, features: ["Everything in Agent", "Unlimited leads", "Follow-ups across WhatsApp and email", "Meta, Google, TikTok and Snapchat lead ads", "Routing by language, area and capacity", "AI phone calls"] },
       { name: "Developer", price: "Custom", note: "For launches and large teams", cta: "Talk to us", features: ["Everything in Brokerage", "Launch-day capacity", "Broker partner routing", "AI calling at volume", "Dedicated success manager", "Single sign-on and audit exports"] },
     ],
@@ -264,7 +264,7 @@ const ar: SiteDict = {
       items: [
         { h: "خطط سداد برسوم حقيقية", t: "الرهن العقاري وخطط المطوّر والدفع النقدي وما بعد التسليم جنباً إلى جنب، مع رسوم دائرة الأراضي 4% وأتعاب الأمين." },
         { h: "عشر لغات، والعربية كما ينبغي", t: "واجهة كاملة من اليمين إلى اليسار، وردود بالعربية والهندية والأردية والفارسية والروسية والصينية وغيرها." },
-        { h: "دليل مطوّري الخليج", t: "المطوّرون ومشاريعهم الرئيسية في ست دول، لتطابق المشتري مع الإطلاق المناسب." },
+        { h: "سوق الإمارات مدمج", t: "المطوّرون وخطط السداد المعتادة، وأسعار المناطق وعوائدها، والرسوم حسب الإمارة وقواعد التمويل، مع المصادر والتواريخ." },
         { h: "بياناتك محمية", t: "مستضافة في AWS أوروبا (فرانكفورت)، ومشفّرة أثناء النقل والتخزين، مع صلاحيات وصول لكل وكيل." },
       ],
     },
@@ -331,7 +331,7 @@ const ar: SiteDict = {
         { h: "تقييم العملاء", t: "تقييم من 0 إلى 100 مبني على سبع إشارات. يعرض أسبابه، ويمكن لفريقك تعديل الأوزان." },
         { h: "كشف النية", t: "يبرز الكلمات المهمة مثل «نقداً» و«هذا الأسبوع» و«أتصفح فقط»، ويصنّف المشترين والبائعين والمستثمرين." },
         { h: "أفضل إجراء تالٍ", t: "يرتّب إجراءات اليوم حسب العمولة المعنية وفرصة الإغلاق وسرعة تلاشيها." },
-        { h: "المساعد الذكي", t: "يجيب عن الأسعار وخطط السداد والتوفر من مخزونك، ويحجز المعاينات في التقويم، ولا يفاوض أبداً." },
+        { h: "المساعد الذكي", t: "يجيب عن الأسعار وخطط السداد والتوفر من مخزونك، ويحسب تكاليف الشراء والتمويل وجداول السداد، ويحجز المعاينات، ولا يفاوض أبداً." },
         { h: "مساعد المكالمات المباشر", t: "يقترح الجملة التالية خلال مكالمة الوكيل ويكتب ملاحظاتها.", soon: true },
       ], shot: "scoring" },
       { id: "channels", h: "القنوات", t: "قابل المشترين حيث هم، بردود لا تبدو آلية أبداً.", items: [
@@ -341,13 +341,13 @@ const ar: SiteDict = {
         { h: "كل مصادر العملاء", t: "إعلانات فيسبوك وإنستغرام، ونماذج Google وتيك توك وسناب شات، والبوابات وموقعك، في قائمة واحدة." },
       ], shot: "whatsapp" },
       { id: "analytics", h: "التحليلات", t: "اعرف ما ينجح، وأي قناة تستحق، وأي وكيل يحتاج إلى مساعدة.", items: [
-        { h: "قمع التحويل", t: "اعرف أين يصمت العملاء، والسبب الأكثر شيوعاً في كل مرحلة." },
-        { h: "عائد القنوات", t: "تكلفة العميل والإيرادات لكل بوابة، لتنقل الميزانية إلى ما ينجح." },
-        { h: "أداء الوكلاء", t: "أوقات الرد والمعاينات المحجوزة والتحويل لكل وكيل، في جدول واحد." },
+        { h: "قمع التحويل", t: "اعرف أين يصمت العملاء، والسبب الأكثر شيوعاً في كل مرحلة.", soon: true },
+        { h: "عائد القنوات", t: "تكلفة العميل والإيرادات لكل بوابة، لتنقل الميزانية إلى ما ينجح.", soon: true },
+        { h: "أداء الوكلاء", t: "أوقات الرد والمعاينات المحجوزة والتحويل لكل وكيل، في جدول واحد.", soon: true },
       ], shot: "dashboard" },
       { id: "market", h: "سوق الخليج", t: "أدوات لا معنى لها إلا في الخليج، ويتوقعها المشترون هنا.", items: [
-        { h: "خطط السداد", t: "البنك والمطوّر والنقد وما بعد التسليم جنباً إلى جنب، مع رسوم دائرة الأراضي والوكالة والأمين." },
-        { h: "مطوّرو الخليج", t: "دليل للمطوّرين ومشاريعهم الرئيسية في الإمارات والسعودية وقطر والكويت والبحرين وعُمان." },
+        { h: "حاسبة الوسيط", t: "تكاليف الشراء حسب الإمارة، وأهلية التمويل وفق قواعد المصرف المركزي، وجداول السداد على الخارطة بالتواريخ، والعائد، وتقسيم العمولة، والإقامة الذهبية. وأرسل أي نتيجة للعميل." },
+        { h: "بيانات سوق الإمارات", t: "إعمار وداماك وشوبا والدار وغيرهم مع خطط السداد المعتادة، وسعر القدم المربع والعائد لعشرين منطقة. ويذكرها الذكاء الاصطناعي كنطاقات تقريبية." },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "المؤسسات", t: "لشركات الوساطة والمطوّرين المسؤولين أمام مجلس إدارة وجهة تنظيمية.", items: [
         { h: "تتبع مستوى الخدمة", t: "مؤقتات حية لكل عميل ينتظر، مع تصعيد قبل حدوث أي تجاوز." },
@@ -362,7 +362,7 @@ const ar: SiteDict = {
     sub: "كل باقة تشمل واتساب وتقييم العملاء والعربية والإنجليزية واستضافة مشفّرة في فرانكفورت. الأسعار لا تشمل ضريبة القيمة المضافة.",
     month: "/ شهرياً",
     tiers: [
-      { name: "الوكيل", price: "490 درهم", note: "لوكيل واحد", cta: "تحدّث إلينا", features: ["مقعد واحد", "حتى 300 عميل شهرياً", "تواصل أول ذكي عبر واتساب والبريد", "تقييم العملاء مع الأسباب", "المخزون وخطط السداد والتقويم"] },
+      { name: "الوكيل", price: "490 درهم", note: "لوكيل واحد", cta: "تحدّث إلينا", features: ["مقعد واحد", "حتى 300 عميل شهرياً", "تواصل أول ذكي عبر واتساب والبريد", "تقييم العملاء مع الأسباب", "المخزون وخطط السداد والتقويم", "حاسبة الوسيط وبيانات سوق الإمارات"] },
       { name: "الوساطة", price: "2,900 درهم", note: "حتى 15 وكيلاً", cta: "احجز عرضاً توضيحياً", featured: true, features: ["كل ما في باقة الوكيل", "عملاء بلا حدود", "متابعات عبر واتساب والبريد", "إعلانات ميتا وGoogle وتيك توك وسناب شات", "توزيع حسب اللغة والمنطقة والطاقة", "مكالمات ذكية"] },
       { name: "المطوّر", price: "حسب الطلب", note: "للإطلاقات والفرق الكبيرة", cta: "تحدّث إلينا", features: ["كل ما في باقة الوساطة", "قدرة يوم الإطلاق", "توزيع على الوسطاء الشركاء", "مكالمات ذكية بكثافة", "مدير نجاح مخصص", "تسجيل دخول موحّد وتصدير سجلات التدقيق"] },
     ],

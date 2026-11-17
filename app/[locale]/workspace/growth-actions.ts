@@ -71,7 +71,8 @@ export async function sendTestLead(locale: string, workspaceId: string, _: Actio
   const s = await loadSettings(db, workspaceId);
   if (!s.sandbox_mode) return { ok: false, error: "Turn sandbox mode on before sending a test lead, so nothing reaches a real person." };
   const r = await ingestLead(db, workspaceId, {
-    name: str(f, "name", 120) || "Test lead", phone: "971500000000", email: "test-lead@example.com",
+    // A fresh number and address each time, so tests never merge into an earlier test lead.
+    name: str(f, "name", 120) || "Test lead", phone: `9715${String(Date.now()).slice(-8)}`, email: `test-${Date.now()}@example.com`,
     message: str(f, "message", 2000) || "Hi, I'm looking for a 3 bedroom villa in Dubai Hills, around 5M, cash buyer. Can I view this week?",
     budget: null, area: null, source: "Website", channel: "website", campaign: "Sandbox test", external_ref: `test-${Date.now()}`,
     consent_whatsapp: true, consent_email: true,
@@ -123,6 +124,26 @@ export async function setAiMode(locale: string, leadId: string, mode: "ai" | "hu
   revalidatePath(ws(locale, "/inbox"));
   revalidatePath(ws(locale, `/leads/${leadId}`));
   return { ok: true };
+}
+
+/** Agents overrule the score; automatic rescoring then leaves it alone until they hand it back. */
+export async function setScore(locale: string, leadId: string, _: ActionResult | null, f: FormData): Promise<ActionResult> {
+  const { supabase } = await requireUser();
+  if (f.get("unlock") === "1") {
+    const { error } = await supabase.from("leads").update({ score_locked: false }).eq("id", leadId);
+    if (error) return { ok: false, error: friendly(error) };
+  } else {
+    const score = Math.round(Number(str(f, "score", 3)));
+    if (!Number.isFinite(score) || score < 0 || score > 100) return { ok: false, error: "Enter a score from 0 to 100." };
+    const why = str(f, "why", 300);
+    if (!why) return { ok: false, error: "Say why, so the team knows." };
+    const temp = score >= 78 ? "hot" : score >= 55 ? "warm" : "cold";
+    const { error } = await supabase.from("leads").update({ score, temp, score_locked: true, score_reason: `Set by hand: ${why}` }).eq("id", leadId);
+    if (error) return { ok: false, error: friendly(error) };
+    await supabase.from("activities").insert({ workspace_id: str(f, "workspace_id", 40), lead_id: leadId, kind: "note", body: `Score set to ${score} by hand: ${why}` });
+  }
+  revalidatePath(ws(locale, `/leads/${leadId}`));
+  return { ok: true, message: "Saved." };
 }
 
 export async function markNotificationsRead(locale: string): Promise<ActionResult> {

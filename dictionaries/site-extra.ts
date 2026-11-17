@@ -40,14 +40,16 @@ const en = {
   trust: {
     security: {
       title: "Security",
-      h1: "Your buyers’ data, kept in the Gulf.",
+      h1: "Your buyers’ data, handled with care.",
       sub: "Observer handles names, numbers and budgets. Here is exactly how we look after them.",
       sections: [
         { h: "Where data lives", t: "All customer data is stored in AWS Europe (Frankfurt), with backups in the same region. It is encrypted in transit and at rest." },
-        { h: "Encryption", t: "Data is encrypted at rest with AES-256 and in transit with TLS 1.3. Encryption keys are rotated on a schedule." },
-        { h: "Who can see what", t: "Agents see their own leads. Managers see their team. Every record opened, exported or changed is written to an audit log you can review." },
-        { h: "Privacy law", t: "Observer is built to support the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021) and Saudi Arabia’s Personal Data Protection Law, including consent records and retention rules." },
+        { h: "Encryption", t: "Data is encrypted at rest (AES-256) by our database provider and in transit with TLS." },
+        { h: "Who can see what", t: "Agents see their own leads and the unassigned pool. Managers and owners see the whole workspace. This is enforced in the database itself, not just the app. Every change to a lead (owner, stage, score, notes, messages, calls, bookings) is kept on its timeline." },
+        { h: "Privacy law", t: "Observer is built with the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021) and Saudi Arabia’s Personal Data Protection Law in mind: it records each lead’s contact consent and opt-out, and deleting a lead deletes its messages and bookings. Hosting in Frankfurt means data is processed outside the GCC; check what that means for your own obligations." },
         { h: "WhatsApp", t: "Messages are sent through the official WhatsApp Business Platform, using templates approved by Meta. Buyers can opt out at any time." },
+        { h: "AI and calls", t: "Observer’s assistant tells every lead it is an AI in its first message, and never claims to be a person. AI phone calls say they may be recorded; recordings are kept by our calling provider." },
+        { h: "Services we use", t: "Supabase (database and sign-in, AWS Frankfurt), Vercel (hosting), Anthropic (Claude, which reads conversations to score leads and write replies), Meta (WhatsApp and Lead Ads), Resend (email), Twilio (phone calls and recordings), ElevenLabs (the assistant’s voice) and Cloudflare Turnstile (spam protection on forms). Each processes only what it needs for its job." },
         { h: "Reporting a problem", t: "If you believe you’ve found a security issue, email security@observer-ai.example. We reply within one working day." },
       ],
     },
@@ -61,6 +63,8 @@ const en = {
         { h: "How long we keep it", t: "Demo requests are kept for up to 24 months, then deleted, unless you become a customer." },
         { h: "Your rights", t: "You can ask to see, correct or delete your data at any time by emailing privacy@observer-ai.example." },
         { h: "Where it is stored", t: "In AWS Europe (Frankfurt)." },
+        { h: "Leads in Observer", t: "For people who enquire with our customers, Observer stores their contact details, enquiry, messages, bookings and call records, and its AI provider (Anthropic) processes the conversation to score it and reply. Every message says how to stop: reply STOP, or use the unsubscribe link in an email." },
+        { h: "Services we use", t: "Supabase, Vercel, Anthropic, Meta (WhatsApp), Resend, Twilio, ElevenLabs and Cloudflare. See the Security page for what each one does." },
       ],
     },
     terms: {
@@ -69,7 +73,7 @@ const en = {
       draft: "Draft. These terms are pending legal review and will be finalised before launch.",
       sections: [
         { h: "This website", t: "This site describes Observer AI. The app demo uses fictional data and does not connect to any real customer account." },
-        { h: "Figures", t: "Results shown on this site come from Observer workspaces and are not a promise of results for your business." },
+        { h: "Figures", t: "Figures on this site are sample figures from the demo workspace, and market figures are indicative ranges from public sources. Neither is a promise of results for your business." },
         { h: "Customer agreements", t: "Use of the Observer service is governed by a separate subscription agreement signed with each customer." },
         { h: "Contact", t: "Questions about these terms: legal@observer-ai.example." },
       ],
@@ -120,14 +124,16 @@ const ar: ExtraDict = {
   trust: {
     security: {
       title: "الأمان",
-      h1: "بيانات مشتريك، محفوظة في الخليج.",
+      h1: "بيانات مشتريك، في أيدٍ أمينة.",
       sub: "يتعامل أوبزرفر مع الأسماء والأرقام والميزانيات. وهذه بالضبط طريقتنا في حمايتها.",
       sections: [
         { h: "أين تُحفظ البيانات", t: "تُخزَّن جميع بيانات العملاء في AWS أوروبا (فرانكفورت)، والنسخ الاحتياطية في المنطقة نفسها، وهي مشفّرة أثناء النقل والتخزين." },
-        { h: "التشفير", t: "البيانات مشفّرة أثناء التخزين بمعيار AES-256 وأثناء النقل بـTLS 1.3، وتُدوَّر مفاتيح التشفير دورياً." },
-        { h: "من يرى ماذا", t: "يرى الوكيل عملاءه فقط، ويرى المدير فريقه. وكل سجل يُفتح أو يُصدَّر أو يُعدَّل يُدوَّن في سجل تدقيق يمكنك مراجعته." },
-        { h: "قوانين الخصوصية", t: "صُمّم أوبزرفر لدعم قانون حماية البيانات الشخصية الإماراتي (المرسوم بقانون اتحادي رقم 45 لسنة 2021) ونظام حماية البيانات الشخصية السعودي، بما في ذلك سجلات الموافقة وقواعد الاحتفاظ." },
+        { h: "التشفير", t: "البيانات مشفّرة أثناء التخزين (AES-256) لدى مزوّد قاعدة البيانات، وأثناء النقل عبر TLS." },
+        { h: "من يرى ماذا", t: "يرى الوكيل عملاءه والعملاء غير المسندين، ويرى المدير والمالك مساحة العمل كاملة، ويُطبَّق ذلك في قاعدة البيانات نفسها. وكل تغيير على العميل (المسؤول، المرحلة، التقييم، الملاحظات، الرسائل، المكالمات، الحجوزات) يبقى في سجله الزمني." },
+        { h: "قوانين الخصوصية", t: "صُمّم أوبزرفر مع مراعاة قانون حماية البيانات الشخصية الإماراتي (المرسوم بقانون اتحادي رقم 45 لسنة 2021) ونظام حماية البيانات الشخصية السعودي: يسجّل موافقة كل عميل على التواصل وإلغاء اشتراكه، وحذف العميل يحذف رسائله وحجوزاته. والاستضافة في فرانكفورت تعني معالجة البيانات خارج الخليج، فتحقق من أثر ذلك على التزاماتك." },
         { h: "واتساب", t: "تُرسَل الرسائل عبر منصة واتساب للأعمال الرسمية، بقوالب معتمدة من ميتا، ويمكن للمشتري إلغاء الاشتراك في أي وقت." },
+        { h: "الذكاء الاصطناعي والمكالمات", t: "يخبر مساعد أوبزرفر كل عميل في أول رسالة أنه ذكاء اصطناعي، ولا يدّعي أبداً أنه إنسان. وتنبّه المكالمات الذكية إلى أنها قد تُسجَّل، ويحتفظ مزوّد الاتصال بالتسجيلات." },
+        { h: "الخدمات التي نستخدمها", t: "Supabase (قاعدة البيانات وتسجيل الدخول، AWS فرانكفورت)، وVercel (الاستضافة)، وAnthropic (Claude الذي يقرأ المحادثات لتقييم العملاء وكتابة الردود)، وميتا (واتساب وإعلانات العملاء)، وResend (البريد)، وTwilio (المكالمات وتسجيلاتها)، وElevenLabs (صوت المساعد)، وCloudflare Turnstile (الحماية من الرسائل المزعجة). وكل منها يعالج ما يحتاجه فقط." },
         { h: "الإبلاغ عن مشكلة", t: "إن وجدت ثغرة أمنية، راسل security@observer-ai.example، ونرد خلال يوم عمل واحد." },
       ],
     },
@@ -141,6 +147,8 @@ const ar: ExtraDict = {
         { h: "مدة الاحتفاظ", t: "نحتفظ بطلبات العروض مدة أقصاها 24 شهراً ثم نحذفها، ما لم تصبح عميلاً." },
         { h: "حقوقك", t: "يمكنك طلب الاطلاع على بياناتك أو تصحيحها أو حذفها في أي وقت عبر privacy@observer-ai.example." },
         { h: "مكان التخزين", t: "في AWS أوروبا (فرانكفورت)." },
+        { h: "العملاء في أوبزرفر", t: "لمن يستفسر لدى عملائنا، يحفظ أوبزرفر بيانات التواصل والاستفسار والرسائل والحجوزات وسجلات المكالمات، ويعالج مزوّد الذكاء الاصطناعي (Anthropic) المحادثة لتقييمها والرد عليها. وكل رسالة توضّح طريقة التوقف: الرد بكلمة STOP أو رابط إلغاء الاشتراك في البريد." },
+        { h: "الخدمات التي نستخدمها", t: "Supabase وVercel وAnthropic وميتا (واتساب) وResend وTwilio وElevenLabs وCloudflare. راجع صفحة الأمان لمعرفة دور كل منها." },
       ],
     },
     terms: {
@@ -149,7 +157,7 @@ const ar: ExtraDict = {
       draft: "مسودة. هذه الشروط قيد المراجعة القانونية وستُعتمد قبل الإطلاق.",
       sections: [
         { h: "هذا الموقع", t: "يعرّف هذا الموقع بأوبزرفر AI. يستخدم العرض التوضيحي للتطبيق بيانات خيالية ولا يتصل بأي حساب عميل حقيقي." },
-        { h: "الأرقام", t: "النتائج المعروضة في هذا الموقع مأخوذة من مساحات عمل أوبزرفر، وليست وعداً بنتائج لأعمالك." },
+        { h: "الأرقام", t: "الأرقام في هذا الموقع نموذجية من مساحة العمل التجريبية، وأرقام السوق نطاقات تقريبية من مصادر عامة، وليست وعداً بنتائج لأعمالك." },
         { h: "اتفاقيات العملاء", t: "يخضع استخدام خدمة أوبزرفر لاتفاقية اشتراك منفصلة تُوقَّع مع كل عميل." },
         { h: "التواصل", t: "للاستفسار عن هذه الشروط: legal@observer-ai.example." },
       ],

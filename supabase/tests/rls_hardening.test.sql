@@ -57,4 +57,24 @@ insert into public.messages (workspace_id, lead_id, channel, direction, author, 
 select t_check((select last_message_at from public.leads where id = :'some_lead') is not null, 'a new message stamps the lead for the inbox');
 rollback;
 
+-- Round 4
+begin;
+select set_config('role', 'service_role', true);
+select t_check(exists (select 1 from public.open_lead_counts(:'ws_a')), 'routing counts open leads per agent in one query');
+insert into public.worker_heartbeat (id, last_run_at, last_processed) values (1, now(), 3) on conflict (id) do update set last_run_at = now();
+rollback;
+begin; select t_as(:'ali');
+select t_check(not exists (select 1 from public.workspace_health(:'ws_a')), 'agents do not see workspace health');
+do $$ begin
+  perform public.open_lead_counts((select id from public.workspaces limit 1));
+  raise exception 'FAIL  app user called open_lead_counts';
+exception when insufficient_privilege then raise notice 'PASS  open_lead_counts is server-only';
+end $$;
+rollback;
+begin; select t_as(:'mona');
+select t_check((select failed_jobs from public.workspace_health(:'ws_a')) >= 0, 'managers see workspace health');
+update public.leads set score = 95, temp = 'hot', score_locked = true, score_reason = 'Set by hand' where name = 'Lead for Ali';
+select t_check((select score_locked from public.leads where name = 'Lead for Ali'), 'managers can lock a score by hand');
+rollback;
+
 \echo 'ALL HARDENING TESTS PASSED'

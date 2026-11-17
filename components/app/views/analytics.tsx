@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Sparkle } from "@phosphor-icons/react";
 import { funnel, dropoff, channelROI, agents, developers, type Developer } from "@/lib/data";
-import { calcPlan, fmtAED, fmtNum, type Plan } from "@/lib/engine";
+import { fmtAED, fmtNum } from "@/lib/engine";
 import { img } from "@/lib/img";
 import { useT } from "../i18n";
 import { Card, CardHead, PageHead, Stat, Stats, Monogram, Btn, Segmented, Table, Meter, Pill, Dot, cx } from "../ui";
@@ -191,100 +191,5 @@ function MonoArt({ name }: { name: string }) {
       <circle cx={60 + (h % 160)} cy="46" r="14" fill="#e9c88a" opacity=".85" />
       {bars.map((b, i) => <rect key={i} x={i * 20 + 2} y={158 - b} width="16" height={b} fill="#06292f" opacity={0.75 + (i % 3) * 0.08} />)}
     </svg>
-  );
-}
-
-const plans: { value: Plan; label: string }[] = [
-  { value: "mortgage", label: "Bank mortgage" }, { value: "developer", label: "Developer plan" },
-  { value: "cash", label: "Cash" }, { value: "posthandover", label: "Post-handover" },
-];
-
-export function PaymentPlans() {
-  const { t } = useT();
-  const [price, setPrice] = useState(2_500_000);
-  const [dp, setDp] = useState(20);
-  const [rate, setRate] = useState(4.5);
-  const [years, setYears] = useState(25);
-  const [yieldPct, setYield] = useState(6.5);
-  const [plan, setPlan] = useState<Plan>("mortgage");
-  const r = useMemo(() => calcPlan({ price, dpPct: dp, rate, years, yieldPct, plan }), [price, dp, rate, years, yieldPct, plan]);
-  const all = useMemo(() => plans.map((p) => ({ ...p, r: calcPlan({ price, dpPct: dp, rate, years, yieldPct, plan: p.value }) })), [price, dp, rate, years, yieldPct]);
-  const field = "h-11 w-full rounded-[10px] border border-hairline bg-canvas px-3 text-[15px] outline-none focus:border-creek tnum";
-  const summary = `${t("At")} ${fmtAED(price)}, ${t("this home rents for about")} ${fmtAED(r.monthlyRent)} ${t("a month")} (${yieldPct}% ${t("gross")}, ~${r.netYield.toFixed(1)}% ${t("net")}). ${t("With 8% yearly growth, the total return is about")} ${r.roi.toFixed(1)}% ${t("a year, and rent alone pays it back in")} ${r.breakEven.toFixed(1)} ${t("years")}.`;
-  return (
-    <>
-      <PageHead title="Payment plans" sub="Show a buyer every way to pay, with Dubai’s real fees included." />
-      <Stats>
-        <Stat label="Monthly payment" value={plan === "cash" ? "—" : fmtAED(r.monthly)} />
-        <Stat label="Down payment" value={fmtAED(r.dp)} note={plan === "cash" ? "full price" : `${dp}%`} />
-        <Stat label="Total return" value={`${r.roi.toFixed(1)}%`} note="rent and growth, yearly" />
-        <Stat label="Total cost" value={fmtAED(r.totalPaid)} note="including fees" />
-      </Stats>
-      <div className="grid gap-5 lg:grid-cols-[1fr_1.1fr]">
-        <Card>
-          <CardHead title="The home" />
-          <div className="grid gap-4">
-            <label className="grid gap-1.5 text-[13px] text-ink-2">{t("Price (AED)")}
-              <input type="number" min={100000} step={50000} value={price} onChange={(e) => setPrice(+e.target.value || 0)} className={field} />
-            </label>
-            <div className="grid gap-1.5 text-[13px] text-ink-2">
-              <span>{t("How they’ll pay")}</span>
-              <Segmented<Plan> label="How they’ll pay" value={plan} onChange={setPlan} options={plans} />
-            </div>
-            {plan !== "cash" && (
-              <label className="grid gap-1.5 text-[13px] text-ink-2"><span className="flex justify-between">{t("Down payment")}<b className="tnum text-ink">{dp}% · {fmtAED(price * dp / 100)}</b></span>
-                <input type="range" min={5} max={80} value={dp} onChange={(e) => setDp(+e.target.value)} className="accent-[var(--creek)]" />
-              </label>
-            )}
-            {plan === "mortgage" && (
-              <>
-                <div className="grid gap-1.5 text-[13px] text-ink-2"><span>{t("Term")}</span>
-                  <div className="flex flex-wrap gap-1.5">{[5, 10, 15, 20, 25].map((y) => <button key={y} onClick={() => setYears(y)} aria-pressed={years === y} className={cx("h-9 rounded-full px-4 text-[14px]", years === y ? "bg-ink text-canvas" : "bg-parchment text-ink")}>{y} {t("yrs")}</button>)}</div>
-                </div>
-                <label className="grid gap-1.5 text-[13px] text-ink-2"><span className="flex justify-between">{t("Interest rate")}<b className="tnum text-ink">{rate}%</b></span>
-                  <input type="range" min={2} max={12} step={0.1} value={rate} onChange={(e) => setRate(+e.target.value)} className="accent-[var(--creek)]" />
-                </label>
-              </>
-            )}
-            <label className="grid gap-1.5 text-[13px] text-ink-2"><span className="flex justify-between">{t("Expected rental yield")}<b className="tnum text-ink">{yieldPct}%</b></span>
-              <input type="range" min={2} max={15} step={0.1} value={yieldPct} onChange={(e) => setYield(+e.target.value)} className="accent-[var(--creek)]" />
-            </label>
-          </div>
-        </Card>
-        <div className="grid gap-5">
-          <Card>
-            <CardHead title="What they’ll pay" />
-            <dl className="divide-y divide-hairline-soft text-[15px]">
-              {[
-                ["Down payment", r.dp], ["Loan", plan === "cash" ? 0 : r.loan], ["Dubai Land Department (4%)", r.dld],
-                ["Agency fee (2%)", r.agency], ["Trustee and admin", r.trustee], ...(plan === "mortgage" ? [["Mortgage registration", r.mortgageReg] as [string, number]] : []),
-              ].map(([k, v]) => (
-                <div key={k as string} className="flex justify-between py-2.5"><dt className="text-ink-2">{t(k as string)}</dt><dd className="tnum">AED {fmtNum(v as number)}</dd></div>
-              ))}
-              <div className="flex justify-between py-3 font-semibold"><dt>{t("Total")}</dt><dd className="tnum">AED {fmtNum(r.totalPaid)}</dd></div>
-            </dl>
-          </Card>
-          <Card>
-            <CardHead title="Observer’s read" aside={<Sparkle size={18} weight="fill" className="text-creek" />} />
-            <p className="text-[15px] leading-relaxed">{summary}</p>
-          </Card>
-        </div>
-      </div>
-      <Card className="mt-5">
-        <CardHead title="Every option side by side" />
-        <Table head={["Plan", "Upfront", "Monthly", "Total cost", "Yearly return"]} minWidth={600}>
-          {all.map((p) => (
-            <tr key={p.value} className={cx(p.value === plan && "bg-creek-soft/60")}>
-              <td className="font-medium">{t(p.label)}</td>
-              <td className="tnum">{fmtAED(p.r.dp)}</td>
-              <td className="tnum">{p.value === "cash" ? "—" : fmtAED(p.r.monthly)}</td>
-              <td className="tnum">{fmtAED(p.r.totalPaid)}</td>
-              <td className="tnum">{p.r.roi.toFixed(1)}%</td>
-            </tr>
-          ))}
-        </Table>
-        <p className="t-fine mt-4 text-ink-3">{t("Estimates only. Developer and post-handover plans vary by project. Confirm rates with the lender.")}</p>
-      </Card>
-    </>
   );
 }

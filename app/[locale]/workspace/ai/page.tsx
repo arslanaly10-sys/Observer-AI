@@ -10,10 +10,14 @@ export default async function AiPage({ params }: { params: Promise<{ locale: str
   const { supabase, current } = await workspaceContext(locale);
   const wsId = current!.workspace.id;
   const manager = canManage(current!.role);
-  const [{ data }, { data: keys }] = await Promise.all([
+  const [{ data }, { data: keys }, { data: healthRows }] = await Promise.all([
     supabase.from("workspace_settings").select("assistant_name, timezone, office_hours, holidays, ai_enabled, sandbox_mode, quiet_start, quiet_end, followup_days, escalate_score, first_contact_delay_s, whatsapp_phone_number_id, whatsapp_template, email_from, voice_from, meta_page_id").eq("workspace_id", wsId).maybeSingle(),
     manager ? supabase.rpc("workspace_keys", { ws: wsId }) : Promise.resolve({ data: null }),
+    manager ? supabase.rpc("workspace_health", { ws: wsId }) : Promise.resolve({ data: null }),
   ]);
+  const health = (healthRows as { last_worker_run: string | null; overdue_jobs: number; failed_jobs: number; failed_messages: number }[] | null)?.[0];
+  const sinceRun = health?.last_worker_run ? Math.round((Date.now() - Date.parse(health.last_worker_run)) / 60_000) : null;
+  const workerOk = sinceRun !== null && sinceRun <= 5;
   const k = (keys as { ingest_token: string; form_key: string }[] | null)?.[0];
   if (!data) return <PageHead title={t("AI & channels")} sub={t("Settings are still being created. Refresh in a moment.")} />;
   const s = { ...data, quiet_start: String(data.quiet_start).slice(0, 5), quiet_end: String(data.quiet_end).slice(0, 5) } as SettingsView;
@@ -39,6 +43,18 @@ export default async function AiPage({ params }: { params: Promise<{ locale: str
       <div className="grid gap-5 xl:grid-cols-[1.5fr_1fr]">
         <Card><CardHead title="Assistant settings" sub={manager ? undefined : "Only owners and managers can change these."} /><AiSettingsForm workspaceId={wsId} s={s} disabled={!manager} /></Card>
         <div className="grid content-start gap-5">
+          {manager && health && (
+            <Card className={workerOk && !Number(health.failed_jobs) && !Number(health.failed_messages) && !Number(health.overdue_jobs) ? "" : "border-warm/40"}>
+              <CardHead title="Health" sub="Is the engine actually running?" />
+              <ul className="grid gap-2.5 text-[14px]">
+                <li className="flex items-start gap-2.5"><span className="mt-1.5"><Dot tone={workerOk ? "ok" : "hot"} /></span>
+                  <span>{sinceRun === null ? t("The background worker has never run. Leads won’t be contacted until the per-minute job is set up (see GROWTH_SETUP.md, step 1).") : workerOk ? `${t("Background worker ran")} ${sinceRun} ${t("min ago")}` : `${t("Background worker last ran")} ${sinceRun} ${t("min ago. Check the database job and the worker address.")}`}</span></li>
+                <li className="flex items-start gap-2.5"><span className="mt-1.5"><Dot tone={Number(health.overdue_jobs) ? "warm" : "ok"} /></span><span>{Number(health.overdue_jobs)} {t("jobs overdue by more than 5 minutes")}</span></li>
+                <li className="flex items-start gap-2.5"><span className="mt-1.5"><Dot tone={Number(health.failed_jobs) ? "hot" : "ok"} /></span><span>{Number(health.failed_jobs)} {t("jobs failed this week")}</span></li>
+                <li className="flex items-start gap-2.5"><span className="mt-1.5"><Dot tone={Number(health.failed_messages) ? "hot" : "ok"} /></span><span>{Number(health.failed_messages)} {t("messages failed to send this week (open the inbox to see why)")}</span></li>
+              </ul>
+            </Card>
+          )}
           <Card>
             <CardHead title="Connections" sub="Keys live in your server environment, never in the browser." />
             <ul className="grid gap-2.5">
