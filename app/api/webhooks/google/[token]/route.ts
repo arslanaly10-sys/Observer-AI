@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { adminClient } from "@/lib/supabase/admin";
+import { providers } from "@/lib/growth/config";
 import { fromGoogleLead } from "@/lib/growth/normalize";
 import { ingestLead } from "@/lib/growth/pipeline";
 
@@ -9,6 +10,7 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
   const { token } = await ctx.params;
   const body = await req.json().catch(() => null);
   if (!body || body.google_key !== token) return NextResponse.json({ error: "bad key" }, { status: 401 });
+  if (!providers.supabaseAdmin()) return NextResponse.json({ error: "lead intake is not configured on this server" }, { status: 503 });
   const db = adminClient();
   const { data: ws } = await db.from("workspace_settings").select("workspace_id").eq("ingest_token", token).maybeSingle();
   if (!ws) return NextResponse.json({ error: "not found" }, { status: 404 });

@@ -1,5 +1,6 @@
 import { NextResponse, after, type NextRequest } from "next/server";
 import { adminClient } from "@/lib/supabase/admin";
+import { providers } from "@/lib/growth/config";
 import { fromGeneric, CHANNEL_SOURCE } from "@/lib/growth/normalize";
 import { ingestLead } from "@/lib/growth/pipeline";
 import { runDue } from "@/lib/growth/worker";
@@ -20,6 +21,7 @@ export function OPTIONS() {
 export async function POST(req: NextRequest, ctx: { params: Promise<{ token: string }> }) {
   const { token } = await ctx.params;
   if (!UUID.test(token)) return NextResponse.json({ error: "not found" }, { status: 404, headers: cors });
+  if (!providers.supabaseAdmin()) return NextResponse.json({ error: "lead intake is not configured on this server" }, { status: 503, headers: cors });
   const db = adminClient();
   const { data: ws } = await db.from("workspace_settings").select("workspace_id").eq("ingest_token", token).maybeSingle();
   if (!ws) return NextResponse.json({ error: "not found" }, { status: 404, headers: cors });

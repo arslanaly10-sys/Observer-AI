@@ -1,6 +1,7 @@
 import { workspaceContext, getMembers, canManage } from "@/lib/workspace";
 import { makeT } from "@/lib/tr";
 import { Card, CardHead, PageHead, Monogram, Pill } from "@/components/app/ui";
+import { MemberProfileForm, type ProfileView } from "@/components/workspace/growth";
 import { InviteForm, RoleSelect, RemoveMemberButton, RevokeInviteButton, CopyInviteLink } from "@/components/workspace/forms";
 
 export default async function Team({ params }: { params: Promise<{ locale: string }> }) {
@@ -9,10 +10,12 @@ export default async function Team({ params }: { params: Promise<{ locale: strin
   const { supabase, current, user } = await workspaceContext(locale);
   const wsId = current!.workspace.id;
   const role = current!.role;
-  const [team, { data: invites }] = await Promise.all([
+  const [team, { data: invites }, { data: profiles }] = await Promise.all([
     getMembers(supabase, wsId),
     canManage(role) ? supabase.from("invitations").select("id, email, role, token, expires_at, accepted_at").eq("workspace_id", wsId).is("accepted_at", null).order("created_at", { ascending: false }) : Promise.resolve({ data: [] }),
+    supabase.from("member_profiles").select("user_id, languages, areas, max_open_leads, available, top_performer, alert_phone, availability").eq("workspace_id", wsId),
   ]);
+  const prof = new Map((profiles ?? []).map((p) => [p.user_id as string, p as unknown as ProfileView]));
   const roleLabel = (r: string) => t(r[0].toUpperCase() + r.slice(1));
   return (
     <>
@@ -38,6 +41,26 @@ export default async function Team({ params }: { params: Promise<{ locale: strin
             </li>
           ))}
         </ul>
+      </Card>
+      <Card className="mb-5">
+        <CardHead title="Lead routing" sub="New leads go to whoever speaks their language, knows the area and has room. Hot leads go to top performers first." />
+        <div className="grid gap-3">
+          {team.filter((m) => prof.has(m.user_id) && (canManage(role) || m.user_id === user.id)).map((m) => {
+            const p = prof.get(m.user_id)!;
+            return (
+              <details key={m.user_id} className="group rounded-[12px] border border-hairline-soft px-4 py-3" open={team.length === 1}>
+                <summary className="flex cursor-pointer list-none flex-wrap items-center gap-3">
+                  <Monogram name={m.full_name || "?"} size={30} />
+                  <span className="min-w-0 flex-1 font-medium">{m.full_name || t("Teammate")}</span>
+                  <span className="t-caption text-ink-2" dir="ltr">{p.languages.join(" · ")}</span>
+                  {p.top_performer && <Pill tone="hot">{t("Top performer")}</Pill>}
+                  <Pill tone={p.available ? "ok" : "cold"}>{t(p.available ? "Taking leads" : "Away")}</Pill>
+                </summary>
+                <div className="mt-4"><MemberProfileForm workspaceId={wsId} userId={m.user_id} p={p} canEdit={canManage(role) || m.user_id === user.id} isManager={canManage(role)} /></div>
+              </details>
+            );
+          })}
+        </div>
       </Card>
       {canManage(role) && (
         <Card>

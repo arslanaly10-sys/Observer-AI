@@ -40,6 +40,8 @@ BASE=http://localhost:3000 npm run shots
 ## Backend
 
 Supabase (Postgres + Auth). Setup takes about 10 minutes: see **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**.
+
+The growth engine (lead intake from ads, forms and portals, Claude scoring, the multilingual AI assistant on WhatsApp, email and voice) is set up in **[GROWTH_SETUP.md](GROWTH_SETUP.md)**. It runs in sandbox mode until your channels are connected.
 Without the two `NEXT_PUBLIC_SUPABASE_*` variables the site still runs; sign-in pages show a "not connected" notice.
 Only the publishable key is used. Row-level security in `supabase/migrations/` is the access control, and
 `supabase/tests/rls.test.sql` checks every rule (also in CI).

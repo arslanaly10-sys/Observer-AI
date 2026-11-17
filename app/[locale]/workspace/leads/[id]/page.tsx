@@ -5,6 +5,9 @@ import { workspaceContext, getMembers, STAGE_LABEL, canManage, type LeadRow } fr
 import { makeT } from "@/lib/tr";
 import { scoreLead, fmtAED } from "@/lib/engine";
 import { Card, CardHead, Monogram, TempBadge, Meter } from "@/components/app/ui";
+import { Thread, type Msg } from "@/components/workspace/Thread";
+import { Composer, AiModeSwitch } from "@/components/workspace/growth";
+import { LANGUAGES } from "@/lib/growth/language";
 import { EditLeadForm, StageSelect, AssignSelect, NoteForm, DeleteLeadButton } from "@/components/workspace/forms";
 
 export default async function LeadPage({ params }: { params: Promise<{ locale: string; id: string }> }) {
@@ -15,10 +18,15 @@ export default async function LeadPage({ params }: { params: Promise<{ locale: s
   const { data } = await supabase.from("leads").select("*").eq("id", id).eq("workspace_id", current!.workspace.id).maybeSingle();
   if (!data) notFound();
   const l = data as LeadRow;
-  const [{ data: acts }, team] = await Promise.all([
+  const [{ data: acts }, team, { data: msgs }, { data: appts }, { data: settings }] = await Promise.all([
     supabase.from("activities").select("id, kind, body, created_at, actor_id").eq("lead_id", id).order("created_at", { ascending: false }).limit(50),
     getMembers(supabase, l.workspace_id),
+    supabase.from("messages").select("id, channel, direction, author, author_id, subject, body, status, error, created_at, media").eq("lead_id", id).order("created_at").limit(200),
+    supabase.from("appointments").select("id, kind, starts_at, status, created_by_ai").eq("lead_id", id).order("starts_at", { ascending: false }).limit(10),
+    supabase.from("workspace_settings").select("assistant_name, timezone").eq("workspace_id", l.workspace_id).maybeSingle(),
   ]);
+  const g = data as LeadRow & { language: string | null; intent: string | null; score_reason: string | null; ai_mode: "ai" | "human" | "paused"; handover_reason: string | null; channel: string; campaign: string | null; consent_whatsapp: boolean; consent_email: boolean; opted_out: boolean };
+  const channels = [l.phone && g.consent_whatsapp && "whatsapp", l.email && g.consent_email && "email"].filter(Boolean) as ("whatsapp" | "email")[];
   const manager = canManage(current!.role);
   const editable = manager || l.assigned_to === user.id;
   const name = new Map(team.map((m) => [m.user_id, m.full_name || t("Teammate")]));
@@ -48,6 +56,12 @@ export default async function LeadPage({ params }: { params: Promise<{ locale: s
             <EditLeadForm leadId={l.id} disabled={!editable} d={l} />
           </Card>
           <Card>
+            <CardHead title="Conversation" aside={<AiModeSwitch leadId={l.id} mode={g.ai_mode} disabled={!editable} />} />
+            {g.handover_reason && g.ai_mode !== "ai" && <p className="t-caption mb-3 rounded-[10px] bg-warm-soft px-3 py-2 text-warm" dir="auto">{t("Handed over")}: {g.handover_reason}</p>}
+            <div className="max-h-[520px] overflow-y-auto"><Thread messages={(msgs ?? []) as Msg[]} names={name} t={t} locale={locale} assistant={settings?.assistant_name ?? "Noor"} /></div>
+            {editable && !g.opted_out && <div className="mt-4 border-t border-hairline-soft pt-4"><Composer leadId={l.id} channels={channels} defaultChannel={channels[0] ?? "whatsapp"} /></div>}
+          </Card>
+          <Card>
             <CardHead title="Timeline" />
             {editable && <div className="mb-6"><NoteForm leadId={l.id} workspaceId={l.workspace_id} /></div>}
             <ol className="space-y-4 border-s border-hairline ps-5">
@@ -69,6 +83,21 @@ export default async function LeadPage({ params }: { params: Promise<{ locale: s
             <StageSelect leadId={l.id} stage={l.stage} labels={STAGE_LABEL} disabled={!editable} />
             <div className="mt-5"><CardHead title="Assigned to" /></div>
             <AssignSelect leadId={l.id} value={l.assigned_to} meId={user.id} canAssign={manager} members={team.map((m) => ({ id: m.user_id, name: m.full_name || t("Teammate") }))} />
+          </Card>
+          <Card>
+            <CardHead title="What the AI knows" />
+            <dl className="grid grid-cols-[110px_1fr] gap-x-3 gap-y-2 text-[14px]">
+              <dt className="text-ink-2">{t("Intent")}</dt><dd>{t(g.intent ? g.intent[0].toUpperCase() + g.intent.slice(1) : "Unknown")}</dd>
+              <dt className="text-ink-2">{t("Language")}</dt><dd>{g.language ? LANGUAGES[g.language as keyof typeof LANGUAGES] ?? g.language : t("Unknown")}</dd>
+              <dt className="text-ink-2">{t("Came from")}</dt><dd>{[t(l.source), g.campaign].filter(Boolean).join(" · ")}</dd>
+              <dt className="text-ink-2">{t("Contact by")}</dt><dd>{g.opted_out ? t("Opted out") : channels.map((c) => t(c === "whatsapp" ? "WhatsApp" : "Email")).join(", ") || t("None")}</dd>
+            </dl>
+            {g.score_reason && <p className="mt-3 rounded-[10px] bg-parchment px-3 py-2 text-[14px]" dir="auto">{g.score_reason}</p>}
+            {!!appts?.length && (
+              <ul className="mt-4 grid gap-1.5 text-[14px]">
+                {appts.map((a) => <li key={a.id}>{t(a.kind === "call" ? "Call" : a.kind === "meeting" ? "Meeting" : "Viewing")} · <span dir="ltr">{new Date(a.starts_at).toLocaleString("en-GB", { timeZone: settings?.timezone ?? "Asia/Dubai", dateStyle: "medium", timeStyle: "short" })}</span>{a.created_by_ai ? ` · ${t("Booked by AI")}` : ""}{a.status !== "booked" ? ` · ${a.status}` : ""}</li>)}
+              </ul>
+            )}
           </Card>
           <Card>
             <CardHead title="Why this score" />

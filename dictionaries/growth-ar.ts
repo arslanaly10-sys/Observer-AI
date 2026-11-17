@@ -1,0 +1,75 @@
+/** Arabic strings for the growth engine screens (inbox, inventory, calendar, AI & channels, routing). */
+export const growthAr: Record<string, string> = {
+  // Navigation and pages
+  Inbox: "صندوق الوارد", Inventory: "المخزون العقاري", Calendar: "التقويم", "AI & channels": "الذكاء الاصطناعي والقنوات",
+  "Every WhatsApp, email and call, with the AI and your team in one thread.": "كل رسائل واتساب والبريد والمكالمات، مع الذكاء الاصطناعي وفريقك في محادثة واحدة.",
+  "Sandbox mode: messages are written and logged, not sent.": "وضع التجربة: تُكتب الرسائل وتُسجَّل دون إرسالها.",
+  "Needs you": "بانتظارك", "Mark all read": "تعليم الكل كمقروء", All: "الكل", "Waiting on us": "بانتظار ردّنا", "With an agent": "مع وكيل", Mine: "الخاصة بي",
+  You: "أنت", AI: "الذكاء الاصطناعي", Agent: "الوكيل", Paused: "متوقف", Hot: "ساخن", "Hand-over": "تسليم", Booking: "حجز", Reply: "رد", New: "جديد",
+  "No conversations yet. Leads from your forms and ads appear here as soon as the AI replies.": "لا توجد محادثات بعد. يظهر العملاء من نماذجك وإعلاناتك هنا فور رد الذكاء الاصطناعي.",
+  "Pick a conversation.": "اختر محادثة.", "Handed over": "تم التسليم", "This person asked not to be contacted.": "طلب هذا الشخص عدم التواصل معه.",
+  "No messages yet.": "لا توجد رسائل بعد.", Template: "قالب", "Sandbox, not sent": "تجربة، لم تُرسل", Sent: "أُرسلت", Delivered: "وصلت", Read: "قُرئت",
+  Failed: "فشلت", Received: "مستلمة", Queued: "في الانتظار", Conversation: "المحادثة", Lead: "عميل",
+  "Who is replying": "من يرد", "No contact channel this lead agreed to.": "لم يوافق هذا العميل على أي قناة تواصل.", Channel: "القناة", Send: "إرسال",
+  Subject: "الموضوع", "Write a reply. Sending takes over from the AI.": "اكتب رداً. الإرسال يعني أنك تتولى المحادثة بدلاً من الذكاء الاصطناعي.",
+
+  // Lead page
+  "What the AI knows": "ما يعرفه الذكاء الاصطناعي", Intent: "النية", Language: "اللغة", "Came from": "المصدر", "Contact by": "التواصل عبر",
+  "Opted out": "ألغى الاشتراك", None: "لا شيء", Unknown: "غير معروف", Buyer: "مشترٍ", Seller: "بائع", Investor: "مستثمر", Renter: "مستأجر",
+  Viewing: "معاينة", Call: "مكالمة", Meeting: "اجتماع", "Booked by AI": "حجزها الذكاء الاصطناعي",
+
+  // Inventory
+  "The AI only quotes what is here: projects, unit prices and payment plans. It never invents a price.": "لا يذكر الذكاء الاصطناعي إلا ما هو موجود هنا: المشاريع وأسعار الوحدات وخطط السداد. لا يخترع سعراً أبداً.",
+  "Add a project": "إضافة مشروع", "Import from CSV": "استيراد من ملف CSV", "One row per unit type. Projects are created as needed.": "صف واحد لكل نوع وحدة. تُنشأ المشاريع عند الحاجة.",
+  "Project name": "اسم المشروع", Developer: "المطوّر", "e.g. Dubai Hills": "مثلاً: دبي هيلز", "Off-plan": "على الخارطة", Ready: "جاهز", "Sold out": "مباع بالكامل",
+  Handover: "التسليم", "Description the AI can use": "وصف يستخدمه الذكاء الاصطناعي", "Amenities (comma separated)": "المرافق (مفصولة بفواصل)",
+  "Brochure PDF": "الكتيّب (PDF)", "…or brochure link": "…أو رابط الكتيّب", Brochure: "كتيّب", "Unit type": "نوع الوحدة", Unit: "الوحدة", Beds: "غرف النوم",
+  "Sq ft": "قدم مربع", "From (AED)": "من (درهم)", "To (AED)": "إلى (درهم)", Price: "السعر", Available: "متاح", Add: "إضافة", "No units yet.": "لا توجد وحدات بعد.",
+  "Payment plans": "خطط السداد", "Post-handover": "بعد التسليم", "Plan name, e.g. 60/40": "اسم الخطة، مثلاً 60/40", "Plan name": "اسم الخطة",
+  "One-line summary": "ملخص في سطر", Summary: "الملخص", "Post-handover plan": "خطة سداد بعد التسليم", "Milestones, one per line": "المراحل، كل مرحلة في سطر",
+  "Add plan": "إضافة خطة", "CSV file": "ملف CSV", Import: "استيراد", Delete: "حذف",
+  "Delete this project with its units and plans?": "حذف هذا المشروع مع وحداته وخططه؟", "Delete this unit type?": "حذف نوع الوحدة هذا؟",
+  "No projects yet. Add one, or import a CSV, so the AI can answer price and payment-plan questions.": "لا توجد مشاريع بعد. أضف مشروعاً أو استورد ملف CSV ليتمكن الذكاء الاصطناعي من الإجابة عن الأسعار وخطط السداد.",
+
+  // Calendar
+  "Viewings and calls, including the ones the AI books. Times shown in": "المعاينات والمكالمات، بما فيها ما يحجزه الذكاء الاصطناعي. الأوقات بتوقيت",
+  "Nothing booked yet. When a lead agrees to a viewing or call, it lands here and in the agent’s alerts.": "لا حجوزات بعد. عندما يوافق عميل على معاينة أو مكالمة تظهر هنا وفي تنبيهات الوكيل.",
+  Done: "تمّت", "No-show": "لم يحضر", Cancel: "إلغاء", Cancelled: "ملغاة",
+
+  // AI settings
+  "How your assistant behaves, when it speaks, and where leads come from.": "كيف يتصرف مساعدك، ومتى يتحدث، ومن أين يأتي العملاء.",
+  "Settings are still being created. Refresh in a moment.": "ما زالت الإعدادات قيد الإنشاء. حدّث الصفحة بعد لحظة.",
+  "Assistant settings": "إعدادات المساعد", "Only owners and managers can change these.": "يمكن للمالكين والمديرين فقط تغيير هذه الإعدادات.",
+  Assistant: "المساعد", "Assistant name": "اسم المساعد", "Office time zone": "المنطقة الزمنية للمكتب",
+  "AI replies to leads": "الذكاء الاصطناعي يرد على العملاء", "First contact, follow-ups and after-hours conversations.": "التواصل الأول والمتابعات والمحادثات خارج الدوام.",
+  "Sandbox mode": "وضع التجربة", "Messages are written and logged but never sent. Turn off when your channels are connected.": "تُكتب الرسائل وتُسجَّل لكنها لا تُرسل. أوقفه عند ربط قنواتك.",
+  "Office hours": "ساعات العمل", "In office hours the AI makes the first reply, qualifies, then hands over to your agent. Outside them it keeps the conversation going on its own.": "خلال ساعات العمل يرسل الذكاء الاصطناعي الرد الأول ويؤهل العميل ثم يسلّمه لوكيلك. وخارجها يواصل المحادثة بنفسه.",
+  "Holidays (YYYY-MM-DD, comma separated)": "العطلات (YYYY-MM-DD، مفصولة بفواصل)", Monday: "الاثنين", Tuesday: "الثلاثاء", Wednesday: "الأربعاء", Thursday: "الخميس",
+  Friday: "الجمعة", Saturday: "السبت", Sunday: "الأحد", from: "من", to: "إلى",
+  Timing: "التوقيت", "First reply after (seconds)": "الرد الأول بعد (ثوانٍ)", "Follow-up days": "أيام المتابعة", "Quiet hours start (lead’s time)": "بداية ساعات الهدوء (بتوقيت العميل)",
+  "Quiet hours end": "نهاية ساعات الهدوء", "Hand over to a person at score": "التسليم لموظف عند درجة",
+  Channels: "القنوات", "WhatsApp phone number ID": "معرّف رقم واتساب", "First-contact template name": "اسم قالب التواصل الأول", "Send email from": "إرسال البريد من",
+  "Voice number (Twilio, +971…)": "رقم المكالمات (Twilio، ‎+971…)", "Facebook Page ID (Lead Ads)": "معرّف صفحة فيسبوك (إعلانات العملاء)",
+  Connections: "الاتصالات", "Keys live in your server environment, never in the browser.": "المفاتيح محفوظة في بيئة الخادم، ولا تصل إلى المتصفح أبداً.",
+  Connected: "متصل", "Not set": "غير مُعدّ", "Claude (scoring and replies)": "Claude (التقييم والردود)", "Managed Agent sessions": "جلسات الوكيل المُدار",
+  "Background worker": "المعالج في الخلفية", "WhatsApp Cloud API": "واجهة واتساب السحابية", "Meta Lead Ads": "إعلانات العملاء من ميتا", "Email (Resend)": "البريد (Resend)",
+  "Email replies": "ردود البريد", "Voice calls (Twilio)": "المكالمات الصوتية (Twilio)", "Natural voice (ElevenLabs)": "صوت طبيعي (ElevenLabs)",
+  "Lead sources": "مصادر العملاء", "Point each source at its address. The token identifies this workspace; keep it private.": "وجّه كل مصدر إلى عنوانه. الرمز يعرّف مساحة العمل هذه، فاحتفظ به سراً.",
+  "Website and landing-page forms (POST JSON or form data)": "نماذج الموقع وصفحات الهبوط (POST بصيغة JSON أو نموذج)", "TikTok lead webhook": "رابط عملاء تيك توك",
+  "Snapchat lead webhook": "رابط عملاء سناب شات", "Bayut / Property Finder / Dubizzle (via email parser or Zapier)": "بيوت / بروبرتي فايندر / دوبيزل (عبر محلل البريد أو Zapier)",
+  "Google Ads lead form (webhook URL; key = the token)": "نموذج عملاء إعلانات Google (الرابط؛ المفتاح = الرمز)", "Meta (Lead Ads + WhatsApp) callback URL": "رابط ميتا (إعلانات العملاء + واتساب)",
+  "Resend webhook": "رابط Resend", "Twilio voice webhook": "رابط Twilio للمكالمات", Copy: "نسخ",
+  "Try it": "جرّبه", "Sends a pretend enquiry through scoring, routing and first contact. Sandbox only.": "يرسل استفساراً تجريبياً عبر التقييم والتوزيع والتواصل الأول. في وضع التجربة فقط.",
+  Name: "الاسم", "Their enquiry (any language)": "استفسارهم (بأي لغة)", "Send test lead": "إرسال عميل تجريبي", "Open the conversation": "افتح المحادثة",
+  "Test lead created and contacted in sandbox.": "أُنشئ العميل التجريبي وتم التواصل معه في وضع التجربة.", "Saved.": "تم الحفظ.", "Added.": "تمت الإضافة.",
+  "Turn sandbox mode on before sending a test lead, so nothing reaches a real person.": "فعّل وضع التجربة قبل إرسال عميل تجريبي حتى لا يصل شيء لشخص حقيقي.",
+  "Add SUPABASE_SECRET_KEY to the server environment to run the engine.": "أضف SUPABASE_SECRET_KEY إلى بيئة الخادم لتشغيل المحرك.",
+  "Only owners and managers can send test leads.": "يمكن للمالكين والمديرين فقط إرسال عملاء تجريبيين.", "Write a message first.": "اكتب رسالة أولاً.",
+
+  // Team routing
+  "Lead routing": "توزيع العملاء", "New leads go to whoever speaks their language, knows the area and has room. Hot leads go to top performers first.": "يذهب العملاء الجدد لمن يتحدث لغتهم ويعرف المنطقة ولديه متسع. والعملاء الساخنون يذهبون أولاً لأفضل الوكلاء.",
+  "Top performer": "من الأفضل أداءً", "Taking leads": "يستقبل عملاء", Away: "غير متاح", "Languages (en, ar, hi, ur, es, pt, ru, fr, zh, fa)": "اللغات (en, ar, hi, ur, es, pt, ru, fr, zh, fa)",
+  "Area specialties": "المناطق المتخصص بها", "e.g. Dubai Hills, Downtown": "مثلاً: دبي هيلز، وسط المدينة", "WhatsApp for urgent alerts": "واتساب للتنبيهات العاجلة",
+  "Most open leads at once": "أقصى عدد عملاء مفتوحين", "Taking new leads": "يستقبل عملاء جدداً", "Top performer (gets hot leads first)": "من الأفضل أداءً (يحصل على العملاء الساخنين أولاً)",
+  "Hours the AI may book viewings and calls": "الساعات التي يمكن للذكاء الاصطناعي حجز المعاينات والمكالمات فيها",
+};
