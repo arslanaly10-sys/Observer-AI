@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { adminClient } from "@/lib/supabase/admin";
 import { checkToken } from "@/lib/growth/verify";
+import { linkSecret } from "@/lib/growth/guard";
 import { normalizePhone, timezoneFromPhone } from "@/lib/growth/phone";
 import { loadLead, loadSettings } from "@/lib/growth/pipeline";
 import { twilioParams, greeting } from "@/lib/growth/voice-turn";
@@ -12,12 +13,14 @@ import type { LeadRecord } from "@/lib/growth/send";
  */
 export const maxDuration = 60;
 export async function POST(req: NextRequest) {
+  const secret = linkSecret();
+  if (!secret) return new NextResponse("voice is not configured: set WORKER_SECRET (24+ characters)", { status: 503 });
   const { params, valid } = await twilioParams(req);
   if (!valid) return new NextResponse("bad signature", { status: 401 });
   const db = adminClient();
   const leadId = req.nextUrl.searchParams.get("lead");
   let lead: LeadRecord | null = null;
-  if (leadId && checkToken(leadId, req.nextUrl.searchParams.get("t"), process.env.WORKER_SECRET ?? "")) {
+  if (leadId && checkToken(leadId, req.nextUrl.searchParams.get("t"), secret)) {
     lead = await loadLead(db, leadId);
   } else if (params.Direction === "inbound") {
     const { data: ws } = await db.from("workspace_settings").select("workspace_id").eq("voice_from", params.To).maybeSingle();

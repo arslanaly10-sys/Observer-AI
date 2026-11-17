@@ -1,12 +1,12 @@
 import "server-only";
 /** Resend adapter. Replies thread back to the lead via a plus-addressed reply-to when inbound is set up. */
-export async function sendEmail(o: { from: string; to: string; subject: string; text: string; html?: string; replyTo?: string; tags?: Record<string, string> }) {
+export async function sendEmail(o: { from: string; to: string; subject: string; text: string; html?: string; replyTo?: string; tags?: Record<string, string>; headers?: Record<string, string> }) {
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       from: o.from, to: [o.to], subject: o.subject.slice(0, 300), text: o.text, html: o.html ?? textToHtml(o.text),
-      reply_to: o.replyTo, tags: o.tags ? Object.entries(o.tags).map(([name, value]) => ({ name, value })) : undefined,
+      reply_to: o.replyTo, headers: o.headers, tags: o.tags ? Object.entries(o.tags).map(([name, value]) => ({ name, value })) : undefined,
     }),
   });
   const json = await res.json().catch(() => ({}));

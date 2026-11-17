@@ -15,23 +15,32 @@ import { isOfficeOpen, formatLocal, type WeekHours } from "@/lib/growth/hours";
 import { LANGUAGES } from "@/lib/growth/language";
 import { firstName } from "@/lib/growth/send";
 
-export interface TurnInput { ctx: ToolCtx; company: string; agentName: string | null; inbound: string | null; firstContact: boolean; mode?: "auto" | "messages"; instruction?: string }
+export interface TurnInput { ctx: ToolCtx; company: string; agentName: string | null; inbound: string | null; firstContact: boolean; mode?: "auto" | "messages"; instruction?: string; budgetMs?: number }
 export interface TurnResult { text: string; by: "managed-agent" | "messages" | "rules"; actions: string[] }
+
+/** Hard time limits so a slow turn never outlives the 60-second function it runs in. */
+const TURN_MS = 38_000;
+function withTimeout<T>(p: Promise<T>, ms: number, label: string) {
+  let timer: ReturnType<typeof setTimeout>;
+  return Promise.race([p, new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error(`${label} timed out`)), ms); })]).finally(() => clearTimeout(timer));
+}
 
 export async function runTurn(t: TurnInput): Promise<TurnResult> {
   const c = claude();
+  const started = Date.now();
+  const left = () => (t.budgetMs ?? TURN_MS) - (Date.now() - started);
   const context = await buildContext(t);
   const userText = t.inbound?.trim() || (t.firstContact ? "(The lead submitted an enquiry form without a message.)" : "(No new message from the lead. Follow the instruction in the context.)");
   if (c && t.mode !== "messages" && process.env.OBSERVER_AGENT_ID && process.env.OBSERVER_ENVIRONMENT_ID) {
     try {
-      return { text: await managedTurn(c, t, context, userText), by: "managed-agent", actions: t.ctx.actions };
+      return { text: await withTimeout(managedTurn(c, t, context, userText), left(), "managed agent turn"), by: "managed-agent", actions: t.ctx.actions };
     } catch (e) {
       console.error("managed agent turn failed; using Messages API", (e as Error).message);
     }
   }
-  if (c) {
+  if (c && left() > 8_000) {
     try {
-      return { text: await messagesTurn(c, t, context, userText), by: "messages", actions: t.ctx.actions };
+      return { text: await withTimeout(messagesTurn(c, t, context, userText), left(), "messages turn"), by: "messages", actions: t.ctx.actions };
     } catch (e) {
       console.error("messages turn failed; using rules", (e as Error).message);
     }
@@ -79,9 +88,7 @@ async function managedTurn(c: Anthropic, t: TurnInput, context: string, userText
     { type: "user.message", content: [{ type: "text", text: userText }] },
   ] });
   const texts: string[] = [];
-  const deadline = Date.now() + 120_000;
   for await (const ev of stream) {
-    if (Date.now() > deadline) throw new Error("managed agent turn timed out");
     if (ev.type === "agent.message") {
       texts.push(ev.content.map((b) => ("text" in b ? b.text : "")).join(""));
     } else if (ev.type === "agent.custom_tool_use") {

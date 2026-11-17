@@ -9,7 +9,8 @@ export async function runDue(db: SupabaseClient, opts: { max?: number; budgetMs?
   if (error) throw error;
   const results: { id: number; kind: string; result: string }[] = [];
   for (const job of (jobs ?? []) as Job[]) {
-    if (Date.now() - started > budget) {
+    // An AI turn can take ~40 s; don't start one that the function's 60-second limit would cut off.
+    if (Date.now() - started > Math.min(budget, 15_000)) {
       await db.from("jobs").update({ status: "pending", attempts: job.attempts - 1 }).eq("id", job.id);
       continue;
     }

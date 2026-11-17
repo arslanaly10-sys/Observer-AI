@@ -20,6 +20,7 @@ import { FIRST_CONTACT, FOLLOWUP, TEMPLATE_NAMES, render } from "./templates";
 import { placeCall } from "./channels/voice";
 import { providers, APP_URL } from "./config";
 import { signToken } from "./verify";
+import { linkSecret } from "./guard";
 
 type DB = SupabaseClient;
 
@@ -51,9 +52,9 @@ export async function ingestLead(db: DB, workspaceId: string, n: NormalizedLead)
   }
   // The same person enquiring again within 30 days continues their existing conversation.
   const since = new Date(Date.now() - 30 * 86_400_000).toISOString();
-  const or = [n.phone && `phone.eq.${n.phone}`, n.email && `email.eq.${n.email}`].filter(Boolean).join(",");
-  if (or) {
-    const { data: existing } = await db.from("leads").select("*").eq("workspace_id", workspaceId).or(or).gte("created_at", since).order("created_at", { ascending: false }).limit(1).maybeSingle();
+  for (const [col, val] of [["phone", n.phone], ["email", n.email]] as const) {
+    if (!val) continue;
+    const { data: existing } = await db.from("leads").select("*").eq("workspace_id", workspaceId).eq(col, val).gte("created_at", since).order("created_at", { ascending: false }).limit(1).maybeSingle();
     if (existing) {
       if (n.message) await handleInbound(db, existing as LeadRecord, { channel: "web", text: `${n.source}: ${n.message}` });
       return { id: existing.id as string, duplicate: true };
@@ -135,13 +136,14 @@ export async function handleInbound(db: DB, lead: LeadRecord, m: { channel: "wha
   if (lead.assigned_to && lead.ai_mode !== "ai") {
     await notify(db, { workspace_id: lead.workspace_id, user_id: lead.assigned_to, lead_id: lead.id, kind: "reply", body: `${lead.name}: ${m.text.slice(0, 300)}` });
   }
-  if (aiShouldReply(settings, lead) && m.channel !== "voice") {
+  if (aiShouldReply(settings, lead, new Date(), await lastAgentAt(db, lead.id)) && m.channel !== "voice") {
     // Debounce bursts of short messages into one reply.
     const { data: pending } = await db.from("jobs").select("id").eq("lead_id", lead.id).eq("kind", "ai_reply").eq("status", "pending").limit(1);
     if (!pending?.length) await enqueue(db, lead.workspace_id, lead.id, "ai_reply", new Date(Date.now() + 8_000), { channel: m.channel === "email" ? "email" : "whatsapp" });
   }
-  // Re-score with the conversation; escalate when the lead crosses the line.
-  await enqueue(db, lead.workspace_id, lead.id, "rescore", new Date());
+  // Re-score with the conversation (at most every 15 minutes per lead, to bound cost); escalate on a jump.
+  const { data: recentRescore } = await db.from("jobs").select("id").eq("lead_id", lead.id).eq("kind", "rescore").gte("created_at", new Date(Date.now() - 15 * 60_000).toISOString()).limit(1);
+  if (!recentRescore?.length) await enqueue(db, lead.workspace_id, lead.id, "rescore", new Date(Date.now() + 60_000));
   return { ok: true };
 }
 
@@ -185,7 +187,7 @@ export async function processJob(db: DB, job: Job) {
     }
 
     case "ai_reply": {
-      if (!lead || !aiShouldReply(settings, lead)) return "skipped";
+      if (!lead || !aiShouldReply(settings, lead, new Date(), await lastAgentAt(db, lead.id))) return "skipped";
       const channel = (job.payload.channel as OutChannel) ?? "whatsapp";
       if (!reachable(lead).includes(channel)) return "channel not reachable";
       const t = await runTurn({ ctx: ctx(channel), company, agentName: await agentName(db, lead.assigned_to), inbound: await lastInbound(db, lead.id), firstContact: false });
@@ -246,6 +248,11 @@ export async function processJob(db: DB, job: Job) {
   return `unknown job ${job.kind}`;
 }
 
+async function lastAgentAt(db: DB, leadId: string) {
+  const { data } = await db.from("messages").select("created_at").eq("lead_id", leadId).eq("author", "agent").order("created_at", { ascending: false }).limit(1);
+  return (data?.[0]?.created_at as string) ?? null;
+}
+
 async function lastInbound(db: DB, leadId: string) {
   const { data } = await db.from("messages").select("body").eq("lead_id", leadId).eq("direction", "in").order("created_at", { ascending: false }).limit(1);
   return (data?.[0]?.body as string) ?? null;
@@ -278,7 +285,9 @@ export async function startCall(db: DB, s: Settings, lead: LeadRecord) {
     await db.from("messages").insert({ workspace_id: lead.workspace_id, lead_id: lead.id, channel: "voice", direction: "out", author: "system", body: "AI call requested (sandbox: not dialled).", status: "sandbox" });
     return "sandbox call";
   }
-  const tok = signToken(lead.id, process.env.WORKER_SECRET ?? "", 3600);
+  const secret = linkSecret();
+  if (!secret) return "voice needs WORKER_SECRET";
+  const tok = signToken(lead.id, secret, 3600);
   const base = `${APP_URL()}/api/webhooks/twilio/voice`;
   const r = await placeCall({ to: `+${lead.phone}`, from: s.voice_from, twimlUrl: `${base}?lead=${lead.id}&t=${tok}`, statusUrl: `${base}/status?lead=${lead.id}&t=${tok}` });
   await db.from("messages").insert({ workspace_id: lead.workspace_id, lead_id: lead.id, channel: "voice", direction: "out", author: "system", body: "AI call started.", status: "sent", provider_id: r.sid });

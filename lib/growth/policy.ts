@@ -4,11 +4,18 @@ import { isOfficeOpen, type WeekHours } from "./hours";
 export interface PolicySettings { ai_enabled: boolean; timezone: string; office_hours: WeekHours | Record<string, [string, string][]>; holidays: string[] }
 export interface PolicyLead { opted_out: boolean; ai_mode: "ai" | "human" | "paused" }
 
-/** In office hours a handed-over lead belongs to the agent; after hours the AI keeps the conversation going. */
-export function aiShouldReply(s: PolicySettings, lead: PolicyLead, at = new Date()) {
+/** How long an agent's last message keeps the AI quiet on a handed-over lead, even after hours. */
+export const AGENT_QUIET_MS = 30 * 60_000;
+
+/**
+ * In office hours a handed-over lead belongs to the agent. After hours the AI keeps the conversation going,
+ * but only if no agent has written in the last 30 minutes, so it never talks over someone mid-chat.
+ */
+export function aiShouldReply(s: PolicySettings, lead: PolicyLead, at = new Date(), lastAgentAt?: string | null) {
   if (!s.ai_enabled || lead.opted_out || lead.ai_mode === "paused") return false;
   if (lead.ai_mode === "ai") return true;
-  return !isOfficeOpen(at, s.timezone, s.office_hours as WeekHours, s.holidays);
+  if (isOfficeOpen(at, s.timezone, s.office_hours as WeekHours, s.holidays)) return false;
+  return !lastAgentAt || at.getTime() - Date.parse(lastAgentAt) > AGENT_QUIET_MS;
 }
 
 /** "STOP" in the languages Observer speaks. */

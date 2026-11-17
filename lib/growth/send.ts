@@ -5,7 +5,9 @@ import "server-only";
  * provider directly, so sandbox mode can never leak a real send.
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { providers } from "./config";
+import { providers, APP_URL } from "./config";
+import { signToken } from "./verify";
+import { linkSecret } from "./guard";
 import { sendWhatsApp, inServiceWindow } from "./channels/whatsapp";
 import { sendEmail, replyAddress } from "./channels/email";
 
@@ -52,7 +54,13 @@ export async function deliver(db: SupabaseClient, s: Settings, lead: LeadRecord,
   let provider_id: string | null = null, error: string | null = null;
   // Outside the 24h window WhatsApp only accepts approved templates.
   const needTemplate = m.channel === "whatsapp" && !m.document && !inServiceWindow(lead.last_inbound_at);
-  const template = needTemplate ? (m.template ?? { name: s.whatsapp_template, params: [firstName(lead.name), s.assistant_name] }) : undefined;
+  const template = needTemplate ? m.template : undefined;
+  if (needTemplate && !template) {
+    // Free text outside the 24-hour window is rejected by WhatsApp. Say so instead of trying.
+    const error = "WhatsApp only allows free text within 24 hours of the lead's last WhatsApp message. Use email, or wait for them to reply.";
+    await db.from("messages").insert({ workspace_id: lead.workspace_id, lead_id: lead.id, channel: "whatsapp", direction: "out", author: m.author, author_id: m.authorId ?? null, body: m.body.slice(0, 8000), status: "failed", error });
+    return { id: undefined, status: "failed" as const, error };
+  }
 
   if (!sandbox) {
     try {
@@ -64,9 +72,13 @@ export async function deliver(db: SupabaseClient, s: Settings, lead: LeadRecord,
             : await sendWhatsApp(s.whatsapp_phone_number_id!, lead.phone!, { kind: "text", body: m.body });
         provider_id = r.id || null;
       } else {
+        const unsub = unsubscribeUrl(lead.id);
+        const text = unsub ? `${m.body}\n\n--\n${UNSUB_LINE[lead.language ?? "en"] ?? UNSUB_LINE.en} ${unsub}` : m.body;
         const r = await sendEmail({
-          from: s.email_from!, to: lead.email!, subject: m.subject ?? "Your property enquiry", text: m.body,
+          from: s.email_from!, to: lead.email!, subject: m.subject ?? "Your property enquiry", text,
           replyTo: replyAddress(lead.id), tags: { lead: lead.id.replace(/-/g, "_") },
+          // RFC 8058 one-click unsubscribe, required by Gmail and Yahoo for bulk senders.
+          headers: unsub ? { "List-Unsubscribe": `<${unsub}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" } : undefined,
         });
         provider_id = r.id || null;
       }
@@ -84,6 +96,17 @@ export async function deliver(db: SupabaseClient, s: Settings, lead: LeadRecord,
   }).select("id").single();
   if (status !== "failed") await db.from("leads").update({ last_outbound_at: new Date().toISOString() }).eq("id", lead.id);
   return { id: data?.id as number | undefined, status, error };
+}
+
+const UNSUB_LINE: Record<string, string> = {
+  en: "Don't want these emails? Unsubscribe:", ar: "لا ترغب في هذه الرسائل؟ إلغاء الاشتراك:", hi: "ये ईमेल नहीं चाहिए? सदस्यता छोड़ें:", ur: "یہ ای میلز نہیں چاہییں؟ ان سبسکرائب کریں:",
+  es: "¿No quiere estos correos? Darse de baja:", pt: "Não quer estes e-mails? Cancelar inscrição:", ru: "Не хотите получать эти письма? Отписаться:",
+  fr: "Vous ne souhaitez plus ces e-mails ? Se désabonner :", zh: "不想再收到这些邮件？退订：", fa: "این ایمیل‌ها را نمی‌خواهید؟ لغو اشتراک:",
+};
+/** A signed link that opts the lead out (valid 180 days). */
+export function unsubscribeUrl(leadId: string) {
+  const secret = linkSecret();
+  return secret ? `${APP_URL()}/api/unsubscribe?l=${leadId}&t=${signToken(`unsub:${leadId}`, secret, 180 * 86400)}` : null;
 }
 
 export const firstName = (n: string) => n.trim().split(/\s+/)[0] || n;

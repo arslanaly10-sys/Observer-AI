@@ -12,7 +12,7 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
   if (!body || body.google_key !== token) return NextResponse.json({ error: "bad key" }, { status: 401 });
   if (!providers.supabaseAdmin()) return NextResponse.json({ error: "lead intake is not configured on this server" }, { status: 503 });
   const db = adminClient();
-  const { data: ws } = await db.from("workspace_settings").select("workspace_id").eq("ingest_token", token).maybeSingle();
+  const { data: ws } = await db.from("workspace_settings").select("workspace_id").eq("ingest_token", token).maybeSingle(); // never the public form key
   if (!ws) return NextResponse.json({ error: "not found" }, { status: 404 });
   if (body.is_test) return NextResponse.json({ ok: true, test: true });
   const lead = fromGoogleLead(body);

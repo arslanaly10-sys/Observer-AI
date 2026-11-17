@@ -207,3 +207,15 @@ describe("when the AI speaks", async () => {
     expect(render(FIRST_CONTACT.en, ["Sara", "Noor", "Meridian"])).toBe("Hi Sara, this is Noor, the AI assistant at Meridian. Thank you for your enquiry. I can share prices, payment plans and viewing times right here. What would you like to know first?");
   });
 });
+
+describe("AI and agent never talk over each other", async () => {
+  const { aiShouldReply } = await import("@/lib/growth/policy");
+  const s = { ai_enabled: true, timezone: "Asia/Dubai", office_hours: WEEK as never, holidays: [] };
+  const evening = new Date("2026-11-17T14:10:00Z"); // 18:10 Dubai, just after closing
+  it("stays quiet after hours while an agent was active in the last 30 minutes", () => {
+    expect(aiShouldReply(s, { opted_out: false, ai_mode: "human" }, evening, "2026-11-17T14:00:00Z")).toBe(false);
+  });
+  it("covers the conversation once the agent has gone quiet", () => {
+    expect(aiShouldReply(s, { opted_out: false, ai_mode: "human" }, evening, "2026-11-17T13:00:00Z")).toBe(true);
+  });
+});

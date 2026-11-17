@@ -135,6 +135,19 @@ export function CopyField({ value, label }: { value: string; label: string }) {
   );
 }
 
+export function RotateKeyButton({ workspaceId, which }: { workspaceId: string; which: "form" | "ingest" }) {
+  const { t, locale } = useT();
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const label = which === "form" ? "Replace form key" : "Replace private key";
+  return (
+    <button type="button" disabled={pending} className="h-9 rounded-full bg-parchment px-4 text-[13px] font-medium disabled:opacity-60"
+      onClick={() => { if (confirm(t("The old key stops working immediately. Continue?"))) start(async () => { await G.rotateKey(locale, workspaceId, which); router.refresh(); }); }}>
+      {t(label)}
+    </button>
+  );
+}
+
 // ── Conversations ───────────────────────────────────────────────────────
 export function Composer({ leadId, channels, defaultChannel }: { leadId: string; channels: ("whatsapp" | "email")[]; defaultChannel: "whatsapp" | "email" }) {
   const { t, locale } = useT();

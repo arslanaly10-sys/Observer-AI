@@ -9,7 +9,8 @@
     "lint": "tsc --noEmit",
     "shots": "node scripts/screenshots.mjs",
     "test": "vitest run",
-    "agent:setup": "node --experimental-strip-types scripts/setup-agent.ts"
+    "agent:setup": "node --experimental-strip-types scripts/setup-agent.ts",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "1.8.0",

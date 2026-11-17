@@ -82,6 +82,14 @@ export async function sendTestLead(locale: string, workspaceId: string, _: Actio
   return { ok: true, id: r.id, message: "Test lead created and contacted in sandbox." };
 }
 
+export async function rotateKey(locale: string, workspaceId: string, which: "form" | "ingest"): Promise<ActionResult> {
+  const { supabase } = await requireUser();
+  const { error } = await supabase.rpc("rotate_workspace_key", { ws: workspaceId, which });
+  if (error) return { ok: false, error: friendly(error) };
+  revalidatePath(ws(locale, "/ai"));
+  return { ok: true, message: "New key created. Update every place that used the old one." };
+}
+
 // ── Conversations ───────────────────────────────────────────────────────
 export async function sendAgentMessage(locale: string, leadId: string, _: ActionResult | null, f: FormData): Promise<ActionResult> {
   const { supabase, id } = await requireUser();

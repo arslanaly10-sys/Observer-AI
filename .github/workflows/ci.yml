@@ -42,3 +42,42 @@ jobs:
           PGHOST: localhost
           PGPORT: "5432"
         run: bash supabase/tests/run-local.sh
+
+  pipeline:
+    name: Growth engine end to end
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: "5432"
+      PGRST_JWT_SECRET: e2e-only-secret-that-is-at-least-32-characters
+      POSTGREST_URL: http://127.0.0.1:3001
+      WORKER_SECRET: e2e-worker-secret-at-least-24-chars
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Database with migrations and seed
+        run: bash supabase/tests/e2e-db.sh
+      - name: PostgREST (the API Supabase serves)
+        run: |
+          docker run -d --name postgrest --network host \
+            -e PGRST_DB_URI=postgres://authenticator:e2e@127.0.0.1:5432/observer_e2e \
+            -e PGRST_DB_SCHEMAS=public -e PGRST_DB_ANON_ROLE=anon -e PGRST_SERVER_PORT=3001 \
+            -e PGRST_JWT_SECRET=$PGRST_JWT_SECRET postgrest/postgrest:v12.2.3
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:3001/ >/dev/null && break; sleep 1; done
+          curl -sf http://127.0.0.1:3001/ >/dev/null || (docker logs postgrest; exit 1)
+      - name: Lead intake → scoring → routing → first contact → reply → booking → hand-over → STOP
+        run: npm run test:e2e
