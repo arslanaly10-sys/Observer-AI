@@ -66,6 +66,27 @@ export const growthAr: Record<string, string> = {
   "Add SUPABASE_SECRET_KEY to the server environment to run the engine.": "أضف SUPABASE_SECRET_KEY إلى بيئة الخادم لتشغيل المحرك.",
   "Only owners and managers can send test leads.": "يمكن للمالكين والمديرين فقط إرسال عملاء تجريبيين.", "Write a message first.": "اكتب رسالة أولاً.",
 
+  // Sign-in
+  "Welcome back": "أهلاً بعودتك", "Sign in to see who replied overnight and what’s booked today.": "سجّل الدخول لترى من ردّ خلال الليل وما المحجوز اليوم.",
+  "Set up your workspace in a few minutes. Sandbox mode is on until you connect your channels.": "جهّز مساحة عملك في دقائق. يبقى وضع التجربة مفعّلاً حتى تربط قنواتك.",
+  "We’ll email you a link that signs you in. No password needed.": "سنرسل لك رابطاً يسجّل دخولك. بلا كلمة مرور.",
+  "Enter your work email and we’ll send you a reset link.": "أدخل بريد العمل وسنرسل لك رابط إعادة التعيين.",
+  "Have a workspace on another server? Ask your admin for its sign-in link.": "لديك مساحة عمل على خادم آخر؟ اطلب رابط تسجيل الدخول من المسؤول.",
+  "The addresses below contain your private key. Use them only in server-to-server tools, never in a web page.": "العناوين أدناه تحتوي على مفتاحك الخاص. استخدمها في أدوات الخادم فقط، ولا تضعها في صفحة ويب.",
+  "Add a Cloudflare Turnstile widget to the form and set TURNSTILE_SECRET_KEY. Without it, each address is limited to 5 submissions per 10 minutes.": "أضف Cloudflare Turnstile إلى النموذج واضبط TURNSTILE_SECRET_KEY. ومن دونه يُسمح لكل عنوان بخمسة إرسالات كل عشر دقائق.",
+  "Website and landing-page forms (safe to put in your page)": "نماذج الموقع وصفحات الهبوط (آمن وضعه في صفحتك)",
+  "Replace form key": "استبدال مفتاح النماذج", "Replace private key": "استبدال المفتاح الخاص", "The old key stops working immediately. Continue?": "سيتوقف المفتاح القديم فوراً. هل تتابع؟",
+  "New key created. Update every place that used the old one.": "أُنشئ مفتاح جديد. حدّث كل مكان كان يستخدم القديم.",
+
+  "Observer this week": "أوبزرفر هذا الأسبوع", "Open the inbox": "افتح صندوق الوارد", "AI messages sent": "رسائل أرسلها الذكاء الاصطناعي",
+  "Viewings and calls booked by AI": "معاينات ومكالمات حجزها الذكاء الاصطناعي", "Leads handed to your team": "عملاء سُلّموا لفريقك",
+  "You’re in the demo, with sample data.": "أنت في النسخة التجريبية ببيانات نموذجية.", "Sign in to your workspace": "سجّل الدخول إلى مساحة عملك",
+  "Edit project": "تعديل المشروع", Edit: "تعديل", Save: "حفظ", "Delete this payment plan?": "حذف خطة السداد هذه؟",
+  "Book a viewing or call": "احجز معاينة أو مكالمة", "Choose a lead": "اختر عميلاً", Type: "النوع", Date: "التاريخ", Time: "الوقت", Minutes: "الدقائق",
+  Where: "المكان", "e.g. Hills Grove sales gallery": "مثلاً: صالة مبيعات هيلز غروف", Book: "احجز", "Booked.": "تم الحجز.", "This week": "هذا الأسبوع",
+  "Pick a lead, a date and a time.": "اختر عميلاً وتاريخاً ووقتاً.", "That time has already passed.": "هذا الوقت قد مضى.",
+  Newer: "الأحدث", Older: "الأقدم", Previous: "السابق", Next: "التالي", Page: "صفحة", leads: "عملاء", Pages: "الصفحات",
+
   // Team routing
   "Lead routing": "توزيع العملاء", "New leads go to whoever speaks their language, knows the area and has room. Hot leads go to top performers first.": "يذهب العملاء الجدد لمن يتحدث لغتهم ويعرف المنطقة ولديه متسع. والعملاء الساخنون يذهبون أولاً لأفضل الوكلاء.",
   "Top performer": "من الأفضل أداءً", "Taking leads": "يستقبل عملاء", Away: "غير متاح", "Languages (en, ar, hi, ur, es, pt, ru, fr, zh, fa)": "اللغات (en, ar, hi, ur, es, pt, ru, fr, zh, fa)",

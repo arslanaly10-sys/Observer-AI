@@ -79,23 +79,25 @@ export function AuthCard({ next, initialError, initialMode = "signin" }: { next:
     if (error) fail(error.message);
   }
 
-  const title = { signin: "Sign in to Observer", signup: "Create your account", magic: "Sign in with a link", forgot: "Reset your password" }[mode];
+  const title = { signin: "Welcome back", signup: "Create your account", magic: "Sign in with a link", forgot: "Reset your password" }[mode];
+  const sub = { signin: "Sign in to see who replied overnight and what’s booked today.", signup: "Set up your workspace in a few minutes. Sandbox mode is on until you connect your channels.", magic: "We’ll email you a link that signs you in. No password needed.", forgot: "Enter your work email and we’ll send you a reset link." }[mode];
   const cta = { signin: "Sign in", signup: "Create account", magic: "Email me a link", forgot: "Send reset link" }[mode];
   const field = "mt-1.5 h-12 w-full rounded-[12px] border border-hairline bg-canvas px-4 text-[17px] outline-none focus:border-creek";
 
   return (
-    <div className="mx-auto w-full max-w-[420px]">
-      <Logo className="mx-auto size-10" />
-      <h1 className="mt-6 text-center text-[28px] font-semibold tracking-[-0.022em]">{t(title)}</h1>
+    <div className="w-full max-w-[400px]">
+      <Logo className="size-9" />
+      <h1 className="mt-7 text-[34px] font-semibold leading-[1.1] tracking-[-0.025em]">{t(title)}</h1>
+      <p className="mt-2 text-[17px] text-ink-2">{t(sub)}</p>
 
       {sent ? (
-        <div role="status" className="mt-8 rounded-[18px] bg-canvas p-6 text-center">
+        <div role="status" className="mt-8 rounded-[18px] bg-parchment p-6 text-center">
           <CheckCircle size={40} weight="fill" className="mx-auto text-ok" />
           <p className="mt-4 text-[17px]">{sent}</p>
           <button className="btn btn-ghost mt-4" onClick={() => { setSent(null); setMode("signin"); }}><span>{t("Back to sign in")}</span></button>
         </div>
       ) : (
-        <div className="mt-8 rounded-[22px] bg-canvas p-6 sm:p-8">
+        <div className="mt-8">
           {(mode === "signin" || mode === "signup") && (
             <>
               <button type="button" onClick={google} disabled={busy} className="flex h-12 w-full items-center justify-center gap-2.5 rounded-full border border-hairline text-[16px] font-medium transition hover:bg-parchment active:scale-[.98] disabled:opacity-60">
@@ -126,14 +128,14 @@ export function AuthCard({ next, initialError, initialMode = "signin" }: { next:
             {error && <p role="alert" className="t-caption rounded-[10px] bg-hot-soft px-3 py-2 text-hot">{t(error)}</p>}
             <button disabled={busy} className="btn btn-primary mt-1 w-full disabled:opacity-60">{busy ? t("One moment…") : t(cta)}</button>
           </form>
-          <div className="mt-6 grid gap-2 text-center text-[15px]">
-            {mode !== "magic" && <button type="button" onClick={() => { setMode("magic"); setError(null); }} className="inline-flex items-center justify-center gap-1.5 text-creek hover:underline"><EnvelopeSimple size={16} />{t("Email me a sign-in link instead")}</button>}
+          <div className="mt-6 grid justify-items-start gap-2 text-[15px]">
+            {mode !== "magic" && <button type="button" onClick={() => { setMode("magic"); setError(null); }} className="inline-flex items-center gap-1.5 text-creek hover:underline"><EnvelopeSimple size={16} />{t("Email me a sign-in link instead")}</button>}
             {mode === "signin" && <p className="text-ink-2">{t("New to Observer?")} <button type="button" onClick={() => { setMode("signup"); setError(null); }} className="text-creek hover:underline">{t("Create an account")}</button></p>}
             {mode !== "signin" && <button type="button" onClick={() => { setMode("signin"); setError(null); }} className="text-ink-2 hover:text-ink">{t("I already have an account")}</button>}
           </div>
         </div>
       )}
-      <p className="t-caption mt-6 text-center text-ink-3">
+      <p className="t-caption mt-8 border-t border-hairline-soft pt-5 text-ink-3">
         {t("By continuing you agree to our")} <Link className="underline" href={`/${locale}/terms`}>{t("Terms")}</Link> {t("and")} <Link className="underline" href={`/${locale}/privacy`}>{t("Privacy notice")}</Link>.
       </p>
     </div>

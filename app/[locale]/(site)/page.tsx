@@ -56,7 +56,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
             <Link href={L("/contact")} className="btn bg-white text-[#1d1d1f] hover:bg-white/90">{h.hero.cta}</Link>
             <Cta href={L("/app/dashboard")} ghost dark>{h.hero.cta2}</Cta>
           </div>
-          <div className="enter-rise enter-d3 relative mx-auto mt-14 max-w-[1080px] translate-y-px md:mt-20">
+          <div className="enter-rise enter-d3 relative mx-auto mt-14 max-w-[1080px] translate-y-px [mask-image:linear-gradient(to_bottom,black_70%,transparent)] md:mt-20">
             <AppFrame src={shot("dashboard", locale)} alt={ar ? "لوحة أوبزرفر: العملاء الأكثر جاهزية وما أنجزه خلال الليل" : "Observer dashboard: hot leads, overnight activity and next best actions"} priority />
           </div>
         </div>

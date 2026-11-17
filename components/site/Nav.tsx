@@ -40,7 +40,7 @@ export function Nav({ locale, t, audiences, menuLabel }: { locale: Locale; t: Si
   return (
     <>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-3 focus:top-3 focus:z-[60] focus:rounded-full focus:bg-canvas focus:px-4 focus:py-2 focus:text-ink">{t.skip}</a>
-      <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${onDark ? "text-white" : "border-b border-hairline-soft bg-canvas/80 text-ink backdrop-blur-xl"}`}>
+      <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${onDark ? "bg-gradient-to-b from-black/60 via-black/25 to-transparent text-white" : "border-b border-hairline-soft bg-canvas/80 text-ink backdrop-blur-xl"}`}>
         <nav aria-label="Main" className="mx-auto flex h-14 max-w-[1180px] items-center gap-6 px-4 sm:px-6">
           <Link href={href("")} className="flex min-h-11 items-center gap-2" aria-label="Observer AI">
             <Logo className="size-6" tone={onDark ? "light" : "auto"} />
@@ -54,7 +54,7 @@ export function Nav({ locale, t, audiences, menuLabel }: { locale: Locale; t: Si
                   onMouseEnter={() => setSol(true)}
                   aria-expanded={sol}
                   aria-controls="solutions-menu"
-                  className={`flex min-h-11 items-center gap-1 rounded-full px-3 text-[14px] transition-opacity ${active(p) || sol ? "opacity-100" : "opacity-75 hover:opacity-100"}`}
+                  className={`flex min-h-11 items-center gap-1 rounded-full px-3 text-[14px] transition-opacity ${active(p) || sol ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
                 >
                   {l} <CaretDown size={12} className={`transition-transform ${sol ? "rotate-180" : ""}`} />
                 </button>
@@ -78,16 +78,16 @@ export function Nav({ locale, t, audiences, menuLabel }: { locale: Locale; t: Si
               </li>
             ) : (
               <li key={p}>
-                <Link href={href(p)} aria-current={active(p) ? "page" : undefined} className={`flex min-h-11 items-center rounded-full px-3 text-[14px] transition-opacity ${active(p) ? "opacity-100" : "opacity-75 hover:opacity-100"}`}>{l}</Link>
+                <Link href={href(p)} aria-current={active(p) ? "page" : undefined} className={`flex min-h-11 items-center rounded-full px-3 text-[14px] transition-opacity ${active(p) ? "opacity-100" : "opacity-90 hover:opacity-100"}`}>{l}</Link>
               </li>
             ))}
           </ul>
           <div className="ms-auto flex items-center gap-1">
-            <Link href={switchPath(pathname, otherLocale(locale))} lang={otherLocale(locale)} onClick={() => remember(otherLocale(locale))} className="hidden min-h-11 items-center gap-1.5 rounded-full px-3 text-[14px] opacity-75 hover:opacity-100 sm:flex">
+            <Link href={switchPath(pathname, otherLocale(locale))} lang={otherLocale(locale)} onClick={() => remember(otherLocale(locale))} className="hidden min-h-11 items-center gap-1.5 rounded-full px-3 text-[14px] opacity-90 hover:opacity-100 sm:flex">
               <Translate size={16} /> {t.lang}
             </Link>
-            <Link href={href("/app/dashboard")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-75 hover:opacity-100 xl:flex">{t.app}</Link>
-            <Link href={href("/login")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-75 hover:opacity-100 md:flex">{t.signin}</Link>
+            <Link href={href("/app/dashboard")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 xl:flex">{t.app}</Link>
+            <Link href={href("/login")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 md:flex">{t.signin}</Link>
             <Link href={href("/contact")} className={`btn hidden !min-h-9 !px-4 !text-[14px] sm:inline-flex ${onDark ? "bg-white text-[#1d1d1f] hover:bg-white/90" : "btn-primary"}`}>{t.demo}</Link>
             <button className="flex size-11 items-center justify-center md:hidden" aria-label={open ? t.close : t.menu} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)}>
               {open ? <X size={22} /> : <List size={22} />}

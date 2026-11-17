@@ -138,7 +138,8 @@ body {
 .btn-ghost span { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .3s var(--ease-out-expo); }
 [dir="rtl"] .btn-ghost span { background-position: 100% 100%; }
 .btn-ghost:hover span { background-size: 100% 1px; }
-.btn-on-dark.btn-ghost { color: #6bd3df; }
+.btn-on-dark.btn-ghost { color: #fff; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.45); }
+.btn-on-dark.btn-ghost:hover { background: rgb(255 255 255 / 0.12); }
 
 .link { color: var(--creek); text-underline-offset: 3px; }
 .link:hover { text-decoration: underline; }

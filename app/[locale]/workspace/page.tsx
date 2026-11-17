@@ -10,10 +10,14 @@ export default async function Overview({ params }: { params: Promise<{ locale: s
   const t = makeT(locale);
   const { supabase, current, user, profile } = await workspaceContext(locale);
   const wsId = current!.workspace.id;
-  const [{ data: leadsData }, { data: acts }, team] = await Promise.all([
+  const since = new Date(Date.now() - 7 * 864e5).toISOString();
+  const [{ data: leadsData }, { data: acts }, team, ai, aiBooked, handed] = await Promise.all([
     supabase.from("leads").select("*").eq("workspace_id", wsId).order("score", { ascending: false }).limit(500),
     supabase.from("activities").select("id, kind, body, created_at, lead:leads(id, name)").eq("workspace_id", wsId).order("created_at", { ascending: false }).limit(8),
     getMembers(supabase, wsId),
+    supabase.from("messages").select("id", { count: "exact", head: true }).eq("workspace_id", wsId).eq("author", "ai").gte("created_at", since),
+    supabase.from("appointments").select("id", { count: "exact", head: true }).eq("workspace_id", wsId).eq("created_by_ai", true).gte("created_at", since),
+    supabase.from("leads").select("id", { count: "exact", head: true }).eq("workspace_id", wsId).eq("ai_mode", "human").not("handover_reason", "is", null).gte("updated_at", since),
   ]);
   const leads = (leadsData ?? []) as LeadRow[];
   const open = leads.filter((l) => l.stage !== "won" && l.stage !== "lost");
@@ -43,6 +47,14 @@ export default async function Overview({ params }: { params: Promise<{ locale: s
         <Stat label="Weighted pipeline" value={fmtAED(weighted)} />
         <Stat label="Won" value={won.length} note={won.length ? fmtAED(won.reduce((a, l) => a + (l.budget_aed ?? 0), 0)) : undefined} />
       </Stats>
+      <Card className="mb-5">
+        <CardHead title="Observer this week" aside={<Link className="t-caption text-creek hover:underline" href={`/${locale}/workspace/inbox`}>{t("Open the inbox")}</Link>} />
+        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {[[ai.count ?? 0, "AI messages sent"], [aiBooked.count ?? 0, "Viewings and calls booked by AI"], [handed.count ?? 0, "Leads handed to your team"]].map(([n, l]) => (
+            <div key={l as string}><dd className="tnum text-[28px] font-semibold leading-none">{n}</dd><dt className="t-caption mt-1.5 text-ink-2">{t(l as string)}</dt></div>
+          ))}
+        </dl>
+      </Card>
       {!leads.length ? (
         <Card className="py-14 text-center">
           <h2 className="text-[21px] font-semibold">{t("No leads yet")}</h2>

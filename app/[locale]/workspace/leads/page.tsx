@@ -7,7 +7,7 @@ import { AddLeadButton } from "@/components/workspace/forms";
 
 const FILTERS = ["all", "hot", "warm", "cold", "mine", "unassigned"] as const;
 
-export default async function Leads({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ q?: string; f?: string }> }) {
+export default async function Leads({ params, searchParams }: { params: Promise<{ locale: string }>; searchParams: Promise<{ q?: string; f?: string; page?: string }> }) {
   const { locale } = await params;
   const sp = await searchParams;
   const t = makeT(locale);
@@ -16,7 +16,8 @@ export default async function Leads({ params, searchParams }: { params: Promise<
   const f = (FILTERS as readonly string[]).includes(sp.f ?? "") ? sp.f! : "all";
   const q = (sp.q ?? "").trim().slice(0, 80);
 
-  let query = supabase.from("leads").select("*").eq("workspace_id", wsId).order("score", { ascending: false }).limit(500);
+  const PER = 100, page = Math.max(1, Number(sp.page) || 1);
+  let query = supabase.from("leads").select("*", { count: "exact" }).eq("workspace_id", wsId).order("score", { ascending: false }).order("created_at", { ascending: false }).range((page - 1) * PER, page * PER - 1);
   if (f === "hot" || f === "warm" || f === "cold") query = query.eq("temp", f);
   if (f === "mine") query = query.eq("assigned_to", user.id);
   if (f === "unassigned") query = query.is("assigned_to", null);
@@ -24,8 +25,10 @@ export default async function Leads({ params, searchParams }: { params: Promise<
     const safe = q.replace(/[%_,().*\\]/g, " ");
     query = query.or(`name.ilike.%${safe}%,area.ilike.%${safe}%,source.ilike.%${safe}%,phone.ilike.%${safe}%`);
   }
-  const [{ data }, team] = await Promise.all([query, getMembers(supabase, wsId)]);
+  const [{ data, count }, team] = await Promise.all([query, getMembers(supabase, wsId)]);
   const leads = (data ?? []) as LeadRow[];
+  const pages = Math.max(1, Math.ceil((count ?? 0) / PER));
+  const pageHref = (n: number) => `?${new URLSearchParams({ ...(q ? { q } : {}), ...(f !== "all" ? { f } : {}), ...(n > 1 ? { page: String(n) } : {}) })}`;
   const name = new Map(team.map((m) => [m.user_id, m.full_name || t("Teammate")]));
   const members = team.filter((m) => m.user_id !== user.id).map((m) => ({ id: m.user_id, name: m.full_name || t("Teammate") }));
   const href = (nf: string) => `?${new URLSearchParams({ ...(q ? { q } : {}), ...(nf !== "all" ? { f: nf } : {}) })}`;
@@ -68,7 +71,15 @@ export default async function Leads({ params, searchParams }: { params: Promise<
               </tr>
             ))}
           </Table>
-        ) : (
+        ) : null}
+        {leads.length > 0 && pages > 1 && (
+          <nav aria-label={t("Pages")} className="mt-4 flex items-center justify-between text-[14px]">
+            {page > 1 ? <Link href={pageHref(page - 1)} className="text-creek">{t("Previous")}</Link> : <span />}
+            <span className="text-ink-3">{t("Page")} {page} / {pages} · {count} {t("leads")}</span>
+            {page < pages ? <Link href={pageHref(page + 1)} className="text-creek">{t("Next")}</Link> : <span />}
+          </nav>
+        )}
+        {leads.length ? null : (
           <p className="py-12 text-center text-ink-2">{q || f !== "all" ? t("No leads match. Clear the search or pick another filter.") : t("No leads yet. Add your first one and Observer will score it.")}</p>
         )}
       </Card>

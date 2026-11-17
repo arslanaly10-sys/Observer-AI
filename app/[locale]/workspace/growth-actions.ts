@@ -10,7 +10,7 @@ import { providers } from "@/lib/growth/config";
 import { deliver, type LeadRecord, type OutChannel } from "@/lib/growth/send";
 import { ingestLead, loadSettings } from "@/lib/growth/pipeline";
 import { runDue } from "@/lib/growth/worker";
-import { WEEK } from "@/lib/growth/hours";
+import { WEEK, zonedToUtc } from "@/lib/growth/hours";
 import type { ActionResult } from "./actions";
 
 const str = (f: FormData, k: string, max = 200) => String(f.get(k) ?? "").trim().slice(0, max);
@@ -196,6 +196,27 @@ export async function deleteUnit(locale: string, unitId: string): Promise<Action
   return { ok: true };
 }
 
+export async function updateUnit(locale: string, unitId: string, _: ActionResult | null, f: FormData): Promise<ActionResult> {
+  const { supabase } = await requireUser();
+  const unit_type = str(f, "unit_type", 80);
+  if (!unit_type) return { ok: false, error: "Name the unit type, e.g. 2 BR Apartment." };
+  const { error } = await supabase.from("units").update({
+    unit_type, beds: num(f, "beds"), size_sqft: num(f, "size_sqft") ? Math.round(num(f, "size_sqft")!) : null,
+    price_from: money(f, "price_from"), price_to: money(f, "price_to"), available: num(f, "available") !== null ? Math.round(num(f, "available")!) : null,
+  }).eq("id", unitId);
+  if (error) return { ok: false, error: friendly(error) };
+  revalidatePath(ws(locale, "/inventory"));
+  return { ok: true, message: "Saved." };
+}
+
+export async function deletePlan(locale: string, planId: string): Promise<ActionResult> {
+  const { supabase } = await requireUser();
+  const { error } = await supabase.from("payment_plans").delete().eq("id", planId);
+  if (error) return { ok: false, error: friendly(error) };
+  revalidatePath(ws(locale, "/inventory"));
+  return { ok: true };
+}
+
 /** Plans are written as lines: "Booking 20", "During construction 40", "On handover 40". */
 export async function addPlan(locale: string, workspaceId: string, projectId: string, _: ActionResult | null, f: FormData): Promise<ActionResult> {
   const { supabase } = await requireUser();
@@ -271,6 +292,25 @@ export async function setAppointmentStatus(locale: string, id: string, status: "
   if (error) return { ok: false, error: friendly(error) };
   revalidatePath(ws(locale, "/calendar"));
   return { ok: true };
+}
+
+export async function bookAppointment(locale: string, workspaceId: string, _: ActionResult | null, f: FormData): Promise<ActionResult> {
+  const { supabase, id } = await requireUser();
+  const leadId = str(f, "lead_id", 40), date = str(f, "date", 10), time = str(f, "time", 5);
+  if (!leadId || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !HHMM.test(time)) return { ok: false, error: "Pick a lead, a date and a time." };
+  const { data: s } = await supabase.from("workspace_settings").select("timezone").eq("workspace_id", workspaceId).maybeSingle();
+  const start = zonedToUtc(date, time, (s?.timezone as string) ?? "Asia/Dubai");
+  if (start.getTime() < Date.now() - 60_000) return { ok: false, error: "That time has already passed." };
+  const mins = Math.min(240, Math.max(15, Number(str(f, "minutes", 3)) || 60));
+  const kind = ["viewing", "call", "meeting"].includes(str(f, "kind", 10)) ? str(f, "kind", 10) : "viewing";
+  const { error } = await supabase.from("appointments").insert({
+    workspace_id: workspaceId, lead_id: leadId, agent_id: str(f, "agent_id", 40) || id, kind,
+    starts_at: start.toISOString(), ends_at: new Date(start.getTime() + mins * 60_000).toISOString(),
+    location: str(f, "location", 300) || null, notes: str(f, "notes", 1000) || null,
+  });
+  if (error) return { ok: false, error: friendly(error) };
+  revalidatePath(ws(locale, "/calendar"));
+  return { ok: true, message: "Booked." };
 }
 
 // ── Routing profiles ────────────────────────────────────────────────────

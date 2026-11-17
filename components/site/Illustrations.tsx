@@ -3,7 +3,7 @@
  * Each one draws a real mechanism of the product, not decoration.
  */
 import Image from "next/image";
-import { WhatsappLogo, ChatText, Robot, EnvelopeSimple, Handshake, ChatCircleDots } from "@phosphor-icons/react/dist/ssr";
+import { WhatsappLogo, Handshake, Article, ArrowBendUpRight, BellSimple } from "@phosphor-icons/react/dist/ssr";
 
 /** Seven signals flowing into one explainable score. */
 export function ScoreDiagram({ labels }: { labels: string[] }) {
@@ -38,7 +38,8 @@ export function ScoreDiagram({ labels }: { labels: string[] }) {
   );
 }
 
-const stepIcons = [WhatsappLogo, ChatCircleDots, ChatText, Robot, EnvelopeSimple, Handshake];
+// Enquiry, first contact, three follow-ups, hand-over
+const stepIcons = [Article, WhatsappLogo, ArrowBendUpRight, ArrowBendUpRight, BellSimple, Handshake];
 
 /** The speed-to-lead cascade: six steps, each waiting for the last to go quiet. HTML so it reads in both directions. */
 export function CascadeDiagram({ steps, waits }: { steps: string[]; waits: string[] }) {
@@ -49,7 +50,7 @@ export function CascadeDiagram({ steps, waits }: { steps: string[]; waits: strin
         const Icon = stepIcons[i];
         const last = i === steps.length - 1;
         return (
-          <li key={s} className="relative flex flex-col items-center text-center">
+          <li key={i} className="relative flex flex-col items-center text-center">
             <span className={`relative z-10 flex size-14 items-center justify-center rounded-full border ${last ? "border-ok/40 bg-ok-soft text-ok" : "border-hairline bg-canvas text-creek"}`}>
               <Icon size={24} />
             </span>
@@ -66,8 +67,11 @@ export function CascadeDiagram({ steps, waits }: { steps: string[]; waits: strin
 export function Phone({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative mx-auto w-[260px] rounded-[44px] bg-[#1d1d1f] p-[10px] shadow-[var(--shadow-frame)]">
-      <div className="absolute left-1/2 top-[18px] z-10 h-[22px] w-[90px] -translate-x-1/2 rounded-full bg-black" />
-      <Image src={src} alt={alt} width={1170} height={2532} sizes="260px" className="block h-auto w-full rounded-[34px]" />
+      <div className="overflow-hidden rounded-[34px] bg-canvas pt-[34px]">
+        {/* Status bar strip so the camera island never covers the screen's own header */}
+        <div className="absolute left-1/2 top-[20px] z-10 h-[20px] w-[80px] -translate-x-1/2 rounded-full bg-black" aria-hidden />
+        <Image src={src} alt={alt} width={1170} height={2532} sizes="260px" className="block h-auto w-full" />
+      </div>
     </div>
   );
 }

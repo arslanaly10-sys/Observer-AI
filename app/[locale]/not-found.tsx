@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
+import { DocTitle } from "@/components/site/DocTitle";
 
 /** Bilingual 404: not-found pages receive no params, so both languages are shown. */
 export default function NotFound() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-parchment px-4 text-center">
+      <DocTitle title="Page not found · Observer AI" />
       <Logo className="size-10" />
       <p className="tnum mt-8 text-[15px] text-ink-3">404</p>
       <h1 className="t-display mt-2">That page isn’t here.</h1>

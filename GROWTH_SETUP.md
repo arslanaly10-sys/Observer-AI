@@ -24,7 +24,8 @@ Server-only. None of these may start with `NEXT_PUBLIC_`.
 | Variable | Needed for | Where it comes from |
 |---|---|---|
 | `SUPABASE_SECRET_KEY` | Webhooks and the worker (they act without a signed-in user) | Supabase → Project Settings → API keys → Secret key |
-| `WORKER_SECRET` | Authenticates the per-minute worker ping and signs call links | Any long random string, e.g. `openssl rand -hex 32` |
+| `WORKER_SECRET` | Authenticates the per-minute worker ping and signs call, audio and unsubscribe links. At least 24 characters; voice and unsubscribe refuse to work without it | `openssl rand -hex 32` |
+| `TURNSTILE_SECRET_KEY` | Captcha on website forms that post straight to Observer (recommended) | Cloudflare → Turnstile |
 | `APP_URL` | Absolute links in webhooks and alerts | Your production URL, e.g. `https://observer-ai-sable.vercel.app` |
 | `ANTHROPIC_API_KEY` | Claude scoring, replies, voice | console.anthropic.com → API keys |
 | `OBSERVER_AGENT_ID`, `OBSERVER_ENVIRONMENT_ID` | Managed Agent sessions (one per lead) | Printed by `npm run agent:setup` |
@@ -71,7 +72,7 @@ Copy the two IDs it prints into Vercel. Run the same command again, with the IDs
    - `observer_followup`: same parameters
    - `observer_agent_alert` (English): {{1}} alert text, {{2}} link to the lead
 
-Until a template is approved in a language, first contact in that language falls back to email if the lead gave one.
+Until a template is approved in a language, the WhatsApp first contact in that language fails (and shows as failed in the inbox); the email still goes out if the lead gave one. Outside WhatsApp's 24-hour window Observer never sends free text: an agent reply there is refused with a clear message, so use email or wait for the lead to write.
 
 ## 4. Lead Ads (Facebook, Instagram), Google, TikTok, Snapchat, portals, website
 
@@ -79,7 +80,9 @@ Until a template is approved in a language, first contact in that language falls
 - **Google Ads lead forms:** webhook URL and key are shown under *Lead sources*.
 - **TikTok, Snapchat:** paste the matching intake address into each platform's lead webhook (or via Zapier/Make).
 - **Bayut, Property Finder, Dubizzle:** they send leads by email. Forward them through an email-to-webhook parser (Zapier Email Parser, Mailparser) to the portal intake address.
-- **Your website and landing pages:** `POST` JSON or form data with any of `name`, `phone`, `email`, `message`, `budget`, `area`. A hidden field named `_hp` is a honeypot.
+- **Your website and landing pages:** use the **form key** address (safe to put in a page). `POST` JSON or form data with any of `name`, `phone`, `email`, `message`, `budget`, `area`. Add a [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/) widget and set `TURNSTILE_SECRET_KEY`; its token arrives as `cf-turnstile-response`. A hidden field named `_hp` is a honeypot.
+- **Two keys.** The form key is for browsers. The private ingest token is for server-to-server tools only (Zapier, TikTok, Snapchat, portal parsers, Google). Owners and managers can replace either under *AI & channels*; the old one stops working at once.
+- **Limits** (all sources): 5 form submissions per address per 10 minutes (60 for server tools), 3 leads per phone number per day, and 300 form leads per workspace per hour. Over a limit, intake answers `429` and nothing is sent.
 
 ```bash
 curl -X POST "https://YOUR-APP/api/intake/INGEST_TOKEN?source=website" \
@@ -89,11 +92,14 @@ curl -X POST "https://YOUR-APP/api/intake/INGEST_TOKEN?source=website" \
 
 ## 5. Email (Resend)
 
+Every email carries a one-click unsubscribe link and the `List-Unsubscribe` headers Gmail and Yahoo require. Unsubscribing opts the lead out of everything.
+
+
 Verify your sending domain, then enter the from-address under *AI & channels*. For replies, set up inbound on a subdomain (e.g. `reply.yourbrokerage.ae`), set `RESEND_INBOUND_DOMAIN` to it, and point a Resend webhook at `https://YOUR-APP/api/webhooks/resend` with `email.*` events. Replies to `reply+<lead>@…` thread back to the right lead.
 
 ## 6. Voice (Twilio + ElevenLabs)
 
-Buy a number with voice, enter it under *AI & channels*, and set its *A call comes in* webhook to `https://YOUR-APP/api/webhooks/twilio/voice` (POST). Calls run turn by turn: Twilio transcribes, Claude answers, ElevenLabs speaks. Expect a short pause between turns. A real-time duplex voice needs a separate WebSocket server, which Vercel functions can't host.
+Buy a number with voice, enter it under *AI & channels*, and set its *A call comes in* webhook to `https://YOUR-APP/api/webhooks/twilio/voice` (POST). Calls run turn by turn: Twilio transcribes, Claude answers in the background while the caller hears a short "one moment", and ElevenLabs speaks. That keeps every webhook inside Twilio's 15-second limit. Expect a pause of a few seconds between turns. A real-time duplex voice needs a separate WebSocket server, which Vercel functions can't host.
 
 Recording and calling rules differ by country. Check the rules for the countries you call before turning sandbox off.
 
@@ -102,6 +108,14 @@ Recording and calling rules differ by country. Check the rules for the countries
 - **Inventory:** add projects, unit types with price ranges, payment plans (milestones that add to 100%) and brochures, or import a CSV. The AI quotes only what is here, and never negotiates.
 - **Team → Lead routing:** each agent sets languages, areas, an alert WhatsApp number and the hours the AI may book them. Managers set capacity and top performers.
 - **AI & channels:** office hours, holidays, quiet hours, follow-up days, escalation score, and assistant name.
+
+## Reliability
+
+- The worker claims jobs with `SKIP LOCKED`, so overlapping runs never double-send. A job left running for 5 minutes (a killed function) is retried, and failed after three attempts.
+- Every AI turn has a hard time limit; when Claude is slow or down the rules engine replies instead.
+- After hours the AI covers a handed-over lead only if no agent has written in the last 30 minutes.
+- Lead scores are refreshed at most every 15 minutes per lead.
+- `npm run test:e2e` runs the whole journey (intake, scoring, routing, first contact, reply, booking, hand-over, STOP, limits) against Postgres + PostgREST. CI runs it on every push.
 
 ## Try it before going live
 

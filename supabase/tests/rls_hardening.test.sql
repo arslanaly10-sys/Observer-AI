@@ -51,4 +51,10 @@ select t_check(exists (select 1 from public.claim_due_jobs(10) where id = :'stuc
 select t_check((select status from public.jobs where kind = 'followup' and attempts = 3) = 'failed', 'a job that died three times is failed');
 rollback;
 
+begin;
+select id as some_lead from public.leads where name = 'Lead for Ali' \gset
+insert into public.messages (workspace_id, lead_id, channel, direction, author, body, status) values (:'ws_a', :'some_lead', 'whatsapp', 'in', 'lead', 'ping', 'received');
+select t_check((select last_message_at from public.leads where id = :'some_lead') is not null, 'a new message stamps the lead for the inbox');
+rollback;
+
 \echo 'ALL HARDENING TESTS PASSED'

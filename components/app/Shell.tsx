@@ -142,16 +142,21 @@ function ShellInner({ children }: { children: ReactNode }) {
             <button className="flex size-10 items-center justify-center rounded-full bg-creek text-on-creek sm:hidden" aria-label={t("Add lead")} onClick={() => setAddLead(true)}><Plus size={18} weight="bold" /></button>
           </div>
         </header>
-        <main id="main" className="mx-auto max-w-[1360px] px-4 py-6 sm:px-6 sm:py-8">{children}</main>
+        <div className="border-b border-hairline-soft bg-creek-soft/60 px-4 py-2 text-center text-[13px] text-ink-2 sm:px-6">
+          {t("You’re in the demo, with sample data.")}{" "}
+          <a href={`/${locale}/login`} className="font-medium text-creek hover:underline">{t("Sign in to your workspace")}</a>
+        </div>
+        <main id="main" className="mx-auto max-w-[1360px] px-4 pb-24 pt-6 sm:px-6 sm:pt-8">{children}</main>
       </div>
 
       <button
         onClick={() => setCopilot((v) => !v)}
         data-copilot
-        className="fixed bottom-5 end-5 z-30 flex h-12 items-center gap-2 rounded-full bg-tile ps-4 pe-5 text-[15px] font-medium text-white shadow-[0_12px_32px_-8px_rgb(0_0_0/0.4)] transition active:scale-[.97]"
+        className="group fixed bottom-5 end-5 z-30 flex size-12 items-center justify-center gap-2 rounded-full bg-tile text-[15px] font-medium text-white shadow-[0_12px_32px_-8px_rgb(0_0_0/0.4)] transition-[width] active:scale-[.97] hover:w-auto hover:ps-4 hover:pe-5 focus-visible:w-auto focus-visible:ps-4 focus-visible:pe-5"
         aria-expanded={copilot}
+        aria-label={t("Ask Observer")}
       >
-        <Sparkle size={18} weight="fill" className="text-[#6bd3df]" /> {t("Ask Observer")}
+        <Sparkle size={20} weight="fill" className="shrink-0 text-[#6bd3df]" /><span className="hidden group-hover:inline group-focus-visible:inline">{t("Ask Observer")}</span>
       </button>
       {copilot && <Copilot onClose={() => setCopilot(false)} />}
       <Palette onAddLead={() => setAddLead(true)} />

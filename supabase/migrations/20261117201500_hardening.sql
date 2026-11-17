@@ -114,3 +114,27 @@ create index if not exists jobs_running_idx on public.jobs (updated_at) where st
 -- last_inbound_at moves for any channel (web form, email, call); free-text WhatsApp is only allowed
 -- within 24 hours of the lead's last *WhatsApp* message.
 alter table public.leads add column last_whatsapp_in_at timestamptz;
+
+-- ── Inbox at scale ──────────────────────────────────────────────────────
+-- The inbox lists conversations by their latest message; keep that on the lead so it is one indexed query.
+alter table public.leads add column last_message_at timestamptz;
+create index leads_last_message_idx on public.leads (workspace_id, last_message_at desc) where last_message_at is not null;
+update public.leads l set last_message_at = m.at from (select lead_id, max(created_at) at from public.messages group by lead_id) m where m.lead_id = l.id;
+
+create or replace function private.touch_lead_last_message()
+returns trigger language plpgsql security definer set search_path = ''
+as $$
+begin
+  update public.leads set last_message_at = new.created_at where id = new.lead_id and (last_message_at is null or last_message_at < new.created_at);
+  return new;
+end $$;
+create trigger messages_touch_lead after insert on public.messages for each row execute function private.touch_lead_last_message();
+
+-- ── Live inbox ──────────────────────────────────────────────────────────
+-- Supabase Realtime delivers row changes that pass RLS; publish messages and notifications.
+do $$
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    alter publication supabase_realtime add table public.messages, public.notifications;
+  end if;
+end $$;

@@ -7,6 +7,7 @@ import { safeNext } from "@/lib/safe-next";
 import { makeT } from "@/lib/tr";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { NotConnected } from "@/components/auth/NotConnected";
+import { AuthShell } from "@/components/auth/AuthShell";
 import { LocaleBoundary } from "@/components/app/i18n";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
@@ -21,7 +22,7 @@ export default async function Login({ params, searchParams }: { params: Promise<
   const next = safeNext(sp.next, `/${locale}/workspace`);
   if (isSupabaseConfigured && (await getUser())) redirect(next);
   return (
-    <section className="min-h-[80vh] bg-parchment px-4 pb-24 pt-28 md:pt-32">
+    <AuthShell locale={locale}>
       {isSupabaseConfigured ? (
         <LocaleBoundary locale={locale}>
           <AuthCard next={next} initialError={sp.error} initialMode={sp.mode === "signup" ? "signup" : "signin"} />
@@ -29,6 +30,6 @@ export default async function Login({ params, searchParams }: { params: Promise<
       ) : (
         <NotConnected locale={locale} t={t} />
       )}
-    </section>
+    </AuthShell>
   );
 }

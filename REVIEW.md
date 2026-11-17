@@ -68,3 +68,16 @@ Each finding is marked **Fixed in v2**, **Open** (needs you), or **Accepted** (a
 3. Set `DEMO_WEBHOOK_URL` so demo requests reach sales; add rate limiting.
 4. A real backend (Supabase or similar) to replace demo data, with auth and the WhatsApp Business API.
 5. Real photography and customer proof.
+
+## Review 3 (17 Nov 2026): fixes
+
+Every item from the third critical review is addressed:
+
+- **Abuse:** separate browser form key (Turnstile captcha), per-address, per-number and per-workspace intake limits; keys hidden from agents and rotatable.
+- **Reliability:** stuck jobs recovered, hard AI turn time limits, background voice turns inside Twilio's 15 s limit, WhatsApp's 24-hour window counted from WhatsApp messages only (bug found by the new end-to-end test), template misuse refused, rescoring throttled.
+- **Behaviour:** AI stays quiet for 30 minutes after an agent writes, even after hours.
+- **Email:** one-click unsubscribe (List-Unsubscribe) and a footer link in ten languages.
+- **Testing:** `npm run test:e2e` runs the full lead journey against Postgres + PostgREST; CI runs it on every push. 80 database checks, 59 unit tests.
+- **Website:** copy matches the product (no SMS, two-minute first contact, ten languages, honest FAQ on AI disclosure, portals via email parser), sample figures labelled, demo reply no longer invents homes, "Soon" labels on demo-only features, modest ROI defaults, readable nav over photos, faded hero shot, phone notch fixed, branded 404 with the right status and title.
+- **Sign-in:** split layout with Dubai at night and the assistant's overnight work.
+- **Apps:** demo banner, compact Ask button, inbox by latest message with pages and Supabase Realtime, paginated leads, editable inventory, manual bookings and a week strip, "Observer this week" on the overview.

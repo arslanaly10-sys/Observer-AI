@@ -268,6 +268,27 @@ export function UnitForm({ workspaceId, projectId }: { workspaceId: string; proj
   );
 }
 
+export interface UnitView { id: string; unit_type: string; beds: number | null; size_sqft: number | null; price_from: number | null; price_to: number | null; available: number | null }
+
+/** Inline editor for one unit type. */
+export function UnitEditForm({ u }: { u: UnitView }) {
+  const { t, locale } = useT();
+  const [state, action, pending] = useActionState(G.updateUnit.bind(null, locale, u.id), null);
+  const small = cx(field, "mt-0 h-9 text-[14px]");
+  return (
+    <form action={action} className="grid grid-cols-2 gap-2 py-2 sm:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr_auto]">
+      <input name="unit_type" required defaultValue={u.unit_type} aria-label={t("Unit type")} className={small} />
+      <input name="beds" defaultValue={u.beds ?? ""} aria-label={t("Beds")} className={small} />
+      <input name="size_sqft" defaultValue={u.size_sqft ?? ""} aria-label={t("Sq ft")} className={small} />
+      <input name="price_from" defaultValue={u.price_from ?? ""} aria-label={t("From (AED)")} dir="ltr" className={small} />
+      <input name="price_to" defaultValue={u.price_to ?? ""} aria-label={t("To (AED)")} dir="ltr" className={small} />
+      <input name="available" defaultValue={u.available ?? ""} aria-label={t("Available")} className={small} />
+      <button disabled={pending} className="h-9 rounded-full bg-creek px-4 text-[13px] font-medium text-on-creek disabled:opacity-60">{t("Save")}</button>
+      <div className="col-span-full"><Result state={state} /></div>
+    </form>
+  );
+}
+
 export function PlanForm({ workspaceId, projectId }: { workspaceId: string; projectId: string }) {
   const { t, locale } = useT();
   const ref = useRef<HTMLFormElement>(null);
@@ -301,12 +322,12 @@ export function CsvImport({ workspaceId }: { workspaceId: string }) {
   );
 }
 
-export function DeleteButton({ kind, id, confirmText }: { kind: "project" | "unit"; id: string; confirmText: string }) {
+export function DeleteButton({ kind, id, confirmText }: { kind: "project" | "unit" | "plan"; id: string; confirmText: string }) {
   const { t, locale } = useT();
   const [pending, start] = useTransition();
   return (
     <button type="button" disabled={pending} aria-label={t("Delete")}
-      onClick={() => { if (confirm(t(confirmText))) start(async () => { await (kind === "project" ? G.deleteProject(locale, id) : G.deleteUnit(locale, id)); }); }}
+      onClick={() => { if (confirm(t(confirmText))) start(async () => { await (kind === "project" ? G.deleteProject(locale, id) : kind === "plan" ? G.deletePlan(locale, id) : G.deleteUnit(locale, id)); }); }}
       className="flex size-8 items-center justify-center rounded-full text-ink-3 hover:bg-hot-soft hover:text-hot disabled:opacity-60"><Trash size={15} /></button>
   );
 }
@@ -320,6 +341,34 @@ export function AppointmentActions({ id, status }: { id: string; status: string 
     <button disabled={pending} onClick={() => start(async () => { await G.setAppointmentStatus(locale, id, s); })} className="t-caption rounded-full px-2.5 py-1 hover:bg-parchment disabled:opacity-60">{t(label)}</button>
   );
   return <div className="flex flex-wrap gap-1">{b("done", "Done")}{b("no_show", "No-show")}{b("cancelled", "Cancel")}</div>;
+}
+
+export function BookingForm({ workspaceId, leads, agents, meId, canPickAgent }: { workspaceId: string; leads: { id: string; name: string }[]; agents: { id: string; name: string }[]; meId: string; canPickAgent: boolean }) {
+  const { t, locale } = useT();
+  const ref = useRef<HTMLFormElement>(null);
+  const [state, action, pending] = useActionState(async (p: ActionResult | null, f: FormData) => {
+    const r = await G.bookAppointment(locale, workspaceId, p, f); if (r.ok) ref.current?.reset(); return r;
+  }, null);
+  return (
+    <form ref={ref} action={action} className="grid gap-3 sm:grid-cols-3">
+      <label className={cx(labelCls, "sm:col-span-2")}>{t("Lead")}
+        <select name="lead_id" required className={field}><option value="">{t("Choose a lead")}</option>{leads.map((l) => <option key={l.id} value={l.id}>{l.name}</option>)}</select>
+      </label>
+      <label className={labelCls}>{t("Type")}
+        <select name="kind" className={field}><option value="viewing">{t("Viewing")}</option><option value="call">{t("Call")}</option><option value="meeting">{t("Meeting")}</option></select>
+      </label>
+      <label className={labelCls}>{t("Date")}<input name="date" type="date" required className={field} dir="ltr" /></label>
+      <label className={labelCls}>{t("Time")}<input name="time" type="time" required className={field} dir="ltr" /></label>
+      <label className={labelCls}>{t("Minutes")}<input name="minutes" type="number" min={15} max={240} step={15} defaultValue={60} className={field} /></label>
+      {canPickAgent && (
+        <label className={labelCls}>{t("Agent")}
+          <select name="agent_id" defaultValue={meId} className={field}>{agents.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}</select>
+        </label>
+      )}
+      <label className={cx(labelCls, canPickAgent ? "sm:col-span-2" : "sm:col-span-3")}>{t("Where")}<input name="location" placeholder={t("e.g. Hills Grove sales gallery")} className={field} /></label>
+      <div className="flex items-center gap-4 sm:col-span-3"><Save pending={pending} label="Book" /><Result state={state} /></div>
+    </form>
+  );
 }
 
 // ── Routing profile ─────────────────────────────────────────────────────
