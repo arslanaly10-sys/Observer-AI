@@ -46,29 +46,101 @@ export function scoreLead(l: Input) {
   return { score, temp: temp as Lead["temp"], parts: parts.sort((a, b) => b.pts - a.pts) };
 }
 
-const SIGNALS: Record<string, { rx: RegExp; label: string }> = {
-  buyer: { rx: /\b(buy|buying|purchase|looking for|interested in|want a|need a|want to buy)\b/i, label: "Buyer" },
-  seller: { rx: /\b(sell|selling|my (villa|apartment|unit|property)|valuation|what.*price.*get|i have a \dbr)\b/i, label: "Seller" },
-  urgent: { rx: /\b(immediately|asap|urgent|this week|right away|ready to (proceed|sign|buy)|within \d+ (weeks?|days?))\b/i, label: "Urgent" },
-  cash: { rx: /\b(cash|full payment|no mortgage|million|above aed)\b/i, label: "High budget" },
-  serious: { rx: /\b(LOI|sign|proceed|paperwork|offer|deposit|viewing|show me|when can)\b/i, label: "Serious" },
-  researching: { rx: /\b(just (looking|browsing|researching|curious)|no rush|not urgent|maybe later|next year|planning)\b/i, label: "Researching" },
-  investor: { rx: /\b(investment|ROI|rental yield|return|portfolio|rent it out)\b/i, label: "Investor" },
+/** Each signal has an English and an Arabic pattern. Arabic has no \b word boundaries, so its patterns are plain. */
+const SIGNALS: Record<string, { rx: RegExp[]; label: string }> = {
+  buyer: { label: "Buyer", rx: [/\b(buy|buying|purchase|looking for|interested in|want a|need a|want to buy)\b/i, /(أبحث عن|أريد شراء|أرغب في شراء|مهتم|شراء|أشتري)/] },
+  seller: { label: "Seller", rx: [/\b(sell|selling|my (villa|apartment|unit|property)|valuation|what.*price.*get|i have a \dbr)\b/i, /(أبيع|بيع شقتي|بيع فيلتي|تقييم|لدي شقة|عندي شقة|عندي فيلا)/] },
+  urgent: { label: "Urgent", rx: [/\b(immediately|asap|urgent|this week|right away|ready to (proceed|sign|buy)|within \d+ (weeks?|days?))\b/i, /(فوراً|فورا|هذا الأسبوع|بسرعة|عاجل|خلال \d+ (أسابيع|أيام|أسبوع)|مستعد للتوقيع)/] },
+  cash: { label: "High budget", rx: [/\b(cash|full payment|no mortgage|million|above aed)\b/i, /(نقداً|نقدا|كاش|مليون|ملايين|دفعة كاملة)/] },
+  serious: { label: "Serious", rx: [/\b(LOI|sign|proceed|paperwork|offer|deposit|viewing|show me|when can)\b/i, /(معاينة|توقيع|أوقع|عرض|عربون|متى يمكن|أريد أن أرى)/] },
+  researching: { label: "Researching", rx: [/\b(just (looking|browsing|researching|curious)|no rush|not urgent|maybe later|next year|planning)\b/i, /(أتصفح فقط|فقط أتصفح|لا عجلة|غير مستعجل|ليس مستعجلاً|السنة القادمة|أفكر|ربما لاحقاً)/] },
+  investor: { label: "Investor", rx: [/\b(investment|ROI|rental yield|return|portfolio|rent it out)\b/i, /(استثمار|عائد|إيجار|تأجير|محفظة)/] },
 };
 
 export function extractIntent(msgs: { dir: "in" | "out"; text: string }[]) {
   const text = msgs.filter((m) => m.dir === "in").map((m) => m.text).join(" ");
   const hits: { key: string; label: string; evidence: string }[] = [];
   for (const [key, s] of Object.entries(SIGNALS)) {
-    const m = text.match(s.rx);
-    if (m) hits.push({ key, label: s.label, evidence: m[0] });
+    for (const rx of s.rx) {
+      const m = text.match(rx);
+      if (m) { hits.push({ key, label: s.label, evidence: m[0] }); break; }
+    }
   }
   const has = (k: string) => hits.some((h) => h.key === k);
-  const primary = has("seller") ? "Seller" : has("buyer") || has("serious") ? "Buyer" : "Unknown";
+  const primary = has("seller") ? "Seller" : has("buyer") || has("serious") ? "Buyer" : has("investor") ? "Buyer" : "Unknown";
   const urgency = has("researching") ? "Low" : has("urgent") ? "High" : "Medium";
   const confidence = Math.min(98, 45 + hits.length * 13);
-  const budget = text.match(/\b(\d+(?:\.\d+)?)\s*(million|m|k|thousand)\b/i)?.[0] ?? text.match(/AED\s*[\d,.]+M?/i)?.[0] ?? null;
+  const budget =
+    text.match(/\b(\d+(?:\.\d+)?)\s*(million|m|k|thousand)\b/i)?.[0] ??
+    text.match(/AED\s*[\d,.]+M?/i)?.[0] ??
+    text.match(/(\d+(?:\.\d+)?)\s*(مليون|ملايين|ألف)/)?.[0] ??
+    (/(مليونين|مليونان)/.test(text) ? "مليونان" : null);
   return { primary, urgency, confidence, hits, budget };
+}
+
+/** Known areas, English and Arabic spellings. */
+export const AREAS: [string, RegExp][] = [
+  ["Dubai Hills", /dubai hills|دبي هيلز/i], ["Downtown", /downtown|وسط (المدينة|مدينة دبي|دبي)|داون ?تاون/i],
+  ["Palm Jumeirah", /palm|النخلة|نخلة جميرا/i], ["Emirates Hills", /emirates hills|تلال الإمارات/i],
+  ["Business Bay", /business bay|الخليج التجاري|بزنس باي/i], ["MBR City", /mbr|محمد بن راشد/i],
+  ["JVC", /jvc|jumeirah village|قرية جميرا/i], ["Sharjah", /sharjah|الشارقة/i], ["Ajman", /ajman|عجمان/i],
+  ["Dubai Marina", /marina|المارينا|مرسى دبي/i], ["Abu Dhabi", /abu dhabi|أبوظبي|أبو ظبي/i],
+];
+
+function budgetFromMention(m: string | null) {
+  if (!m) return null;
+  if (/مليونان|مليونين/.test(m)) return "AED 2M";
+  const n = parseFloat(m.replace(/[^0-9.]/g, ""));
+  if (!n) return null;
+  if (/k|thousand|ألف/i.test(m)) return `AED ${n}K`;
+  if (/million|m\b|مليون|ملايين/i.test(m) || n < 100) return `AED ${n}M`;
+  return n >= 1e6 ? `AED ${(n / 1e6).toFixed(1)}M` : `AED ${Math.round(n / 1e3)}K`;
+}
+
+/** Read one raw enquiry the way Observer would: intent, area, budget, an explainable score, and a first reply. */
+export function analyzeEnquiry(text: string, lang: "en" | "ar") {
+  const intent = extractIntent([{ dir: "in", text }]);
+  const has = (k: string) => intent.hits.some((h) => h.key === k);
+  const area = AREAS.find(([, rx]) => rx.test(text))?.[0] ?? null;
+  const budget = budgetFromMention(intent.budget);
+  const lead = {
+    financing: has("cash") ? "Cash" : /mortgage|loan|تمويل|رهن|قرض/i.test(text) ? "Mortgage" : "Unknown",
+    budget: budget ?? "AED 1.5M",
+    timeframe: has("urgent") ? "<1 mo" : has("researching") ? "12 mo" : "3 mo",
+    source: "WhatsApp",
+    urgency: (has("serious") || has("urgent") ? "serious" : "researching") as "serious" | "researching",
+    temp: (has("urgent") ? "hot" : has("researching") ? "cold" : "warm") as "hot" | "warm" | "cold",
+    area: area ?? "",
+  };
+  const s = scoreLead(lead);
+  return { intent, area, budget, score: s.score, temp: s.temp, parts: s.parts, reply: draftReply({ primary: intent.primary, urgent: has("urgent"), researching: has("researching"), investor: has("investor"), area, budget, lang }) };
+}
+
+export const AR_AREA: Record<string, string> = {
+  "Dubai Hills": "دبي هيلز", Downtown: "وسط مدينة دبي", "Palm Jumeirah": "نخلة جميرا", "Emirates Hills": "تلال الإمارات",
+  "Business Bay": "الخليج التجاري", "MBR City": "مدينة محمد بن راشد", JVC: "قرية جميرا الدائرية", Sharjah: "الشارقة",
+  Ajman: "عجمان", "Dubai Marina": "دبي مارينا", "Abu Dhabi": "أبوظبي",
+};
+
+/** The first WhatsApp reply, written the way a good agent would: specific, short, one question. */
+export function draftReply(o: { primary: string; urgent: boolean; researching: boolean; investor: boolean; area: string | null; budget: string | null; lang: "en" | "ar" }) {
+  const { primary, urgent, researching, investor, area, budget, lang } = o;
+  if (lang === "ar") {
+    const where = area ? ` في ${AR_AREA[area] ?? area}` : "";
+    const within = budget ? ` ضمن ميزانية ${budget.replace("AED ", "").replace("M", " مليون").replace("K", " ألف")} درهم` : "";
+    if (primary === "Seller") return `أهلاً بك، شكراً لتواصلك. يسعدني أن أقدّم لك تقييماً مجانياً لعقارك${where} خلال 24 ساعة، مبنياً على صفقات حقيقية في الشارع نفسه. ما مساحة العقار وعدد غرفه؟`;
+    if (researching) return `أهلاً بك، لا عجلة إطلاقاً. سأرسل لك ملخصاً قصيراً عن الأسعار${where} هذا الشهر، وأبقيك على اطلاع عند ظهور ما يناسبك. هل تفضّل شقة أم فيلا؟`;
+    if (investor) return `أهلاً بك. لدي ثلاثة خيارات${where}${within} بعائد إيجاري يتراوح بين 6% و8%. هل تفضّل عقاراً جاهزاً للتأجير أم على الخارطة بخطة سداد؟`;
+    if (urgent) return `أهلاً بك، شكراً لرسالتك. لدي ثلاثة منازل${where}${within} يمكنك معاينتها هذا الأسبوع. هل يناسبك الخميس صباحاً أم السبت؟`;
+    return `أهلاً بك، شكراً لتواصلك. لدي عدة خيارات${where}${within}. هل هي للسكن أم للاستثمار، ومتى تخطط للانتقال؟`;
+  }
+  const where = area ? ` in ${area}` : "";
+  const within = budget ? ` within ${budget}` : "";
+  if (primary === "Seller") return `Thank you for getting in touch. I can give you a free valuation of your home${where} within 24 hours, based on real sales on the same street. How many bedrooms is it, and roughly how large?`;
+  if (researching) return `No rush at all. I'll send you a short note on what prices did${where} this month, and let you know when something fits. Are you thinking apartment or villa?`;
+  if (investor) return `Thanks for reaching out. I have three homes${where}${within} renting at 6 to 8% gross. Would you prefer something ready to let, or off-plan on a payment plan?`;
+  if (urgent) return `Thank you for your message. I have three homes${where}${within} you could see this week. Would Thursday morning or Saturday suit you?`;
+  return `Thanks for getting in touch. I have a few homes${where}${within} that could suit you. Is this for your family or an investment, and when are you hoping to move?`;
 }
 
 export function rankActions(list: Lead[]) {
@@ -122,3 +194,17 @@ export function calcPlan(o: { price: number; dpPct: number; rate: number; years:
 export const fmtAED = (n: number) =>
   n >= 1e6 ? `AED ${(n / 1e6).toFixed(n >= 1e7 ? 1 : 2)}M` : n >= 1e3 ? `AED ${Math.round(n / 1e3).toLocaleString("en-US")}K` : `AED ${Math.round(n)}`;
 export const fmtNum = (n: number) => Math.round(n).toLocaleString("en-US");
+
+/**
+ * What slow first replies cost a brokerage each month. A transparent model, not a promise:
+ * qualification falls with reply time (factors below), and qualified leads close at 18.75% (12 of every 64).
+ */
+export const REPLY_FACTOR: Record<string, number> = { "under5": 1, "5to15": 0.75, "15to60": 0.55, "over60": 0.4 };
+export function roiEstimate(o: { leads: number; dealAED: number; commissionPct: number; reply: keyof typeof REPLY_FACTOR }) {
+  const best = 0.64, closeFromQualified = 12 / 64;
+  const now = best * (REPLY_FACTOR[o.reply] ?? 1);
+  const lostQualified = Math.max(0, o.leads * (best - now));
+  const extraDeals = lostQualified * closeFromQualified;
+  const monthly = extraDeals * o.dealAED * (o.commissionPct / 100);
+  return { lostQualified, extraDeals, monthly, yearly: monthly * 12 };
+}

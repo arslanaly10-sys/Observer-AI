@@ -176,3 +176,7 @@ body {
 
 /* Hide floating chrome when capturing marketing screenshots */
 html.shot [data-copilot] { display: none; }
+
+/* Monogram avatars: a stable hue per person, tuned for each theme */
+.mono { background: hsl(var(--mh) 32% 90%); color: hsl(var(--mh) 45% 28%); }
+[data-theme="dark"] .mono { background: hsl(var(--mh) 24% 20%); color: hsl(var(--mh) 55% 78%); }

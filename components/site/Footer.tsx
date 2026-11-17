@@ -3,7 +3,7 @@ import { Logo } from "@/components/Logo";
 import type { Locale } from "@/lib/i18n";
 import type { SiteDict } from "@/dictionaries/site";
 
-export function Footer({ locale, t }: { locale: Locale; t: SiteDict["footer"] }) {
+export function Footer({ locale, t, legal }: { locale: Locale; t: SiteDict["footer"]; legal: [string, string][] }) {
   return (
     <footer className="bg-parchment text-ink-2">
       <div className="mx-auto max-w-[1180px] px-4 py-14 sm:px-6">
@@ -28,7 +28,10 @@ export function Footer({ locale, t }: { locale: Locale; t: SiteDict["footer"] })
         </div>
         <div className="t-fine mt-12 flex flex-wrap justify-between gap-3 border-t border-hairline pt-6">
           <p>© {new Date().getFullYear()} {t.rights} {t.data}</p>
-          <p>{t.credits}</p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-1">
+            {legal.map(([l, h]) => <li key={h}><Link href={`/${locale}${h}`} className="hover:text-ink hover:underline">{l}</Link></li>)}
+            <li>{t.credits}</li>
+          </ul>
         </div>
       </div>
     </footer>

@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getSite } from "@/dictionaries/site";
 import type { Locale } from "@/lib/i18n";
+import { pageMeta } from "@/lib/seo";
 import { img } from "@/lib/img";
 import { Heading } from "@/components/site/Section";
 import { DemoForm } from "@/components/site/DemoForm";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return { title: getSite(locale).nav.contact, description: getSite(locale).contact.sub };
+  return pageMeta(locale, "/contact", getSite(locale).nav.contact, getSite(locale).contact.sub);
 }
 
 export default async function Contact({ params }: { params: Promise<{ locale: Locale }> }) {

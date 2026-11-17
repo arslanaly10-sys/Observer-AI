@@ -44,3 +44,11 @@ live as a public claim until someone at Observer confirms it.
 ## Wiring
 - [ ] Set `DEMO_WEBHOOK_URL` (Vercel env var) so demo requests reach your inbox or CRM. Without it they are only logged.
 - [ ] Arabic copy: native Gulf copy-editor review.
+
+## Added in v2: also verify
+- [ ] Integrations list (home): Bayut, Property Finder, Dubizzle, WhatsApp Business, Facebook Lead Ads, Instagram, website forms, CRM by API
+- [ ] Security page claims: AWS Bahrain, AES-256, TLS 1.3, key rotation, role-based access, audit log, WhatsApp Business Platform templates
+- [ ] Contact addresses on Security/Privacy/Terms use `@observer-ai.example`; replace with real addresses
+- [ ] Privacy and Terms are drafts (the pages say so); legal review needed before launch
+- [ ] ROI calculator model (pricing): qualification falls with reply time (100% / 75% / 55% / 40% of 64%), 12 in 64 qualified leads close
+- [ ] Set `NEXT_PUBLIC_SITE_URL` in Vercel once you have a custom domain (used for canonical URLs, sitemap and JSON-LD)

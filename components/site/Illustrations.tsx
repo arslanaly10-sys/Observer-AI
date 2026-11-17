@@ -2,6 +2,7 @@
  * Custom illustrations for the marketing site (DESIGN.md › Imagery).
  * Each one draws a real mechanism of the product, not decoration.
  */
+import Image from "next/image";
 import { WhatsappLogo, ChatText, Robot, EnvelopeSimple, Handshake, ChatCircleDots } from "@phosphor-icons/react/dist/ssr";
 
 /** Seven signals flowing into one explainable score. */
@@ -66,8 +67,7 @@ export function Phone({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative mx-auto w-[260px] rounded-[44px] bg-[#1d1d1f] p-[10px] shadow-[var(--shadow-frame)]">
       <div className="absolute left-1/2 top-[18px] z-10 h-[22px] w-[90px] -translate-x-1/2 rounded-full bg-black" />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="block w-full rounded-[34px]" loading="lazy" />
+      <Image src={src} alt={alt} width={1170} height={2532} sizes="260px" className="block h-auto w-full rounded-[34px]" />
     </div>
   );
 }
@@ -80,8 +80,7 @@ export function AppFrame({ src, alt, priority }: { src: string; alt: string; pri
         <span className="size-2.5 rounded-full bg-[#ff5f57]" /><span className="size-2.5 rounded-full bg-[#febc2e]" /><span className="size-2.5 rounded-full bg-[#28c840]" />
         <span className="mx-auto h-4 w-48 rounded-full bg-hairline-soft" />
       </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="block w-full" loading={priority ? "eager" : "lazy"} fetchPriority={priority ? "high" : "auto"} width={2880} height={1800} />
+      <Image src={src} alt={alt} width={2880} height={1800} priority={priority} sizes="(min-width: 1180px) 1080px, 100vw" className="block h-auto w-full" />
     </div>
   );
 }

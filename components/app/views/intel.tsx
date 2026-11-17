@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Lightning, Microphone, PhoneDisconnect, ShieldCheck, NotePencil, Target, Check } from "@phosphor-icons/react";
-import { leads, weights, intentThreads } from "@/lib/data";
+import { weights, intentThreads } from "@/lib/data";
+import { useStore } from "../store";
 import { scoreLead, extractIntent, rankActions, fmtAED } from "@/lib/engine";
 import { useT } from "../i18n";
 import { Card, CardHead, PageHead, Stat, Stats, Monogram, ScoreBar, Btn, Meter, Pill, Dot, TempBadge, cx } from "../ui";
@@ -9,6 +10,7 @@ import { channelIcon } from "./core";
 
 export function Scoring() {
   const { t } = useT();
+  const { leads } = useStore();
   const [w, setW] = useState(() => Object.fromEntries(weights.map((x) => [x.label, x.pts])) as Record<string, number>);
   const total = Object.values(w).reduce((a, b) => a + b, 0);
   const [queue, setQueue] = useState(0);
@@ -146,6 +148,7 @@ function Highlight({ text, words }: { text: string; words: string[] }) {
 
 export function NextBestAction() {
   const { t } = useT();
+  const { leads, toast } = useStore();
   const ranked = rankActions(leads);
   const [done, setDone] = useState<string[]>([]);
   return (
@@ -175,7 +178,7 @@ export function NextBestAction() {
                   <p className="t-fine text-ink-2">{t("commission")} · {a.closeProb}% {t("to close")}</p>
                 </div>
                 <TempBadge temp={a.temp} />
-                <Btn variant={isDone ? "secondary" : "primary"} onClick={() => setDone((d) => (d.includes(a.lead) ? d : [...d, a.lead]))}>
+                <Btn variant={isDone ? "secondary" : "primary"} onClick={() => { if (!isDone) toast(`${t(a.action)} · ${a.lead}`); setDone((d) => (d.includes(a.lead) ? d : [...d, a.lead])); }}>
                   {isDone ? <><Check size={16} /> {t("Done")}</> : t(a.channel === "Call" ? "Call" : a.channel === "Assign" ? "Assign" : "Send")}
                 </Btn>
               </li>
@@ -201,6 +204,8 @@ const transcript = [
 
 export function LiveCall() {
   const { t } = useT();
+  const { toast } = useStore();
+  const [muted, setMuted] = useState(false);
   const [sec, setSec] = useState(134);
   const [k, setK] = useState(0);
   useEffect(() => {
@@ -238,8 +243,8 @@ export function LiveCall() {
             <p key={k} className="enter-rise mt-2 text-[19px] leading-snug">{t(whispers[k])}</p>
           </div>
           <div className="mt-6 flex gap-2">
-            <button className="flex h-11 items-center gap-2 rounded-full bg-white/10 px-4 text-[15px]"><Microphone size={18} /> {t("Mute")}</button>
-            <button className="flex h-11 items-center gap-2 rounded-full bg-[#e5484d] px-5 text-[15px] font-medium"><PhoneDisconnect size={18} /> {t("End call")}</button>
+            <button onClick={() => { setMuted((m) => !m); }} aria-pressed={muted} className="flex h-11 items-center gap-2 rounded-full bg-white/10 px-4 text-[15px]"><Microphone size={18} weight={muted ? "fill" : "regular"} /> {t(muted ? "Unmute" : "Mute")}</button>
+            <button onClick={() => toast(t("Call ended. Notes saved to Ahmed’s record."))} className="flex h-11 items-center gap-2 rounded-full bg-[#e5484d] px-5 text-[15px] font-medium"><PhoneDisconnect size={18} /> {t("End call")}</button>
           </div>
         </div>
         <div className="grid gap-5">

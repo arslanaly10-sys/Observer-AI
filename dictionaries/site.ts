@@ -159,7 +159,7 @@ const en = {
       { name: "Brokerage", price: "AED 2,900", note: "Up to 15 agents", cta: "Book a demo", featured: true, features: ["Everything in Agent", "Unlimited leads", "Sequences across WhatsApp, SMS and email", "Facebook and Instagram automation", "Routing, SLA timers and agent analytics", "Live call assistant"] },
       { name: "Developer", price: "Custom", note: "For launches and large teams", cta: "Talk to us", features: ["Everything in Brokerage", "Launch-day capacity", "Broker partner routing", "AI calling at volume", "Dedicated success manager", "Single sign-on and audit exports"] },
     ],
-    popular: "Most chosen",
+    popular: "Best for teams",
     faqH: "Questions people ask",
     faq: [
       { q: "Do I need the WhatsApp Business API?", a: "Yes, and we set it up with you. Most teams are sending messages through Observer within a week." },
@@ -360,7 +360,7 @@ const ar: SiteDict = {
       { name: "الوساطة", price: "2,900 درهم", note: "حتى 15 وكيلاً", cta: "احجز عرضاً توضيحياً", featured: true, features: ["كل ما في باقة الوكيل", "عملاء بلا حدود", "تسلسلات عبر واتساب والرسائل والبريد", "أتمتة فيسبوك وإنستغرام", "التوزيع ومؤقتات الخدمة وتحليلات الوكلاء", "مساعد المكالمات المباشر"] },
       { name: "المطوّر", price: "حسب الطلب", note: "للإطلاقات والفرق الكبيرة", cta: "تحدّث إلينا", features: ["كل ما في باقة الوساطة", "قدرة يوم الإطلاق", "توزيع على الوسطاء الشركاء", "مكالمات ذكية بكثافة", "مدير نجاح مخصص", "تسجيل دخول موحّد وتصدير سجلات التدقيق"] },
     ],
-    popular: "الأكثر اختياراً",
+    popular: "الأنسب للفرق",
     faqH: "أسئلة شائعة",
     faq: [
       { q: "هل أحتاج إلى واجهة واتساب للأعمال؟", a: "نعم، ونجهّزها معك. معظم الفرق ترسل رسائلها عبر أوبزرفر خلال أسبوع." },

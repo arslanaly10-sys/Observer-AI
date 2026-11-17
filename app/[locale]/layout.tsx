@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Instrument_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { locales, isLocale, dirOf } from "@/lib/i18n";
+import { SITE } from "@/lib/seo";
 import "../globals.css";
 
 const latin = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-latin", display: "swap" });
@@ -19,10 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: ar
       ? "يرد أوبزرفر على كل استفسار عقاري عبر واتساب خلال أربع دقائق، ويقيّم جدية المشتري، ويخبر وكلاءك بمن يتصلون أولاً."
       : "Observer answers every property enquiry on WhatsApp within four minutes, scores how serious each buyer is, and tells your agents who to call next.",
-    metadataBase: new URL("https://observer-ai.example"),
+    metadataBase: new URL(SITE),
     openGraph: { type: "website", siteName: "Observer AI", images: ["/og.jpg"] },
     icons: { icon: "/icon.svg" },
-    alternates: { languages: { en: "/en", ar: "/ar" } },
   };
 }
 

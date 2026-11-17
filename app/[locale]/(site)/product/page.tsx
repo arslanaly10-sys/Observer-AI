@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { getSite } from "@/dictionaries/site";
 import type { Locale } from "@/lib/i18n";
+import { pageMeta } from "@/lib/seo";
 import { Tile, Heading, Cta } from "@/components/site/Section";
 import { AppFrame, shot } from "@/components/site/Illustrations";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return { title: getSite(locale).nav.product, description: getSite(locale).product.sub };
+  return pageMeta(locale, "/product", getSite(locale).nav.product, getSite(locale).product.sub);
 }
 
 export default async function Product({ params }: { params: Promise<{ locale: Locale }> }) {

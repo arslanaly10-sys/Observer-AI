@@ -4,15 +4,19 @@ import { Check } from "@phosphor-icons/react/dist/ssr";
 import { getSite } from "@/dictionaries/site";
 import type { Locale } from "@/lib/i18n";
 import { Tile, Heading } from "@/components/site/Section";
+import { RoiCalculator } from "@/components/site/RoiCalculator";
+import { getExtra } from "@/dictionaries/site-extra";
+import { pageMeta } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
   const { locale } = await params;
-  return { title: getSite(locale).nav.pricing, description: getSite(locale).pricing.sub };
+  return pageMeta(locale, "/pricing", getSite(locale).nav.pricing, getSite(locale).pricing.sub);
 }
 
 export default async function Pricing({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const p = getSite(locale).pricing;
+  const roi = getExtra(locale).roi;
   return (
     <>
       <Tile className="pt-14">
@@ -44,7 +48,11 @@ export default async function Pricing({ params }: { params: Promise<{ locale: Lo
           })}
         </ul>
       </Tile>
-      <Tile ground="parchment">
+      <Tile ground="parchment" id="roi">
+        <Heading h={roi.h2} body={roi.body} />
+        <div className="mx-auto mt-14 max-w-[1080px]"><RoiCalculator t={roi} locale={locale} /></div>
+      </Tile>
+      <Tile>
         <Heading h={p.faqH} />
         <div className="mx-auto mt-12 max-w-[760px] divide-y divide-hairline">
           {p.faq.map((f) => (

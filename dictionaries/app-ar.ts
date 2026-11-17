@@ -263,4 +263,18 @@ export const appAr: Record<string, string> = {
   "Dubai Hills": "دبي هيلز", "Downtown": "وسط مدينة دبي", "Palm Jumeirah": "نخلة جميرا", "Emirates Hills": "تلال الإمارات", "Business Bay": "الخليج التجاري",
   "MBR City": "مدينة محمد بن راشد", "Dubai Hills Estate": "دبي هيلز إستيت", "Downtown Dubai": "وسط مدينة دبي", "Jumeirah Village Circle": "قرية جميرا الدائرية",
   "Al Majaz, Sharjah": "المجاز، الشارقة", "Ajman Corniche": "كورنيش عجمان",
+
+  // v2 additions
+  "Screens": "الشاشات", "Actions": "الإجراءات", "Search": "بحث", "Reset demo data": "إعادة ضبط بيانات العرض", "Demo data reset": "أُعيد ضبط بيانات العرض",
+  "Search leads, screens and actions": "ابحث في العملاء والشاشات والإجراءات", "Nothing matches. Try a name, an area or a screen.": "لا نتائج. جرّب اسماً أو منطقة أو شاشة.",
+  "Tip: press ⌘K or Ctrl+K anywhere in the app.": "نصيحة: اضغط ⌘K أو Ctrl+K في أي مكان من التطبيق.", "Tell me about Nour": "حدّثني عن نور",
+  "added and scored": "أُضيف وقُيّم بـ", "Open lead": "افتح العميل", "Calling": "جارٍ الاتصال بـ", "moved to": "نُقل إلى", "Move": "انقل", "to": "إلى",
+  "Drop a deal here": "أفلت صفقة هنا", "updates as you move deals": "يتحدث عند نقل الصفقات",
+  "Every deal by stage, weighted by how likely it is to close. Drag a card, or use its arrow, to move it.": "كل صفقة حسب مرحلتها، مرجّحة باحتمال إغلاقها. اسحب البطاقة أو استخدم السهم لنقلها.",
+  "Export CSV": "تصدير CSV", "Search leads": "ابحث في العملاء", "Name, area, source or agent": "الاسم أو المنطقة أو المصدر أو الوكيل", "leads exported": "عميلاً صُدّروا",
+  "No leads match. Clear the search or pick another filter.": "لا يوجد عملاء مطابقون. امسح البحث أو اختر تصفية أخرى.", "WhatsApp opened for": "فُتح واتساب مع",
+  "Sent to": "أُرسلت إلى", "Viewing booked: Thursday, 11am. Confirmation sent on WhatsApp.": "حُجزت المعاينة: الخميس 11 صباحاً، وأُرسل التأكيد عبر واتساب.",
+  "Shortlist of three homes sent": "أُرسلت قائمة بثلاثة منازل", "Draft sequence created. WhatsApp first, SMS after 2 hours.": "أُنشئت مسودة تسلسل: واتساب أولاً، ثم رسالة نصية بعد ساعتين.",
+  "Unmute": "إلغاء الكتم", "Call ended. Notes saved to Ahmed’s record.": "انتهت المكالمة وحُفظت الملاحظات في سجل أحمد.", "Handled": "تمت المعالجة", "Just now": "الآن",
+  "Dubai Marina": "دبي مارينا", "Abu Dhabi": "أبوظبي",
 };

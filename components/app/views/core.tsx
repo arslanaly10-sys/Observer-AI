@@ -1,9 +1,10 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useStore } from "../store";
 import Link from "next/link";
 import Image from "next/image";
-import { WhatsappLogo, Phone, ChatText, UserPlus, Robot, CaretRight, Lightning } from "@phosphor-icons/react";
-import { leads, activity, nba, kanban, agents, dailyLeads, workspace, PROPERTY, type Temp } from "@/lib/data";
+import { WhatsappLogo, Phone, ChatText, UserPlus, Robot, CaretRight, Lightning, MagnifyingGlass, DownloadSimple, DotsSixVertical, ArrowRight } from "@phosphor-icons/react";
+import { activity, nba, agents, dailyLeads, workspace, PROPERTY, type Temp, type Lead } from "@/lib/data";
 import { img } from "@/lib/img";
 import { useT } from "../i18n";
 import { Card, CardHead, PageHead, Stat, Stats, TempBadge, Monogram, ScoreBar, Btn, Segmented, Table, Bars, Meter, Dot, Pill, cx } from "../ui";
@@ -12,7 +13,8 @@ export const channelIcon: Record<string, typeof WhatsappLogo> = { WhatsApp: What
 
 export function Dashboard() {
   const { t, locale } = useT();
-  const hot = leads.filter((l) => l.temp === "hot").sort((a, b) => b.score - a.score);
+  const { leads, toast } = useStore();
+  const hot = leads.filter((l) => l.temp === "hot").sort((a, b) => b.score - a.score).slice(0, 6);
   return (
     <>
       <div className="relative mb-6 overflow-hidden rounded-[22px] bg-tile text-white">
@@ -57,7 +59,7 @@ export function Dashboard() {
                 </div>
                 <span className="hidden sm:block"><ScoreBar score={l.score} /></span>
                 <span className="t-caption hidden w-10 text-end text-ink-3 md:block">{l.lastContact}</span>
-                <Btn variant="secondary" label={`${t("Call")} ${l.name}`} className="w-9 px-0"><Phone size={16} /></Btn>
+                <Btn variant="secondary" label={`${t("Call")} ${l.name}`} className="w-9 px-0" onClick={() => toast(`${t("Calling")} ${l.name}…`, "info")}><Phone size={16} /></Btn>
               </li>
             ))}
           </ul>
@@ -169,38 +171,69 @@ function TempSplit() {
 
 export function Pipeline() {
   const { t } = useT();
-  const stages = Object.keys(kanban);
+  const { stages, moveCard, toast } = useStore();
+  const names = Object.keys(stages);
+  const [drag, setDrag] = useState<string | null>(null);
+  const [over, setOver] = useState<string | null>(null);
   const prob: Record<string, number> = { New: 10, Qualified: 30, "Meeting Set": 60, "Offer Stage": 85, "Closed Won": 100 };
+  const value = (v: string) => (parseFloat(v.replace(/[^0-9.]/g, "")) || 0) * (/K/i.test(v) ? 1e3 : 1e6);
+  const weighted = names.reduce((a, s) => a + stages[s].reduce((b, c) => b + value(c.value) * prob[s] / 100, 0), 0);
+  const move = (name: string, to: string) => {
+    moveCard(name, to);
+    toast(`${name} ${t("moved to")} ${t(to)}`);
+  };
   return (
     <>
-      <PageHead title="Pipeline" sub="Every deal by stage, weighted by how likely it is to close." />
+      <PageHead title="Pipeline" sub="Every deal by stage, weighted by how likely it is to close. Drag a card, or use its arrow, to move it." />
       <Stats>
-        <Stat label="Weighted pipeline" value="AED 6.84M" />
+        <Stat label="Weighted pipeline" value={`AED ${(weighted / 1e6).toFixed(2)}M`} note="updates as you move deals" />
         <Stat label="Best case" value="AED 12.2M" />
         <Stat label="Commit" value="AED 4.1M" />
         <Stat label="Average deal" value="AED 2.44M" />
       </Stats>
-      <div className="scrollbar-none -mx-4 flex snap-x gap-4 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6">
-        {stages.map((s) => (
-          <section key={s} className="w-[280px] shrink-0 snap-start rounded-[18px] bg-pearl p-3">
+      <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 2xl:grid 2xl:grid-cols-5 2xl:overflow-visible">
+        {names.map((s, si) => (
+          <section
+            key={s}
+            onDragOver={(e) => { e.preventDefault(); setOver(s); }}
+            onDragLeave={() => setOver((o) => (o === s ? null : o))}
+            onDrop={(e) => { e.preventDefault(); if (drag) move(drag, s); setDrag(null); setOver(null); }}
+            aria-label={t(s)}
+            className={cx("w-[264px] shrink-0 snap-start rounded-[18px] p-3 transition-colors 2xl:w-auto", over === s ? "bg-creek-soft" : "bg-pearl")}
+          >
             <header className="flex items-center justify-between px-2 pb-3 pt-1">
               <h2 className="text-[15px] font-semibold">{t(s)}</h2>
-              <span className="t-caption tnum text-ink-2">{kanban[s].length} · {prob[s]}%</span>
+              <span className="t-caption tnum text-ink-2">{stages[s].length} · {prob[s]}%</span>
             </header>
-            <ul className="space-y-2">
-              {kanban[s].map((d) => (
-                <li key={d.name} className="lift rounded-[14px] border border-hairline-soft bg-canvas p-3.5">
+            <ul className="min-h-24 space-y-2">
+              {stages[s].map((d) => (
+                <li
+                  key={d.name}
+                  draggable
+                  onDragStart={() => setDrag(d.name)}
+                  onDragEnd={() => { setDrag(null); setOver(null); }}
+                  className={cx("lift cursor-grab rounded-[14px] border border-hairline-soft bg-canvas p-3.5 active:cursor-grabbing", drag === d.name && "opacity-40")}
+                >
                   <div className="flex items-center gap-2.5">
+                    <DotsSixVertical size={16} className="-ms-1 text-ink-3" aria-hidden />
                     <Monogram name={d.name} size={30} />
-                    <p className="flex-1 truncate text-[15px] font-medium">{d.name}</p>
+                    <p className="min-w-0 flex-1 truncate text-[15px] font-medium">{d.name}</p>
                   </div>
                   <div className="mt-3 flex items-center justify-between">
                     <span className="tnum text-[15px] font-semibold">{d.value}</span>
                     <TempBadge temp={d.temp} />
                   </div>
-                  <p className="t-caption mt-2 text-ink-3">{t(d.type)} · {t(d.time)}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <p className="t-caption text-ink-3">{t(d.type)} · {t(d.time)}</p>
+                    {si < names.length - 1 && (
+                      <button onClick={() => move(d.name, names[si + 1])} className="flex size-8 items-center justify-center rounded-full text-ink-2 hover:bg-parchment hover:text-creek" aria-label={`${t("Move")} ${d.name} ${t("to")} ${t(names[si + 1])}`}>
+                        <ArrowRight size={15} className="rtl:-scale-x-100" />
+                      </button>
+                    )}
+                  </div>
                 </li>
               ))}
+              {stages[s].length === 0 && <li className="t-caption rounded-[14px] border border-dashed border-hairline px-3 py-6 text-center text-ink-3">{t("Drop a deal here")}</li>}
             </ul>
           </section>
         ))}
@@ -213,15 +246,41 @@ type Filter = "all" | Temp | "buyer" | "seller";
 
 export function Leads() {
   const { t } = useT();
+  const { leads, openLead, setOpenLead, toast } = useStore();
   const [f, setF] = useState<Filter>("all");
+  const [q, setQ] = useState("");
   const [open, setOpen] = useState<number | null>(null);
-  const rows = useMemo(() => leads.filter((l) => f === "all" || l.temp === f || l.type.toLowerCase() === f).sort((a, b) => b.score - a.score), [f]);
+  useEffect(() => { if (openLead !== null) { setOpen(openLead); setOpenLead(null); } }, [openLead, setOpenLead]);
+  const rows = useMemo(() => {
+    const s = q.trim().toLowerCase();
+    return leads
+      .filter((l) => f === "all" || l.temp === f || l.type.toLowerCase() === f)
+      .filter((l) => !s || `${l.name} ${l.area} ${l.source} ${l.agent} ${l.budget}`.toLowerCase().includes(s))
+      .sort((a, b) => b.score - a.score);
+  }, [f, q, leads]);
   const sel = leads.find((l) => l.id === open);
+  const exportCsv = () => {
+    const head = ["Name", "Score", "Temperature", "Type", "Source", "Budget", "Area", "Financing", "Moving within", "Agent", "Stage"];
+    const esc = (v: string | number) => `"${String(v).replace(/"/g, '""')}"`;
+    const body = rows.map((l) => [l.name, l.score, l.temp, l.type, l.source, l.budget, l.area, l.financing, l.timeframe, l.agent, l.status].map(esc).join(","));
+    const blob = new Blob(["\ufeff" + [head.join(","), ...body].join("\n")], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `observer-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast(`${rows.length} ${t("leads exported")}`);
+  };
   return (
     <>
-      <PageHead title="All leads" sub="Sorted by score. Select a lead to see why Observer scored them that way." />
+      <PageHead title="All leads" sub="Sorted by score. Select a lead to see why Observer scored them that way." actions={<Btn variant="secondary" onClick={exportCsv}><DownloadSimple size={16} /> {t("Export CSV")}</Btn>} />
       <Card>
-        <div className="mb-4">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <label className="relative w-full sm:w-72">
+            <span className="sr-only">{t("Search leads")}</span>
+            <MagnifyingGlass size={16} className="pointer-events-none absolute start-3 top-1/2 -translate-y-1/2 text-ink-3" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("Name, area, source or agent")} className="h-10 w-full rounded-full border border-hairline-soft bg-pearl ps-9 pe-4 text-[14px] outline-none focus:border-creek" />
+          </label>
           <Segmented<Filter>
             label="Filter leads"
             value={f}
@@ -250,6 +309,7 @@ export function Leads() {
             </tr>
           ))}
         </Table>
+        {rows.length === 0 && <p className="py-10 text-center text-ink-2">{t("No leads match. Clear the search or pick another filter.")}</p>}
       </Card>
       {sel && <LeadDrawer lead={sel} onClose={() => setOpen(null)} />}
     </>
@@ -258,8 +318,14 @@ export function Leads() {
 
 import { scoreLead } from "@/lib/engine";
 import { X } from "@phosphor-icons/react";
-function LeadDrawer({ lead, onClose }: { lead: (typeof leads)[number]; onClose: () => void }) {
+function LeadDrawer({ lead, onClose }: { lead: Lead; onClose: () => void }) {
   const { t } = useT();
+  const { toast } = useStore();
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    addEventListener("keydown", k);
+    return () => removeEventListener("keydown", k);
+  }, [onClose]);
   const s = scoreLead(lead);
   const p = PROPERTY[lead.area];
   return (
@@ -302,8 +368,8 @@ function LeadDrawer({ lead, onClose }: { lead: (typeof leads)[number]; onClose: 
           ))}
         </dl>
         <div className="mt-7 flex gap-2">
-          <Btn className="flex-1"><WhatsappLogo size={16} /> {t("Message")}</Btn>
-          <Btn variant="secondary" className="flex-1"><Phone size={16} /> {t("Call")}</Btn>
+          <Btn className="flex-1" onClick={() => toast(`${t("WhatsApp opened for")} ${lead.name}`)}><WhatsappLogo size={16} /> {t("Message")}</Btn>
+          <Btn variant="secondary" className="flex-1" onClick={() => toast(`${t("Calling")} ${lead.name}…`, "info")}><Phone size={16} /> {t("Call")}</Btn>
         </div>
         <p className="mt-4"><Pill tone="creek"><CaretRight size={12} className="rtl:-scale-x-100" />{t("Observer suggests: book a viewing this week")}</Pill></p>
       </aside>

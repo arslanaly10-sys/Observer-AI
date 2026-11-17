@@ -3,10 +3,13 @@ import { useState } from "react";
 import { CheckCircle, WarningCircle, LockKey, Globe, FileText, Bank } from "@phosphor-icons/react";
 import { sla, compliance, auditLog, notifs } from "@/lib/data";
 import { useT } from "../i18n";
+import { useStore } from "../store";
 import { Card, CardHead, PageHead, Stat, Stats, Monogram, Btn, Table, Meter, Pill, Dot, cx } from "../ui";
 
 export function Sla() {
   const { t } = useT();
+  const { toast } = useStore();
+  const [handled, setHandled] = useState<string[]>([]);
   return (
     <>
       <PageHead title="SLA tracking" sub="How long each lead has waited for a human reply. The target is five minutes for hot leads." />
@@ -30,7 +33,9 @@ export function Sla() {
                 <p className={cx("tnum mb-1 text-[15px] font-semibold", s.status === "breach" ? "text-hot" : s.status === "warn" ? "text-warm" : "text-ok")}>{s.timer}</p>
                 <Meter value={s.pct} tone={s.status === "breach" ? "hot" : s.status === "warn" ? "warm" : "ok"} />
               </div>
-              <Btn variant={s.status === "breach" ? "primary" : "secondary"}>{t(s.action)}</Btn>
+              {handled.includes(s.name)
+                ? <Pill tone="ok">{t("Handled")}</Pill>
+                : <Btn variant={s.status === "breach" ? "primary" : "secondary"} onClick={() => { setHandled((h) => [...h, s.name]); toast(`${t(s.action)}: ${s.name}`); }}>{t(s.action)}</Btn>}
             </li>
           ))}
         </ul>

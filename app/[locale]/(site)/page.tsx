@@ -5,6 +5,17 @@ import { getSite, audienceIds } from "@/dictionaries/site";
 import { img, type PhotoKey } from "@/lib/img";
 import type { Locale } from "@/lib/i18n";
 import { Tile, Heading, Cta } from "@/components/site/Section";
+import { LiveDemo } from "@/components/site/LiveDemo";
+import { Integrations } from "@/components/site/Integrations";
+import { getExtra } from "@/dictionaries/site-extra";
+import { pageMeta, SITE } from "@/lib/seo";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const h = getSite(locale).home.hero;
+  return { ...pageMeta(locale, "", h.h1, h.sub), title: { absolute: `Observer AI · ${h.h1.replace(/\.$/, "")}` } };
+}
 import { AppFrame, Phone, ScoreDiagram, CascadeDiagram, shot } from "@/components/site/Illustrations";
 
 export const audiencePhoto: Record<string, PhotoKey> = {
@@ -14,7 +25,15 @@ export const audiencePhoto: Record<string, PhotoKey> = {
 export default async function Home({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const t = getSite(locale);
+  const x = getExtra(locale);
   const h = t.home;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "Organization", name: "Observer AI", url: SITE, logo: `${SITE}/icon.svg`, areaServed: ["AE", "SA", "QA", "KW", "BH", "OM"] },
+      { "@type": "SoftwareApplication", name: "Observer AI", applicationCategory: "BusinessApplication", operatingSystem: "Web", inLanguage: ["en", "ar"], description: h.hero.sub, url: `${SITE}/${locale}` },
+    ],
+  };
   const L = (p: string) => `/${locale}${p}`;
   const ar = locale === "ar";
   const scoreLabels = ar
@@ -23,6 +42,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       {/* Hero: dusk on Sheikh Zayed Road, the product rising out of it (DESIGN.md › Signature) */}
       <section className="relative overflow-hidden bg-tile text-white">
         <div className="absolute inset-0">
@@ -56,8 +76,14 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         </ul>
       </Tile>
 
+      {/* The interactive moment: a real enquiry, read by the real engine */}
+      <Tile ground="parchment" id="try">
+        <Heading h={x.demo.h2} body={x.demo.body} />
+        <div className="mx-auto mt-14 max-w-[1080px]"><LiveDemo t={x.demo} locale={locale} /></div>
+      </Tile>
+
       {/* One calm screen, in two languages and on a phone */}
-      <Tile ground="parchment">
+      <Tile>
         <Heading h={h.desk.h2} body={h.desk.body} />
         <div className="mx-auto mt-16 grid max-w-[1080px] items-center gap-10 md:grid-cols-[1fr_280px]">
           <AppFrame src={ar ? "/shots/dashboard.jpg" : "/shots/dashboard-ar.jpg"} alt={ar ? "لوحة القيادة بالإنجليزية" : "The dashboard in Arabic, right to left"} />
@@ -159,12 +185,15 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         </ul>
       </Tile>
 
+      {/* Integrations */}
+      <Tile ground="parchment"><Integrations t={x.integrations} /></Tile>
+
       {/* Close */}
-      <Tile ground="parchment">
-        <Heading h={h.close.h2} body={h.close.body} />
+      <Tile ground="tile">
+        <Heading h={h.close.h2} body={h.close.body} dark />
         <div className="mt-9 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-          <Cta href={L("/contact")}>{h.close.cta}</Cta>
-          <Cta href={L("/app/dashboard")} ghost>{h.close.cta2}</Cta>
+          <Link href={L("/contact")} className="btn bg-white text-[#1d1d1f] hover:bg-white/90">{h.close.cta}</Link>
+          <Cta href={L("/app/dashboard")} ghost dark>{h.close.cta2}</Cta>
         </div>
       </Tile>
     </>

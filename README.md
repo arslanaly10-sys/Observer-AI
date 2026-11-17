@@ -9,7 +9,9 @@ prototype of the Observer app, built with Next.js and Tailwind.
 |---|---|
 | `/en`, `/ar` | Marketing site: Home, Product, Pricing, Solutions (Brokerages, Agents, Developers, Investors), About, Contact |
 | `/en/app/*`, `/ar/app/*` | The app prototype: all 18 screens from v10, redesigned, with mock data and the scoring engine |
-| `/api/demo` | Book-a-demo endpoint. Validates, then forwards to `DEMO_WEBHOOK_URL` if set (otherwise logs) |
+| `/en/security`, `/privacy`, `/terms` | Trust pages (Privacy and Terms are drafts pending legal review) |
+| `/api/demo` | Book-a-demo endpoint. Validates, filters bots (honeypot), then forwards to `DEMO_WEBHOOK_URL` if set (otherwise logs) |
+| `/sitemap.xml`, `/robots.txt` | Generated, with English and Arabic alternates |
 
 App screens: Dashboard, Pipeline, All leads, Lead scoring, Intent detection, Next best action, Live call assistant,
 WhatsApp, Sequences, Facebook & Instagram, Conversion funnel, Channel ROI, Agent performance, GCC developers,
@@ -19,9 +21,13 @@ Payment plans, SLA tracking, Compliance, Notifications.
 
 ```bash
 npm install
-npm run dev        # http://localhost:3000 → redirects to /en
+npm run dev        # http://localhost:3000 → /en or /ar by browser language
 npm run build
+npm test           # engine unit tests (Vitest)
 ```
+
+In the app, press **⌘K / Ctrl+K** to search leads and screens. Added leads and pipeline moves are saved in the
+browser; reset them from the palette ("Reset demo data").
 
 Refresh the product screenshots used on the marketing site (needs the dev server running and Playwright):
 
@@ -44,6 +50,9 @@ lib/img.ts                curated, verified Unsplash library
 DESIGN.md                 the design system (Apple base from awesome-design-md, adapted)
 CONTENT.md                voice and copy rules
 CONTENT-TODO.md           everything to verify or replace before launch
+REVIEW.md                 the critical review, and what v2 fixed
+proxy.ts                  sends "/" to /ar or /en by browser language
+tests/                    Vitest unit tests for lib/engine.ts
 reference/                the original v10 single-file prototype
 .claude/skills/           design and engineering skills for Claude Code sessions on this repo
 ```

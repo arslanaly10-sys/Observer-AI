@@ -48,6 +48,10 @@ export function DemoForm({ t, locale }: { t: SiteDict["contact"]; locale: string
 
   return (
     <form noValidate onSubmit={submit} className="grid gap-5 sm:grid-cols-2">
+      {/* Honeypot: hidden from people and screen readers; bots tend to fill it. */}
+      <div aria-hidden="true" className="absolute -start-[9999px] h-0 w-0 overflow-hidden">
+        <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+      </div>
       <label className="t-caption text-ink-2 sm:col-span-2">{t.fields.name}<input name="name" autoComplete="name" className={cls("name")} {...aria("name")} />{err("name")}</label>
       <label className="t-caption text-ink-2">{t.fields.company}<input name="company" autoComplete="organization" className={cls("company")} {...aria("company")} />{err("company")}</label>
       <label className="t-caption text-ink-2">{t.fields.role}

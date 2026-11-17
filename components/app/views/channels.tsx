@@ -5,10 +5,12 @@ import { Phone, CalendarCheck, HouseLine, PaperPlaneRight, Sparkle, WhatsappLogo
 import { waContacts, waThread, sequences, cascade, journeys, socialFlows, socialFeed, PROPERTY } from "@/lib/data";
 import { img } from "@/lib/img";
 import { useT } from "../i18n";
+import { useStore } from "../store";
 import { Card, CardHead, PageHead, Stat, Stats, Monogram, Btn, Segmented, Pill, Dot, Meter, TempBadge, cx } from "../ui";
 
 export function WhatsApp() {
   const { t } = useT();
+  const { toast } = useStore();
   const [active, setActive] = useState(0);
   const [draft, setDraft] = useState("");
   const [sent, setSent] = useState<string[]>([]);
@@ -44,7 +46,7 @@ export function WhatsApp() {
               <p className="font-medium">{c.name}</p>
               <p className="t-caption flex items-center gap-1.5 text-ink-2"><Dot tone="wa" /> {t("Online")} · {t("Score")} {c.score}</p>
             </div>
-            <Btn variant="secondary"><Phone size={16} /> <span className="hidden sm:inline">{t("Call")}</span></Btn>
+            <Btn variant="secondary" onClick={() => toast(`${t("Calling")} ${c.name}…`, "info")}><Phone size={16} /> <span className="hidden sm:inline">{t("Call")}</span></Btn>
           </header>
           <div className="flex-1 space-y-2.5 overflow-y-auto bg-pearl px-4 py-5 sm:px-6">
             {waThread.map((m, i) =>
@@ -75,7 +77,7 @@ export function WhatsApp() {
               <Btn variant="quiet" onClick={() => setDraft(suggestion)}>{t("Use")}</Btn>
             </div>
           )}
-          <form className="flex items-center gap-2 p-3 sm:px-6" onSubmit={(e) => { e.preventDefault(); if (draft.trim()) { setSent((s) => [...s, draft]); setDraft(""); } }}>
+          <form className="flex items-center gap-2 p-3 sm:px-6" onSubmit={(e) => { e.preventDefault(); if (draft.trim()) { setSent((s) => [...s, draft]); setDraft(""); toast(`${t("Sent to")} ${c.name}`); } }}>
             <label htmlFor="wa-draft" className="sr-only">{t("Message")}</label>
             <input id="wa-draft" value={draft} onChange={(e) => setDraft(e.target.value)} placeholder={t("Write a message")} className="h-11 flex-1 rounded-full border border-hairline-soft bg-canvas px-4 text-[15px] outline-none focus:border-creek" />
             <button className="flex size-11 items-center justify-center rounded-full bg-wa text-white" aria-label={t("Send")}><PaperPlaneRight size={18} className="rtl:-scale-x-100" /></button>
@@ -94,8 +96,8 @@ export function WhatsApp() {
             ))}
           </dl>
           <div className="mt-6 grid gap-2">
-            <Btn><CalendarCheck size={16} /> {t("Book a viewing")}</Btn>
-            <Btn variant="secondary"><HouseLine size={16} /> {t("Send a shortlist")}</Btn>
+            <Btn onClick={() => toast(t("Viewing booked: Thursday, 11am. Confirmation sent on WhatsApp."))}><CalendarCheck size={16} /> {t("Book a viewing")}</Btn>
+            <Btn variant="secondary" onClick={() => toast(t("Shortlist of three homes sent"))}><HouseLine size={16} /> {t("Send a shortlist")}</Btn>
           </div>
         </Card>
       </div>
@@ -108,12 +110,13 @@ const cascadeIcon: Record<string, typeof WhatsappLogo> = { WhatsApp: WhatsappLog
 
 export function Sequences() {
   const { t } = useT();
+  const { toast } = useStore();
   const [f, setF] = useState<"all" | keyof typeof chIcon>("all");
   const [open, setOpen] = useState(0);
   const list = sequences.filter((s) => f === "all" || s.channel === f);
   return (
     <>
-      <PageHead title="Sequences" sub="Follow-ups that write themselves. WhatsApp first, then SMS, then a call, until someone answers." actions={<Btn><Plus size={16} /> {t("New sequence")}</Btn>} />
+      <PageHead title="Sequences" sub="Follow-ups that write themselves. WhatsApp first, then SMS, then a call, until someone answers." actions={<Btn onClick={() => toast(t("Draft sequence created. WhatsApp first, SMS after 2 hours."))}><Plus size={16} /> {t("New sequence")}</Btn>} />
       <Stats>
         <Stat label="Active sequences" value="7" />
         <Stat label="Messages sent today" value="1,847" />

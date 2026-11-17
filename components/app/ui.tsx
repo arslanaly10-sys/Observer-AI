@@ -91,8 +91,8 @@ export function Monogram({ name, size = 36, className }: { name: string; size?: 
   return (
     <span
       aria-hidden
-      className={cx("inline-flex shrink-0 items-center justify-center rounded-full font-semibold", className)}
-      style={{ width: size, height: size, fontSize: size * 0.36, background: `hsl(${hue} 32% 90%)`, color: `hsl(${hue} 45% 28%)` }}
+      className={cx("mono inline-flex shrink-0 items-center justify-center rounded-full font-semibold", className)}
+      style={{ width: size, height: size, fontSize: size * 0.36, ["--mh" as string]: hue }}
     >
       {initials}
     </span>

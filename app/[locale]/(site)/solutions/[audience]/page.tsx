@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSite, audienceIds, type AudienceId } from "@/dictionaries/site";
 import { locales, type Locale } from "@/lib/i18n";
+import { pageMeta } from "@/lib/seo";
 import { img, type PhotoKey } from "@/lib/img";
 import { Tile, Heading, Cta } from "@/components/site/Section";
 import { AppFrame, shot } from "@/components/site/Illustrations";
@@ -19,7 +20,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale; audience: AudienceId }> }): Promise<Metadata> {
   const { locale, audience } = await params;
   const a = getSite(locale).audiences[audience];
-  return a ? { title: a.label, description: a.sub } : {};
+  return a ? pageMeta(locale, `/solutions/${audience}`, a.label, a.sub) : {};
 }
 
 export default async function Solution({ params }: { params: Promise<{ locale: Locale; audience: string }> }) {

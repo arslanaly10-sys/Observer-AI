@@ -7,6 +7,9 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
   try { body = await req.json(); } catch { return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 }); }
+  // Honeypot filled: answer as if accepted, record nothing.
+  if (typeof body.website === "string" && body.website.trim()) return NextResponse.json({ ok: true });
+  if (JSON.stringify(body).length > 5000) return NextResponse.json({ ok: false, error: "too_large" }, { status: 413 });
   const str = (k: string) => (typeof body[k] === "string" ? (body[k] as string).trim().slice(0, 500) : "");
   const lead = { name: str("name"), company: str("company"), role: str("role"), phone: str("phone"), email: str("email"), size: str("size"), message: str("message"), locale: str("locale"), at: new Date().toISOString() };
   if (!lead.name || !lead.company || !lead.phone || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email) || body.consent !== "yes")

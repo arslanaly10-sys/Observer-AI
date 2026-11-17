@@ -2,19 +2,23 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight } from "@phosphor-icons/react";
+import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight, CheckCircle, Info } from "@phosphor-icons/react";
 import { navGroups, viewLabel, type ViewId } from "./nav";
 import { LocaleProvider, useT } from "./i18n";
 import { cx, Monogram, Dot, Btn } from "./ui";
 import { Logo } from "@/components/Logo";
-import { workspace, leads } from "@/lib/data";
-import { scoreLead } from "@/lib/engine";
+import { workspace, sla, type Lead } from "@/lib/data";
+import { scoreLead, rankActions, fmtAED, budgetMillions } from "@/lib/engine";
+import { StoreProvider, useStore } from "./store";
+import { Palette } from "./Palette";
 import { switchPath, otherLocale, type Locale } from "@/lib/i18n";
 
 export function AppShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   return (
     <LocaleProvider value={locale}>
-      <ShellInner>{children}</ShellInner>
+      <StoreProvider>
+        <ShellInner>{children}</ShellInner>
+      </StoreProvider>
     </LocaleProvider>
   );
 }
@@ -27,6 +31,7 @@ function ShellInner({ children }: { children: ReactNode }) {
   const [addLead, setAddLead] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const current = (pathname.split("/")[3] || "dashboard") as ViewId;
+  const { setPaletteOpen, toasts } = useStore();
 
   useEffect(() => {
     let stored: string | null = null;
@@ -116,14 +121,18 @@ function ShellInner({ children }: { children: ReactNode }) {
             <List size={20} />
           </button>
           <p className="truncate text-[15px] font-medium lg:hidden">{t(viewLabel[current] ?? "Dashboard")}</p>
-          <label className="relative ms-auto hidden max-w-[360px] flex-1 md:block lg:ms-0">
-            <span className="sr-only">{t("Search leads, agents and homes")}</span>
-            <MagnifyingGlass size={16} className="pointer-events-none absolute start-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
-            <input placeholder={t("Search leads, agents and homes")} className="h-10 w-full rounded-full border border-hairline-soft bg-canvas ps-10 pe-4 text-[14px] outline-none placeholder:text-ink-3 focus:border-creek" />
-          </label>
-          <div className="ms-auto flex items-center gap-1">
+          <button
+            onClick={() => setPaletteOpen(true)}
+            className="relative ms-auto hidden h-10 max-w-[360px] flex-1 items-center gap-2.5 rounded-full border border-hairline-soft bg-canvas ps-3.5 pe-2 text-start text-[14px] text-ink-3 hover:border-hairline md:flex lg:ms-0"
+          >
+            <MagnifyingGlass size={16} />
+            <span className="flex-1 truncate">{t("Search leads, agents and homes")}</span>
+            <kbd className="rounded-md border border-hairline px-1.5 py-0.5 text-[11px]">⌘K</kbd>
+          </button>
+          <button onClick={() => setPaletteOpen(true)} className="ms-auto flex size-10 items-center justify-center rounded-full hover:bg-canvas md:hidden" aria-label={t("Search")}><MagnifyingGlass size={18} /></button>
+          <div className="flex items-center gap-1 md:ms-auto">
             <span className="me-2 hidden items-center gap-2 text-[13px] text-ink-2 xl:flex"><Dot live /> {t("Observer is working")}</span>
-            <Link href={switchPath(pathname, otherLocale(locale))} className="flex h-10 items-center gap-1.5 rounded-full px-3 text-[14px] hover:bg-canvas" aria-label={t("Switch language")}>
+            <Link href={switchPath(pathname, otherLocale(locale))} onClick={() => { try { document.cookie = `obs-lang=${otherLocale(locale)}; path=/; max-age=31536000; samesite=lax`; } catch {} }} className="flex h-10 items-center gap-1.5 rounded-full px-3 text-[14px] hover:bg-canvas" aria-label={t("Switch language")}>
               <Translate size={18} /> <span className="hidden sm:inline">{locale === "ar" ? "English" : "العربية"}</span>
             </Link>
             <button onClick={toggleTheme} className="flex size-10 items-center justify-center rounded-full hover:bg-canvas" aria-label={theme === "dark" ? t("Use light appearance") : t("Use dark appearance")}>
@@ -145,6 +154,15 @@ function ShellInner({ children }: { children: ReactNode }) {
         <Sparkle size={18} weight="fill" className="text-[#6bd3df]" /> {t("Ask Observer")}
       </button>
       {copilot && <Copilot onClose={() => setCopilot(false)} />}
+      <Palette onAddLead={() => setAddLead(true)} />
+      <div aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-20 z-[70] flex flex-col items-center gap-2 px-4">
+        {toasts.map((x) => (
+          <p key={x.id} className="enter-rise flex items-center gap-2 rounded-full bg-tile px-4 py-2.5 text-[14px] text-white shadow-[0_12px_32px_-8px_rgb(0_0_0/0.45)]">
+            {x.tone === "ok" ? <CheckCircle size={16} weight="fill" className="text-[#4cc27c]" /> : <Info size={16} weight="fill" className="text-[#6bd3df]" />}
+            {x.text}
+          </p>
+        ))}
+      </div>
       {addLead && <AddLead onClose={() => setAddLead(false)} />}
     </div>
   );
@@ -158,14 +176,45 @@ function useEscape(onClose: () => void) {
   }, [onClose]);
 }
 
-const answers: { rx: RegExp; en: string }[] = [
-  { rx: /hot|call|who/i, en: "Call Nour Al Mansouri first. Her offer has been pending for two hours and she’s a cash buyer at AED 6M. Then Ahmed Al Khalidi, who has viewed eight listings and hasn’t heard from anyone yet." },
-  { rx: /sla|late|breach/i, en: "Two leads are in breach: Omar Al Farouq and Sara Al Blooshi, both cold. Five more will breach in the next 15 minutes. I’d hand the cold two to the AI call sequence." },
-  { rx: /pipeline|revenue|forecast/i, en: "Weighted pipeline is AED 6.84M. The commit number is AED 4.1M, and most of it rests on two deals: Nour Al Mansouri and Fatima Al Zaabi." },
-];
+/** Copilot answers from live workspace data (the same engine the screens use), not canned text. */
+function answer(q: string, all: Lead[], t: (s: string) => string, ar: boolean): string {
+  const lower = q.toLowerCase();
+  const named = all.find((l) => lower.includes(l.name.toLowerCase().split(" ")[0]) || q.includes(t(l.name)));
+  if (named) {
+    const s = scoreLead(named);
+    const why = s.parts.slice(0, 2).map((p) => t(p.label)).join(ar ? " و" : " and ");
+    return ar
+      ? `${named.name}: تقييم ${named.score} (${t(named.temp[0].toUpperCase() + named.temp.slice(1))}). أقوى الإشارات: ${why}. الميزانية ${named.budget} في ${t(named.area)}، والوكيل ${t(named.agent)}.`
+      : `${named.name} scores ${named.score} (${named.temp}). The strongest signals are ${why.toLowerCase()}. Budget ${named.budget} in ${named.area}, handled by ${named.agent}.`;
+  }
+  if (/sla|late|breach|wait|تجاوز|ينتظر|متأخر/i.test(q)) {
+    const b = sla.filter((x) => x.status === "breach").map((x) => x.name);
+    const w = sla.filter((x) => x.status === "warn").length;
+    return ar
+      ? `${b.length} في حالة تجاوز الآن: ${b.join(" و")}. و${w} آخرون في خطر. أقترح تحويل العملاء الباردين إلى تسلسل المكالمات الذكية وإسناد الدافئين فوراً.`
+      : `${b.length} leads are in breach right now: ${b.join(" and ")}. ${w} more are at risk. I'd move the cold ones to the AI call sequence and assign the warm ones now.`;
+  }
+  if (/pipeline|revenue|forecast|money|commission|خط|إيراد|عمولة|توقع/i.test(q)) {
+    const total = all.reduce((a, l) => a + budgetMillions(l.budget), 0) * 1e6;
+    const hot = all.filter((l) => l.temp === "hot");
+    const hotVal = hot.reduce((a, l) => a + budgetMillions(l.budget), 0) * 1e6;
+    return ar
+      ? `لديك ${all.length} عميلاً بقيمة ${fmtAED(total)} إجمالاً. ${hot.length} منهم ساخنون بقيمة ${fmtAED(hotVal)}، أي عمولة محتملة نحو ${fmtAED(hotVal * 0.02)} عند 2%.`
+      : `You have ${all.length} leads worth ${fmtAED(total)} in total. ${hot.length} are hot, worth ${fmtAED(hotVal)}, or about ${fmtAED(hotVal * 0.02)} in commission at 2%.`;
+  }
+  if (/cold|nurture|بارد|خامل/i.test(q)) {
+    const c = all.filter((l) => l.temp === "cold").map((l) => l.name);
+    return ar ? `العملاء الباردون: ${c.join("، ")}. أبقيهم على نشرة السوق الأسبوعية، وأتصل بهم بعد 7 أيام بلا رد.` : `Cold leads: ${c.join(", ")}. I'm keeping them on the weekly market letter and will call after seven quiet days.`;
+  }
+  const top = rankActions(all).slice(0, 2);
+  return ar
+    ? `ابدأ بـ${top[0].lead}: ${t(top[0].action)} (${t(top[0].why)}). ثم ${top[1].lead}: ${t(top[1].action)}.`
+    : `Start with ${top[0].lead}: ${top[0].action.toLowerCase()} (${top[0].why.toLowerCase()}). Then ${top[1].lead}: ${top[1].action.toLowerCase()}.`;
+}
 
 function Copilot({ onClose }: { onClose: () => void }) {
   const { t, locale } = useT();
+  const { leads: all } = useStore();
   const [q, setQ] = useState("");
   const [log, setLog] = useState<{ me: boolean; text: string }[]>([
     { me: false, text: t("Ahmed Al Khalidi has been looking at Dubai Hills listings for 40 minutes and nobody has contacted him yet. Want me to send him a WhatsApp?") },
@@ -175,8 +224,7 @@ function Copilot({ onClose }: { onClose: () => void }) {
   useEffect(() => ref.current?.focus(), []);
   const ask = (text: string) => {
     if (!text.trim()) return;
-    const a = answers.find((x) => x.rx.test(text))?.en ?? "I looked across all 247 leads. The fastest win today is the five hot leads without a reply. Want me to draft the messages?";
-    setLog((l) => [...l, { me: true, text }, { me: false, text: t(a) }]);
+    setLog((l) => [...l, { me: true, text }, { me: false, text: answer(text, all, t, locale === "ar") }]);
     setQ("");
   };
   return (
@@ -195,7 +243,7 @@ function Copilot({ onClose }: { onClose: () => void }) {
         ))}
         {log.length === 1 && (
           <div className="flex flex-wrap gap-2 pt-1">
-            {["Who should I call first?", "Any SLA breaches?", "How’s the pipeline?"].map((s) => (
+            {["Who should I call first?", "Any SLA breaches?", "How’s the pipeline?", "Tell me about Nour"].map((s) => (
               <button key={s} onClick={() => ask(t(s))} className="rounded-full border border-hairline px-3 py-1.5 text-[13px] text-ink-2 hover:border-creek hover:text-creek">{t(s)}</button>
             ))}
           </div>
@@ -211,14 +259,21 @@ function Copilot({ onClose }: { onClose: () => void }) {
 }
 
 function AddLead({ onClose }: { onClose: () => void }) {
-  const { t } = useT();
+  const { t, locale } = useT();
   useEscape(onClose);
   const [f, setF] = useState({ name: "", phone: "", source: "Bayut", budget: "", area: "Dubai Hills", financing: "Cash", timeframe: "1-2 mo" });
   const [result, setResult] = useState<ReturnType<typeof scoreLead> | null>(null);
+  const { addLead, toast, setOpenLead } = useStore();
+  const router = useRouter();
+  const [newId, setNewId] = useState<number | null>(null);
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
   const submit = () => {
     const budget = f.budget ? `AED ${f.budget}` : "AED 1.5M";
-    setResult(scoreLead({ financing: f.financing, budget, timeframe: f.timeframe, source: f.source, urgency: "serious", temp: "warm", area: f.area }));
+    const r = scoreLead({ financing: f.financing, budget, timeframe: f.timeframe, source: f.source, urgency: "serious", temp: "warm", area: f.area });
+    setResult(r);
+    const lead = addLead({ name: f.name.trim(), phone: f.phone || "+971", score: r.score, temp: r.temp, type: "Buyer", source: f.source, budget, timeframe: f.timeframe, financing: f.financing, agent: "Unassigned", status: "New", urgency: "serious", area: f.area, lastContact: "now" });
+    setNewId(lead.id);
+    toast(`${lead.name} ${t("added and scored")} ${r.score}`);
   };
   const field = "h-11 w-full rounded-[10px] border border-hairline bg-canvas px-3 text-[15px] outline-none focus:border-creek";
   return (
@@ -243,7 +298,10 @@ function AddLead({ onClose }: { onClose: () => void }) {
                 </li>
               ))}
             </ul>
-            <Btn className="mt-6 w-full" onClick={onClose}>{t("Done")}</Btn>
+            <div className="mt-6 grid grid-cols-2 gap-2">
+              <Btn variant="secondary" onClick={onClose}>{t("Done")}</Btn>
+              <Btn onClick={() => { setOpenLead(newId); onClose(); router.push(`/${locale}/app/leads`); }}>{t("Open lead")}</Btn>
+            </div>
           </div>
         ) : (
           <form className="grid grid-cols-2 gap-3" onSubmit={(e) => { e.preventDefault(); submit(); }}>
@@ -277,4 +335,3 @@ export function useLocaleHref() {
 export function useRouterPush() {
   return useRouter().push;
 }
-export { leads };
