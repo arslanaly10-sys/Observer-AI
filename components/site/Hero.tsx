@@ -33,7 +33,7 @@ export function Hero({ h, x, form, sources, L, locale }: { h: Copy; x: ExtraDict
           <p className="enter-rise enter-d2 mt-6 max-w-[44ch] text-[18px] leading-[1.5] text-white/75 md:text-[20px]">{x.sub}</p>
           <div className="enter-rise enter-d2 mt-8">
             <InlineCta locale={locale} label={form.label} placeholder={form.placeholder} button={h.cta} reassure={form.reassure} />
-            <Link href={L("/app/dashboard")} className="mt-3 inline-flex min-h-11 items-center gap-2 text-[15px] text-white/85 underline-offset-4 hover:underline">
+            <Link href={L("/demo")} className="mt-3 inline-flex min-h-11 items-center gap-2 text-[15px] text-white/85 underline-offset-4 hover:underline">
               {h.cta2}<ArrowRight size={15} className="rtl:-scale-x-100" />
             </Link>
           </div>

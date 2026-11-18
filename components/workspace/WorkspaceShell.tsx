@@ -77,7 +77,7 @@ export function WorkspaceShell({ children, memberships, currentId, userName, ema
           );
         })}
         <li className="pt-4">
-          <Link href={`/${locale}/app/dashboard`} className="flex h-10 items-center gap-2.5 rounded-[9px] px-3 text-[14px] text-ink-3 hover:text-ink"><Flask size={18} />{t("Try the demo app")}</Link>
+          <Link href={`/${locale}/demo`} className="flex h-10 items-center gap-2.5 rounded-[9px] px-3 text-[14px] text-ink-3 hover:text-ink"><Flask size={18} />{t("Try the demo app")}</Link>
         </li>
       </ul>
       <div className="flex items-center gap-3 border-t border-hairline-soft px-5 py-3.5">

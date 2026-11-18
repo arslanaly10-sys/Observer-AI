@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n";
 import { appAr } from "@/dictionaries/app-ar";
 import { wsAr } from "@/dictionaries/workspace-ar";
 import { growthAr } from "@/dictionaries/growth-ar";
+import { demoAr } from "@/dictionaries/demo-ar";
 
 const Ctx = createContext<Locale>("en");
 export const LocaleProvider = Ctx.Provider;
@@ -11,7 +12,7 @@ export const LocaleProvider = Ctx.Provider;
 /** Translate an English UI string. Keys are the English strings themselves; missing Arabic falls back to English. */
 export function useT() {
   const locale = useContext(Ctx);
-  const t = (en: string) => (locale === "ar" ? wsAr[en] ?? growthAr[en] ?? appAr[en] ?? en : en);
+  const t = (en: string) => (locale === "ar" ? demoAr[en] ?? wsAr[en] ?? growthAr[en] ?? appAr[en] ?? en : en);
   return { t, locale, rtl: locale === "ar" };
 }
 

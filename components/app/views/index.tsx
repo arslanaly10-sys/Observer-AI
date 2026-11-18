@@ -7,12 +7,21 @@ import { Funnel, ChannelROI, Agents } from "./analytics";
 import { DemoMarket } from "./market";
 import { DemoCalculator } from "./calculator";
 import { Sla, Compliance, Notifications } from "./enterprise";
+import { Board } from "./exec";
+import { Clients, Deals, Tasks } from "./crm";
+import { Projects } from "./inventory";
+import { Brokers, Partner } from "./network";
+import { AiActivity, Automations, Voice } from "./ai";
+import { LaunchNight } from "./launch";
 
 const views: Record<ViewId, () => React.JSX.Element> = {
-  dashboard: Dashboard, pipeline: Pipeline, leads: Leads,
+  board: Board, partner: Partner,
+  dashboard: Dashboard, clients: Clients, pipeline: Pipeline, leads: Leads, deals: Deals, tasks: Tasks,
+  projects: Projects, launch: LaunchNight,
+  "ai-activity": AiActivity, automations: Automations, voice: Voice,
   scoring: Scoring, intent: Intent, "next-best-action": NextBestAction, "live-call": LiveCall,
   whatsapp: WhatsApp, sequences: Sequences, social: Social,
-  funnel: Funnel, "channel-roi": ChannelROI, agents: Agents,
+  funnel: Funnel, "channel-roi": ChannelROI, agents: Agents, brokers: Brokers,
   "gcc-developers": DemoMarket, "payment-plans": DemoCalculator,
   sla: Sla, compliance: Compliance, notifications: Notifications,
 };

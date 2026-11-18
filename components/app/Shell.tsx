@@ -5,8 +5,11 @@ import { InlineCta } from "@/components/site/InlineCta";
 import { img } from "@/lib/img";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight, ArrowRight, CheckCircle, Info } from "@phosphor-icons/react";
-import { navGroups, viewLabel, type ViewId } from "./nav";
+import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight, ArrowRight, CheckCircle, Info, Eye, EyeSlash, PlayCircle, LockSimple } from "@phosphor-icons/react";
+import { navFor, canSee, viewLabel, type ViewId } from "./nav";
+import { RoleProvider, useRole } from "./role";
+import { roles, group } from "@/lib/demo/group";
+import { Tour, startTour } from "./Tour";
 import { LocaleProvider, useT } from "./i18n";
 import { cx, Monogram, Dot, Btn } from "./ui";
 import { Logo } from "@/components/Logo";
@@ -19,9 +22,11 @@ import { switchPath, otherLocale, type Locale } from "@/lib/i18n";
 export function AppShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   return (
     <LocaleProvider value={locale}>
-      <StoreProvider>
-        <ShellInner>{children}</ShellInner>
-      </StoreProvider>
+      <RoleProvider>
+        <StoreProvider>
+          <ShellInner>{children}</ShellInner>
+        </StoreProvider>
+      </RoleProvider>
     </LocaleProvider>
   );
 }
@@ -29,17 +34,23 @@ export function AppShell({ locale, children }: { locale: Locale; children: React
 function ShellInner({ children }: { children: ReactNode }) {
   const { t, locale } = useT();
   const pathname = usePathname();
+  const { role } = useRole();
+  const seat = roles[role];
   const [menu, setMenu] = useState(false);
   const [copilot, setCopilot] = useState(false);
   const [addLead, setAddLead] = useState(false);
+  const [priv, setPriv] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  const current = (pathname.split("/")[3] || "dashboard") as ViewId;
+  const current = (pathname.split("/")[3] || seat.home) as ViewId;
+  const allowed = canSee(role, current);
   const { setPaletteOpen, toasts } = useStore();
+  const ar = locale === "ar";
+  const nav = navFor(role);
 
   useEffect(() => {
     let stored: string | null = null;
     try { stored = localStorage.getItem("obs-theme"); } catch {}
-    const initial = stored === "dark" || (!stored && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+    const initial = stored === "dark" ? "dark" : "light";
     setTheme(initial);
   }, []);
   useEffect(() => {
@@ -55,24 +66,20 @@ function ShellInner({ children }: { children: ReactNode }) {
   };
 
   const sidebar = (
-    <nav aria-label={t("App navigation")} className="flex h-full flex-col">
-      <div className="flex h-16 items-center gap-2.5 px-5">
-        <Link href={`/${locale}`} className="flex items-center gap-2.5" aria-label="Observer AI home">
-          <Logo className="size-7" />
-          <span className="text-[17px] font-semibold tracking-[-0.02em]">Observer</span>
+    <nav aria-label={t("App navigation")} className="flex h-full flex-col bg-[#0d0c0a] text-[#efe9df]">
+      <div className="flex h-16 items-center gap-3 px-5">
+        <Link href={`/${locale}/app/${seat.home}`} className="flex items-center gap-3" aria-label={ar ? group.nameAr : group.name}>
+          <span className="grid size-9 place-items-center border border-[#cdb284]/60 font-[family-name:var(--font-display)] text-[20px] text-[#e7d6b3]">{group.monogram}</span>
+          <span className="leading-tight">
+            <span className="lux-wordmark block text-[12px]">{ar ? group.nameAr : "Nawafir"}</span>
+            <span className="t-eyebrow !mb-0 block !text-[10px] text-[#cdb284]">{t("Sales platform")}</span>
+          </span>
         </Link>
       </div>
-      <div className="mx-3 mb-3 flex items-center gap-3 rounded-[12px] bg-canvas px-3 py-2.5">
-        <span className="flex size-8 items-center justify-center rounded-[9px] bg-tile text-[13px] font-semibold text-white">M</span>
-        <div className="min-w-0">
-          <p className="truncate text-[14px] font-medium leading-tight">{workspace.tenant}</p>
-          <p className="t-fine text-ink-2">{t("Dubai · Enterprise")}</p>
-        </div>
-      </div>
       <div className="scrollbar-none flex-1 overflow-y-auto px-3 pb-4">
-        {navGroups.map((g) => (
-          <div key={g.label} className="mt-4 first:mt-1">
-            <p className="t-eyebrow px-3 pb-1.5 text-ink-3">{t(g.label)}</p>
+        {nav.map((g) => (
+          <div key={g.label} className="mt-5 first:mt-2">
+            <p className="t-eyebrow px-3 pb-1.5 !text-[#cdb284]/80">{t(g.label)}</p>
             <ul className="space-y-0.5">
               {g.items.map((it) => {
                 const active = current === it.id;
@@ -83,13 +90,13 @@ function ShellInner({ children }: { children: ReactNode }) {
                       href={`/${locale}/app/${it.id}`}
                       aria-current={active ? "page" : undefined}
                       className={cx(
-                        "relative flex h-9 items-center gap-2.5 rounded-[9px] px-3 text-[14px] transition-colors",
-                        active ? "bg-canvas font-medium text-ink shadow-[0_1px_2px_rgb(0_0_0/0.06),0_0_0_1px_var(--hairline-soft)] before:absolute before:inset-y-2 before:start-0 before:w-[3px] before:rounded-full before:bg-creek" : "text-ink-2 hover:bg-canvas/60 hover:text-ink",
+                        "relative flex h-9 items-center gap-2.5 px-3 text-[14px] transition-colors",
+                        active ? "bg-white/[0.07] font-medium text-white before:absolute before:inset-y-2 before:start-0 before:w-[2px] before:bg-[#cdb284]" : "text-[#efe9df]/65 hover:bg-white/[0.04] hover:text-white",
                       )}
                     >
-                      <Icon size={18} weight={active ? "fill" : "regular"} className={active ? "text-creek" : ""} />
+                      <Icon size={18} weight={active ? "fill" : "regular"} className={active ? "text-[#cdb284]" : ""} />
                       <span className="flex-1 truncate">{t(it.label)}</span>
-                      {it.badge && <span className="tnum rounded-full bg-hairline-soft px-1.5 text-[11px] font-medium text-ink-2">{it.badge}</span>}
+                      {it.badge && <span className="tnum bg-white/10 px-1.5 text-[11px] font-medium text-[#efe9df]/80">{it.badge}</span>}
                     </Link>
                   </li>
                 );
@@ -98,70 +105,80 @@ function ShellInner({ children }: { children: ReactNode }) {
           </div>
         ))}
       </div>
-      <div className="flex items-center gap-3 border-t border-hairline-soft px-5 py-3.5">
-        <Monogram name={workspace.user.name} size={32} />
+      <div className="flex items-center gap-3 border-t border-white/10 px-5 py-3.5">
+        <span className="relative size-9 shrink-0 overflow-hidden bg-white/10">
+          <Image src={img(seat.photo, 120, "&h=120&crop=faces")} alt="" fill sizes="36px" className="object-cover" />
+        </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[14px] font-medium leading-tight">{workspace.user.name}</p>
-          <p className="t-fine text-ink-2">{t(workspace.user.role)}</p>
+          <p className="pii truncate text-[14px] font-medium leading-tight">{t(seat.person)}</p>
+          <p className="t-fine truncate text-[#efe9df]/55">{t(seat.title)}</p>
         </div>
+        <Link href={`/${locale}/demo`} className="text-[12px] text-[#cdb284] hover:underline">{t("Switch seat")}</Link>
       </div>
     </nav>
   );
 
   return (
-    <div className="min-h-dvh bg-parchment text-ink">
+    <div className={cx("luxapp min-h-dvh bg-parchment text-ink", priv && "vip-private")}>
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:start-3 focus:top-3 focus:z-50 focus:rounded-full focus:bg-canvas focus:px-4 focus:py-2">{t("Skip to content")}</a>
-      <aside className="fixed inset-y-0 start-0 z-30 hidden w-[260px] border-e border-hairline-soft bg-parchment lg:block">{sidebar}</aside>
+      <aside className="fixed inset-y-0 start-0 z-30 hidden w-[260px] lg:block">{sidebar}</aside>
       {menu && (
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label={t("Menu")}>
-          <button className="absolute inset-0 bg-black/30" aria-label={t("Close menu")} onClick={() => setMenu(false)} />
-          <aside className="absolute inset-y-0 start-0 w-[280px] bg-parchment shadow-xl">{sidebar}</aside>
+          <button className="absolute inset-0 bg-black/40" aria-label={t("Close menu")} onClick={() => setMenu(false)} />
+          <aside className="absolute inset-y-0 start-0 w-[280px] shadow-xl">{sidebar}</aside>
         </div>
       )}
       <div className="lg:ps-[260px]">
-        <header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-hairline-soft bg-parchment/80 px-4 backdrop-blur-xl sm:px-6">
-          <button className="flex size-10 items-center justify-center rounded-full hover:bg-canvas lg:hidden" aria-label={t("Open menu")} aria-expanded={menu} onClick={() => setMenu(true)}>
+        <header className="sticky top-0 z-20 flex h-16 items-center gap-2 border-b border-hairline-soft bg-parchment/85 px-4 backdrop-blur-xl sm:px-6">
+          <button className="flex size-10 items-center justify-center hover:bg-canvas lg:hidden" aria-label={t("Open menu")} aria-expanded={menu} onClick={() => setMenu(true)}>
             <List size={20} />
           </button>
           <p className="truncate text-[15px] font-medium lg:hidden">{t(viewLabel[current] ?? "Dashboard")}</p>
           <button
             onClick={() => setPaletteOpen(true)}
-            className="relative ms-auto hidden h-10 max-w-[360px] flex-1 items-center gap-2.5 rounded-full border border-hairline-soft bg-canvas ps-3.5 pe-2 text-start text-[14px] text-ink-3 hover:border-hairline md:flex lg:ms-0"
+            className="relative ms-auto hidden h-10 max-w-[340px] flex-1 items-center gap-2.5 border border-hairline-soft bg-canvas ps-3.5 pe-2 text-start text-[14px] text-ink-3 hover:border-hairline md:flex lg:ms-0"
           >
             <MagnifyingGlass size={16} />
-            <span className="flex-1 truncate">{t("Search leads, agents and homes")}</span>
-            <kbd className="rounded-md border border-hairline px-1.5 py-0.5 text-[11px]">⌘K</kbd>
+            <span className="flex-1 truncate">{t("Search clients, units and consultants")}</span>
+            <kbd className="border border-hairline px-1.5 py-0.5 text-[11px]">⌘K</kbd>
           </button>
-          <button onClick={() => setPaletteOpen(true)} className="ms-auto flex size-10 items-center justify-center rounded-full hover:bg-canvas md:hidden" aria-label={t("Search")}><MagnifyingGlass size={18} /></button>
+          <button onClick={() => setPaletteOpen(true)} className="ms-auto flex size-10 items-center justify-center hover:bg-canvas md:hidden" aria-label={t("Search")}><MagnifyingGlass size={18} /></button>
           <div className="flex items-center gap-1 md:ms-auto">
-            <span className="me-2 hidden items-center gap-2 text-[13px] text-ink-2 xl:flex"><Dot live /> {t("Observer is working")}</span>
-            <Link href={switchPath(pathname, otherLocale(locale))} onClick={() => { try { document.cookie = `obs-lang=${otherLocale(locale)}; path=/; max-age=31536000; samesite=lax`; } catch {} }} className="flex h-10 items-center gap-1.5 rounded-full px-3 text-[14px] hover:bg-canvas" aria-label={t("Switch language")}>
+            <Link href={`/${locale}/demo`} className="me-1 hidden items-center gap-2 border border-hairline px-3 py-1.5 text-[12.5px] text-ink-2 hover:border-ink xl:flex">
+              <span className="t-eyebrow !mb-0 !text-[10.5px]">{t("Viewing as")}</span><span className="font-medium text-ink">{t(seat.label)}</span>
+            </Link>
+            {(role === "chairman" || role === "director") && (
+              <button onClick={() => setPriv((v) => !v)} aria-pressed={priv} className={cx("flex h-10 items-center gap-1.5 px-3 text-[13px] hover:bg-canvas", priv && "text-creek")} title={t("Blur client names for presenting")}>
+                {priv ? <EyeSlash size={18} /> : <Eye size={18} />}<span className="hidden 2xl:inline">{t("Private mode")}</span>
+              </button>
+            )}
+            <button onClick={() => startTour()} className="hidden h-10 items-center gap-1.5 px-3 text-[13px] hover:bg-canvas sm:flex"><PlayCircle size={18} /><span className="hidden lg:inline">{t("Tour")}</span></button>
+            <Link href={switchPath(pathname, otherLocale(locale))} onClick={() => { try { document.cookie = `obs-lang=${otherLocale(locale)}; path=/; max-age=31536000; samesite=lax`; } catch {} }} className="flex h-10 items-center gap-1.5 px-3 text-[14px] hover:bg-canvas" aria-label={t("Switch language")}>
               <Translate size={18} /> <span className="hidden sm:inline">{locale === "ar" ? "English" : "العربية"}</span>
             </Link>
-            <button onClick={toggleTheme} className="flex size-10 items-center justify-center rounded-full hover:bg-canvas" aria-label={theme === "dark" ? t("Use light appearance") : t("Use dark appearance")}>
+            <button onClick={toggleTheme} className="flex size-10 items-center justify-center hover:bg-canvas" aria-label={theme === "dark" ? t("Use light appearance") : t("Use dark appearance")}>
               {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <span className="ms-1 hidden sm:block"><Btn onClick={() => setAddLead(true)}><Plus size={16} weight="bold" /> {t("Add lead")}</Btn></span>
-            <button className="flex size-10 items-center justify-center rounded-full bg-creek text-on-creek sm:hidden" aria-label={t("Add lead")} onClick={() => setAddLead(true)}><Plus size={18} weight="bold" /></button>
+            {role !== "chairman" && <span className="ms-1 hidden sm:block"><Btn onClick={() => setAddLead(true)}><Plus size={16} weight="bold" /> {t(role === "broker" ? "Register a client" : "Add enquiry")}</Btn></span>}
           </div>
         </header>
         {/* Demo bar: says plainly the data is sample data, with one small ask (CTA Gallery: announcement pattern) */}
-        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 border-b border-hairline-soft bg-creek-soft/60 px-4 py-2 text-[13px] text-ink-2 sm:px-6">
-          <span>{t("Sample data: every lead, score and message here is made up.")}</span>
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 border-b border-hairline-soft bg-[#efe5d3]/60 px-4 py-2 text-[13px] text-ink-2 sm:px-6">
+          <span>{t("Demonstration: Nawafir Holdings and every client here are invented.")}</span>
           <span className="flex items-center gap-3">
-            <Link href={`/${locale}/contact`} className="inline-flex h-7 items-center gap-1.5 rounded-full bg-creek px-3 text-[12.5px] font-medium text-on-creek hover:bg-creek-hover">{t("See it with your own leads")}<ArrowRight size={13} className="rtl:-scale-x-100" /></Link>
-            <Link href={`/${locale}/login`} className="font-medium text-creek hover:underline">{t("Sign in")}</Link>
+            <Link href={`/${locale}/contact`} className="inline-flex h-7 items-center gap-1.5 bg-ink px-3 text-[12px] font-medium text-canvas hover:opacity-90">{t("See it with your own leads")}<ArrowRight size={13} className="rtl:-scale-x-100" /></Link>
+            <Link href={`/${locale}/demo`} className="font-medium text-creek hover:underline">{t("Switch seat")}</Link>
           </span>
         </div>
         <main id="main" className="mx-auto max-w-[1360px] px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
-          {children}
+          {allowed ? children : <NotForSeat label={seat.label} home={seat.home} />}
           {/* Closing ask at the end of every demo screen: one photo, a big line, the WhatsApp field, a true reassurance */}
-          <section aria-labelledby="demo-close" className="relative isolate mt-10 overflow-hidden rounded-[28px] bg-black text-white">
+          <section aria-labelledby="demo-close" className="relative isolate mt-10 overflow-hidden bg-black text-white">
             <Image src={img("villaDusk", 1600)} alt="" fill sizes="(min-width:1024px) 1100px, 100vw" className="-z-10 object-cover object-[50%_65%] opacity-60" />
             <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/70 to-black/20" />
             <div className="grid gap-8 p-6 pt-16 sm:p-10 sm:pt-24 lg:grid-cols-[1fr_auto] lg:items-end">
               <div>
-                <h2 id="demo-close" className="max-w-[16ch] text-[34px] font-semibold leading-[1] tracking-[-0.04em] [text-wrap:balance] sm:text-[52px]">{t("Now see it with your own enquiries.")}</h2>
+                <h2 id="demo-close" className="lux-serif max-w-[16ch] text-[38px] leading-[1] sm:text-[56px]">{t("Now see it with your own enquiries.")}</h2>
                 <p className="mt-4 max-w-[50ch] text-[16px] text-white/75 sm:text-[17px]">{t("Bring a week of your leads. We’ll load them into Observer and show you who you would have called first, and what it was worth.")}</p>
               </div>
               <div className="w-full lg:w-[440px]">
@@ -172,6 +189,7 @@ function ShellInner({ children }: { children: ReactNode }) {
           </section>
         </main>
       </div>
+      <Tour />
 
       <button
         onClick={() => setCopilot((v) => !v)}
@@ -262,7 +280,7 @@ function Copilot({ onClose }: { onClose: () => void }) {
         <span className="flex size-9 items-center justify-center rounded-full bg-tile"><Sparkle size={18} weight="fill" className="text-[#6bd3df]" /></span>
         <div className="flex-1">
           <p className="text-[15px] font-semibold">{t("Observer")}</p>
-          <p className="t-fine flex items-center gap-1.5 text-ink-2"><Dot live /> {t("Watching 247 leads")}</p>
+          <p className="t-fine flex items-center gap-1.5 text-ink-2"><Dot live /> {t("Watching 41,280 enquiries")}</p>
         </div>
         <button onClick={onClose} className="flex size-9 items-center justify-center rounded-full hover:bg-parchment" aria-label={t("Close")}><X size={18} /></button>
       </div>
@@ -363,4 +381,20 @@ export function useLocaleHref() {
 
 export function useRouterPush() {
   return useRouter().push;
+}
+
+/** Shown when a seat opens a screen it has no permission for: the demo's role-based access, made visible. */
+function NotForSeat({ label, home }: { label: string; home: string }) {
+  const { t, locale } = useT();
+  return (
+    <div className="mx-auto max-w-[560px] py-20 text-center">
+      <LockSimple size={36} className="mx-auto text-creek" />
+      <h1 className="mt-5 text-[32px] leading-tight">{t("Not part of your seat")}</h1>
+      <p className="mt-3 text-ink-2">{t("This screen is outside the permissions of the")} <b className="text-ink">{t(label)}</b> {t("seat. Access follows each person's role, and every attempt is logged.")}</p>
+      <div className="mt-7 flex flex-wrap justify-center gap-3">
+        <Link href={`/${locale}/app/${home}`} className="btn btn-primary">{t("Back to my home")}</Link>
+        <Link href={`/${locale}/demo`} className="btn btn-ghost"><span>{t("Switch seat")}</span></Link>
+      </div>
+    </div>
+  );
 }

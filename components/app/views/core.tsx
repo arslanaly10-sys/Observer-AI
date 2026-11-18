@@ -27,12 +27,12 @@ export function Dashboard() {
           <div className="nba-rise">
             <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-[13px] text-white/80 backdrop-blur"><Dot live />{t("Good evening")}, {workspace.user.first}</p>
             <h1 className="mt-5 max-w-[20ch] text-[32px] font-semibold leading-[1.04] tracking-[-0.035em] [text-wrap:balance] sm:text-[44px]">
-              {t("While you were out, Observer booked 3 viewings and woke up 214 quiet leads.")}
+              {t("Overnight, the AI answered 1,386 enquiries, booked 41 viewings and brought 214 quiet clients back.")}
             </h1>
             <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-white/75">
-              <span><b className="tnum font-semibold text-white">247</b> {t("leads in view")}</span>
-              <span><b className="tnum font-semibold text-white">34</b> {t("hot right now")}</span>
-              <span><b className="tnum font-semibold text-white">AED 4.2M</b> {t("in pipeline")}</span>
+              <span><b className="tnum font-semibold text-white">41,280</b> {t("enquiries this month")}</span>
+              <span><b className="tnum font-semibold text-white">1,912</b> {t("hot right now")}</span>
+              <span><b className="tnum font-semibold text-white">AED 14.2B</b> {t("in pipeline")}</span>
             </div>
             <div className="mt-8">
               <Link href={`/${locale}/app/next-best-action`} className="btn bg-white !px-6 text-[#1d1d1f] hover:bg-white/90 max-sm:w-full max-sm:!text-[15px]"><Lightning size={18} weight="fill" />{t("Start with your next best action")}</Link>
@@ -64,16 +64,16 @@ export function Dashboard() {
       </section>
 
       <Stats>
-        <Stat label="Total leads" value="247" delta="+18" note="this week" />
-        <Stat label="Hot leads" value="34" delta="+5" note="today" />
-        <Stat label="Viewings booked" value="21" delta="61.7%" note="booking rate" />
-        <Stat label="Average first reply" value="4m" note="from enquiry to WhatsApp" />
+        <Stat label="Enquiries this month" value="41,280" delta="+9%" note="on October" />
+        <Stat label="Hot clients" value="1,912" delta="+146" note="today" />
+        <Stat label="Viewings booked" value="6,420" delta="65%" note="of qualified clients" />
+        <Stat label="Median first reply" value="38s" note="from enquiry to WhatsApp" />
       </Stats>
       <Stats>
         <Stat label="Average lead score" value="78" note="up from 61 last month" />
         <Stat label="WhatsApp open rate" value="89%" note="email: 28%" />
-        <Stat label="Pipeline" value="AED 4.2M" delta="+12%" note="month on month" />
-        <Stat label="Cost per lead" value="AED 42" delta="−18%" down note="vs last month" />
+        <Stat label="Pipeline" value="AED 14.2B" delta="+12%" note="month on month" />
+        <Stat label="Cost per enquiry" value="AED 61" delta="−18%" down note="vs last month" />
       </Stats>
 
       <div className="grid gap-5 xl:grid-cols-[1.4fr_1fr]">
@@ -117,7 +117,7 @@ export function Dashboard() {
           <Bars data={dailyLeads} height={150} labels={[t("2 weeks ago"), t("Today")]} />
         </Card>
         <Card>
-          <CardHead title="Lead temperature" sub="All 247 leads, scored" />
+          <CardHead title="Client temperature" sub="This month’s enquiries, scored" />
           <TempSplit />
         </Card>
       </div>
@@ -171,8 +171,8 @@ export function Dashboard() {
 
 function TempSplit() {
   const { t } = useT();
-  const parts: [string, number, string][] = [["Hot", 34, "var(--hot)"], ["Warm", 89, "var(--warm)"], ["Cold", 124, "var(--cold)"]];
-  const total = 247;
+  const parts: [string, number, string][] = [["Hot", 5780, "var(--hot)"], ["Warm", 14450, "var(--warm)"], ["Cold", 21050, "var(--cold)"]];
+  const total = 41280;
   let acc = 0;
   const r = 52, c = 2 * Math.PI * r;
   return (
@@ -191,7 +191,7 @@ function TempSplit() {
           <li key={k} className="flex items-center gap-2.5 text-[15px]">
             <span className="size-2.5 rounded-full" style={{ background: col }} />
             <span className="w-14">{t(k)}</span>
-            <b className="tnum font-semibold">{n}</b>
+            <b className="tnum font-semibold">{n.toLocaleString("en")}</b>
           </li>
         ))}
       </ul>

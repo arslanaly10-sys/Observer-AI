@@ -45,7 +45,7 @@ export default async function Solution({ params }: { params: Promise<{ locale: L
           <p className="t-lead enter-rise enter-d2 mt-6 max-w-[60ch] text-white/80">{a.sub}</p>
           <div className="enter-rise enter-d3 mt-8 flex flex-wrap items-center gap-3">
             <Cta href={`/${locale}/contact`} dark>{t.common.bookDemo}</Cta>
-            <Cta href={`/${locale}/app/dashboard`} ghost dark>{t.common.seeApp}</Cta>
+            <Cta href={`/${locale}/demo`} ghost dark>{t.common.seeApp}</Cta>
           </div>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default async function Solution({ params }: { params: Promise<{ locale: L
         </div>
       </Tile>
 
-      <CloseBand h={t.home.close.h2} body={t.home.close.body} locale={locale} button={t.common.bookDemo} form={getExtra(locale).cta} cta2={[t.common.seeApp, `/${locale}/app/dashboard`]} photo={second[id]} />
+      <CloseBand h={t.home.close.h2} body={t.home.close.body} locale={locale} button={t.common.bookDemo} form={getExtra(locale).cta} cta2={[t.common.seeApp, `/${locale}/demo`]} photo={second[id]} />
     </>
   );
 }

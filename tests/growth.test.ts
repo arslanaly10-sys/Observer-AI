@@ -204,7 +204,7 @@ describe("when the AI speaks", async () => {
     for (const set of [FIRST_CONTACT]) expect(Object.keys(set).sort()).toEqual(["ar", "en", "es", "fa", "fr", "hi", "pt", "ru", "ur", "zh"]);
     expect(Object.keys(FOLLOWUP)).toHaveLength(10);
     for (const t of Object.values(FIRST_CONTACT)) expect(t).toMatch(/AI|IA|ИИ|الذكي|هوش مصنوعی/);
-    expect(render(FIRST_CONTACT.en, ["Sara", "Noor", "Meridian"])).toBe("Hi Sara, this is Noor, the AI assistant at Meridian. Thank you for your enquiry. I can share prices, payment plans and viewing times right here. What would you like to know first?");
+    expect(render(FIRST_CONTACT.en, ["Sara", "Noor", "Nawafir"])).toBe("Hello Sara, this is Noor, the AI assistant at Nawafir. Thank you for your enquiry. I can share availability, prices and payment plans here, and arrange a private viewing. Where would you like to begin?");
   });
 });
 

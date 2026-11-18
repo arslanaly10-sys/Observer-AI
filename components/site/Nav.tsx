@@ -115,7 +115,7 @@ export function Nav({ locale, t, audiences, menuLabel, groups, x, cta }: {
             <Link href={switchPath(pathname, otherLocale(locale))} lang={otherLocale(locale)} onClick={() => remember(otherLocale(locale))} className="hidden min-h-11 items-center gap-1.5 rounded-full px-3 text-[14px] opacity-90 hover:opacity-100 sm:flex">
               <Translate size={16} /> {t.lang}
             </Link>
-            <Link href={href("/app/dashboard")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 xl:flex">{t.app}</Link>
+            <Link href={href("/demo")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 xl:flex">{t.app}</Link>
             <Link href={href("/login")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 md:flex">{t.signin}</Link>
             <Link href={href("/contact")} className={`btn hidden !min-h-9 !px-4 sm:inline-flex ${onDark ? "bg-white text-[#1d1d1f] hover:bg-white/90" : "btn-primary"}`}>{t.demo}</Link>
             <button ref={toggle} type="button" className="flex size-11 items-center justify-center md:hidden" aria-label={open ? t.close : t.menu} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)}>
@@ -222,7 +222,7 @@ export function Nav({ locale, t, audiences, menuLabel, groups, x, cta }: {
                   )}
                 </li>
               ))}
-              <li><Link href={href("/app/dashboard")} className="flex min-h-14 items-center text-[22px] font-semibold tracking-[-0.02em]">{t.app}</Link></li>
+              <li><Link href={href("/demo")} className="flex min-h-14 items-center text-[22px] font-semibold tracking-[-0.02em]">{t.app}</Link></li>
               <li><Link href={href("/login")} className="flex min-h-14 items-center text-[22px] font-semibold tracking-[-0.02em]">{t.signin}</Link></li>
             </ul>
             <div className="mt-6 rounded-[22px] bg-black p-5 text-white">

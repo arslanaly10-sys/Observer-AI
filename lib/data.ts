@@ -1,14 +1,14 @@
 /**
  * Demo workspace data, ported from the v10 prototype.
- * Tenant and user are fictional (Meridian Developments / Layla Haddad).
+ * Tenant and user are fictional (Nawafir Holdings / Layla Haddad).
  * GCC developer directory figures are illustrative and must be verified before any public use.
  */
 import type { PhotoKey } from "./img";
 
 export const workspace = {
-  tenant: "Meridian Developments",
+  tenant: "Nawafir Holdings",
   city: "Dubai",
-  user: { name: "Layla Haddad", first: "Layla", role: "Senior agent · Admin", initials: "LH" },
+  user: { name: "Layla Haddad", first: "Layla", role: "Sales Director, UAE", initials: "LH" },
 };
 
 export type Temp = "hot" | "warm" | "cold";
@@ -104,7 +104,7 @@ export const waContacts = [
 export type Msg = { dir: "in" | "out"; text?: string; time: string; listing?: boolean };
 export const waThread: Msg[] = [
   { dir: "in", text: "Hello, I saw your listing on Bayut for the villa in Dubai Hills. Very interested.", time: "10:24" },
-  { dir: "out", text: "Hi Ahmed, I’m Layla from Meridian. The Dubai Hills villa is five bedrooms with a private pool, at AED 4.2M. Is this for your family, or an investment?", time: "10:25" },
+  { dir: "out", text: "Hi Ahmed, I’m Layla from Nawafir. The Dubai Hills villa is five bedrooms with a private pool, at AED 4.2M. Is this for your family, or an investment?", time: "10:25" },
   { dir: "out", time: "10:25", listing: true },
   { dir: "in", text: "Primary residence. Family of 5. What is the handover date?", time: "10:28" },
   { dir: "out", text: "It’s finished and ready to move into. I have three similar homes between AED 3.5M and 4.5M. Would you like to see them this week?", time: "10:29" },
@@ -115,20 +115,20 @@ export const waThread: Msg[] = [
 
 export const sequences = [
   { name: "Bayut hot lead", channel: "whatsapp", trigger: "Score above 70 from Bayut", enrolled: 142, sent: 892, openRate: 91, steps: [
-    { delay: "Immediately", msg: "Hi {name}, I saw you were looking at homes on Bayut. I’m your consultant at Meridian. What budget and area do you have in mind?" },
-    { delay: "+2 hours", msg: "Hi {name}, I have five homes that match your search and aren’t on the portals yet. Would you like a private preview?" },
+    { delay: "Immediately", msg: "Hello {name}, thank you for your Bayut enquiry. I’m your consultant at Nawafir. Which community and budget should I search for you?" },
+    { delay: "+2 hours", msg: "{name}, five units that match your search are not yet on the portals. Shall I arrange a private preview?" },
     { delay: "+1 day", msg: "Good morning {name}. New homes came up in {area} this week. When suits you for a ten-minute call?" },
   ] },
   { name: "Re-engage after 48 hours", channel: "whatsapp", trigger: "No reply in 48h", enrolled: 89, sent: 312, openRate: 78, steps: [
-    { delay: "48h after last message", msg: "Hi {name}, {area} is moving quickly. A home much like the one you liked sold yesterday. Shall I send you what’s left?" },
-    { delay: "+3 days", msg: "Hi {name}, one last note from me. I have something that matches exactly what you described. Five minutes this week?" },
+    { delay: "48h after last message", msg: "{name}, {area} is moving quickly; a unit like the one you liked was reserved yesterday. Shall I send you what remains?" },
+    { delay: "+3 days", msg: "{name}, a final note from me. One unit matches exactly what you described. Five minutes this week?" },
   ] },
   { name: "After the viewing", channel: "whatsapp", trigger: "Viewing completed", enrolled: 34, sent: 68, openRate: 97, steps: [
-    { delay: "2h after viewing", msg: "Hi {name}, it was lovely to meet you today. Which of the three stayed with you? I can arrange a second visit or start the paperwork." },
+    { delay: "2h after viewing", msg: "{name}, thank you for your time today. Which of the three stayed with you? I can arrange a second visit or prepare the reservation." },
     { delay: "+1 day", msg: "{name}, any questions I can answer? I can prepare the letter of intent whenever you’re ready." },
   ] },
   { name: "Cold lead reactivation", channel: "sms", trigger: "Cold, 7+ days without contact", enrolled: 211, sent: 634, openRate: 68, steps: [
-    { delay: "Day 7", msg: "Hi {name}, it’s {agent} from Meridian. Prices in Dubai rose 8% last quarter. Worth a quick chat about your search? Reply YES." },
+    { delay: "Day 7", msg: "{name}, {agent} from Nawafir. Dubai prices rose 8% last quarter. Worth a short conversation about your search? Reply YES." },
     { delay: "+5 days", msg: "{name}, a new home in {area} within {budget} just came in. Reply YES for details." },
   ] },
   { name: "First touch for every new lead", channel: "sms", trigger: "Any new lead, any source", enrolled: 247, sent: 247, openRate: 72, steps: [
@@ -138,7 +138,7 @@ export const sequences = [
     { delay: "1st of the month, 9am", msg: "Subject: {area} this month\n\nHi {name}, here’s what moved in {area}: prices, new homes, and where the value is right now." },
   ] },
   { name: "AI call for unclosed hot leads", channel: "ai_call", trigger: "Hot lead, no close in 72h", enrolled: 38, sent: 38, openRate: 84, steps: [
-    { delay: "72h after scoring hot", msg: "Observer calls: “Hi {name}, I’m calling for your consultant at Meridian. Two new homes in {area} just became available. Do you have three minutes?”" },
+    { delay: "72h after scoring hot", msg: "Observer calls: “Hi {name}, I’m calling for your consultant at Nawafir. Two new homes in {area} just became available. Do you have three minutes?”" },
     { delay: "+2 days if unanswered", msg: "Second call, with a short voicemail if there’s no answer." },
   ] },
 ];
@@ -236,14 +236,14 @@ export const channelROI = [
   { name: "Referral", leads: 10, cpl: 0, revenue: 650_000, roi: null as number | null },
 ];
 
-export const dailyLeads = [11, 14, 9, 17, 15, 19, 13, 16, 21, 18, 14, 22, 19, 24];
+export const dailyLeads = [1180, 1320, 1240, 1410, 1365, 1290, 1205, 1360, 1480, 1395, 1310, 1520, 1460, 2210];
 
 export const funnel = [
-  { stage: "Leads", n: 247 },
-  { stage: "Qualified", n: 158 },
-  { stage: "Meeting", n: 94 },
-  { stage: "Offer", n: 41 },
-  { stage: "Closed", n: 29 },
+  { stage: "Leads", n: 41280 },
+  { stage: "Qualified", n: 9870 },
+  { stage: "Meeting", n: 6420 },
+  { stage: "Offer", n: 1140 },
+  { stage: "Closed", n: 486 },
 ];
 
 export const dropoff = [

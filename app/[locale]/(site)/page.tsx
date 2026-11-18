@@ -90,7 +90,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
                 </div>
               </div>
             </StoryTile>
-            <StoryTile href={L("/app/dashboard")} stamp={s.mobile} h={s.mobileH} t={s.mobileT} dark className="lg:col-span-4">
+            <StoryTile href={L("/demo")} stamp={s.mobile} h={s.mobileH} t={s.mobileT} dark className="lg:col-span-4">
               <div className="h-[300px] overflow-hidden">
                 <div className="origin-top scale-[0.9] transition-transform duration-700 group-hover:-translate-y-2">
                   <Phone src={shot("dashboard-mobile", ar ? "en" : "ar")} alt={ar ? "أوبزرفر على الهاتف بالإنجليزية" : "Observer on a phone, in Arabic"} />
@@ -199,7 +199,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
         locale={locale}
         button={h.close.cta}
         form={x.cta}
-        cta2={[h.close.cta2, L("/app/dashboard")]}
+        cta2={[h.close.cta2, L("/demo")]}
         aside={
           <div>
             <p className="t-eyebrow text-white/55">{s.works}</p>

@@ -70,9 +70,9 @@ const en = {
     principles: "What we believe",
   },
   hero: {
-    eyebrow: "Live in Dubai, Abu Dhabi, Riyadh and Doha",
-    sub: "Every enquiry from your ads, portals and website gets a WhatsApp reply in under two minutes, a score, and the right agent. Day and night, in ten languages.",
-    stats: [["< 2 min", "to the first reply"], ["10", "languages, Arabic included"], ["24/7", "WhatsApp, email and calls"]] as [string, string][],
+    eyebrow: "Dubai · Abu Dhabi · Riyadh",
+    sub: "Every enquiry answered on WhatsApp in under a minute, in the buyer’s language, then qualified and passed to the right consultant. At any hour, at any volume.",
+    stats: [["38 s", "median first reply"], ["10", "languages, Arabic first"], ["24/7", "WhatsApp, email and calls"]] as [string, string][],
     from: "Leads from",
     stageLabel: "Example: a buyer’s WhatsApp enquiry answered by the AI assistant in 38 seconds, scored 87 and booked for a viewing.",
     card: {
@@ -219,9 +219,9 @@ const ar: ExtraDict = {
     principles: "ما نؤمن به",
   },
   hero: {
-    eyebrow: "يعمل في دبي وأبوظبي والرياض والدوحة",
-    sub: "كل استفسار من إعلاناتك وبواباتك وموقعك يصله رد على واتساب خلال أقل من دقيقتين، مع تقييم لجديته وتحويل إلى الوكيل المناسب. ليلاً ونهاراً، وبعشر لغات.",
-    stats: [["دقيقتان", "أو أقل لأول رد"], ["10", "لغات منها العربية"], ["24/7", "واتساب وبريد ومكالمات"]],
+    eyebrow: "دبي · أبوظبي · الرياض",
+    sub: "كل استفسار يتلقى رداً على واتساب في أقل من دقيقة وبلغة صاحبه، ثم يُؤهَّل ويُحوَّل إلى المستشار المناسب. في أي ساعة، ومهما بلغ العدد.",
+    stats: [["38 ث", "متوسط أول رد"], ["10", "لغات، العربية أولاً"], ["24/7", "واتساب وبريد ومكالمات"]],
     from: "العملاء يصلون من",
     stageLabel: "مثال: استفسار مشترٍ على واتساب رد عليه المساعد الذكي خلال 38 ثانية، وقُيّم بـ 87، وحُجزت له معاينة.",
     card: {

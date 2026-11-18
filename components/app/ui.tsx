@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 import type { Temp, Tone } from "@/lib/data";
 import { usePathname } from "next/navigation";
 import { useT } from "./i18n";
-import { navGroups } from "./nav";
+import { navFor } from "./nav";
+import { useRole } from "./role";
 
 export function cx(...c: (string | false | null | undefined)[]) {
   return c.filter(Boolean).join(" ");
@@ -35,12 +36,13 @@ export function PageHead({ title, sub, actions }: { title: string; sub?: string;
   // Section label from the sidebar group this screen sits in (Core, Intelligence, Channels...)
   const path = usePathname() ?? "";
   const id = path.split("/app/")[1]?.split(/[/?#]/)[0];
-  const group = navGroups.find((g) => g.items.some((it) => it.id === id))?.label;
+  const { role } = useRole();
+  const group = navFor(role).find((g) => g.items.some((it) => it.id === id))?.label;
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
         {group && <p className="t-eyebrow mb-2 text-ink-3">{t(group)}</p>}
-        <h1 className="text-[28px] font-semibold leading-tight tracking-[-0.025em] sm:text-[36px]">{t(title)}</h1>
+        <h1 className="lux-title">{t(title)}</h1>
         {sub && <p className="mt-1.5 max-w-[62ch] text-ink-2">{t(sub)}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
@@ -127,7 +129,7 @@ export function Btn({ children, variant = "primary", onClick, className, type = 
     quiet: "text-creek hover:bg-creek-soft",
   }[variant];
   return (
-    <button type={type} aria-label={label} onClick={onClick} className={cx("inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-4 text-[14px] font-medium transition active:scale-[.97]", v, className)}>
+    <button type={type} aria-label={label} onClick={onClick} className={cx("inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-[3px] px-4 text-[14px] font-medium transition active:scale-[.97]", v, className)}>
       {children}
     </button>
   );

@@ -15,10 +15,10 @@ export function Funnel() {
     <>
       <PageHead title="Conversion funnel" sub="Where leads go quiet, and the most common reason why." />
       <Stats>
-        <Stat label="Leads" value="247" />
-        <Stat label="Qualified" value="64%" note="industry average 45%" />
-        <Stat label="Reached a meeting" value="38%" delta="+6 pts" note="month on month" />
-        <Stat label="Closed" value="12%" note="top quartile" />
+        <Stat label="Enquiries" value="41,280" />
+        <Stat label="Qualified" value="24%" note="9,870 clients" />
+        <Stat label="Viewed a property" value="16%" delta="+3 pts" note="month on month" />
+        <Stat label="Signed an SPA" value="1.2%" note="486 this month" />
       </Stats>
       <div className="grid gap-5 lg:grid-cols-[1.3fr_1fr]">
         <Card>
@@ -30,7 +30,7 @@ export function Funnel() {
                 <span className="relative h-10 overflow-hidden rounded-[10px] bg-pearl">
                   <span className="bar-in absolute inset-y-0 start-0 rounded-[10px] bg-creek" style={{ width: `${(f.n / max) * 100}%`, opacity: 0.35 + (f.n / max) * 0.65 }} />
                 </span>
-                <span className="tnum text-end font-semibold">{f.n}</span>
+                <span className="tnum text-end font-semibold">{f.n.toLocaleString("en")}</span>
               </li>
             ))}
           </ol>
@@ -61,7 +61,7 @@ export function ChannelROI() {
       <Stats>
         <Stat label="Best channel" value="WhatsApp" note="412% ROI · AED 18 per lead" />
         <Stat label="Ad spend" value="AED 10.4K" note="this month" />
-        <Stat label="Revenue attributed" value="AED 4.2M" />
+        <Stat label="Sales attributed" value="AED 1.02B" />
         <Stat label="Blended cost per lead" value="AED 42" delta="−18%" note="month on month" />
       </Stats>
       <Card>
