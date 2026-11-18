@@ -282,4 +282,7 @@ export const appAr: Record<string, string> = {
   "Act within 30 minutes": "تصرّف خلال 30 دقيقة", "Act within 4 hours": "تصرّف خلال 4 ساعات", "Act within 2 days": "تصرّف خلال يومين",
   "Moved to the end of the list": "نُقل إلى آخر القائمة", "Undo": "تراجع", "Wants": "يريد", "chance of closing": "فرصة الإغلاق",
   "Commission at stake": "العمولة المعرّضة", "do within 30 minutes": "خلال 30 دقيقة", "scheduled by Observer": "جدولها أوبزرفر", "done today": "أُنجزت اليوم", "confidence": "الثقة",
+  "Start with your next best action": "ابدأ بأفضل إجراء تالٍ",
+  "Waiting for you": "بانتظارك",
+  "leads in view": "عميلاً في العرض",
 };

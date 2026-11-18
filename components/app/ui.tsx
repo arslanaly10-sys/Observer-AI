@@ -1,7 +1,9 @@
 "use client";
 import type { ReactNode } from "react";
 import type { Temp, Tone } from "@/lib/data";
+import { usePathname } from "next/navigation";
 import { useT } from "./i18n";
+import { navGroups } from "./nav";
 
 export function cx(...c: (string | false | null | undefined)[]) {
   return c.filter(Boolean).join(" ");
@@ -30,25 +32,31 @@ export function CardHead({ title, aside, sub }: { title: string; aside?: ReactNo
 
 export function PageHead({ title, sub, actions }: { title: string; sub?: string; actions?: ReactNode }) {
   const { t } = useT();
+  // Section label from the sidebar group this screen sits in (Core, Intelligence, Channels...)
+  const path = usePathname() ?? "";
+  const id = path.split("/app/")[1]?.split(/[/?#]/)[0];
+  const group = navGroups.find((g) => g.items.some((it) => it.id === id))?.label;
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
-        <h1 className="text-[28px] font-semibold leading-tight tracking-[-0.022em] sm:text-[34px]">{t(title)}</h1>
-        {sub && <p className="mt-1 max-w-[62ch] text-ink-2">{t(sub)}</p>}
+        {group && <p className="t-eyebrow mb-2 text-ink-3">{t(group)}</p>}
+        <h1 className="text-[28px] font-semibold leading-tight tracking-[-0.025em] sm:text-[36px]">{t(title)}</h1>
+        {sub && <p className="mt-1.5 max-w-[62ch] text-ink-2">{t(sub)}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
   );
 }
 
+/** One cell of a stat strip: label, a big number, an optional delta and note. */
 export function Stat({ label, value, delta, down, note }: { label: string; value: ReactNode; delta?: string; down?: boolean; note?: string }) {
   const { t } = useT();
   return (
-    <div className="rounded-[18px] border border-hairline-soft bg-canvas p-4 sm:p-5">
-      <p className="t-caption text-ink-2">{t(label)}</p>
-      <p className="tnum mt-1.5 text-[28px] font-semibold leading-none tracking-[-0.02em]">{value}</p>
+    <div className="min-w-0 bg-canvas p-4 sm:px-5 sm:py-4">
+      <p className="t-caption truncate text-ink-2">{t(label)}</p>
+      <p className="tnum mt-1.5 truncate text-[26px] font-semibold leading-none tracking-[-0.025em] sm:text-[28px]">{value}</p>
       {(delta || note) && (
-        <p className="t-caption mt-2 text-ink-2">
+        <p className="t-caption mt-2 truncate text-ink-2">
           {delta && <span className={cx("tnum font-medium", down ? "text-ok" : "text-ok")}>{delta}</span>} {note && t(note)}
         </p>
       )}
@@ -56,8 +64,9 @@ export function Stat({ label, value, delta, down, note }: { label: string; value
   );
 }
 
+/** Stats as a single strip with hairline dividers, instead of a row of separate boxes. */
 export function Stats({ children }: { children: ReactNode }) {
-  return <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">{children}</div>;
+  return <div className="mb-5 grid grid-cols-2 gap-px overflow-hidden rounded-[18px] border border-hairline-soft bg-hairline-soft lg:grid-cols-4">{children}</div>;
 }
 
 const tempCls: Record<Temp, string> = {

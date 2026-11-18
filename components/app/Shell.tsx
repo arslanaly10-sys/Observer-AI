@@ -69,7 +69,7 @@ function ShellInner({ children }: { children: ReactNode }) {
       <div className="scrollbar-none flex-1 overflow-y-auto px-3 pb-4">
         {navGroups.map((g) => (
           <div key={g.label} className="mt-4 first:mt-1">
-            <p className="t-fine px-3 pb-1.5 font-medium text-ink-3">{t(g.label)}</p>
+            <p className="t-eyebrow px-3 pb-1.5 text-ink-3">{t(g.label)}</p>
             <ul className="space-y-0.5">
               {g.items.map((it) => {
                 const active = current === it.id;
@@ -80,8 +80,8 @@ function ShellInner({ children }: { children: ReactNode }) {
                       href={`/${locale}/app/${it.id}`}
                       aria-current={active ? "page" : undefined}
                       className={cx(
-                        "flex h-9 items-center gap-2.5 rounded-[9px] px-3 text-[14px] transition-colors",
-                        active ? "bg-canvas font-medium text-ink shadow-[0_1px_2px_rgb(0_0_0/0.06)]" : "text-ink-2 hover:bg-canvas/60 hover:text-ink",
+                        "relative flex h-9 items-center gap-2.5 rounded-[9px] px-3 text-[14px] transition-colors",
+                        active ? "bg-canvas font-medium text-ink shadow-[0_1px_2px_rgb(0_0_0/0.06),0_0_0_1px_var(--hairline-soft)] before:absolute before:inset-y-2 before:start-0 before:w-[3px] before:rounded-full before:bg-creek" : "text-ink-2 hover:bg-canvas/60 hover:text-ink",
                       )}
                     >
                       <Icon size={18} weight={active ? "fill" : "regular"} className={active ? "text-creek" : ""} />

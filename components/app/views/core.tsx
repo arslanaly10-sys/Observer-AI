@@ -6,6 +6,7 @@ import Image from "next/image";
 import { WhatsappLogo, Phone, ChatText, UserPlus, Robot, CaretRight, Lightning, MagnifyingGlass, DownloadSimple, DotsSixVertical, ArrowRight } from "@phosphor-icons/react";
 import { activity, nba, agents, dailyLeads, workspace, PROPERTY, type Temp, type Lead } from "@/lib/data";
 import { img } from "@/lib/img";
+import { rankActions, fmtAED } from "@/lib/engine";
 import { useT } from "../i18n";
 import { Card, CardHead, PageHead, Stat, Stats, TempBadge, Monogram, ScoreBar, Btn, Segmented, Table, Bars, Meter, Dot, Pill, cx } from "../ui";
 
@@ -15,23 +16,52 @@ export function Dashboard() {
   const { t, locale } = useT();
   const { leads, toast } = useStore();
   const hot = leads.filter((l) => l.temp === "hot").sort((a, b) => b.score - a.score).slice(0, 6);
+  const top = rankActions(leads).slice(0, 3);
   return (
     <>
-      <div className="relative mb-6 overflow-hidden rounded-[22px] bg-tile text-white">
-        <Image src={img("skylineDusk", 1600)} alt="" fill sizes="(min-width:1024px) 1100px, 100vw" className="object-cover opacity-55" priority />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-transparent rtl:bg-gradient-to-l" />
-        <div className="relative px-6 py-8 sm:px-10 sm:py-12">
-          <p className="text-[15px] text-white/70">{t("Good evening")}, {workspace.user.first}</p>
-          <h1 className="mt-2 max-w-[22ch] text-[30px] font-semibold leading-[1.08] tracking-[-0.024em] sm:text-[40px]">
-            {t("While you were out, Observer booked 3 viewings and woke up 214 quiet leads.")}
-          </h1>
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-white/80">
-            <span className="flex items-center gap-2"><Dot live /> {t("247 leads in view")}</span>
-            <span><b className="tnum font-semibold text-white">34</b> {t("hot right now")}</span>
-            <span><b className="tnum font-semibold text-white">AED 4.2M</b> {t("in pipeline")}</span>
+      {/* Hero: the night's result, and the one place to start */}
+      <section className="relative isolate mb-6 overflow-hidden rounded-[28px] bg-black text-white">
+        <Image src={img("skylineNight", 1600)} alt="" fill priority sizes="(min-width:1024px) 1100px, 100vw" className="-z-10 object-cover opacity-55" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-black via-black/70 to-black/20 rtl:bg-gradient-to-l" />
+        <div className="grid items-center gap-8 p-6 sm:p-8 lg:grid-cols-[1.2fr_0.8fr] lg:p-10">
+          <div className="nba-rise">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-[13px] text-white/80 backdrop-blur"><Dot live />{t("Good evening")}, {workspace.user.first}</p>
+            <h1 className="mt-5 max-w-[20ch] text-[32px] font-semibold leading-[1.04] tracking-[-0.035em] [text-wrap:balance] sm:text-[44px]">
+              {t("While you were out, Observer booked 3 viewings and woke up 214 quiet leads.")}
+            </h1>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[14px] text-white/75">
+              <span><b className="tnum font-semibold text-white">247</b> {t("leads in view")}</span>
+              <span><b className="tnum font-semibold text-white">34</b> {t("hot right now")}</span>
+              <span><b className="tnum font-semibold text-white">AED 4.2M</b> {t("in pipeline")}</span>
+            </div>
+            <div className="mt-8">
+              <Link href={`/${locale}/app/next-best-action`} className="btn bg-white !px-6 text-[#1d1d1f] hover:bg-white/90 max-sm:w-full max-sm:!text-[15px]"><Lightning size={18} weight="fill" />{t("Start with your next best action")}</Link>
+            </div>
+          </div>
+          <div className="nba-card rounded-[22px] bg-white p-5 text-[#1d1d1f] shadow-[0_40px_100px_-30px_rgb(0_0_0/0.9)]">
+            <div className="mb-2 flex items-center justify-between">
+              <p className="text-[15px] font-semibold">{t("Waiting for you")}</p>
+              <Link href={`/${locale}/app/next-best-action`} className="t-caption text-[#006b7d] hover:underline">{t("See all")}</Link>
+            </div>
+            <ol className="divide-y divide-[#e8e8ed]">
+              {top.map((a, i) => {
+                const Icon = channelIcon[a.channel] ?? Lightning;
+                return (
+                  <li key={a.lead} className="flex items-center gap-3 py-3">
+                    <span className="tnum w-4 text-[13px] text-[#86868b]">{i + 1}</span>
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#e3f2f4] text-[#006b7d]"><Icon size={16} /></span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[14px] font-medium">{t(a.action)}</p>
+                      <p className="truncate text-[12.5px] text-[#6e6e73]">{a.lead}</p>
+                    </div>
+                    <span className="tnum text-[13px] font-semibold">{fmtAED(a.commission * 1e6)}</span>
+                  </li>
+                );
+              })}
+            </ol>
           </div>
         </div>
-      </div>
+      </section>
 
       <Stats>
         <Stat label="Total leads" value="247" delta="+18" note="this week" />
