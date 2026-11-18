@@ -285,4 +285,12 @@ export const appAr: Record<string, string> = {
   "Start with your next best action": "ابدأ بأفضل إجراء تالٍ",
   "Waiting for you": "بانتظارك",
   "leads in view": "عميلاً في العرض",
+  "Sample data: every lead, score and message here is made up.": "بيانات نموذجية: كل العملاء والتقييمات والرسائل هنا غير حقيقية.",
+  "See it with your own leads": "شاهده بعملائك أنت",
+  "Now see it with your own enquiries.": "والآن شاهده باستفساراتك أنت.",
+  "Bring a week of your leads. We’ll load them into Observer and show you who you would have called first, and what it was worth.": "أحضر عملاء أسبوع واحد. سنحمّلهم في أوبزرفر ونريك بمن كنت ستتصل أولاً، وكم كانت قيمة ذلك.",
+  "Your WhatsApp number": "رقم واتساب الخاص بك",
+  "Book a demo": "احجز عرضاً توضيحياً",
+  "30 minutes, with your own enquiries. No card needed.": "30 دقيقة، باستفساراتك أنت. دون بطاقة دفع.",
+  "Already a customer?": "عميل بالفعل؟",
 };

@@ -1,8 +1,11 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import { InlineCta } from "@/components/site/InlineCta";
+import { img } from "@/lib/img";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight, CheckCircle, Info } from "@phosphor-icons/react";
+import { MagnifyingGlass, Moon, Sun, Translate, Plus, List, X, Sparkle, PaperPlaneRight, ArrowUpRight, ArrowRight, CheckCircle, Info } from "@phosphor-icons/react";
 import { navGroups, viewLabel, type ViewId } from "./nav";
 import { LocaleProvider, useT } from "./i18n";
 import { cx, Monogram, Dot, Btn } from "./ui";
@@ -142,11 +145,32 @@ function ShellInner({ children }: { children: ReactNode }) {
             <button className="flex size-10 items-center justify-center rounded-full bg-creek text-on-creek sm:hidden" aria-label={t("Add lead")} onClick={() => setAddLead(true)}><Plus size={18} weight="bold" /></button>
           </div>
         </header>
-        <div className="border-b border-hairline-soft bg-creek-soft/60 px-4 py-2 text-center text-[13px] text-ink-2 sm:px-6">
-          {t("You’re in the demo, with sample data.")}{" "}
-          <a href={`/${locale}/login`} className="font-medium text-creek hover:underline">{t("Sign in to your workspace")}</a>
+        {/* Demo bar: says plainly the data is sample data, with one small ask (CTA Gallery: announcement pattern) */}
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 border-b border-hairline-soft bg-creek-soft/60 px-4 py-2 text-[13px] text-ink-2 sm:px-6">
+          <span>{t("Sample data: every lead, score and message here is made up.")}</span>
+          <span className="flex items-center gap-3">
+            <Link href={`/${locale}/contact`} className="inline-flex h-7 items-center gap-1.5 rounded-full bg-creek px-3 text-[12.5px] font-medium text-on-creek hover:bg-creek-hover">{t("See it with your own leads")}<ArrowRight size={13} className="rtl:-scale-x-100" /></Link>
+            <Link href={`/${locale}/login`} className="font-medium text-creek hover:underline">{t("Sign in")}</Link>
+          </span>
         </div>
-        <main id="main" className="mx-auto max-w-[1360px] px-4 pb-24 pt-6 sm:px-6 sm:pt-8">{children}</main>
+        <main id="main" className="mx-auto max-w-[1360px] px-4 pb-24 pt-6 sm:px-6 sm:pt-8">
+          {children}
+          {/* Closing ask at the end of every demo screen: one photo, a big line, the WhatsApp field, a true reassurance */}
+          <section aria-labelledby="demo-close" className="relative isolate mt-10 overflow-hidden rounded-[28px] bg-black text-white">
+            <Image src={img("villaDusk", 1600)} alt="" fill sizes="(min-width:1024px) 1100px, 100vw" className="-z-10 object-cover object-[50%_65%] opacity-60" />
+            <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/70 to-black/20" />
+            <div className="grid gap-8 p-6 pt-16 sm:p-10 sm:pt-24 lg:grid-cols-[1fr_auto] lg:items-end">
+              <div>
+                <h2 id="demo-close" className="max-w-[16ch] text-[34px] font-semibold leading-[1] tracking-[-0.04em] [text-wrap:balance] sm:text-[52px]">{t("Now see it with your own enquiries.")}</h2>
+                <p className="mt-4 max-w-[50ch] text-[16px] text-white/75 sm:text-[17px]">{t("Bring a week of your leads. We’ll load them into Observer and show you who you would have called first, and what it was worth.")}</p>
+              </div>
+              <div className="w-full lg:w-[440px]">
+                <InlineCta locale={locale} label={t("Your WhatsApp number")} placeholder={t("WhatsApp number")} button={t("Book a demo")} reassure={t("30 minutes, with your own enquiries. No card needed.")} stack="mobile" />
+                <p className="mt-3 text-[14px] text-white/70">{t("Already a customer?")} <Link href={`/${locale}/login`} className="font-medium text-white underline-offset-4 hover:underline">{t("Sign in")}</Link></p>
+              </div>
+            </div>
+          </section>
+        </main>
       </div>
 
       <button
