@@ -10,6 +10,7 @@ import { pageMeta, SITE } from "@/lib/seo";
 import { Tile, Heading, Eyebrow, CloseBand } from "@/components/site/Section";
 import { Hero } from "@/components/site/Hero";
 import { LiveDemo } from "@/components/site/LiveDemo";
+import { NightShift } from "@/components/site/NightShift";
 import { AppFrame, Phone, ScoreDiagram, shot } from "@/components/site/Illustrations";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
@@ -62,24 +63,12 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero h={h.hero} x={x.hero} form={x.cta} locale={locale} L={L} sources={x.integrations.items.slice(0, 9)} />
 
-      {/* 11:42 pm: the problem */}
-      <Tile>
-        <div className="grid items-end gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-          <Heading eyebrow={s.problem} h={h.problem.h2} body={h.problem.body} stack />
-          <ul className="grid gap-6 sm:grid-cols-3 lg:grid-cols-1 lg:gap-0">
-            {h.problem.facts.map((f) => (
-              <li key={f.n} className="flex items-baseline gap-5 border-t border-hairline pt-4 lg:py-4">
-                <p className="tnum w-[4.6ch] shrink-0 whitespace-nowrap text-[40px] font-semibold leading-none tracking-[-0.03em]">{f.n}</p>
-                <p className="text-ink-2">{f.t}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Tile>
+      {/* The night shift: one night, scroll-driven */}
+      <NightShift n={x.night} card={x.hero.card} heading={h.problem.h2} locale={locale} />
 
       {/* What happens next: four moments, each shown in the product */}
       <section className="bg-canvas">
-        <div className="mx-auto max-w-[1240px] px-4 pb-16 sm:px-6 md:pb-24">
+        <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 md:py-24">
           <p className="t-eyebrow mb-6 text-ink-3">{s.next}</p>
           <div className="grid gap-4 lg:grid-cols-12">
             <StoryTile href={L("/product#channels")} stamp={s.whatsapp} h={h.whatsapp.h2} t={h.whatsapp.body} dark className="lg:col-span-7">

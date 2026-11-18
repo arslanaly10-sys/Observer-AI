@@ -173,6 +173,10 @@ body {
 .hero-card { animation: card-in .9s var(--ease-out-expo) both; }
 .hero-bubble { animation: bubble-in .6s var(--ease-out-expo) both; }
 
+/* Night shift: scroll hint */
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+.night-bob { animation: bob 1.6s ease-in-out infinite; }
+
 /* App: live pulse dot */
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
 .pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
