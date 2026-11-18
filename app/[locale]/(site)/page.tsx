@@ -11,6 +11,8 @@ import { Tile, Heading, Eyebrow, CloseBand } from "@/components/site/Section";
 import { Hero } from "@/components/site/Hero";
 import { LiveDemo } from "@/components/site/LiveDemo";
 import { NightShift } from "@/components/site/NightShift";
+import { BrandIcon } from "@/components/site/BrandIcon";
+import { integrationKeys } from "@/lib/brands";
 import { AppFrame, Phone, ScoreDiagram, shot } from "@/components/site/Illustrations";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: Locale }> }): Promise<Metadata> {
@@ -202,7 +204,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
           <div>
             <p className="t-eyebrow text-white/55">{s.works}</p>
             <ul className="mt-3 flex flex-wrap gap-2">
-              {x.integrations.items.map((i) => <li key={i} className="rounded-full border border-white/15 px-3.5 py-1.5 text-[14px] text-white/80">{i}</li>)}
+              {x.integrations.items.map((i, n) => <li key={i} className="flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] py-1.5 pe-3.5 ps-1.5 text-[14px] text-white/85"><BrandIcon k={integrationKeys[n]} />{i}</li>)}
             </ul>
           </div>
         }

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle, WhatsappLogo, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { img } from "@/lib/img";
 import { InlineCta } from "@/components/site/InlineCta";
+import { BrandIcon } from "@/components/site/BrandIcon";
+import { integrationKeys } from "@/lib/brands";
 import type { ExtraDict } from "@/dictionaries/site-extra";
 
 type Copy = { h1: string; cta: string; cta2: string };
@@ -107,9 +109,9 @@ export function Hero({ h, x, form, sources, L, locale }: { h: Copy; x: ExtraDict
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-7 gap-y-2 px-4 py-5 text-[14px] sm:px-6">
+        <div className="mx-auto flex max-w-[1240px] flex-wrap items-center gap-x-5 gap-y-2 px-4 py-5 text-[14px] sm:px-6">
           <span className="text-white/45">{x.from}</span>
-          {sources.map((s) => <span key={s} className="font-medium text-white/75">{s}</span>)}
+          {sources.map((s, n) => <span key={s} className="flex items-center gap-2 font-medium text-white/80"><BrandIcon k={integrationKeys[n]} size={20} />{s}</span>)}
         </div>
       </div>
     </section>
