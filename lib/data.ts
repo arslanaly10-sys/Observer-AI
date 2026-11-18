@@ -57,32 +57,38 @@ export const agents = [
 
 export const kanban: Record<string, { name: string; type: string; time: string; temp: Temp; score: number; value: string }[]> = {
   New: [
-    { name: "Omar Al Farouq", type: "Buyer", time: "2m ago", temp: "cold", score: 44, value: "AED 900K" },
-    { name: "Sara Al Blooshi", type: "Buyer", time: "14m ago", temp: "cold", score: 38, value: "AED 750K" },
-    { name: "Mohammad Siddiqui", type: "Seller", time: "6h ago", temp: "warm", score: 73, value: "AED 1.5M" },
+    { name: "James Whitaker", type: "Buyer", time: "2m ago", temp: "warm", score: 63, value: "AED 1.8M" },
+    { name: "Arjun Mehta", type: "Buyer", time: "14m ago", temp: "warm", score: 58, value: "AED 1.4M" },
+    { name: "Hannah Becker", type: "Buyer", time: "1h ago", temp: "cold", score: 41, value: "AED 1.6M" },
   ],
   Qualified: [
-    { name: "Rania Hassan", type: "Buyer", time: "1h ago", temp: "warm", score: 69, value: "AED 3.2M" },
-    { name: "Tariq Mahmoud", type: "Seller", time: "2h ago", temp: "warm", score: 55, value: "AED 2.1M" },
-    { name: "Maryam Al Hashimi", type: "Buyer", time: "8h ago", temp: "warm", score: 62, value: "AED 1.9M" },
+    { name: "Viktor Sokolov", type: "Buyer", time: "38m ago", temp: "hot", score: 82, value: "AED 2.2M" },
+    { name: "Rania Hassan", type: "Buyer", time: "6h ago", temp: "warm", score: 69, value: "AED 3.2M" },
+    { name: "Fatima Al Zaabi", type: "Buyer", time: "5h ago", temp: "warm", score: 74, value: "AED 2.8M" },
   ],
   "Meeting Set": [
-    { name: "Fatima Al Zaabi", type: "Buyer", time: "3h ago", temp: "hot", score: 81, value: "AED 2.8M" },
-    { name: "Hamdan Al Suwaidi", type: "Buyer", time: "25m ago", temp: "hot", score: 84, value: "AED 5.4M" },
+    { name: "Hamdan Al Suwaidi", type: "Investor", time: "25m ago", temp: "hot", score: 89, value: "AED 9.4M" },
+    { name: "Abdullah Al Qahtani", type: "Buyer", time: "8m ago", temp: "hot", score: 91, value: "SAR 7.6M" },
   ],
-  "Offer Stage": [{ name: "Nour Al Mansouri", type: "Buyer", time: "Yesterday", temp: "hot", score: 91, value: "AED 6M" }],
-  "Closed Won": [{ name: "Jaber Al Nuaimi", type: "Buyer", time: "2d ago", temp: "hot", score: 88, value: "AED 3.8M" }],
+  "Offer Stage": [
+    { name: "Nour Al Mansouri", type: "Buyer", time: "12m ago", temp: "hot", score: 94, value: "AED 19.8M" },
+    { name: "Elena Rossi", type: "Buyer", time: "4h ago", temp: "hot", score: 80, value: "AED 2.2M" },
+  ],
+  "Closed Won": [
+    { name: "Mohammed Al Shamsi", type: "Buyer", time: "Today", temp: "hot", score: 88, value: "AED 12.1M" },
+    { name: "Sultan Al Ketbi", type: "Buyer", time: "2d ago", temp: "hot", score: 86, value: "AED 6.9M" },
+  ],
 };
 
 export type Tone = "hot" | "ok" | "creek" | "warm" | "cold" | "wa";
 
 export const activity: { tone: Tone; who?: string; text: string; time: string }[] = [
-  { tone: "hot", who: "Ahmed Al Khalidi", text: "scored 87. Cash buyer, moving within two months.", time: "2m" },
-  { tone: "wa", who: "Nour Al Mansouri", text: "replied on WhatsApp: “Yes, I want to proceed with the offer.”", time: "9m" },
-  { tone: "ok", who: "Layla Haddad", text: "booked a viewing with Fatima Al Zaabi for tomorrow, 10am.", time: "21m" },
-  { tone: "creek", text: "Five leads have gone two hours without contact. They’re at risk of breaching SLA.", time: "34m" },
-  { tone: "ok", who: "Jaber Al Nuaimi", text: "closed: AED 3.8M villa in Dubai Hills.", time: "1h" },
-  { tone: "cold", text: "184 leads re-scored overnight. 47 moved up, 12 moved down.", time: "4h" },
+  { tone: "hot", who: "Abdullah Al Qahtani", text: "asked for a whole floor in Riyadh Gate, Gate 1. Escalated to Faisal Al Harbi.", time: "2m" },
+  { tone: "wa", who: "Nour Al Mansouri", text: "replied on WhatsApp: “Send me the frond plan, I want to see it with my family.”", time: "12m" },
+  { tone: "ok", who: "Mariam Al Hashimi", text: "booked a Saturday viewing at Sobha Hartland II with Viktor Sokolov.", time: "38m" },
+  { tone: "creek", text: "The AI held A-4601 to A-4603 at Harbour One for Hamdan Al Suwaidi, pending your approval.", time: "41m" },
+  { tone: "ok", who: "Mohammed Al Shamsi", text: "Oqood issued: AED 12.1M villa at Saadiyat Lagoons.", time: "1h" },
+  { tone: "cold", text: "1,386 enquiries answered overnight. 214 quiet clients replied again.", time: "6h" },
 ];
 
 export const nba = [
@@ -93,52 +99,97 @@ export const nba = [
   { p: 3, lead: "Mohammad Siddiqui", action: "Assign an agent", reason: "Score 73 · no agent · waiting 6 hours", channel: "Assign", btn: "Assign" },
 ];
 
-export const waContacts = [
-  { initials: "AK", name: "Ahmed Al Khalidi", preview: "Yes, I’m interested in the villas…", time: "2m", unread: 3, score: 87, temp: "hot" as Temp },
-  { initials: "NM", name: "Nour Al Mansouri", preview: "When can we sign?", time: "2h", unread: 1, score: 91, temp: "hot" as Temp },
-  { initials: "FZ", name: "Fatima Al Zaabi", preview: "Can we meet tomorrow?", time: "3h", unread: 0, score: 81, temp: "hot" as Temp },
-  { initials: "RH", name: "Rania Hassan", preview: "Send me the listings please", time: "5h", unread: 1, score: 69, temp: "warm" as Temp },
-  { initials: "TM", name: "Tariq Mahmoud", preview: "What’s your commission?", time: "1d", unread: 0, score: 55, temp: "warm" as Temp },
+export type Msg = { dir: "in" | "out"; text?: string; time: string; listing?: boolean };
+export interface WaContact {
+  initials: string; name: string; preview: string; time: string; unread: number; score: number; temp: Temp;
+  listing: { photo: PhotoKey; title: string; detail: string; price: string };
+  profile: [string, string][]; suggestion: string; thread: Msg[];
+}
+
+export const waContacts: WaContact[] = [
+  { initials: "HS", name: "Hamdan Al Suwaidi", preview: "Can you hold all three until Thursday?", time: "2m", unread: 3, score: 89, temp: "hot",
+    listing: { photo: "skylineNight", title: "Nawafir Harbour One · Tower A", detail: "Sky floor 46 · three 3-bed units", price: "AED 9,400,000" },
+    profile: [["Looking to", "Invest, three units"], ["Budget", "AED 8–10M"], ["Project", "Nawafir Harbour One"], ["Timing", "This month"], ["Came from", "Instagram"], ["Financing", "Cash"]],
+    suggestion: "Hamdan, I have asked sales admin to hold A-4601 to A-4603 for 48 hours against the EOI. Shall I send the reservation form now?",
+    thread: [
+      { dir: "in", text: "Good evening. I saw Harbour One on Instagram. Do you have three units together on a high floor?", time: "20:41" },
+      { dir: "out", text: "Good evening Hamdan, this is the Nawafir AI assistant. Yes: floor 46 in Tower A has three adjoining 3-bed units, A-4601 to A-4603, all with a Creek view.", time: "20:41" },
+      { dir: "out", time: "20:41", listing: true },
+      { dir: "in", text: "Price for the three, and the payment plan?", time: "20:44" },
+      { dir: "out", text: "AED 9.4M together. The plan is 60/40: 60% during construction, 40% on handover in Q4 2029. Expected gross yield in the area is about 6–7%.", time: "20:45" },
+      { dir: "in", text: "Can you hold all three until Thursday?", time: "20:52" },
+    ] },
+  { initials: "NM", name: "Nour Al Mansouri", preview: "أرسل لي مخطط السعفة", time: "12m", unread: 1, score: 94, temp: "hot",
+    listing: { photo: "palmAerial", title: "Palm Jebel Ali · Frond K", detail: "Beach villa 14 · 6 bedrooms", price: "AED 19,800,000" },
+    profile: [["Looking to", "Buy, family home"], ["Budget", "AED 18–22M"], ["Project", "Palm Jebel Ali"], ["Timing", "Before summer"], ["Came from", "Private referral"], ["Financing", "Cash"]],
+    suggestion: "تفضّل أستاذة نور، هذا مخطط السعفة K مع موقع الفيلا 14. هل يناسبكم الخميس الساعة 5 مساءً لزيارة الموقع مع العائلة؟",
+    thread: [
+      { dir: "in", text: "مساء الخير، أبحث عن فيلا على البحر في نخلة جبل علي للعائلة.", time: "19:02" },
+      { dir: "out", text: "مساء النور أستاذة نور، معك عمر صديقي من نوافير. لدينا فيلا 14 في السعفة K، ست غرف وواجهة بحرية مباشرة.", time: "19:05" },
+      { dir: "out", time: "19:05", listing: true },
+      { dir: "in", text: "ممتاز. أرسل لي مخطط السعفة، أبي أشوفه مع أهلي.", time: "21:30" },
+    ] },
+  { initials: "VS", name: "Viktor Sokolov", preview: "Saturday morning works.", time: "38m", unread: 0, score: 82, temp: "hot",
+    listing: { photo: "villaSea", title: "Sobha Hartland II · H2-1408", detail: "2-bed apartment · park view", price: "AED 2,150,000" },
+    profile: [["Looking to", "Buy, Golden Visa"], ["Budget", "AED 2–2.5M"], ["Project", "Sobha Hartland II"], ["Timing", "2 months"], ["Came from", "Property Finder"], ["Financing", "Cash"]],
+    suggestion: "Viktor, Saturday at 11:00 is confirmed with Mariam. I have also attached the Golden Visa checklist for a property of AED 2 million or more.",
+    thread: [
+      { dir: "in", text: "Добрый день. Квартира за 2 миллиона даёт визу на 10 лет?", time: "18:10" },
+      { dir: "out", text: "Здравствуйте, Виктор! Да: недвижимость от 2 млн дирхамов даёт право на 10-летнюю визу. Эта квартира стоит 2,15 млн.", time: "18:10" },
+      { dir: "out", time: "18:10", listing: true },
+      { dir: "in", text: "Saturday morning works.", time: "18:31" },
+    ] },
+  { initials: "AQ", name: "Abdullah Al Qahtani", preview: "أبي الدور كامل في البرج الأول", time: "8m", unread: 2, score: 91, temp: "hot",
+    listing: { photo: "towerAbstract", title: "Nawafir Riyadh Gate · Gate 1", detail: "Floor 28 · 8 units, whole floor", price: "SAR 7,600,000" },
+    profile: [["Looking to", "Buy, extended family"], ["Budget", "SAR 6–8M"], ["Project", "Nawafir Riyadh Gate"], ["Timing", "Tonight's launch"], ["Came from", "Launch event"], ["Financing", "Cash"]],
+    suggestion: "أستاذ عبدالله، فيصل الحربي يتواصل معك الآن لتأكيد تخصيص الطابق 28 كاملاً قبل فتح البيع الساعة 9.",
+    thread: [
+      { dir: "in", text: "السلام عليكم، أبي الدور كامل في البرج الأول للعائلة.", time: "20:12" },
+      { dir: "out", text: "وعليكم السلام أستاذ عبدالله، معك المساعد الذكي من نوافير. الطابق 28 في البوابة 1 متاح كاملاً، ثماني وحدات.", time: "20:12" },
+      { dir: "out", time: "20:12", listing: true },
+      { dir: "in", text: "تمام، كيف نحجز قبل الإطلاق؟", time: "20:15" },
+    ] },
+  { initials: "RH", name: "Rania Hassan", preview: "Send me the payment plan in Arabic please", time: "6h", unread: 1, score: 69, temp: "warm",
+    listing: { photo: "beach", title: "DAMAC Lagoons · Venice cluster", detail: "4-bed townhouse", price: "AED 3,150,000" },
+    profile: [["Looking to", "Buy, to live in"], ["Budget", "AED 3.2M"], ["Project", "DAMAC Lagoons"], ["Timing", "3 months"], ["Came from", "Referral"], ["Financing", "Mortgage"]],
+    suggestion: "رانيا، أرسلت لك خطة الدفع 75/25 بالعربية، مع حساب رسوم دائرة الأراضي والقسط الشهري التقريبي.",
+    thread: [
+      { dir: "in", text: "Hi, I liked the Lagoons townhouses at the weekend.", time: "13:20" },
+      { dir: "out", text: "Hi Rania, Ahmed Tariq from Nawafir. The 4-bed in the Venice cluster is AED 3.15M with a 75/25 plan.", time: "13:26" },
+      { dir: "out", time: "13:26", listing: true },
+      { dir: "in", text: "Send me the payment plan in Arabic please", time: "14:02" },
+    ] },
 ];
 
-export type Msg = { dir: "in" | "out"; text?: string; time: string; listing?: boolean };
-export const waThread: Msg[] = [
-  { dir: "in", text: "Hello, I saw your listing on Bayut for the villa in Dubai Hills. Very interested.", time: "10:24" },
-  { dir: "out", text: "Hi Ahmed, I’m Layla from Nawafir. The Dubai Hills villa is five bedrooms with a private pool, at AED 4.2M. Is this for your family, or an investment?", time: "10:25" },
-  { dir: "out", time: "10:25", listing: true },
-  { dir: "in", text: "Primary residence. Family of 5. What is the handover date?", time: "10:28" },
-  { dir: "out", text: "It’s finished and ready to move into. I have three similar homes between AED 3.5M and 4.5M. Would you like to see them this week?", time: "10:29" },
-  { dir: "in", text: "Yes please! I need to see at least 3 options. Are you free Thursday?", time: "10:31" },
-  { dir: "out", text: "Thursday works. I’ll put the three side by side for you. Shall we meet at our office at 11am?", time: "10:32" },
-  { dir: "in", text: "Yes I am interested. Please send me the details and price comparison.", time: "10:45" },
-];
+/** Kept for older imports: the first contact's thread. */
+export const waThread: Msg[] = waContacts[0].thread;
 
 export const sequences = [
-  { name: "Bayut hot lead", channel: "whatsapp", trigger: "Score above 70 from Bayut", enrolled: 142, sent: 892, openRate: 91, steps: [
+  { name: "Bayut hot lead", channel: "whatsapp", trigger: "Score above 70 from Bayut", enrolled: 6240, sent: 31870, openRate: 91, steps: [
     { delay: "Immediately", msg: "Hello {name}, thank you for your Bayut enquiry. I’m your consultant at Nawafir. Which community and budget should I search for you?" },
     { delay: "+2 hours", msg: "{name}, five units that match your search are not yet on the portals. Shall I arrange a private preview?" },
-    { delay: "+1 day", msg: "Good morning {name}. New homes came up in {area} this week. When suits you for a ten-minute call?" },
+    { delay: "+1 day", msg: "Good morning {name}. New units were released in {area} this week. When would suit you for a ten-minute call?" },
   ] },
-  { name: "Re-engage after 48 hours", channel: "whatsapp", trigger: "No reply in 48h", enrolled: 89, sent: 312, openRate: 78, steps: [
+  { name: "Re-engage after 48 hours", channel: "whatsapp", trigger: "No reply in 48h", enrolled: 4120, sent: 11380, openRate: 78, steps: [
     { delay: "48h after last message", msg: "{name}, {area} is moving quickly; a unit like the one you liked was reserved yesterday. Shall I send you what remains?" },
     { delay: "+3 days", msg: "{name}, a final note from me. One unit matches exactly what you described. Five minutes this week?" },
   ] },
-  { name: "After the viewing", channel: "whatsapp", trigger: "Viewing completed", enrolled: 34, sent: 68, openRate: 97, steps: [
+  { name: "After the viewing", channel: "whatsapp", trigger: "Viewing completed", enrolled: 1960, sent: 3920, openRate: 97, steps: [
     { delay: "2h after viewing", msg: "{name}, thank you for your time today. Which of the three stayed with you? I can arrange a second visit or prepare the reservation." },
-    { delay: "+1 day", msg: "{name}, any questions I can answer? I can prepare the letter of intent whenever you’re ready." },
+    { delay: "+1 day", msg: "{name}, any questions I can answer? I can prepare the reservation form whenever you are ready." },
   ] },
-  { name: "Cold lead reactivation", channel: "sms", trigger: "Cold, 7+ days without contact", enrolled: 211, sent: 634, openRate: 68, steps: [
+  { name: "Cold lead reactivation", channel: "sms", trigger: "Cold, 7+ days without contact", enrolled: 8860, sent: 24110, openRate: 68, steps: [
     { delay: "Day 7", msg: "{name}, {agent} from Nawafir. Dubai prices rose 8% last quarter. Worth a short conversation about your search? Reply YES." },
-    { delay: "+5 days", msg: "{name}, a new home in {area} within {budget} just came in. Reply YES for details." },
+    { delay: "+5 days", msg: "{name}, a new unit in {area} within {budget} has just been released. Reply YES for details." },
   ] },
-  { name: "First touch for every new lead", channel: "sms", trigger: "Any new lead, any source", enrolled: 247, sent: 247, openRate: 72, steps: [
-    { delay: "Within 3 minutes", msg: "Hi {name}, I’m {agent}, your property consultant. Are you looking to buy, sell or rent? Reply 1, 2 or 3." },
+  { name: "First touch for every new lead", channel: "sms", trigger: "Any new lead, any source", enrolled: 41280, sent: 41280, openRate: 72, steps: [
+    { delay: "Within 3 minutes", msg: "Hello {name}, {agent} from Nawafir. Are you looking to buy to live in, to invest, or to sell? Reply 1, 2 or 3." },
   ] },
-  { name: "Monthly market letter", channel: "email", trigger: "All leads, 1st of each month", enrolled: 1840, sent: 1840, openRate: 31, steps: [
-    { delay: "1st of the month, 9am", msg: "Subject: {area} this month\n\nHi {name}, here’s what moved in {area}: prices, new homes, and where the value is right now." },
+  { name: "Monthly market letter", channel: "email", trigger: "All leads, 1st of each month", enrolled: 52400, sent: 52400, openRate: 31, steps: [
+    { delay: "1st of the month, 9am", msg: "Subject: {area} this month\n\n{name}, what moved in {area}: transactions, new launches, and where the value is now." },
   ] },
-  { name: "AI call for unclosed hot leads", channel: "ai_call", trigger: "Hot lead, no close in 72h", enrolled: 38, sent: 38, openRate: 84, steps: [
-    { delay: "72h after scoring hot", msg: "Observer calls: “Hi {name}, I’m calling for your consultant at Nawafir. Two new homes in {area} just became available. Do you have three minutes?”" },
+  { name: "AI call for unclosed hot leads", channel: "ai_call", trigger: "Hot lead, no close in 72h", enrolled: 1214, sent: 1214, openRate: 84, steps: [
+    { delay: "72h after scoring hot", msg: "Observer calls: “Hello {name}, this is the Nawafir AI assistant, calling for your consultant. Two units in {area} have just been released. Do you have three minutes?”" },
     { delay: "+2 days if unanswered", msg: "Second call, with a short voicemail if there’s no answer." },
   ] },
 ];
@@ -153,23 +204,23 @@ export const cascade = [
 ];
 
 export const journeys = [
-  { name: "Ahmed Al Khalidi", step: 6, detail: "Replied on WhatsApp. With Layla H. now." },
-  { name: "Rania Hassan", step: 3, detail: "WhatsApp unread. SMS sent 12 minutes ago." },
-  { name: "Omar Al Farouq", step: 4, detail: "No written reply. AI call in 40 minutes." },
-  { name: "Sara Al Blooshi", step: 5, detail: "On the weekly market letter." },
-  { name: "Mohammad Siddiqui", step: 2, detail: "Second WhatsApp sent. Waiting to be read." },
+  { name: "Hamdan Al Suwaidi", step: 6, detail: "Replied on WhatsApp. With Omar Siddiqui now." },
+  { name: "Fatima Al Zaabi", step: 3, detail: "WhatsApp unread. SMS sent 12 minutes ago." },
+  { name: "James Whitaker", step: 4, detail: "No written reply. AI call in 40 minutes." },
+  { name: "Hannah Becker", step: 5, detail: "On the weekly market letter." },
+  { name: "Arjun Mehta", step: 2, detail: "Second WhatsApp sent in Hindi. Waiting to be read." },
 ];
 
 export const notifs = [
-  { tone: "hot" as Tone, text: "Ahmed Al Khalidi just scored 87. Cash buyer, worth calling now.", time: "2m ago", unread: true },
-  { tone: "hot" as Tone, text: "SLA breach: Nadia Al Sayed’s lead has waited 22 minutes.", time: "5m ago", unread: true },
-  { tone: "wa" as Tone, text: "Nour Al Mansouri on WhatsApp: “When can we sign?”", time: "2h ago", unread: true },
-  { tone: "creek" as Tone, text: "Five leads will breach SLA in the next 15 minutes.", time: "2h ago", unread: true },
-  { tone: "ok" as Tone, text: "Closed: Jaber Al Nuaimi, AED 3.8M, Dubai Hills villa.", time: "3h ago", unread: false },
-  { tone: "cold" as Tone, text: "Overnight scoring done. 184 leads reviewed, 47 moved up.", time: "4h ago", unread: false },
-  { tone: "creek" as Tone, text: "Rania Hassan qualified and assigned to Ahmed Tariq.", time: "5h ago", unread: false },
-  { tone: "cold" as Tone, text: "New lead from Property Finder: Sara Al Blooshi, AED 750K.", time: "6h ago", unread: false },
-  { tone: "warm" as Tone, text: "One PDPL item needs attention before Friday.", time: "1d ago", unread: false },
+  { tone: "hot" as Tone, text: "Abdullah Al Qahtani wants a whole floor at Riyadh Gate. Faisal Al Harbi has it.", time: "2m ago", unread: true },
+  { tone: "warm" as Tone, text: "The AI asks to hold A-4601 to A-4603 for Hamdan Al Suwaidi. Approval needed.", time: "5m ago", unread: true },
+  { tone: "wa" as Tone, text: "Nour Al Mansouri on WhatsApp: “Send me the frond plan.”", time: "12m ago", unread: true },
+  { tone: "creek" as Tone, text: "Riyadh Gate opens at 21:00. 1,840 expressions of interest so far.", time: "1h ago", unread: true },
+  { tone: "ok" as Tone, text: "Oqood issued: Mohammed Al Shamsi, AED 12.1M, Saadiyat Lagoons.", time: "1h ago", unread: false },
+  { tone: "cold" as Tone, text: "Overnight: 1,386 enquiries answered, 41 viewings booked.", time: "6h ago", unread: false },
+  { tone: "creek" as Tone, text: "Crescent Gate Realty registered Chen Wei for Diamondz. Protected for 90 days.", time: "7h ago", unread: false },
+  { tone: "cold" as Tone, text: "Marina Bay Properties tried to register Viktor Sokolov. Duplicate, explained.", time: "8h ago", unread: false },
+  { tone: "warm" as Tone, text: "Two SPAs are waiting for an Emirates ID copy. The AI has asked both clients.", time: "1d ago", unread: false },
 ];
 
 export const weights = [

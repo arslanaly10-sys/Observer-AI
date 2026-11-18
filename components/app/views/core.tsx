@@ -208,6 +208,9 @@ export function Pipeline() {
   const prob: Record<string, number> = { New: 10, Qualified: 30, "Meeting Set": 60, "Offer Stage": 85, "Closed Won": 100 };
   const value = (v: string) => (parseFloat(v.replace(/[^0-9.]/g, "")) || 0) * (/K/i.test(v) ? 1e3 : 1e6);
   const weighted = names.reduce((a, s) => a + stages[s].reduce((b, c) => b + value(c.value) * prob[s] / 100, 0), 0);
+  const all = names.flatMap((s) => stages[s]);
+  const best = all.reduce((a, c) => a + value(c.value), 0);
+  const commit = ["Offer Stage", "Closed Won"].reduce((a, s) => a + (stages[s] ?? []).reduce((b, c) => b + value(c.value), 0), 0);
   const move = (name: string, to: string) => {
     moveCard(name, to);
     toast(`${name} ${t("moved to")} ${t(to)}`);
@@ -217,9 +220,9 @@ export function Pipeline() {
       <PageHead title="Pipeline" sub="Every deal by stage, weighted by how likely it is to close. Drag a card, or use its arrow, to move it." />
       <Stats>
         <Stat label="Weighted pipeline" value={`AED ${(weighted / 1e6).toFixed(2)}M`} note="updates as you move deals" />
-        <Stat label="Best case" value="AED 12.2M" />
-        <Stat label="Commit" value="AED 4.1M" />
-        <Stat label="Average deal" value="AED 2.44M" />
+        <Stat label="Best case" value={`AED ${(best / 1e6).toFixed(1)}M`} note="every open deal closes" />
+        <Stat label="Commit" value={`AED ${(commit / 1e6).toFixed(1)}M`} note="offer stage and won" />
+        <Stat label="Average deal" value={`AED ${(all.length ? best / all.length / 1e6 : 0).toFixed(2)}M`} />
       </Stats>
       <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:-mx-6 sm:px-6 2xl:grid 2xl:grid-cols-5 2xl:overflow-visible">
         {names.map((s, si) => (

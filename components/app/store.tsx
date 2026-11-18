@@ -24,7 +24,7 @@ interface Store {
 }
 
 const Ctx = createContext<Store | null>(null);
-const KEY = "obs-demo-v1";
+const KEY = "obs-demo-v2"; // v2: Nawafir sample data; older saved boards are ignored
 
 function load(): { added: Lead[]; stages: Record<string, Card[]> } | null {
   try {

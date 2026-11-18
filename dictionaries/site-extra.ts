@@ -105,8 +105,8 @@ const en = {
   trust: {
     security: {
       title: "Security",
-      h1: "Your buyers’ data, handled with care.",
-      sub: "Observer handles names, numbers and budgets. Here is exactly how we look after them.",
+      h1: "Your clients’ data, held in confidence.",
+      sub: "Observer holds names, numbers and budgets on your behalf. This is exactly how they are protected, and who can see them.",
       sections: [
         { h: "Where data lives", t: "All customer data is stored in AWS Europe (Frankfurt), with backups in the same region. It is encrypted in transit and at rest." },
         { h: "Encryption", t: "Data is encrypted at rest (AES-256) by our database provider and in transit with TLS." },
@@ -120,7 +120,7 @@ const en = {
     },
     privacy: {
       title: "Privacy",
-      h1: "Privacy notice",
+      h1: "How we treat personal data",
       draft: "Draft. This notice is pending legal review and will be finalised before launch.",
       sections: [
         { h: "Who we are", t: "Observer AI provides sales software to real estate brokerages and developers in the GCC. For leads our customers manage in Observer, the customer is the controller and we process data on their behalf." },
@@ -145,7 +145,7 @@ const en = {
     },
   },
   footerLegal: [["Security", "/security"], ["Privacy", "/privacy"], ["Terms", "/terms"]] as [string, string][],
-  notFound: { h1: "That page isn’t here.", body: "It may have moved. These will get you back on track.", home: "Go to the home page", app: "Open the app" },
+  notFound: { h1: "This page is not here.", body: "It may have moved. These will take you back.", home: "Go to the home page", app: "Open the app" },
 };
 
 export type ExtraDict = typeof en;
@@ -254,8 +254,8 @@ const ar: ExtraDict = {
   trust: {
     security: {
       title: "الأمان",
-      h1: "بيانات مشتريك، في أيدٍ أمينة.",
-      sub: "يتعامل أوبزرفر مع الأسماء والأرقام والميزانيات. وهذه بالضبط طريقتنا في حمايتها.",
+      h1: "بيانات عملائك، أمانة لدينا.",
+      sub: "يحفظ أوبزرفر الأسماء والأرقام والميزانيات نيابة عنك. وهذه بالضبط طريقة حمايتها، ومن يحق له الاطلاع عليها.",
       sections: [
         { h: "أين تُحفظ البيانات", t: "تُخزَّن جميع بيانات العملاء في AWS أوروبا (فرانكفورت)، والنسخ الاحتياطية في المنطقة نفسها، وهي مشفّرة أثناء النقل والتخزين." },
         { h: "التشفير", t: "البيانات مشفّرة أثناء التخزين (AES-256) لدى مزوّد قاعدة البيانات، وأثناء النقل عبر TLS." },
@@ -269,7 +269,7 @@ const ar: ExtraDict = {
     },
     privacy: {
       title: "الخصوصية",
-      h1: "إشعار الخصوصية",
+      h1: "كيف نتعامل مع البيانات الشخصية",
       draft: "مسودة. هذا الإشعار قيد المراجعة القانونية وسيُعتمد قبل الإطلاق.",
       sections: [
         { h: "من نحن", t: "يقدّم أوبزرفر AI برنامج مبيعات لشركات الوساطة العقارية والمطوّرين في الخليج. بالنسبة لعملاء عملائنا في أوبزرفر، يكون العميل هو المتحكم بالبيانات ونعالجها نيابة عنه." },
@@ -294,7 +294,7 @@ const ar: ExtraDict = {
     },
   },
   footerLegal: [["الأمان", "/security"], ["الخصوصية", "/privacy"], ["الشروط", "/terms"]],
-  notFound: { h1: "هذه الصفحة غير موجودة.", body: "ربما نُقلت. هذه الروابط ستعيدك إلى الطريق.", home: "الصفحة الرئيسية", app: "افتح التطبيق" },
+  notFound: { h1: "هذه الصفحة غير موجودة.", body: "ربما نُقلت، وهذه الروابط تعيدك.", home: "الصفحة الرئيسية", app: "افتح التطبيق" },
 };
 
 export function getExtra(l: Locale): ExtraDict {

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Phone, CalendarCheck, HouseLine, PaperPlaneRight, Sparkle, WhatsappLogo, ChatText, EnvelopeSimple, Robot, Handshake, FacebookLogo, InstagramLogo, Plus } from "@phosphor-icons/react";
-import { waContacts, waThread, sequences, cascade, journeys, socialFlows, socialFeed, PROPERTY } from "@/lib/data";
+import { waContacts, sequences, cascade, journeys, socialFlows, socialFeed } from "@/lib/data";
 import { img } from "@/lib/img";
 import { useT } from "../i18n";
 import { useStore } from "../store";
@@ -14,9 +14,9 @@ export function WhatsApp() {
   const [active, setActive] = useState(0);
   const [draft, setDraft] = useState("");
   const [sent, setSent] = useState<string[]>([]);
-  const suggestion = t("Hi Ahmed, I’ve put three Dubai Hills villas side by side, all within AED 4M. Shall I send them now, ahead of Thursday?");
   const c = waContacts[active];
-  const p = PROPERTY["Dubai Hills"];
+  const suggestion = t(c.suggestion);
+  const p = c.listing;
   return (
     <>
       <PageHead title="WhatsApp" sub="Every conversation, with Observer’s suggested reply ready to send." />
@@ -26,10 +26,10 @@ export function WhatsApp() {
           <ul>
             {waContacts.map((x, i) => (
               <li key={x.name}>
-                <button onClick={() => setActive(i)} aria-pressed={active === i} className={cx("flex w-full items-center gap-3 rounded-[12px] p-3 text-start", active === i ? "bg-parchment" : "hover:bg-pearl")}>
+                <button onClick={() => { setActive(i); setSent([]); setDraft(""); }} aria-pressed={active === i} className={cx("flex w-full items-center gap-3 rounded-[12px] p-3 text-start", active === i ? "bg-parchment" : "hover:bg-pearl")}>
                   <Monogram name={x.name} size={38} />
                   <span className="min-w-0 flex-1">
-                    <span className="flex justify-between gap-2"><span className="truncate font-medium">{x.name}</span><span className="t-fine text-ink-3">{x.time}</span></span>
+                    <span className="flex justify-between gap-2"><span className="pii truncate font-medium">{t(x.name)}</span><span className="t-fine text-ink-3">{x.time}</span></span>
                     <span className="t-caption block truncate text-ink-2">{t(x.preview)}</span>
                   </span>
                   {x.unread > 0 && <span className="tnum flex size-5 items-center justify-center rounded-full bg-wa text-[11px] font-semibold text-white">{x.unread}</span>}
@@ -43,25 +43,25 @@ export function WhatsApp() {
           <header className="flex items-center gap-3 border-b border-hairline-soft px-5 py-3">
             <Monogram name={c.name} size={38} />
             <div className="flex-1">
-              <p className="font-medium">{c.name}</p>
+              <p className="pii font-medium">{t(c.name)}</p>
               <p className="t-caption flex items-center gap-1.5 text-ink-2"><Dot tone="wa" /> {t("Online")} · {t("Score")} {c.score}</p>
             </div>
             <Btn variant="secondary" onClick={() => toast(`${t("Calling")} ${c.name}…`, "info")}><Phone size={16} /> <span className="hidden sm:inline">{t("Call")}</span></Btn>
           </header>
           <div className="flex-1 space-y-2.5 overflow-y-auto bg-pearl px-4 py-5 sm:px-6">
-            {waThread.map((m, i) =>
+            {c.thread.map((m, i) =>
               m.listing ? (
                 <div key={i} className="ms-auto w-[260px] overflow-hidden rounded-[16px] bg-canvas shadow-sm">
-                  <div className="relative aspect-[4/3]"><Image src={img(p.photo, 600)} alt={`${p.type}, ${p.label}`} fill sizes="260px" className="object-cover" /></div>
+                  <div className="relative aspect-[4/3]"><Image src={img(p.photo, 600)} alt={t(p.title)} fill sizes="260px" className="object-cover" /></div>
                   <div className="p-3">
-                    <p className="text-[15px] font-medium">{t(p.type)} · {p.label}</p>
-                    <p className="t-caption text-ink-2">{t("5 bedrooms · private pool")}</p>
-                    <p className="tnum mt-1 font-semibold">AED 4,200,000</p>
+                    <p className="text-[15px] font-medium">{t(p.title)}</p>
+                    <p className="t-caption text-ink-2">{t(p.detail)}</p>
+                    <p className="tnum mt-1 font-semibold">{p.price}</p>
                   </div>
                 </div>
               ) : (
                 <div key={i} className={cx("max-w-[80%] rounded-[16px] px-3.5 py-2 text-[15px] leading-snug", m.dir === "in" ? "bg-canvas" : "ms-auto bg-[#d9f7e4] text-[#0b3b22] dark:bg-[#123b25] dark:text-[#d9f7e4]")}>
-                  {t(m.text!)}
+                  <span dir="auto">{t(m.text!)}</span>
                   <span className="t-fine ms-2 align-bottom opacity-50">{m.time}</span>
                 </div>
               ),
@@ -73,7 +73,7 @@ export function WhatsApp() {
           {sent.length === 0 && (
             <div className="mx-4 mb-0 mt-3 flex items-start gap-3 rounded-[14px] border border-creek/30 bg-creek-soft p-3 sm:mx-6">
               <Sparkle size={18} weight="fill" className="mt-0.5 shrink-0 text-creek" />
-              <p className="flex-1 text-[14px]">{suggestion}</p>
+              <p className="flex-1 text-[14px]" dir="auto">{suggestion}</p>
               <Btn variant="quiet" onClick={() => setDraft(suggestion)}>{t("Use")}</Btn>
             </div>
           )}
@@ -87,17 +87,17 @@ export function WhatsApp() {
         <Card className="lg:col-span-2 xl:col-span-1">
           <CardHead title="About this lead" />
           <div className="flex items-end gap-3">
-            <span className="tnum text-[44px] font-semibold leading-none tracking-[-0.03em]">87</span>
-            <div className="pb-1"><TempBadge temp="hot" /></div>
+            <span className="tnum text-[44px] font-semibold leading-none tracking-[-0.03em]">{c.score}</span>
+            <div className="pb-1"><TempBadge temp={c.temp} /></div>
           </div>
           <dl className="mt-5 space-y-3 text-[14px]">
-            {[["Looking to", t("Buy, to live in")], ["Budget", "AED 3.5M – 4.5M"], ["Areas", "Dubai Hills, MBR City"], ["Moving within", t("1–2 months")], ["Came from", "Bayut, Property Finder"], ["Financing", t("Cash")]].map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-3"><dt className="text-ink-2">{t(k)}</dt><dd className="text-end font-medium">{v}</dd></div>
+            {c.profile.map(([k, v]) => (
+              <div key={k} className="flex justify-between gap-3"><dt className="text-ink-2">{t(k)}</dt><dd className="text-end font-medium"><bdi>{t(v)}</bdi></dd></div>
             ))}
           </dl>
           <div className="mt-6 grid gap-2">
             <Btn onClick={() => toast(t("Viewing booked: Thursday, 11am. Confirmation sent on WhatsApp."))}><CalendarCheck size={16} /> {t("Book a viewing")}</Btn>
-            <Btn variant="secondary" onClick={() => toast(t("Shortlist of three homes sent"))}><HouseLine size={16} /> {t("Send a shortlist")}</Btn>
+            <Btn variant="secondary" onClick={() => toast(t("Unit card and payment plan sent"))}><HouseLine size={16} /> {t("Send a shortlist")}</Btn>
           </div>
         </Card>
       </div>
