@@ -177,6 +177,14 @@
       "computedHash": "00fb13a91dbb746e2be91ae4dd67c4cc1f9907351f2d404a0cc6c849be1ebd95",
       "installMode": "copy"
     },
+    "refero-design": {
+      "source": "referodesign/refero_skill",
+      "commit": "2382e518f90096df607196b9a635da2d1bc142f9",
+      "sourceType": "github",
+      "skillPath": "skills/refero-design/SKILL.md",
+      "computedHash": "5145ad0b1ccd208465dcbc1127da5e0f2eb77ced9a1e5ee8e1c57eed400c0ace",
+      "installMode": "copy"
+    },
     "remove-animations": {
       "source": "emilkowalski/skills",
       "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
