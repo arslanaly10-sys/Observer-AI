@@ -15,5 +15,5 @@ export default async function Page({ params }: { params: Promise<{ locale: Local
   const { locale } = await params;
   const d = getExtra(locale).trust.security;
   const sections = d.sections.map((x) => ({ ...x, t: withContacts(x.t, locale) }));
-  return <TrustPage h1={d.h1} sub={(d as { sub?: string }).sub} draft={legalReviewed() ? undefined : (d as { draft?: string }).draft} sections={sections} />;
+  return <TrustPage h1={d.h1} sub={(d as { sub?: string }).sub} draft={legalReviewed() ? undefined : (d as { draft?: string }).draft} sections={sections} contents={getExtra(locale).story.onThisPage} />;
 }

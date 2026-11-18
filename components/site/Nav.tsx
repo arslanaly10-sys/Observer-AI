@@ -10,7 +10,7 @@ import type { SiteDict } from "@/dictionaries/site";
 
 export function Nav({ locale, t, audiences, menuLabel }: { locale: Locale; t: SiteDict["nav"]; audiences: SD["audiences"]; menuLabel: string }) {
   const pathname = usePathname();
-  const dark = pathname === `/${locale}` || pathname.startsWith(`/${locale}/solutions`);
+  const dark = pathname === `/${locale}` || pathname.startsWith(`/${locale}/solutions`) || pathname === `/${locale}/about`;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [sol, setSol] = useState(false);

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Check } from "@phosphor-icons/react/dist/ssr";
 import { getSite } from "@/dictionaries/site";
 import type { Locale } from "@/lib/i18n";
-import { Tile, Heading } from "@/components/site/Section";
+import { Tile, Heading, CloseBand } from "@/components/site/Section";
 import { RoiCalculator } from "@/components/site/RoiCalculator";
 import { getExtra } from "@/dictionaries/site-extra";
 import { pageMeta } from "@/lib/seo";
@@ -19,13 +19,13 @@ export default async function Pricing({ params }: { params: Promise<{ locale: Lo
   const roi = getExtra(locale).roi;
   return (
     <>
-      <Tile className="pt-14">
+      <Tile>
         <Heading level={1} h={p.h1} body={p.sub} />
-        <ul className="mx-auto mt-16 grid max-w-[1080px] gap-5 lg:grid-cols-3">
+        <ul className="mt-12 grid gap-4 lg:grid-cols-3">
           {p.tiers.map((tier) => {
             const featured = "featured" in tier && tier.featured;
             return (
-              <li key={tier.name} className={`relative flex flex-col rounded-[22px] p-8 ${featured ? "bg-tile text-white" : "border border-hairline-soft bg-parchment"}`}>
+              <li key={tier.name} className={`relative flex flex-col rounded-[22px] p-8 ${featured ? "bg-tile text-white" : "border border-hairline bg-canvas"}`}>
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="t-tagline">{tier.name}</h2>
                   {featured && <span className="rounded-full bg-white/12 px-3 py-1 text-[12px] font-medium text-white">{p.popular}</span>}
@@ -50,22 +50,25 @@ export default async function Pricing({ params }: { params: Promise<{ locale: Lo
       </Tile>
       <Tile ground="parchment" id="roi">
         <Heading h={roi.h2} body={roi.body} />
-        <div className="mx-auto mt-14 max-w-[1080px]"><RoiCalculator t={roi} locale={locale} /></div>
+        <div className="mt-10"><RoiCalculator t={roi} locale={locale} /></div>
       </Tile>
       <Tile>
-        <Heading h={p.faqH} />
-        <div className="mx-auto mt-12 max-w-[760px] divide-y divide-hairline">
-          {p.faq.map((f) => (
-            <details key={f.q} className="group py-2">
-              <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 text-[19px] font-semibold tracking-[-0.012em] [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <span aria-hidden className="relative size-4 shrink-0 before:absolute before:inset-x-0 before:top-1/2 before:h-[1.5px] before:bg-current after:absolute after:inset-y-0 after:left-1/2 after:w-[1.5px] after:bg-current after:transition-transform group-open:after:scale-y-0" />
-              </summary>
-              <p className="pb-5 text-ink-2">{f.a}</p>
-            </details>
-          ))}
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div className="lg:sticky lg:top-24 lg:self-start"><Heading h={p.faqH} /></div>
+          <div className="divide-y divide-hairline border-y border-hairline">
+            {p.faq.map((f) => (
+              <details key={f.q} className="group py-2">
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 text-[19px] font-semibold tracking-[-0.012em] [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span aria-hidden className="relative size-4 shrink-0 before:absolute before:inset-x-0 before:top-1/2 before:h-[1.5px] before:bg-current after:absolute after:inset-y-0 after:left-1/2 after:w-[1.5px] after:bg-current after:transition-transform group-open:after:scale-y-0" />
+                </summary>
+                <p className="pb-5 text-ink-2">{f.a}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </Tile>
+      <CloseBand h={getSite(locale).home.close.h2} body={getSite(locale).home.close.body} cta={[getSite(locale).home.close.cta, `/${locale}/contact`]} cta2={[getSite(locale).home.close.cta2, `/${locale}/app/dashboard`]} />
     </>
   );
 }

@@ -119,6 +119,7 @@ body {
 .t-title { font-size: clamp(26px, 3vw, 36px); line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; }
 .t-lead { font-size: clamp(19px, 1.9vw, 24px); line-height: 1.38; font-weight: 400; letter-spacing: -0.012em; text-wrap: pretty; }
 .t-tagline { font-size: 21px; line-height: 1.24; font-weight: 600; letter-spacing: -0.016em; }
+.t-eyebrow { font-size: 13px; line-height: 1.3; font-weight: 500; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
 .t-caption { font-size: 14px; line-height: 1.43; letter-spacing: -0.006em; }
 .t-fine { font-size: 12px; line-height: 1.4; }
 [dir="rtl"] :is(.t-mega, .t-hero, .t-display, .t-title, .t-lead, .t-tagline) { letter-spacing: 0; line-height: 1.3; }
