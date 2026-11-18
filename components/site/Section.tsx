@@ -13,7 +13,7 @@ const grounds: Record<Ground, string> = {
 export function Tile({ ground = "canvas", children, className = "", id }: { ground?: Ground; children: ReactNode; className?: string; id?: string }) {
   return (
     <section id={id} className={`${grounds[ground]} ${className}`}>
-      <div className="mx-auto max-w-[1180px] px-4 py-20 sm:px-6 md:py-28">{children}</div>
+      <div className="mx-auto max-w-[1180px] px-4 py-16 sm:px-6 md:py-24">{children}</div>
     </section>
   );
 }
@@ -23,7 +23,7 @@ export function Heading({ h, body, center = true, dark, level = 2 }: { h: string
   return (
     <div className={center ? "mx-auto max-w-[760px] text-center" : "max-w-[620px]"}>
       <H className={level === 1 ? "t-hero" : "t-display"}>{h}</H>
-      {body && <p className={`t-lead mt-5 ${dark ? "text-white/70" : "text-ink-2"}`}>{body}</p>}
+      {body && <p className={`t-lead mt-4 ${dark ? "text-white/70" : "text-ink-2"}`}>{body}</p>}
     </div>
   );
 }

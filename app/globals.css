@@ -113,6 +113,7 @@ body {
 }
 
 /* Apple type scale */
+.t-mega { font-size: clamp(44px, 6.6vw, 92px); line-height: 0.98; font-weight: 600; letter-spacing: -0.04em; text-wrap: balance; }
 .t-hero { font-size: clamp(40px, 6.2vw, 72px); line-height: 1.04; font-weight: 600; letter-spacing: -0.028em; text-wrap: balance; }
 .t-display { font-size: clamp(32px, 4.4vw, 52px); line-height: 1.08; font-weight: 600; letter-spacing: -0.024em; text-wrap: balance; }
 .t-title { font-size: clamp(26px, 3vw, 36px); line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; }
@@ -120,7 +121,7 @@ body {
 .t-tagline { font-size: 21px; line-height: 1.24; font-weight: 600; letter-spacing: -0.016em; }
 .t-caption { font-size: 14px; line-height: 1.43; letter-spacing: -0.006em; }
 .t-fine { font-size: 12px; line-height: 1.4; }
-[dir="rtl"] :is(.t-hero, .t-display, .t-title, .t-lead, .t-tagline) { letter-spacing: 0; line-height: 1.3; }
+[dir="rtl"] :is(.t-mega, .t-hero, .t-display, .t-title, .t-lead, .t-tagline) { letter-spacing: 0; line-height: 1.3; }
 .tnum { font-variant-numeric: tabular-nums; }
 
 /* Buttons (one pair, DESIGN.md) */
@@ -160,6 +161,15 @@ body {
 .enter-d1 { animation-delay: .12s; }
 .enter-d2 { animation-delay: .24s; }
 .enter-d3 { animation-delay: .42s; }
+.enter-d4 { animation-delay: .55s; }
+.enter-d5 { animation-delay: .8s; }
+.enter-d6 { animation-delay: 1.15s; }
+.enter-d7 { animation-delay: 1.5s; }
+/* Hero product moment: cards land, then the conversation plays */
+@keyframes card-in { from { opacity: 0; transform: translateY(24px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes bubble-in { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
+.hero-card { animation: card-in .9s var(--ease-out-expo) both; }
+.hero-bubble { animation: bubble-in .6s var(--ease-out-expo) both; }
 
 /* App: live pulse dot */
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
