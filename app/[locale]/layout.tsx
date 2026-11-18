@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Instrument_Sans, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Instrument_Sans, IBM_Plex_Sans_Arabic, Cormorant_Garamond, Amiri } from "next/font/google";
 import { locales, isLocale, dirOf } from "@/lib/i18n";
 import { SITE } from "@/lib/seo";
 import "../globals.css";
 
 const latin = Instrument_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-latin", display: "swap" });
 const arabic = IBM_Plex_Sans_Arabic({ subsets: ["arabic"], weight: ["400", "500", "600"], variable: "--font-arabic", display: "swap" });
+// Display serifs for the marketing site's luxury theme (headings only)
+const displayLatin = Cormorant_Garamond({ subsets: ["latin"], weight: ["500", "600"], style: ["normal", "italic"], variable: "--font-display-latin", display: "swap" });
+const displayArabic = Amiri({ subsets: ["arabic"], weight: ["400", "700"], variable: "--font-display-arabic", display: "swap" });
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -32,7 +35,7 @@ export default async function RootLayout({ children, params }: { children: React
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   return (
-    <html lang={locale} dir={dirOf(locale)} className={`${latin.variable} ${arabic.variable}`} suppressHydrationWarning>
+    <html lang={locale} dir={dirOf(locale)} className={`${latin.variable} ${arabic.variable} ${displayLatin.variable} ${displayArabic.variable}`} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

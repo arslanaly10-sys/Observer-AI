@@ -10,10 +10,10 @@ export default async function SiteLayout({ children, params }: { children: React
   if (!isLocale(locale)) notFound();
   const t = getSite(locale);
   return (
-    <>
+    <div className="lux">
       <Nav locale={locale} t={t.nav} audiences={t.audiences} menuLabel={getExtra(locale).solutionsMenu} groups={t.product.groups} x={getExtra(locale).navx} cta={getExtra(locale).cta} />
       <main id="main">{children}</main>
       <Footer locale={locale} t={t.footer} legal={getExtra(locale).footerLegal} />
-    </>
+    </div>
   );
 }

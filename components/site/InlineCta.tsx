@@ -8,7 +8,7 @@ export function InlineCta({ locale, label, placeholder, button, reassure, size =
   const lg = size === "lg";
   return (
     <div>
-      <form action={`/${locale}/contact`} method="get" className={`flex w-full max-w-[480px] gap-1.5 bg-white p-1.5 ${stack === "mobile" ? "flex-col rounded-[22px] sm:flex-row sm:items-center sm:rounded-full" : stack ? "flex-col rounded-[22px]" : "items-center rounded-full"} shadow-[0_20px_60px_-24px_rgb(0_0_0/0.7)] focus-within:ring-2 focus-within:ring-white/60 ${lg ? "sm:max-w-[560px] sm:p-2" : ""}`}>
+      <form action={`/${locale}/contact`} method="get" className={`inline-cta flex w-full max-w-[480px] gap-1.5 bg-white p-1.5 ${stack === "mobile" ? "flex-col rounded-[22px] sm:flex-row sm:items-center sm:rounded-full" : stack ? "flex-col rounded-[22px]" : "items-center rounded-full"} shadow-[0_20px_60px_-24px_rgb(0_0_0/0.7)] focus-within:ring-2 focus-within:ring-white/60 ${lg ? "sm:max-w-[560px] sm:p-2" : ""}`}>
         <label className={stack === "mobile" ? "block sm:min-w-0 sm:flex-1" : stack ? "block" : "min-w-0 flex-1"}>
           <span className="sr-only">{label}</span>
           <input

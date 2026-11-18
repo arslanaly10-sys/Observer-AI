@@ -11,7 +11,7 @@ export function Footer({ locale, t, legal }: { locale: Locale; t: SiteDict["foot
           <div>
             <Link href={`/${locale}`} className="inline-flex items-center gap-2 text-white">
               <Logo className="size-6" />
-              <span className="text-[17px] font-semibold tracking-[-0.02em]">Observer</span>
+              <span className="lux-wordmark text-[17px] font-semibold tracking-[-0.02em]">Observer</span>
             </Link>
             <p className="t-caption mt-3 max-w-[28ch]">{t.line}</p>
           </div>

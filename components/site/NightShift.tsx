@@ -221,7 +221,7 @@ export function NightShift({ n, card, heading, locale }: Props) {
 /* ---------- The six product moments, drawn in real UI ---------- */
 
 function Panel({ children, dark }: { children: ReactNode; dark?: boolean }) {
-  return <div className={`rounded-[22px] p-5 shadow-[0_40px_100px_-30px_rgb(0_0_0/0.9)] ${dark ? "border border-white/15 bg-[#121214]/90 text-white backdrop-blur-xl" : "bg-white text-[#1d1d1f]"}`}>{children}</div>;
+  return <div data-ui className={`rounded-[22px] p-5 shadow-[0_40px_100px_-30px_rgb(0_0_0/0.9)] ${dark ? "border border-white/15 bg-[#121214]/90 text-white backdrop-blur-xl" : "bg-white text-[#1d1d1f]"}`}>{children}</div>;
 }
 
 function EnquiryCard({ n, card }: { n: Props["n"]; card: Props["card"] }) {

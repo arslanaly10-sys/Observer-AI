@@ -51,7 +51,7 @@ export function Hero({ h, x, form, sources, L, locale }: { h: Copy; x: ExtraDict
         </div>
 
         {/* The live moment */}
-        <div className="relative mx-auto w-full max-w-[460px] pb-10 pt-12 sm:pt-[132px] lg:mx-0 lg:ms-auto" aria-label={x.stageLabel} role="img">
+        <div data-ui className="relative mx-auto w-full max-w-[460px] pb-10 pt-12 sm:pt-[132px] lg:mx-0 lg:ms-auto" aria-label={x.stageLabel} role="img">
           <div className="hero-card enter-d4 rounded-[22px] sm:me-14 bg-white p-4 text-[#1d1d1f] shadow-[0_40px_100px_-30px_rgb(0_0_0/0.9)] sm:p-5" aria-hidden>
             <div className="flex items-center gap-3">
               <span className="grid size-10 shrink-0 place-items-center rounded-full bg-[#e8f1f3] text-[14px] font-semibold text-[#006b7d]">{c.initials}</span>

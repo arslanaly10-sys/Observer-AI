@@ -80,7 +80,7 @@ export function Nav({ locale, t, audiences, menuLabel, groups, x, cta }: {
   const href = (p: string) => `/${locale}${p}`;
   const active = (p: string) => pathname.startsWith(href(p.split("/").slice(0, 2).join("/")));
   const links: [string, string, Menu][] = [["/product", t.product, "product"], ["/solutions/brokerages", t.solutions, "solutions"], ["/pricing", t.pricing, null], ["/about", t.about, null], ["/contact", t.contact, null]];
-  const item = "flex min-h-11 items-center gap-1 rounded-full px-3 text-[14px] transition-opacity";
+  const item = "lux-navlink flex min-h-11 items-center gap-1 rounded-full px-3 text-[14px] transition-opacity";
 
   return (
     <>
@@ -89,7 +89,7 @@ export function Nav({ locale, t, audiences, menuLabel, groups, x, cta }: {
         <nav aria-label="Main" className="relative mx-auto flex h-14 max-w-[1240px] items-center gap-6 px-4 sm:px-6">
           <Link href={href("")} className="flex min-h-11 items-center gap-2" aria-label="Observer AI" onMouseEnter={() => setMenu(null)}>
             <Logo className="size-6" tone={onDark ? "light" : "auto"} />
-            <span className="text-[17px] font-semibold tracking-[-0.02em]">Observer</span>
+            <span className="lux-wordmark text-[17px] font-semibold tracking-[-0.02em]">Observer</span>
           </Link>
           <ul className="ms-4 hidden items-center gap-1 md:flex">
             {links.map(([p, l, m]) => m ? (
@@ -117,7 +117,7 @@ export function Nav({ locale, t, audiences, menuLabel, groups, x, cta }: {
             </Link>
             <Link href={href("/app/dashboard")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 xl:flex">{t.app}</Link>
             <Link href={href("/login")} className="hidden min-h-11 items-center px-3 text-[14px] opacity-90 hover:opacity-100 md:flex">{t.signin}</Link>
-            <Link href={href("/contact")} className={`btn hidden !min-h-9 !px-4 !text-[14px] sm:inline-flex ${onDark ? "bg-white text-[#1d1d1f] hover:bg-white/90" : "btn-primary"}`}>{t.demo}</Link>
+            <Link href={href("/contact")} className={`btn hidden !min-h-9 !px-4 sm:inline-flex ${onDark ? "bg-white text-[#1d1d1f] hover:bg-white/90" : "btn-primary"}`}>{t.demo}</Link>
             <button ref={toggle} type="button" className="flex size-11 items-center justify-center md:hidden" aria-label={open ? t.close : t.menu} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen((v) => !v)}>
               {open ? <X size={22} /> : <List size={22} />}
             </button>
