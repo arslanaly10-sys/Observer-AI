@@ -1,0 +1,816 @@
+{
+ "source": "https://www.cta.gallery/",
+ "captured": "2026-11-18",
+ "count": 40,
+ "note": "Metadata and our own notes only. Screenshots are not copied; they belong to each site owner. Open the gallery link to see one.",
+ "entries": [
+  {
+   "slug": "animos",
+   "name": "Animos",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Tech"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://animos.app/",
+   "gallery": "https://www.cta.gallery/cta/animos",
+   "patterns": [
+    "focal-object",
+    "reassurance"
+   ],
+   "note": "One glowing sculptural object on black above a short centred headline; a single blue pill and a line removing risk (free up to 720p, no account needed).",
+   "about": "Showcase your designs in motion. 25 ready-made animation templates — drop in your work, tweak, and export an MP4, all in your browser."
+  },
+  {
+   "slug": "augustus",
+   "name": "Augustus",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Tech"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://augustus.com/",
+   "gallery": "https://www.cta.gallery/cta/augustus",
+   "patterns": [
+    "giant-type",
+    "illustration"
+   ],
+   "note": "Two words, START BUILDING, set huge and left-aligned; one small black button; a line drawing of a building bleeds off the right edge.",
+   "about": "Dollar and euro accounts for global fintechs and banks."
+  },
+  {
+   "slug": "aya",
+   "name": "Aya",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Event / Conference"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://aya.nl/",
+   "gallery": "https://www.cta.gallery/cta/aya",
+   "patterns": [
+    "bold-colour",
+    "photo-break"
+   ],
+   "note": "Acid-yellow rounded panel on purple and red with heavy display type; a cut-out photo breaks out of the panel edge; one black pill.",
+   "about": "AYA voorstellingen voor kinderen en jongeren spelen in theaters en op scholen. Met een spannende mix van dans, spel, zang en livemuziek uit allerlei (jongeren)culturen. Danstheater dat je niet loslaat en met humor. Dit seizoen Yanasei 6+, Meet DESTINY 12+"
+  },
+  {
+   "slug": "bannerbear-new",
+   "name": "Bannerbear",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "SaaS",
+    "Tech"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.bannerbear.com/",
+   "gallery": "https://www.cta.gallery/cta/bannerbear-new",
+   "patterns": [
+    "product-proof",
+    "reassurance"
+   ],
+   "note": "Start a Free Trial with the concrete offer underneath (30 API credits, no card); a tiny version of the product's workflow sits between headline and button.",
+   "about": "Auto-generate template-based social media videos, ecommerce banners and more with the Bannerbear API, AI agents and no-code integrations."
+  },
+  {
+   "slug": "builderstable",
+   "name": "Builderstable",
+   "category": [
+    "Pricing / Subscription"
+   ],
+   "industry": [
+    "Event / Conference"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://builderstable.net/",
+   "gallery": "https://www.cta.gallery/cta/builderstable",
+   "patterns": [
+    "giant-type",
+    "specifics"
+   ],
+   "note": "Uppercase headline across a dark grid; the line under it gives exact dates and prices; one lime button.",
+   "about": "Builders Table is a two-day hackathon hosted by MakeReign, built around a 24-hour build sprint. It brings together South Africa's designers, developers, strategists, founders and creative technologists to build real working prototypes under real time pressure."
+  },
+  {
+   "slug": "counterpublic",
+   "name": "counterpublic",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Services"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://counterpublic.org/",
+   "gallery": "https://www.cta.gallery/cta/counterpublic",
+   "patterns": [
+    "giant-button"
+   ],
+   "note": "The button is the section: one enormous yellow pill on black.",
+   "about": "Create AI agents that connect to your tools and work for you around the clock."
+  },
+  {
+   "slug": "designbomb",
+   "name": "Designbomb",
+   "category": [
+    "Newsletter"
+   ],
+   "industry": [
+    "Event / Conference"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://www.designbomb.it/",
+   "gallery": "https://www.cta.gallery/cta/designbomb",
+   "patterns": [
+    "field-cta",
+    "collage"
+   ],
+   "note": "Newsletter field in the corner of a dark panel, with a pile of event stickers along the bottom edge.",
+   "about": "The Wave presenta la nuova edizione di Design Bomb, che cresce e diventa festival."
+  },
+  {
+   "slug": "draftr-saas-and-software-template",
+   "name": "Draftr - SaaS and Software Template",
+   "category": [],
+   "industry": [],
+   "mode": [],
+   "site": "https://safds.com/",
+   "gallery": "https://www.cta.gallery/cta/draftr-saas-and-software-template",
+   "patterns": [
+    "product-proof"
+   ],
+   "note": "Template SaaS hero: centred headline, one pill (it's free) and product mockups directly under the ask.",
+   "about": "A fast and minimal Framer template designed for SaaS and software websites. Built for clarity, conversion and speed. Perfect for AI tools, digital products and startup landing pages that need a modern and clean layout."
+  },
+  {
+   "slug": "eatsnackish",
+   "name": "Eatsnackish",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Ecommerce"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://eatsnackish.com/",
+   "gallery": "https://www.cta.gallery/cta/eatsnackish",
+   "patterns": [
+    "multi-path",
+    "photo"
+   ],
+   "note": "Three side-by-side panels, each with its own action (find in store, follow, become a creator).",
+   "about": "Shop Snackish potato crisps in bold flavors. Gluten-free, non-GMO, kosher snacks with protein and gut-friendly fiber for seriously satisfying snacking."
+  },
+  {
+   "slug": "eternalblue",
+   "name": "Eternalblue",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Ecommerce"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://eternalblue.co.nz/",
+   "gallery": "https://www.cta.gallery/cta/eternalblue",
+   "patterns": [
+    "focal-object",
+    "quiet-cta"
+   ],
+   "note": "Large still-life of the product; the CTA is a small text link, letting the product sell.",
+   "about": "Eternal Blue is a haircare brand rooted in time-tested Mongolian botanical knowledge, created to support healthy growth, strength and natural fullness."
+  },
+  {
+   "slug": "fctrylab",
+   "name": "Fctrylab",
+   "category": [
+    "Newsletter"
+   ],
+   "industry": [
+    "Ecommerce"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://fctrylab.com/",
+   "gallery": "https://www.cta.gallery/cta/fctrylab",
+   "patterns": [
+    "field-cta",
+    "focal-object",
+    "urgency"
+   ],
+   "note": "BE FIRST. NEVER MISS A DROP. set over the product photo, with one email field and a black submit bar.",
+   "about": "FCTRY LAb is an LA-based sneaker studio by Omar Bailey, ex-Yeezy. Shop NLE Choppa Duck Boots, Stomper, Knight RNR, MOCC, Rufl Boots & limited artist collabs"
+  },
+  {
+   "slug": "get-ripe-copy",
+   "name": "Numa",
+   "category": [
+    "Call-to-Buy"
+   ],
+   "industry": [
+    "Ecommerce"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://numa.uprock.pro/",
+   "gallery": "https://www.cta.gallery/cta/get-ripe-copy",
+   "patterns": [
+    "human-face"
+   ],
+   "note": "Variant of the Get-ripe founders CTA.",
+   "about": "Numa is a smart insulin pump concept that helps people with diabetes manage glucose levels through automated insulin delivery and intuitive health insights."
+  },
+  {
+   "slug": "get-ripe",
+   "name": "Get-ripe",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Education"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.get-ripe.com/",
+   "gallery": "https://www.cta.gallery/cta/get-ripe",
+   "patterns": [
+    "human-face"
+   ],
+   "note": "Short two-line claim above a photo of the two founders; small button to meet them.",
+   "about": "Leadership tools, executive coaching, and performance programs for individuals and companies ready to lead at the highest level."
+  },
+  {
+   "slug": "hello-world-studio",
+   "name": "Hello World Studio",
+   "category": [
+    "Newsletter"
+   ],
+   "industry": [
+    "Design"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.hello-world.studio/",
+   "gallery": "https://www.cta.gallery/cta/hello-world-studio",
+   "patterns": [
+    "focal-object",
+    "field-cta"
+   ],
+   "note": "Two 3D characters flank a small newsletter card on an ASCII-art ground.",
+   "about": "Hello-World is a creative web design studio specializing in custom Squarespace, Shopify and Webflow websites that are bold, scalable, and easy to manage. We craft smart digital experiences that blend design and functionality for effortless, unforgettable online presence."
+  },
+  {
+   "slug": "heronaiapp",
+   "name": "Heronaiapp",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Architecture"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://heronaiapp.com/",
+   "gallery": "https://www.cta.gallery/cta/heronaiapp",
+   "patterns": [
+    "own-data-demo"
+   ],
+   "note": "SEE WHAT HERON CAN DO IN YOUR MODEL, with the promise to show it working inside one of the buyer's own projects; one red button. Closest match to Observer's 'with your own leads' demo.",
+   "about": "Heron sees your model, spots problems, and suggests fixes as you design. When you approve, it makes the edit itself, all without leaving the software you already use."
+  },
+  {
+   "slug": "hiartem",
+   "name": "Hiartem",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Portfolio"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://hiartem.com/",
+   "gallery": "https://www.cta.gallery/cta/hiartem",
+   "patterns": [
+    "minimal"
+   ],
+   "note": "Soft gradient glow, two-word headline and a glassy Say hi! button.",
+   "about": "Account Manager with product context. $1.6M+ in closed deals across fintech, cybersec, and web3 SaaS. Remote from Porto, CET/EST-friendly."
+  },
+  {
+   "slug": "jemini",
+   "name": "Jemini",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Agency"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://jemini.co/",
+   "gallery": "https://www.cta.gallery/cta/jemini",
+   "patterns": [
+    "giant-type",
+    "human-face"
+   ],
+   "note": "Huge orange headline with small portrait chips set inline between the words; pill link to learn more.",
+   "about": "Jemini is a change design consultancy guiding ambitious organizations from now to what's next. 💫"
+  },
+  {
+   "slug": "journey-digital",
+   "name": "Journey digital",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Agency"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://journey-digital.com/",
+   "gallery": "https://www.cta.gallery/cta/journey-digital",
+   "patterns": [
+    "photo-led"
+   ],
+   "note": "Dark cinematic photograph, small centred text and a full-width lime bar as the button.",
+   "about": "We're a global strategic design & technology agency helping leaders navigate complex digital transformation. Human-centred design meets AI-enabled solutions across Auckland and London."
+  },
+  {
+   "slug": "kraftline-manufacturing-production-template",
+   "name": "Kraftline - Manufacturing & Production Template",
+   "category": [],
+   "industry": [],
+   "mode": [],
+   "site": "https://safds.com/",
+   "gallery": "https://www.cta.gallery/cta/kraftline-manufacturing-production-template",
+   "patterns": [
+    "product-proof",
+    "specifics"
+   ],
+   "note": "Split: coloured panel with a two-line promise and two buttons, beside a factory photo carrying a hard number (minimum order).",
+   "about": "Kraftline is a website template for manufacturers, production plants, and industrial suppliers. Show spec tables, lead times, and certifications, and collect quote requests from procurement buyers. Built in Framer, no code needed."
+  },
+  {
+   "slug": "kronborg",
+   "name": "Kronborg",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Event / Conference"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://kronborg.dk/",
+   "gallery": "https://www.cta.gallery/cta/kronborg",
+   "patterns": [
+    "offer",
+    "type-pattern"
+   ],
+   "note": "A repeating 10% fills a blue panel; one line states the online discount; one yellow button.",
+   "about": "Oplev Kronborg Slot i Helsingør – UNESCO verdensarv, hjemsted for Hamlet og Holger Danske. Udforsk renæssancens kongeslot med historiske sale, kasematter, kanoner og snoede trapper. Glæd jer til spændende særudstillinger og aktiviteter for både børn og voksne året rundt."
+  },
+  {
+   "slug": "lockerland",
+   "name": "Lockerland",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Agency"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.lockerland.com.au/",
+   "gallery": "https://www.cta.gallery/cta/lockerland",
+   "patterns": [
+    "multi-path"
+   ],
+   "note": "Get started, then two illustrated choices, one per audience (merchant or host), each with its own button.",
+   "about": "Australia Post Parcel Lockers: free, secure 24/7 parcel collection. Explore the benefits for shoppers, merchants and hosts — and how to get started."
+  },
+  {
+   "slug": "lxlcreative",
+   "name": "Lxlcreative",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Agency"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.lxlcreative.co.uk/",
+   "gallery": "https://www.cta.gallery/cta/lxlcreative",
+   "patterns": [
+    "giant-type"
+   ],
+   "note": "Uppercase headline on dark brown with a video thumbnail above and one small orange button. Uses a script-word swap: see cautions.",
+   "about": "360° creative agency for TV & entertainment. Key art, social campaigns, EPKs & unit photography. One team, from day one."
+  },
+  {
+   "slug": "native.security",
+   "name": "Native Security",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "SaaS",
+    "Tech"
+   ],
+   "mode": [
+    "Light",
+    "Dark"
+   ],
+   "site": "https://www.native.security/",
+   "gallery": "https://www.cta.gallery/cta/native.security",
+   "patterns": [
+    "question-headline",
+    "two-path"
+   ],
+   "note": "A question headline (Ready to enforce secure-by-design?) over a sculpted dark wave; primary Schedule a demo and secondary Explore the platform.",
+   "about": "Turn built-in cloud controls into active defense across AWS, Azure, Google Cloud, and OCI. Define intent once. Native enforces it everywhere."
+  },
+  {
+   "slug": "northeasttomato",
+   "name": "Northeasttomato",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Ecommerce"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://northeasttomato.com/",
+   "gallery": "https://www.cta.gallery/cta/northeasttomato",
+   "patterns": [
+    "focal-object",
+    "photo-led"
+   ],
+   "note": "A macro photo of one tomato fills a rounded panel; Let's talk production centred on it with two small buttons.",
+   "about": "Canned tomato manufacturer since 2015. California-grown tomatoes processed in Paterson, NJ. Private label & institutional orders available."
+  },
+  {
+   "slug": "overtake-performance-marketing-agency-template",
+   "name": "Overtake - Performance Marketing Agency Template",
+   "category": [],
+   "industry": [],
+   "mode": [],
+   "site": "https://safds.com/",
+   "gallery": "https://www.cta.gallery/cta/overtake-performance-marketing-agency-template",
+   "patterns": [
+    "product-proof",
+    "stat"
+   ],
+   "note": "Headline with an inline icon chip, two buttons, then a photo beside a dark stat card (6.4x ROAS).",
+   "about": "Overtake is a premium Framer template for performance marketing agencies, growth studios, and media buyers. Built with results-led case studies, animated data sections, and audit CTAs that turn visitors into qualified leads."
+  },
+  {
+   "slug": "pixera-portfolio-design-creative-brand",
+   "name": "Pixera - Portfolio Design & Creative Brand",
+   "category": [],
+   "industry": [],
+   "mode": [],
+   "site": "https://safds.com/",
+   "gallery": "https://www.cta.gallery/cta/pixera-portfolio-design-creative-brand",
+   "patterns": [
+    "photo-led"
+   ],
+   "note": "Editorial serif headline above a close-up portrait. Uses a script-word swap: see cautions.",
+   "about": "Pixera is a bold creative portfolio and studio template for agencies, freelancers, and personal brands. Featuring unique typography, editorial layouts, and easy customization, it helps launch standout portfolio, studio, and branding websites in hours."
+  },
+  {
+   "slug": "pizza-amici",
+   "name": "pizza-amici",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Cafe"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://www.pizza-amici.nl/",
+   "gallery": "https://www.cta.gallery/cta/pizza-amici",
+   "patterns": [
+    "collage",
+    "social-proof"
+   ],
+   "note": "Polaroid collage with a stat badge (97 team members) and a card asking a direct question, with a yellow button.",
+   "about": "De beste pizza foodtruck van Nederland. Echte Napolitaanse pizza's, al vanaf €10,- p.p. Uitgebreid menu. Dagvers en snel bereid. Direct online reserveren."
+  },
+  {
+   "slug": "plnty",
+   "name": "plnty",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Tech",
+    "Design"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://plnty.app/",
+   "gallery": "https://www.cta.gallery/cta/plnty",
+   "patterns": [
+    "field-cta"
+   ],
+   "note": "Claim your handle: the whole CTA is one @ input. The clearest example of the field as the call to action.",
+   "about": "Plnty is a shared creative canvas with purpose-built AI tools for images, video, vectors, 3D and audio."
+  },
+  {
+   "slug": "quatrecentquatre",
+   "name": "Quatrecentquatre",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Ecommerce"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://quatrecentquatre.com/en",
+   "gallery": "https://www.cta.gallery/cta/quatrecentquatre",
+   "patterns": [
+    "minimal"
+   ],
+   "note": "Pale panel: Interested? Let's talk! with a friendly illustrated laptop.",
+   "about": "A web agency known for its ingenuity, QuatreCentQuatre is an expert in development, strategy, SEO, design, UX/UI, e-commerce, Craft CMS, Magento and…"
+  },
+  {
+   "slug": "safds",
+   "name": "Safds",
+   "category": [
+    "Modal / Pop-up"
+   ],
+   "industry": [
+    "Agency"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://safds.com/",
+   "gallery": "https://www.cta.gallery/cta/safds",
+   "patterns": [
+    "modal"
+   ],
+   "note": "Newsletter modal over a photo. See cautions: avoid interrupting a B2B visitor.",
+   "about": "A multidisciplinary design studio in St. Petersburg, Florida — original fine art, curated goods, apparel, and furniture by Scott Andrew Fisher."
+  },
+  {
+   "slug": "sapphicindex",
+   "name": "Sapphicindex",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Landing"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://sapphicindex.com/",
+   "gallery": "https://www.cta.gallery/cta/sapphicindex",
+   "patterns": [
+    "form",
+    "question-headline"
+   ],
+   "note": "Question headline on a pink card with four fields; the email field explains why it is asked (so we can thank you).",
+   "about": "The one page Sapphic Bar Index provides information about women-loving-women bars in Barcelona. Discover sapphic bars, events, and spaces!"
+  },
+  {
+   "slug": "studioloop",
+   "name": "Studioloop",
+   "category": [
+    "Newsletter"
+   ],
+   "industry": [
+    "Design"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.studioloop.com.br/",
+   "gallery": "https://www.cta.gallery/cta/studioloop",
+   "patterns": [
+    "field-cta"
+   ],
+   "note": "Hand-drawn headline with an inline email bar underneath. Uses decorative script: see cautions.",
+   "about": "Creative multi-craft studio from Brazil delivering video, design, 3D, motion, AI video, social content, and live event experiences worldwide."
+  },
+  {
+   "slug": "svz",
+   "name": "SVZ",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Services",
+    "Tech"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.svz.io/",
+   "gallery": "https://www.cta.gallery/cta/svz",
+   "patterns": [
+    "focal-object"
+   ],
+   "note": "One furry 3D object on black, headline across it, small Discovery call link.",
+   "about": "We design and build world-class digital experiences for ambitious brands."
+  },
+  {
+   "slug": "thenavia",
+   "name": "Thenavia",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "AI",
+    "Marketing"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.thenavia.com/",
+   "gallery": "https://www.cta.gallery/cta/thenavia",
+   "patterns": [
+    "photo-mosaic"
+   ],
+   "note": "A mosaic of customer-life photos frames a white card with a warm headline and one orange pill.",
+   "about": "Affordable marketing made for small businesses. Navia gives you a custom business marketing strategy, ready-to-use content, and time to focus on what you love."
+  },
+  {
+   "slug": "tines",
+   "name": "Tines",
+   "category": [
+    "Pricing / Subscription"
+   ],
+   "industry": [
+    "AI"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.tines.com/",
+   "gallery": "https://www.cta.gallery/cta/tines",
+   "patterns": [
+    "giant-type",
+    "two-path"
+   ],
+   "note": "Start today set huge and filled with illustration; Sign up free and Book a demo side by side.",
+   "about": "Tines lets teams put AI to work across their most sensitive systems, data, and processes, with the security and governance to do it safely."
+  },
+  {
+   "slug": "trevornoah",
+   "name": "Trevornoah",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Portfolio"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://www.trevornoah.com/",
+   "gallery": "https://www.cta.gallery/cta/trevornoah",
+   "patterns": [
+    "focal-object"
+   ],
+   "note": "A 3D stack of books as the single object, Explore more under it.",
+   "about": "Comedian, podcaster, presenter, humanitarian and #1 New York Times bestselling author. Trevor Noah asks questions and sparks conversations."
+  },
+  {
+   "slug": "tryclucky",
+   "name": "Tryclucky",
+   "category": [
+    "Download"
+   ],
+   "industry": [
+    "Mobile App"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://tryclucky.com/",
+   "gallery": "https://www.cta.gallery/cta/tryclucky",
+   "patterns": [
+    "download"
+   ],
+   "note": "App mascot in a phone frame, App Store button, playful clock dials either side.",
+   "about": "A loud rooster alarm that keeps ringing until you finish a wake-up mission."
+  },
+  {
+   "slug": "twohands",
+   "name": "Twohands",
+   "category": [
+    "Call-to-Buy"
+   ],
+   "industry": [
+    "Agency"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://www.twohands.studio/",
+   "gallery": "https://www.cta.gallery/cta/twohands",
+   "patterns": [
+    "field-cta",
+    "reassurance",
+    "specifics"
+   ],
+   "note": "Your website, in good hands. A wide white Get started bar plus Book a call, the starting price shown, and three short reassurance chips.",
+   "about": "Twohands helps B2B startups build, improve, and grow websites that keep pace with their products."
+  },
+  {
+   "slug": "wastetide",
+   "name": "Wastetide",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "AI",
+    "Tech"
+   ],
+   "mode": [
+    "Light"
+   ],
+   "site": "https://www.wastetide.ai/",
+   "gallery": "https://www.cta.gallery/cta/wastetide",
+   "patterns": [
+    "giant-type",
+    "focal-object",
+    "two-path"
+   ],
+   "note": "Uppercase manifesto on the left, a red flag render on the right, Try it for free and Book a call.",
+   "about": "Wastetide turns waste into profit with AI-driven insights, turning messy Excel reports into actionable data. Book a free demo or impact assessment today."
+  },
+  {
+   "slug": "wearedirect",
+   "name": "Wearedirect",
+   "category": [
+    "Button"
+   ],
+   "industry": [
+    "Portfolio",
+    "Services"
+   ],
+   "mode": [
+    "Dark"
+   ],
+   "site": "https://wearedirect.co/",
+   "gallery": "https://www.cta.gallery/cta/wearedirect",
+   "patterns": [
+    "tile-choice"
+   ],
+   "note": "Two large tiles as the CTA: Prefer mail? with the address, and More work as the next page.",
+   "about": "Direct Design Agency partners with pioneering B2Bs to build the identity and digital experience that sets them on the right path to leading their category."
+  }
+ ]
+}
