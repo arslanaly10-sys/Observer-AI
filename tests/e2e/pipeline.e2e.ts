@@ -111,7 +111,7 @@ run("growth engine, end to end (sandbox)", () => {
     const none = JSON.parse((await runTool("search_inventory", { area: "Jumeirah Golf" }, ctx)).text);
     expect(none.results).toHaveLength(0); // nothing invented
     const plan = JSON.parse((await runTool("calculate_payment_plan", { price_aed: 4_800_000, plan: "mortgage" }, ctx)).text);
-    expect(plan.dld_fee_4pct).toBe("AED 192K");
+    expect(plan.fees[0]).toEqual({ label: "Transfer fee (4%)", amount: "AED 192K" });
     const slots = JSON.parse((await runTool("check_availability", { kind: "viewing", days_ahead: 7 }, ctx)).text);
     expect(slots.slots.length).toBeGreaterThan(0);
     const booked = JSON.parse((await runTool("book_appointment", { kind: "viewing", starts_at: slots.slots[0].starts_at, project_id: "00000000-0000-0000-0000-00000000f001" }, ctx)).text);
