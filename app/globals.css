@@ -173,6 +173,14 @@ body {
 .hero-card { animation: card-in .9s var(--ease-out-expo) both; }
 .hero-bubble { animation: bubble-in .6s var(--ease-out-expo) both; }
 
+/* Next best action hero: photo crossfades, copy and card land when the focus changes */
+@keyframes nba-fade { from { opacity: 0; } to { opacity: 1; } }
+.nba-fade { animation: nba-fade .7s ease both; }
+.nba-rise { animation: rise .55s var(--ease-out-expo) both; }
+.nba-card { animation: card-in .6s var(--ease-out-expo) .08s both; }
+@keyframes nba-ring { from { stroke-dasharray: 0 101; } }
+.nba-ring { animation: nba-ring .9s var(--ease-out-expo) .15s both; }
+
 /* Nav menus: quick, small entrance */
 @keyframes menu-in { from { opacity: 0; transform: translateY(-4px) scale(.99); } to { opacity: 1; transform: none; } }
 .menu-in { animation: menu-in .18s var(--ease-out-expo) both; transform-origin: top center; }

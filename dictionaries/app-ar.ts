@@ -277,4 +277,9 @@ export const appAr: Record<string, string> = {
   "Shortlist of three homes sent": "أُرسلت قائمة بثلاثة منازل", "Draft sequence created. WhatsApp first, SMS after 2 hours.": "أُنشئت مسودة تسلسل: واتساب أولاً، ثم رسالة نصية بعد ساعتين.",
   "Unmute": "إلغاء الكتم", "Call ended. Notes saved to Ahmed’s record.": "انتهت المكالمة وحُفظت الملاحظات في سجل أحمد.", "Handled": "تمت المعالجة", "Just now": "الآن",
   "Dubai Marina": "دبي مارينا", "Abu Dhabi": "أبوظبي",
+  "Do this first": "ابدأ بهذا", "Later": "لاحقاً", "Up next": "التالي", "All clear": "لا شيء عاجل",
+  "Nothing urgent is left. Observer is following up with the rest.": "لم يبقَ شيء عاجل. أوبزرفر يتابع البقية.", "Start over": "ابدأ من جديد",
+  "Act within 30 minutes": "تصرّف خلال 30 دقيقة", "Act within 4 hours": "تصرّف خلال 4 ساعات", "Act within 2 days": "تصرّف خلال يومين",
+  "Moved to the end of the list": "نُقل إلى آخر القائمة", "Undo": "تراجع", "Wants": "يريد", "chance of closing": "فرصة الإغلاق",
+  "Commission at stake": "العمولة المعرّضة", "do within 30 minutes": "خلال 30 دقيقة", "scheduled by Observer": "جدولها أوبزرفر", "done today": "أُنجزت اليوم", "confidence": "الثقة",
 };

@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Lightning, Microphone, PhoneDisconnect, ShieldCheck, NotePencil, Target, Check } from "@phosphor-icons/react";
-import { weights, intentThreads } from "@/lib/data";
+import Image from "next/image";
+import { Lightning, Microphone, PhoneDisconnect, ShieldCheck, NotePencil, Target, Check, Phone, WhatsappLogo, ChatText, Robot, UserPlus, Clock, CheckCircle } from "@phosphor-icons/react";
+import { weights, intentThreads, PROPERTY } from "@/lib/data";
+import { img } from "@/lib/img";
 import { useStore } from "../store";
 import { scoreLead, extractIntent, rankActions, fmtAED } from "@/lib/engine";
 import { useT } from "../i18n";
 import { Card, CardHead, PageHead, Stat, Stats, Monogram, ScoreBar, Btn, Meter, Pill, Dot, TempBadge, cx } from "../ui";
-import { channelIcon } from "./core";
 
 export function Scoring() {
   const { t } = useT();
@@ -146,47 +147,179 @@ function Highlight({ text, words }: { text: string; words: string[] }) {
   return <>{text.split(rx).map((p, i) => (words.some((w) => w.toLowerCase() === p.toLowerCase()) ? <mark key={i} className="rounded bg-creek-soft px-0.5 text-creek">{p}</mark> : p))}</>;
 }
 
+const FADE: Record<string, string> = { hot: "Act within 30 minutes", warm: "Act within 4 hours", cold: "Act within 2 days" };
+const ACT_ICON: Record<string, typeof Lightning> = { Call: Phone, WhatsApp: WhatsappLogo, SMS: ChatText, "AI call": Robot, Assign: UserPlus };
+
+/**
+ * Next best action, led by a hero (Supahero patterns, as on the marketing site: one photograph,
+ * a direct headline, one primary button, a live product card and a slim stat strip).
+ * The hero is always the most valuable undone action; finishing or postponing it brings in the next.
+ */
 export function NextBestAction() {
-  const { t } = useT();
+  const { t, rtl } = useT();
   const { leads, toast } = useStore();
   const ranked = rankActions(leads);
   const [done, setDone] = useState<string[]>([]);
+  const [later, setLater] = useState<string[]>([]);
+  const order = [...ranked.filter((a) => !later.includes(a.lead)), ...later.map((n) => ranked.find((a) => a.lead === n)!).filter(Boolean)];
+  const open = order.filter((a) => !done.includes(a.lead));
+  const focus = open[0];
+  const lead = focus && leads.find((l) => l.name === focus.lead);
+  const home = lead ? PROPERTY[lead.area] : undefined;
+  const verb = (c: string) => t(c === "Call" ? "Call" : c === "Assign" ? "Assign" : "Send");
+  const finish = (name: string, action: string) => { toast(`${t(action)} · ${name}`); setDone((d) => (d.includes(name) ? d : [...d, name])); };
+  const postpone = (name: string) => { setLater((l) => [...l.filter((x) => x !== name), name]); toast(t("Moved to the end of the list")); };
+  const FocusIcon = focus ? ACT_ICON[focus.channel] ?? Lightning : Check;
+
   return (
     <>
       <PageHead title="Next best action" sub="Ranked by what each lead is worth, how likely they are to close, and how fast that chance is fading." />
-      <Stats>
-        <Stat label="Do within 30 minutes" value="12" />
-        <Stat label="Scheduled by Observer" value="28" />
-        <Stat label="Done today" value={`${41 + done.length}`} note="87% completion" />
-        <Stat label="Confidence" value="94%" />
-      </Stats>
-      <Card>
-        <ol className="divide-y divide-hairline-soft">
-          {ranked.map((a, i) => {
-            const Icon = channelIcon[a.channel] ?? Lightning;
-            const isDone = done.includes(a.lead);
-            return (
-              <li key={a.lead} className={cx("flex flex-wrap items-center gap-4 py-4 transition-opacity", isDone && "opacity-45")}>
-                <span className="tnum w-6 text-[15px] text-ink-3">{i + 1}</span>
-                <span className="flex size-10 items-center justify-center rounded-full bg-creek-soft text-creek"><Icon size={18} /></span>
-                <div className="min-w-[200px] flex-1">
-                  <p className="font-medium">{t(a.action)} <span className="text-ink-2">· {a.lead}</span></p>
-                  <p className="t-caption text-ink-2">{t(a.why)}</p>
+
+      {/* Hero: the one thing to do now */}
+      <section aria-live="polite" className="relative isolate mb-6 overflow-hidden rounded-[28px] bg-black text-white">
+        {home && (
+          <div key={focus!.lead} className="nba-fade absolute inset-0 -z-10">
+            <Image src={img(home.photo, 1600)} alt="" fill sizes="(min-width:1024px) 1100px, 100vw" className="object-cover opacity-55" />
+          </div>
+        )}
+        <div aria-hidden className={cx("absolute inset-0 -z-10", rtl ? "bg-gradient-to-l" : "bg-gradient-to-r", "from-black via-black/75 to-black/25")} />
+
+        {focus && lead ? (
+          <div key={focus.lead} className="grid items-center gap-8 p-6 sm:p-8 lg:grid-cols-[1.25fr_0.75fr] lg:p-10">
+            <div className="nba-rise">
+              <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-[13px] text-white/80 backdrop-blur">
+                <span className="pulse-dot size-1.5 rounded-full bg-[#ff7a45]" />{t("Do this first")} · <span className="tnum">{ranked.length - open.length + 1}/{ranked.length}</span>
+              </p>
+              <h2 className="mt-5 text-[36px] font-semibold leading-[1.02] tracking-[-0.035em] [text-wrap:balance] sm:text-[48px] lg:text-[56px]">{t(focus.action)}.</h2>
+              <p className="mt-2 text-[22px] font-medium tracking-[-0.02em] text-white/70 sm:text-[26px]">{focus.lead}</p>
+              <p className="mt-4 max-w-[46ch] text-[16px] text-white/75">{t(focus.why)}</p>
+
+              <dl className="mt-7 flex flex-wrap gap-x-8 gap-y-4">
+                <div>
+                  <dt className="t-fine text-white/55">{t("Commission at stake")}</dt>
+                  <dd className="tnum mt-1 text-[28px] font-semibold leading-none tracking-[-0.02em]">{fmtAED(focus.commission * 1e6)}</dd>
                 </div>
-                <div className="hidden text-end md:block">
-                  <p className="tnum text-[15px] font-semibold">{fmtAED(a.commission * 1e6)}</p>
-                  <p className="t-fine text-ink-2">{t("commission")} · {a.closeProb}% {t("to close")}</p>
+                <div className="flex items-center gap-3">
+                  <Ring value={focus.closeProb} />
+                  <div>
+                    <dt className="t-fine text-white/55">{t("chance of closing")}</dt>
+                    <dd className="tnum mt-1 text-[28px] font-semibold leading-none tracking-[-0.02em]">{focus.closeProb}%</dd>
+                  </div>
                 </div>
-                <TempBadge temp={a.temp} />
-                <Btn variant={isDone ? "secondary" : "primary"} onClick={() => { if (!isDone) toast(`${t(a.action)} · ${a.lead}`); setDone((d) => (d.includes(a.lead) ? d : [...d, a.lead])); }}>
-                  {isDone ? <><Check size={16} /> {t("Done")}</> : t(a.channel === "Call" ? "Call" : a.channel === "Assign" ? "Assign" : "Send")}
-                </Btn>
-              </li>
-            );
-          })}
-        </ol>
-      </Card>
+                <div>
+                  <dt className="sr-only">{t("Timeframe")}</dt>
+                  <dd className="mt-1 inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-[13px] text-white/85"><Clock size={14} />{t(FADE[focus.temp])}</dd>
+                </div>
+              </dl>
+
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <button type="button" onClick={() => finish(focus.lead, focus.action)} className="btn bg-white !px-6 text-[#1d1d1f] hover:bg-white/90">
+                  <FocusIcon size={18} weight="fill" />{verb(focus.channel)} {focus.lead.split(" ")[0]}
+                </button>
+                <button type="button" onClick={() => postpone(focus.lead)} className="btn btn-ghost btn-on-dark !px-5"><span>{t("Later")}</span></button>
+              </div>
+            </div>
+
+            {/* The lead, as a product card */}
+            <div className="nba-card rounded-[22px] bg-white p-5 text-[#1d1d1f] shadow-[0_40px_100px_-30px_rgb(0_0_0/0.9)]">
+              <div className="flex items-center gap-3">
+                <Monogram name={lead.name} size={42} />
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[16px] font-semibold">{lead.name}</p>
+                  <p className="tnum truncate text-[13px] text-[#6e6e73]" dir="ltr">{lead.phone} · {t(lead.source)}</p>
+                </div>
+                <TempBadge temp={lead.temp} />
+              </div>
+              <div className="mt-4 flex items-center gap-3 rounded-[14px] bg-[#f5f5f7] px-3.5 py-3">
+                <span className="text-[13px] text-[#6e6e73]">{t("Score")}</span>
+                <ScoreBar score={lead.score} className="flex-1" />
+              </div>
+              <dl className="mt-3 divide-y divide-[#e8e8ed] text-[14px]">
+                {([["Wants", home ? `${t(home.type)} · ${t(home.label)}` : t(lead.area)], ["Budget", lead.budget], ["Timeframe", t(lead.timeframe)], ["Financing", t(lead.financing)], ["Status", t(lead.status)], ["Last contact", `${lead.lastContact}`]] as [string, string][]).map(([k, v]) => (
+                  <div key={k} className="flex justify-between gap-4 py-2"><dt className="text-[#6e6e73]">{t(k)}</dt><dd className="truncate text-end font-medium"><bdi>{v}</bdi></dd></div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        ) : (
+          <div className="nba-rise flex flex-col items-start gap-4 p-8 sm:p-10">
+            <CheckCircle size={44} weight="fill" className="text-[#3ecf7a]" />
+            <h2 className="text-[40px] font-semibold leading-none tracking-[-0.035em]">{t("All clear")}</h2>
+            <p className="max-w-[46ch] text-white/75">{t("Nothing urgent is left. Observer is following up with the rest.")}</p>
+            <button type="button" onClick={() => { setDone([]); setLater([]); }} className="btn btn-ghost btn-on-dark !px-5"><span>{t("Start over")}</span></button>
+          </div>
+        )}
+
+        {/* Stat strip */}
+        <dl className="grid grid-cols-2 border-t border-white/10 text-[14px] sm:grid-cols-4">
+          {([["12", "do within 30 minutes"], ["28", "scheduled by Observer"], [`${41 + done.length}`, "done today"], ["94%", "confidence"]] as [string, string][]).map(([n, l]) => (
+            <div key={l} className="flex items-baseline gap-2 px-6 py-4 sm:px-8 lg:px-10">
+              <dt className="sr-only">{t(l)}</dt>
+              <dd className="tnum text-[20px] font-semibold">{n}</dd>
+              <span aria-hidden className="text-white/60">{t(l)}</span>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* Up next */}
+      {open.length > 1 && (
+        <Card>
+          <CardHead title="Up next" />
+          <ol className="divide-y divide-hairline-soft">
+            {open.slice(1).map((a, i) => {
+              const Icon = ACT_ICON[a.channel] ?? Lightning;
+              return (
+                <li key={a.lead} className="flex flex-wrap items-center gap-4 py-3.5">
+                  <span className="tnum w-6 text-[15px] text-ink-3">{ranked.length - open.length + i + 2}</span>
+                  <span className="flex size-10 items-center justify-center rounded-full bg-creek-soft text-creek"><Icon size={18} /></span>
+                  <div className="min-w-[200px] flex-1">
+                    <p className="font-medium">{t(a.action)} <span className="text-ink-2">· {a.lead}</span></p>
+                    <p className="t-caption text-ink-2">{t(a.why)}</p>
+                  </div>
+                  <div className="hidden text-end md:block">
+                    <p className="tnum text-[15px] font-semibold">{fmtAED(a.commission * 1e6)}</p>
+                    <p className="t-fine text-ink-2">{t("commission")} · {a.closeProb}% {t("to close")}</p>
+                  </div>
+                  <TempBadge temp={a.temp} />
+                  <Btn variant="secondary" onClick={() => finish(a.lead, a.action)}>{verb(a.channel)}</Btn>
+                </li>
+              );
+            })}
+          </ol>
+        </Card>
+      )}
+
+      {/* Done */}
+      {done.length > 0 && (
+        <Card className="mt-6">
+          <CardHead title="Done today" />
+          <ul className="divide-y divide-hairline-soft">
+            {done.map((n) => {
+              const a = ranked.find((x) => x.lead === n)!;
+              return (
+                <li key={n} className="flex items-center gap-3 py-3 text-ink-2">
+                  <CheckCircle size={20} weight="fill" className="text-ok" />
+                  <span className="flex-1">{t(a.action)} · {n}</span>
+                  <Btn variant="quiet" onClick={() => setDone((d) => d.filter((x) => x !== n))}>{t("Undo")}</Btn>
+                </li>
+              );
+            })}
+          </ul>
+        </Card>
+      )}
     </>
+  );
+}
+
+/** Close probability as a small ring. */
+function Ring({ value }: { value: number }) {
+  const C = 2 * Math.PI * 16;
+  return (
+    <svg viewBox="0 0 40 40" className="size-10 -rotate-90" aria-hidden>
+      <circle cx="20" cy="20" r="16" fill="none" stroke="rgb(255 255 255 / .15)" strokeWidth="4" />
+      <circle cx="20" cy="20" r="16" fill="none" stroke="#ff7a45" strokeWidth="4" strokeLinecap="round" strokeDasharray={`${(C * value) / 100} ${C}`} className="nba-ring" />
+    </svg>
   );
 }
 
