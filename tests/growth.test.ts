@@ -244,8 +244,10 @@ describe("round 4 fixes", async () => {
     expect(ttsBody("hi", "ar")).not.toHaveProperty("language_code");
     expect(ttsBody("hi", "ar", "eleven_flash_v2_5")).toMatchObject({ language_code: "ar" });
   });
-  it("falls back to English for languages Twilio's voice can't speak", () => {
-    expect(sayLang("ur")).toBe("en-US");
-    expect(sayLang("ar")).toBe("ar-AE");
+  it("uses Twilio's voice only for languages switched on after a test call", () => {
+    expect(sayLang("ar", undefined)).toBe("en-US");
+    expect(sayLang("ar", '{"ar":"ar-XA"}')).toBe("ar-XA");
+    expect(sayLang("hi", '{"hi":"not a code"}')).toBe("en-US");
+    expect(sayLang("ar", "{broken")).toBe("en-US");
   });
 });

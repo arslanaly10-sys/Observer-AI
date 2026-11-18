@@ -32,17 +32,22 @@ export async function runTurn(t: TurnInput): Promise<TurnResult> {
   const context = await buildContext(t);
   const userText = t.inbound?.trim() || (t.firstContact ? "(The lead submitted an enquiry form without a message.)" : "(No new message from the lead. Follow the instruction in the context.)");
   if (c && t.mode !== "messages" && process.env.OBSERVER_AGENT_ID && process.env.OBSERVER_ENVIRONMENT_ID) {
+    // On timeout the abort stops the loop: no tool runs after we've moved on, so nothing happens twice.
+    const ac = new AbortController();
     try {
-      return { text: await withTimeout(managedTurn(c, t, context, userText), left(), "managed agent turn"), by: "managed-agent", actions: t.ctx.actions };
+      return { text: await withTimeout(managedTurn(c, t, context, userText, ac.signal), left(), "managed agent turn"), by: "managed-agent", actions: t.ctx.actions };
     } catch (e) {
+      ac.abort();
       console.error("managed agent turn failed; using Messages API", (e as Error).message);
       await resetSession(c, t);
     }
   }
   if (c && left() > 8_000) {
+    const ac = new AbortController();
     try {
-      return { text: await withTimeout(messagesTurn(c, t, context, userText), left(), "messages turn"), by: "messages", actions: t.ctx.actions };
+      return { text: await withTimeout(messagesTurn(c, t, context, userText, ac.signal), left(), "messages turn"), by: "messages", actions: t.ctx.actions };
     } catch (e) {
+      ac.abort();
       console.error("messages turn failed; using rules", (e as Error).message);
     }
   }
@@ -70,7 +75,7 @@ async function buildContext(t: TurnInput) {
 }
 
 // ── 1. Managed Agents ──────────────────────────────────────────────────────
-async function managedTurn(c: Anthropic, t: TurnInput, context: string, userText: string) {
+async function managedTurn(c: Anthropic, t: TurnInput, context: string, userText: string, signal: AbortSignal) {
   const { db, lead } = t.ctx;
   let sessionId = lead.agent_session_id;
   if (!sessionId) {
@@ -83,16 +88,18 @@ async function managedTurn(c: Anthropic, t: TurnInput, context: string, userText
     lead.agent_session_id = sessionId;
   }
   // Open the stream before sending so no event is missed.
-  const stream = await c.beta.sessions.events.stream(sessionId);
+  const stream = await c.beta.sessions.events.stream(sessionId, undefined, { signal });
   await c.beta.sessions.events.send(sessionId, { events: [
     { type: "system.message", content: [{ type: "text", text: context }] },
     { type: "user.message", content: [{ type: "text", text: userText }] },
   ] });
   const texts: string[] = [];
   for await (const ev of stream) {
+    if (signal.aborted) break;
     if (ev.type === "agent.message") {
       texts.push(ev.content.map((b) => ("text" in b ? b.text : "")).join(""));
     } else if (ev.type === "agent.custom_tool_use") {
+      if (signal.aborted) break;
       const r = await runTool(ev.name, ev.input, t.ctx);
       await c.beta.sessions.events.send(sessionId, { events: [
         { type: "user.custom_tool_result", custom_tool_use_id: ev.id, content: [{ type: "text", text: r.text }], is_error: r.isError ?? false },
@@ -124,7 +131,7 @@ async function resetSession(c: Anthropic, t: TurnInput) {
 }
 
 // ── 2. Messages API tool loop ──────────────────────────────────────────────
-async function messagesTurn(c: Anthropic, t: TurnInput, context: string, userText: string) {
+async function messagesTurn(c: Anthropic, t: TurnInput, context: string, userText: string, signal: AbortSignal) {
   const messages: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content: `${context}\n\nThe lead's latest message:\n${userText}` }];
   const tools = TOOLS.map((x) => ({ name: x.name, description: x.description, input_schema: x.input_schema }));
   for (let step = 0; step < 8; step++) {
@@ -133,7 +140,7 @@ async function messagesTurn(c: Anthropic, t: TurnInput, context: string, userTex
       system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
       output_config: { effort: t.ctx.channel === "voice" ? "low" : "medium" },
       tools, messages,
-    });
+    }, { signal });
     if (res.stop_reason === "refusal") throw new Error("refused");
     const uses = res.content.filter((b): b is Anthropic.Beta.BetaToolUseBlock => b.type === "tool_use");
     if (res.stop_reason !== "tool_use" || !uses.length) {
@@ -144,6 +151,7 @@ async function messagesTurn(c: Anthropic, t: TurnInput, context: string, userTex
     messages.push({ role: "assistant", content: res.content as Anthropic.Beta.BetaContentBlockParam[] });
     const results: Anthropic.Beta.BetaToolResultBlockParam[] = [];
     for (const u of uses) {
+      if (signal.aborted) throw new Error("turn aborted");
       const r = await runTool(u.name, u.input as Record<string, unknown>, t.ctx);
       results.push({ type: "tool_result", tool_use_id: u.id, content: r.text, is_error: r.isError });
     }

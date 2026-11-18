@@ -36,7 +36,8 @@ Server-only. None of these may start with `NEXT_PUBLIC_`.
 | `RESEND_API_KEY` | Sending email | resend.com → API keys |
 | `RESEND_WEBHOOK_SECRET`, `RESEND_INBOUND_DOMAIN` | Delivery events and email replies | Resend → Webhooks; your inbound domain |
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN` | AI phone calls | Twilio console |
-| `ELEVENLABS_API_KEY` (optional `ELEVENLABS_VOICE_ID`) | Natural multilingual voice; Twilio's voice is the fallback | elevenlabs.io |
+| `ELEVENLABS_API_KEY` (optional `ELEVENLABS_VOICE_ID`) | Natural voice in all ten languages (recommended) | elevenlabs.io |
+| `TWILIO_SAY_LANGUAGES` (optional) | Without ElevenLabs, Twilio's own voice speaks English only. After a test call, switch on more, e.g. `{"ar":"ar-XA","hi":"hi-IN"}`, using codes from Twilio's text-to-speech table | Your choice |
 
 Never paste keys into chat or commit them. Add them in Vercel, then redeploy.
 
@@ -116,14 +117,20 @@ Recording and calling rules differ by country. Check the rules for the countries
 - Buying fees by emirate (Dubai DLD 4%, admin and trustee fees, mortgage registration 0.25% + AED 290; Abu Dhabi about 2%; Sharjah and RAK about 4%, where sources disagree).
 - Mortgage rules (loan-to-value 80/70% expat, 85/75% national, 50% off-plan; 50% debt-burden cap; 25 years; age limits), the Central Bank base rate, EIBOR and typical fixed rates.
 - Golden Visa through property (AED 2 million at the official valuation).
-- Twenty areas in Dubai and Abu Dhabi with price per square foot, gross yield and service charges, as ranges.
+- 18 areas in Dubai and Abu Dhabi with price per square foot, gross yield and service charges, as ranges.
 - Fifteen developers (Emaar, DAMAC, Azizi, Binghatti, Ellington, Meraas, Nakheel, Imtiaz, Sobha, Danube, Samana, Omniyat, Aldar, Modon, Arada) with their usual payment plans.
 
 The AI gets five tools on top of the inventory ones: `calculate_purchase_costs`, `check_mortgage_eligibility`, `build_payment_schedule`, `check_golden_visa` and `get_market_overview`. It presents market figures as indicative ranges with the month, and quotes a specific home's price only from your inventory.
 
 Brokers use the same maths under **Calculator** (buying costs, mortgage, payment plan, rental yield, commission split, Golden Visa) and can send any result to a lead. **UAE market** shows the data with its sources.
 
+Every range spans only figures printed in its listed sources. Rules our sources didn't confirm (loan limits for UAE nationals and second homes, the age limit for nationals) are marked "not confirmed" in the calculator, the Market page and the AI's answers. Developer plan details we couldn't source say so. The payment-plan calculator understands `60/40`, `10/50/40`, `20/40/40 post` and `20% + 1% monthly`.
+
 Review `lib/market/uae.ts` every quarter: rates and prices move, and several 2026 rules (Golden Visa, fees) changed during the year.
+
+## Plan limits
+
+`workspace_settings.monthly_lead_limit` is the number of leads a workspace's plan includes each calendar month (empty means unlimited). Only the server key can set it. Over the limit, new leads are still saved and shown, but the AI doesn't contact them, and managers get one notice a day.
 
 ## Reliability
 

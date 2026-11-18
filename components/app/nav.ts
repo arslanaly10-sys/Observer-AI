@@ -30,7 +30,7 @@ export const navGroups: { label: string; items: { id: ViewId; label: string; ico
     { id: "agents", label: "Agent performance", icon: Trophy },
   ] },
   { label: "UAE market", items: [
-    { id: "gcc-developers", label: "GCC developers", icon: Buildings },
+    { id: "gcc-developers", label: "Developers & areas", icon: Buildings },
     { id: "payment-plans", label: "Broker calculator", icon: Calculator },
   ] },
   { label: "Enterprise", items: [

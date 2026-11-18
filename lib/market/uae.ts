@@ -26,11 +26,18 @@ export const SOURCES = {
   adYields: { name: "Invest Gulf: Abu Dhabi rental yields 2026", url: "https://invest-gulf.com/guides/abu-dhabi-rental-yield-guide/" },
   adSaadiyat: { name: "Angel in Dubai: Abu Dhabi Q2 2026 (ValuStrat)", url: "https://www.angelindubai.com/post/abu-dhabi-real-estate-market-report-q2-2026-valustrat" },
   emirateFees: { name: "Matika: registration fees across the emirates", url: "https://www.matikaproperties.ae/article/property-registration-fees-uae-emirates" },
-  serviceCharges: { name: "Real Estate Club Dubai: service charges 2026", url: "https://realestateclubdubai.com/blog/property-management/dubai-service-charges-explained-what-owners-pay-2026" },
+  serviceCharges: { name: "Real Estate Club Dubai: service charges 2026 (broker guides; check Mollak for a building)", url: "https://realestateclubdubai.com/blog/property-management/dubai-service-charges-explained-what-owners-pay-2026" },
   goldenVisa: { name: "Janus Hermes: Golden Visa through property 2026", url: "https://janushermes.com/blog/uae-golden-visa-property-2026" },
   developers: { name: "Engel & Völkers: top Dubai developers 2026", url: "https://www.engelvoelkers.com/ae/en/resources/top-10-real-estate-developers-in-dubai" },
   paymentPlans: { name: "Real Estate Club Dubai: post-handover plans 2026", url: "https://realestateclubdubai.com/blog/buying-guide/post-handover-payment-plans-dubai-2026-benefits-risks-best-developer-deals" },
   commission: { name: "Engel & Völkers: agent commission in Dubai", url: "https://www.engelvoelkers.com/ae/en/resources/how-much-is-the-real-estate-agent-commission-in-dubai" },
+  meiDubai: { name: "The Middle East Insider: best areas to buy in Dubai (Mar 2026)", url: "https://themiddleeastinsider.com/2026/03/13/best-areas-buy-property-dubai-2026/" },
+  meiAbuDhabi: { name: "The Middle East Insider: Abu Dhabi market (Mar 2026)", url: "https://themiddleeastinsider.com/2026/03/14/abu-dhabi-real-estate-market-march-2026-prices-trends-investment/" },
+  kunReem: { name: "Kun: Al Reem Island market update 2026", url: "https://www.kun.ae/blog/al-reem-island-property-market-update-2026" },
+  christiesSc: { name: "Christie's Real Estate Dubai: service charges guide", url: "https://www.christiesrealestatedubai.com/the-journal/dubai-service-charges-guide/" },
+  drivenSc: { name: "Driven Properties: service charge index", url: "https://www.drivenproperties.com/dubai-real-estate-market-guide/service-charge-index" },
+  emaarWiki: { name: "Wikipedia: Emaar Development", url: "https://en.wikipedia.org/wiki/Emaar_Developments" },
+  aldarWiki: { name: "Wikipedia: Aldar Properties", url: "https://en.wikipedia.org/wiki/Aldar_Properties" },
 } as const;
 export type SourceKey = keyof typeof SOURCES;
 
@@ -82,7 +89,9 @@ export const MORTGAGE = {
   maxYears: 25,
   maxAgeAtEnd: { expat: 65, national: 70 },
   feesFromOwnFunds: true, // fees and down payment are not financed
-  note: "Central Bank of the UAE caps, as most lenders apply them. Some sources give 75% or 65% for expats; banks may lend less.",
+  /** Rules in common use that our sources did not confirm. Shown as "not confirmed" wherever they're used. */
+  unconfirmed: ["nationalFirstUnder5m", "nationalFirstOver5m", "expatSecondHome", "nationalSecondHome", "maxAgeNational"] as const,
+  note: "Central Bank of the UAE caps, as most lenders apply them. Some sources give 75% or 65% for expats; banks may lend less. Figures for UAE nationals and second homes, and the age limit for nationals, are in common use but not confirmed by our sources.",
   sources: ["ltvRules", "offplanLtv"] as SourceKey[],
 };
 
@@ -116,49 +125,49 @@ export interface Area {
   note?: string; sources: SourceKey[];
 }
 export const AREAS: Area[] = [
-  { id: "jvc", name: "Jumeirah Village Circle (JVC)", nameAr: "قرية جميرا الدائرية", emirate: "dubai", pricePsf: [1250, 1500], yieldPct: [7, 8], serviceChargePsf: [6, 14], type: "apartments", sources: ["bayutH1", "valorisimo", "serviceCharges"] },
-  { id: "marina", name: "Dubai Marina", nameAr: "دبي مارينا", emirate: "dubai", pricePsf: [1850, 2100], yieldPct: [5.9, 7], serviceChargePsf: [14, 18], type: "apartments", sources: ["bayutH1", "valorisimo", "serviceCharges"] },
-  { id: "downtown", name: "Downtown Dubai", nameAr: "وسط مدينة دبي", emirate: "dubai", pricePsf: [2800, 3500], yieldPct: [5.5, 6], serviceChargePsf: [17, 40], type: "apartments", note: "Branded towers charge far more in service fees.", sources: ["bayutH1", "valorisimo", "serviceCharges"] },
-  { id: "palm", name: "Palm Jumeirah", nameAr: "نخلة جميرا", emirate: "dubai", pricePsf: [3400, 4200], yieldPct: [4.5, 6], type: "mixed", note: "Signature villas trade far higher; Bayut's Q3 average (AED 6,182) is skewed by them.", sources: ["bayutH1", "bayutQ3", "valorisimo"] },
-  { id: "dubai-hills", name: "Dubai Hills Estate", nameAr: "دبي هيلز إستيت", emirate: "dubai", pricePsf: [2300, 3060], yieldPct: [4.2, 6.3], type: "mixed", note: "Apartments around AED 2,330/sq ft; villas around AED 3,060.", sources: ["bayutH1", "bayutQ3", "valorisimo"] },
-  { id: "business-bay", name: "Business Bay", nameAr: "الخليج التجاري", emirate: "dubai", pricePsf: [2400, 2920], yieldPct: [6, 6.3], serviceChargePsf: [13, 16], type: "apartments", sources: ["bayutH1", "bayutQ3", "augusta", "serviceCharges"] },
-  { id: "creek-harbour", name: "Dubai Creek Harbour", nameAr: "خور دبي", emirate: "dubai", pricePsf: [1770, 2300], yieldPct: [5.5, 6], type: "apartments", sources: ["fcre", "augusta"] },
-  { id: "al-furjan", name: "Al Furjan", nameAr: "الفرجان", emirate: "dubai", pricePsf: [1250, 1450], yieldPct: [6.5, 7.7], type: "mixed", sources: ["bayutH1", "fcre"] },
-  { id: "town-square", name: "Town Square", nameAr: "تاون سكوير", emirate: "dubai", pricePsf: null, yieldPct: [7, 7.5], type: "mixed", sources: ["bayutH1"] },
-  { id: "jlt", name: "Jumeirah Lake Towers (JLT)", nameAr: "أبراج بحيرات جميرا", emirate: "dubai", pricePsf: null, yieldPct: [6.5, 7], type: "apartments", sources: ["bayutH1"] },
-  { id: "arabian-ranches", name: "Arabian Ranches", nameAr: "المرابع العربية", emirate: "dubai", pricePsf: [2200, 2450], yieldPct: [3.8, 4.5], serviceChargePsf: [2, 6], type: "villas", sources: ["bayutH1", "bayutQ3", "augusta"] },
-  { id: "damac-hills", name: "DAMAC Hills", nameAr: "داماك هيلز", emirate: "dubai", pricePsf: [1800, 2000], yieldPct: [4.9, 5.5], type: "villas", sources: ["bayutH1", "augusta"] },
-  { id: "damac-lagoons", name: "DAMAC Lagoons", nameAr: "داماك لاجونز", emirate: "dubai", pricePsf: null, yieldPct: [5.7, 6.1], type: "villas", sources: ["bayutH1", "bayutQ3"] },
-  { id: "mbr-city", name: "Mohammed Bin Rashid City", nameAr: "مدينة محمد بن راشد", emirate: "dubai", pricePsf: [2300, 2400], yieldPct: [5, 5.5], type: "villas", sources: ["bayutQ3"] },
-  { id: "dubai-south", name: "Dubai South", nameAr: "دبي الجنوب", emirate: "dubai", pricePsf: null, yieldPct: [4.9, 6], serviceChargePsf: [6, 14], type: "mixed", sources: ["bayutH1", "serviceCharges"] },
-  { id: "al-reem", name: "Al Reem Island", nameAr: "جزيرة الريم", emirate: "abu_dhabi", pricePsf: [1180, 1700], yieldPct: [6, 8], type: "apartments", sources: ["adPrices", "adYields", "adSaadiyat"] },
-  { id: "yas", name: "Yas Island", nameAr: "جزيرة ياس", emirate: "abu_dhabi", pricePsf: [1520, 2320], yieldPct: [6, 8], type: "mixed", sources: ["adPrices", "adYields", "adSaadiyat"] },
-  { id: "saadiyat", name: "Saadiyat Island", nameAr: "جزيرة السعديات", emirate: "abu_dhabi", pricePsf: [1950, 3500], yieldPct: [4.5, 6], type: "mixed", sources: ["adSaadiyat", "adYields"] },
+  // Each range spans only figures printed in its sources (single figures appear as one number).
+  { id: "jvc", name: "Jumeirah Village Circle (JVC)", nameAr: "قرية جميرا الدائرية", emirate: "dubai", pricePsf: [900, 1470], yieldPct: [7.15, 8], serviceChargePsf: [6, 14], type: "apartments", note: "Middle East Insider gives AED 900–1,300; Valorisimo's median is AED 1,470.", sources: ["meiDubai", "valorisimo", "bayutH1", "serviceCharges"] },
+  { id: "marina", name: "Dubai Marina", nameAr: "دبي مارينا", emirate: "dubai", pricePsf: [1990, 1990], yieldPct: [5.88, 7], serviceChargePsf: [14, 16.1], type: "apartments", sources: ["valorisimo", "bayutH1", "serviceCharges", "drivenSc"] },
+  { id: "downtown", name: "Downtown Dubai", nameAr: "وسط مدينة دبي", emirate: "dubai", pricePsf: [2800, 3500], yieldPct: [5.46, 6], serviceChargePsf: [17, 40], type: "apartments", note: "Valorisimo's median is AED 2,960. Branded towers charge far more in service fees.", sources: ["meiDubai", "valorisimo", "bayutH1", "christiesSc"] },
+  { id: "palm", name: "Palm Jumeirah", nameAr: "نخلة جميرا", emirate: "dubai", pricePsf: [3400, 3400], yieldPct: [4.48, 6], type: "mixed", note: "Median apartments. Bayut's Q3 average of AED 6,182 is pulled up by signature villas.", sources: ["valorisimo", "bayutH1", "bayutQ3"] },
+  { id: "dubai-hills", name: "Dubai Hills Estate", nameAr: "دبي هيلز إستيت", emirate: "dubai", pricePsf: [2330, 3057], yieldPct: [4.2, 7], type: "mixed", note: "Apartments AED 2,330 (Valorisimo median); villas AED 3,057 (Bayut Q3 asking).", sources: ["valorisimo", "bayutH1", "bayutQ3"] },
+  { id: "business-bay", name: "Business Bay", nameAr: "الخليج التجاري", emirate: "dubai", pricePsf: [2921, 2921], yieldPct: [6, 6.29], serviceChargePsf: [14.75, 14.75], type: "apartments", sources: ["augusta", "bayutH1", "bayutQ3", "serviceCharges"] },
+  { id: "creek-harbour", name: "Dubai Creek Harbour", nameAr: "خور دبي", emirate: "dubai", pricePsf: [1765, 2300], yieldPct: [5.6, 5.6], type: "apartments", sources: ["augusta", "fcre"] },
+  { id: "al-furjan", name: "Al Furjan", nameAr: "الفرجان", emirate: "dubai", pricePsf: [1247, 1247], yieldPct: [6.5, 7.69], type: "mixed", note: "Price is for apartments.", sources: ["fcre", "bayutH1"] },
+  { id: "town-square", name: "Town Square", nameAr: "تاون سكوير", emirate: "dubai", pricePsf: null, yieldPct: [7.45, 7.45], type: "mixed", sources: ["bayutH1"] },
+  { id: "arabian-ranches", name: "Arabian Ranches", nameAr: "المرابع العربية", emirate: "dubai", pricePsf: [2417, 2417], yieldPct: [3.8, 3.87], serviceChargePsf: [2, 6], type: "villas", sources: ["augusta", "bayutH1", "bayutQ3", "serviceCharges"] },
+  { id: "damac-hills", name: "DAMAC Hills", nameAr: "داماك هيلز", emirate: "dubai", pricePsf: [1908, 1908], yieldPct: [4.95, 4.95], type: "villas", sources: ["augusta", "bayutH1"] },
+  { id: "damac-lagoons", name: "DAMAC Lagoons", nameAr: "داماك لاجونز", emirate: "dubai", pricePsf: null, yieldPct: [5.7, 6.09], type: "villas", sources: ["bayutH1", "bayutQ3"] },
+  { id: "mbr-city", name: "Mohammed Bin Rashid City", nameAr: "مدينة محمد بن راشد", emirate: "dubai", pricePsf: [2357, 2357], yieldPct: [5.3, 5.3], type: "villas", note: "Villa asking price.", sources: ["bayutQ3"] },
+  { id: "dubai-south", name: "Dubai South", nameAr: "دبي الجنوب", emirate: "dubai", pricePsf: null, yieldPct: [4.92, 4.92], serviceChargePsf: [6, 14], type: "mixed", sources: ["bayutH1", "serviceCharges"] },
+  { id: "al-reem", name: "Al Reem Island", nameAr: "جزيرة الريم", emirate: "abu_dhabi", pricePsf: [1180, 1697], yieldPct: [6, 8], type: "apartments", note: "ADREC H1 2026 average about AED 1,670.", sources: ["adPrices", "kunReem", "adSaadiyat", "adYields"] },
+  { id: "yas", name: "Yas Island", nameAr: "جزيرة ياس", emirate: "abu_dhabi", pricePsf: [1520, 2320], yieldPct: [6, 8], type: "mixed", sources: ["adSaadiyat", "adPrices", "adYields"] },
+  { id: "saadiyat", name: "Saadiyat Island", nameAr: "جزيرة السعديات", emirate: "abu_dhabi", pricePsf: [1800, 3500], yieldPct: [4.5, 6], type: "mixed", note: "Apartments AED 1,800–2,800; villas AED 2,200–3,500.", sources: ["meiAbuDhabi", "adSaadiyat", "adYields"] },
   { id: "al-reef", name: "Al Reef", nameAr: "الريف", emirate: "abu_dhabi", pricePsf: null, yieldPct: [9, 9.5], type: "mixed", sources: ["adYields"] },
 ];
 
 // ── Developers ────────────────────────────────────────────────────────────
 export interface Developer {
   id: string; name: string; emirate: Emirate; knownFor: string; areas: string[];
-  plans: string; postHandover: "rare" | "sometimes" | "common";
+  plans: string; postHandover: "rare" | "sometimes" | "common" | "unknown";
   salesJanAug2026Bn?: number; sources: SourceKey[];
 }
 export const DEVELOPERS: Developer[] = [
-  { id: "emaar", name: "Emaar", emirate: "dubai", knownFor: "Dubai's largest developer: Downtown, Dubai Hills, Creek Harbour, Arabian Ranches, The Valley.", areas: ["downtown", "dubai-hills", "creek-harbour", "arabian-ranches"], plans: "Mostly 80/20 or 90/10 construction-linked; post-handover only on selected launches.", postHandover: "rare", salesJanAug2026Bn: 32.3, sources: ["developers", "paymentPlans"] },
+  { id: "emaar", name: "Emaar", emirate: "dubai", knownFor: "Dubai's largest developer by 2026 sales (Downtown, Dubai Hills, Creek Harbour, Arabian Ranches, The Valley).", areas: ["downtown", "dubai-hills", "creek-harbour", "arabian-ranches"], plans: "Mostly 80/20 or 90/10 construction-linked; post-handover only on selected launches.", postHandover: "rare", salesJanAug2026Bn: 32.3, sources: ["developers", "paymentPlans", "emaarWiki"] },
   { id: "damac", name: "DAMAC", emirate: "dubai", knownFor: "Branded towers and large villa communities: DAMAC Hills, DAMAC Lagoons, DAMAC Hills 2.", areas: ["damac-hills", "damac-lagoons", "business-bay"], plans: "Often 70/30, 60/40, 50/50 and some 20/80; post-handover up to about 5 years.", postHandover: "common", salesJanAug2026Bn: 18.2, sources: ["developers", "paymentPlans"] },
-  { id: "azizi", name: "Azizi", emirate: "dubai", knownFor: "Volume apartments in Al Furjan, Dubai South, MBR City and Dubai Healthcare City; most units sold in 2026.", areas: ["al-furjan", "dubai-south", "mbr-city"], plans: "Construction-linked plans with sizeable handover payments; terms vary by project.", postHandover: "sometimes", salesJanAug2026Bn: 10.6, sources: ["developers"] },
-  { id: "binghatti", name: "Binghatti", emirate: "dubai", knownFor: "Distinctive towers in JVC, Business Bay and Downtown, including branded residences.", areas: ["jvc", "business-bay"], plans: "Commonly 60/40 with 40% on handover; post-handover on some launches.", postHandover: "sometimes", salesJanAug2026Bn: 9.3, sources: ["developers", "paymentPlans"] },
-  { id: "ellington", name: "Ellington", emirate: "dubai", knownFor: "Design-led boutique residences in JVC, Downtown, MBR City and the Palm.", areas: ["jvc", "downtown", "mbr-city", "palm"], plans: "Construction-linked; varies by project.", postHandover: "sometimes", salesJanAug2026Bn: 8.7, sources: ["developers"] },
-  { id: "meraas", name: "Meraas", emirate: "dubai", knownFor: "Lifestyle destinations and premium residences (part of Dubai Holding).", areas: [], plans: "Construction-linked; varies by project.", postHandover: "rare", salesJanAug2026Bn: 7.9, sources: ["developers"] },
-  { id: "nakheel", name: "Nakheel", emirate: "dubai", knownFor: "Master developer of Palm Jumeirah and other waterfront communities (part of Dubai Holding).", areas: ["palm"], plans: "Construction-linked; varies by project.", postHandover: "rare", salesJanAug2026Bn: 7.4, sources: ["developers"] },
-  { id: "imtiaz", name: "Imtiaz", emirate: "dubai", knownFor: "Mid-market apartment projects across Dubai.", areas: [], plans: "Construction-linked; varies by project.", postHandover: "sometimes", salesJanAug2026Bn: 4.1, sources: ["developers"] },
-  { id: "sobha", name: "Sobha", emirate: "dubai", knownFor: "Vertically integrated builder of Sobha Hartland in MBR City and Sobha Hartland II.", areas: ["mbr-city"], plans: "Often 60/40; some launches with about 3 years post-handover.", postHandover: "sometimes", sources: ["paymentPlans"] },
-  { id: "danube", name: "Danube", emirate: "dubai", knownFor: "Affordable apartments with 1% monthly plans.", areas: ["al-furjan", "jvc"], plans: "1% a month, with long post-handover periods (sources cite roughly 4 to 6 years).", postHandover: "common", sources: ["paymentPlans"] },
-  { id: "samana", name: "Samana", emirate: "dubai", knownFor: "Apartments with private pools; among the longest payment plans.", areas: ["jvc", "dubai-south"], plans: "Long instalment plans, some running about 8 years in total.", postHandover: "common", sources: ["paymentPlans"] },
-  { id: "omniyat", name: "Omniyat", emirate: "dubai", knownFor: "Ultra-luxury residences in Business Bay and the Palm.", areas: ["business-bay", "palm"], plans: "Construction-linked; varies by project.", postHandover: "rare", sources: ["developers"] },
-  { id: "aldar", name: "Aldar", emirate: "abu_dhabi", knownFor: "Abu Dhabi's largest developer (listed; Mubadala is the biggest shareholder): Yas, Saadiyat, Al Reem.", areas: ["yas", "saadiyat", "al-reem"], plans: "Construction-linked; varies by project.", postHandover: "sometimes", sources: ["developers"] },
-  { id: "modon", name: "Modon", emirate: "abu_dhabi", knownFor: "Abu Dhabi master developer.", areas: [], plans: "Varies by project.", postHandover: "rare", sources: ["developers"] },
-  { id: "arada", name: "Arada", emirate: "sharjah", knownFor: "Large master-planned communities in Sharjah.", areas: [], plans: "Varies by project.", postHandover: "sometimes", sources: ["developers"] },
+  { id: "azizi", name: "Azizi", emirate: "dubai", knownFor: "Most units sold in Dubai in January to August 2026.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", salesJanAug2026Bn: 10.6, sources: ["developers"] },
+  { id: "binghatti", name: "Binghatti", emirate: "dubai", knownFor: "High-volume developer of apartment towers.", areas: [], plans: "Commonly 60/40 with 40% on handover; post-handover on some launches.", postHandover: "sometimes", salesJanAug2026Bn: 9.3, sources: ["developers", "paymentPlans"] },
+  { id: "ellington", name: "Ellington", emirate: "dubai", knownFor: "Residential developer; fifth by 2026 sales value.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", salesJanAug2026Bn: 8.7, sources: ["developers"] },
+  { id: "meraas", name: "Meraas", emirate: "dubai", knownFor: "Dubai developer; sixth by 2026 sales value.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", salesJanAug2026Bn: 7.9, sources: ["developers"] },
+  { id: "nakheel", name: "Nakheel", emirate: "dubai", knownFor: "Master developer of Palm Jumeirah.", areas: ["palm"], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", salesJanAug2026Bn: 7.4, sources: ["developers"] },
+  { id: "imtiaz", name: "Imtiaz", emirate: "dubai", knownFor: "Dubai developer; AED 4.1bn sold January to August 2026.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", salesJanAug2026Bn: 4.1, sources: ["developers"] },
+  { id: "sobha", name: "Sobha", emirate: "dubai", knownFor: "Developer of Sobha Hartland.", areas: [], plans: "Often 60/40; some launches with about 3 years post-handover.", postHandover: "sometimes", sources: ["paymentPlans"] },
+  { id: "danube", name: "Danube", emirate: "dubai", knownFor: "Known for 1% monthly payment plans.", areas: [], plans: "1% a month, with long post-handover periods (sources cite roughly 4 to 6 years).", postHandover: "common", sources: ["paymentPlans"] },
+  { id: "samana", name: "Samana", emirate: "dubai", knownFor: "Known for some of the longest payment plans.", areas: [], plans: "Long instalment plans, some running about 8 years in total.", postHandover: "common", sources: ["paymentPlans"] },
+  { id: "omniyat", name: "Omniyat", emirate: "dubai", knownFor: "Luxury developer.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", sources: ["developers"] },
+  { id: "aldar", name: "Aldar", emirate: "abu_dhabi", knownFor: "Abu Dhabi's listed developer; Mubadala is its largest shareholder.", areas: ["yas", "saadiyat", "al-reem"], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", sources: ["aldarWiki", "developers"] },
+  { id: "modon", name: "Modon", emirate: "abu_dhabi", knownFor: "Abu Dhabi developer.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", sources: ["developers"] },
+  { id: "arada", name: "Arada", emirate: "sharjah", knownFor: "Sharjah developer.", areas: [], plans: "Not covered by our sources; ask the developer.", postHandover: "unknown", sources: ["developers"] },
 ];
 
 // ── Lookup helpers (used by the AI tools) ─────────────────────────────────
@@ -166,7 +175,7 @@ const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9؀-ۿ]+/g, " ").tri
 const ALIASES: Record<string, string[]> = {
   jvc: ["jvc", "jumeirah village"], marina: ["marina"], downtown: ["downtown", "burj khalifa", "boulevard"], palm: ["palm", "the palm"],
   "dubai-hills": ["dubai hills", "hills estate"], "business-bay": ["business bay"], "creek-harbour": ["creek harbour", "creek harbor", "dubai creek"],
-  "al-furjan": ["furjan"], "town-square": ["town square"], jlt: ["jlt", "jumeirah lake", "lake towers"], "arabian-ranches": ["arabian ranches", "ranches"],
+  "al-furjan": ["furjan"], "town-square": ["town square"], "arabian-ranches": ["arabian ranches", "ranches"],
   "damac-hills": ["damac hills"], "damac-lagoons": ["lagoons"], "mbr-city": ["mbr", "mohammed bin rashid", "meydan", "sobha hartland"],
   "dubai-south": ["dubai south", "expo city"], "al-reem": ["reem"], yas: ["yas"], saadiyat: ["saadiyat"], "al-reef": ["al reef", "reef"],
 };

@@ -106,3 +106,36 @@ describe("area matching", () => {
     expect(findArea("Dubai")).toBeNull();
   });
 });
+
+describe("one fee calculation everywhere", async () => {
+  const { calcPlan } = await import("@/lib/engine");
+  it("calculate_payment_plan and purchase costs agree on fees", () => {
+    const a = calcPlan({ price: 2_000_000, dpPct: 100, rate: 4.5, years: 25, yieldPct: 6.5, plan: "cash" });
+    const b = purchaseCosts({ price: 2_000_000, status: "ready", financing: "cash" });
+    expect(a.fees).toBe(b.fees);
+    const m = calcPlan({ price: 2_000_000, dpPct: 20, rate: 4.5, years: 25, yieldPct: 6.5, plan: "mortgage" });
+    expect(m.fees).toBe(purchaseCosts({ price: 2_000_000, status: "ready", financing: "mortgage", loan: 1_600_000 }).fees);
+  });
+});
+
+describe("schedule dates and monthly plans", async () => {
+  const { addMonths, monthlySchedule, parseMonthlyPlan } = await import("@/lib/market/calc");
+  it("clamps to the last day of shorter months", () => {
+    expect(addMonths(new Date(2026, 0, 31), 1)).toBe("2026-02-28");
+    expect(addMonths(new Date(2028, 0, 31), 1)).toBe("2028-02-29");
+    expect(addMonths(new Date(2026, 11, 1), 0)).toBe("2026-12-01");
+  });
+  it("builds a 1% monthly plan that runs past handover and adds up to the price", () => {
+    const s = monthlySchedule({ price: 1_000_000, bookingPct: 20, monthlyPct: 1, monthsToHandover: 36, start: new Date(2026, 11, 1) });
+    expect(s.months).toBe(80);
+    expect(s.rows.reduce((a, r) => a + r.amount, 0)).toBeCloseTo(1_000_000, 0);
+    expect(s.rows.map((r) => r.label)).toEqual(["Booking", "Monthly 1%: 36 payments before handover", "Monthly 1%: 44 payments after handover"]);
+    expect(s.monthlyAmount).toBe(10_000);
+  });
+  it("reads monthly plan shorthand", () => {
+    expect(parseMonthlyPlan("1% monthly")).toEqual({ bookingPct: 10, monthlyPct: 1, handoverPct: 0 });
+    expect(parseMonthlyPlan("20% + 1% monthly")).toEqual({ bookingPct: 20, monthlyPct: 1, handoverPct: 0 });
+    expect(parseMonthlyPlan("20 / 1% monthly / 10% on handover")).toEqual({ bookingPct: 20, monthlyPct: 1, handoverPct: 10 });
+    expect(parseMonthlyPlan("60/40")).toBeNull();
+  });
+});

@@ -4,7 +4,7 @@ import { Copy, Check, PaperPlaneTilt } from "@phosphor-icons/react";
 import { useT } from "@/components/app/i18n";
 import { cx } from "@/components/app/ui";
 import { field, labelCls } from "./forms";
-import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, rentalYield, commissionSplit, goldenVisaCheck } from "@/lib/market/calc";
+import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, monthlySchedule, parseMonthlyPlan, rentalYield, commissionSplit, goldenVisaCheck } from "@/lib/market/calc";
 import { AREAS, RATES, AS_OF, type Emirate } from "@/lib/market/uae";
 import { fmtAED } from "@/lib/engine";
 import * as G from "@/app/[locale]/workspace/growth-actions";
@@ -51,7 +51,9 @@ function useLabel() {
       .replace(/^Agency commission \((.+) \+ VAT\)$/, "عمولة الوساطة ($1 + الضريبة)")
       .replace(/^Mortgage registration \((.+)\)$/, "تسجيل الرهن ($1)")
       .replace(/^Construction (\d+) of (\d+)$/, "دفعة البناء $1 من $2")
-      .replace(/^Post-handover: (\d+) monthly payments$/, "بعد التسليم: $1 دفعة شهرية");
+      .replace(/^Post-handover: (\d+) monthly payments$/, "بعد التسليم: $1 دفعة شهرية")
+      .replace(/^Monthly (.+)%: (\d+) payments before handover$/, "$1% شهرياً: $2 دفعة قبل التسليم")
+      .replace(/^Monthly (.+)%: (\d+) payments after handover$/, "$1% شهرياً: $2 دفعة بعد التسليم");
   };
 }
 
@@ -103,9 +105,14 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
       }
       if (tab === "mortgage") return { kind: "mortgage" as const, m: mortgageEligibility({ price: P, residency, offplan: status === "offplan", monthlyIncome: money(income), monthlyDebts: money(debts), age: Number(age), ratePct: Number(rate) }) };
       if (tab === "schedule") {
+        const mp = parseMonthlyPlan(plan);
+        if (mp) {
+          const m = monthlySchedule({ price: P, ...mp, monthsToHandover: Number(months) || 24 });
+          return { kind: "schedule" as const, s: { rows: m.rows, beforeHandover: m.beforeHandover, monthlyPostHandover: 0, monthly: m.monthlyAmount, endsOn: m.endsOn } };
+        }
         const p = parsePlan(plan);
-        if (!p) return { error: "Write the plan like 60/40, 10/50/40 or 20/40/40 post." };
-        return { kind: "schedule" as const, s: offplanSchedule({ price: P, ...p, monthsToHandover: Number(months) || 24, postHandoverMonths: Number(postMonths) || 24 }) };
+        if (!p) return { error: "Write the plan like 60/40, 10/50/40, 20/40/40 post or 20% + 1% monthly." };
+        return { kind: "schedule" as const, s: { ...offplanSchedule({ price: P, ...p, monthsToHandover: Number(months) || 24, postHandoverMonths: Number(postMonths) || 24 }), monthly: 0, endsOn: "" } };
       }
       if (tab === "yield") return { kind: "yield" as const, y: rentalYield({ price: P, annualRent: money(rent), sizeSqft: money(size), serviceChargePsf: sc, managementPct: Number(mgmt) || 0 }) };
       if (tab === "commission") return { kind: "commission" as const, x: commissionSplit({ price: P, ratePct: Number(commPct) || 2, coBroke, ourSharePct: 50, agentSharePct: Number(agentShare) || 0 }) };
@@ -132,10 +139,10 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
   const [sendState, setSendState] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const send = () => start(async () => {
-    const f = new FormData(); f.set("body", summary); f.set("channel", "whatsapp");
-    let r = await G.sendAgentMessage(locale, leadId, null, f);
-    if (!r.ok && /24 hours/.test(r.error)) { f.set("channel", "email"); f.set("subject", t("Your property estimate")); r = await G.sendAgentMessage(locale, leadId, null, f); }
-    setSendState(r.ok ? t("Sent.") : t(r.error));
+    const f = new FormData();
+    f.set("body", summary); f.set("channel", "auto"); f.set("subject", t("Your property estimate")); f.set("keep_ai", "1");
+    const r = await G.sendAgentMessage(locale, leadId, null, f);
+    setSendState(r.ok ? t(r.message ?? "Sent.") : t(r.error));
   });
 
   return (
@@ -145,7 +152,7 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
           {TABS.map(([v, l]) => <button key={v} role="tab" aria-selected={tab === v} onClick={() => setTab(v)} className={cx("h-9 rounded-full px-3.5 text-[14px]", tab === v ? "bg-ink text-canvas" : "bg-parchment text-ink-2")}>{t(l)}</button>)}
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
-          <Num label="Price" value={price} onChange={setPrice} suffix="AED" hint="e.g. 2.4M" />
+          <Num label={tab === "visa" ? "Official valuation (DLD)" : "Price"} value={price} onChange={setPrice} suffix="AED" hint={tab === "visa" ? "not the asking price" : "e.g. 2.4M"} />
           {tab !== "commission" && <Pick label="Emirate" value={emirate} onChange={setEmirate} options={[["dubai", "Dubai"], ["abu_dhabi", "Abu Dhabi"], ["sharjah", "Sharjah"], ["rak", "Ras Al Khaimah"]]} />}
           {(tab === "costs" || tab === "mortgage" || tab === "visa") && <Pick label="Property" value={status} onChange={setStatus} options={[["ready", "Ready (resale)"], ["offplan", "Off-plan"]]} />}
           {(tab === "costs" || tab === "visa") && <Pick label="Paying by" value={financing} onChange={setFinancing} options={[["mortgage", "Mortgage"], ["cash", "Cash"]]} />}
@@ -157,7 +164,7 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
             <Num label="Interest rate" value={rate} onChange={setRate} suffix="%" hint={`${RATES.fixedRangePct[0]}–${RATES.fixedRangePct[1]}% now`} />
           </>}
           {tab === "schedule" && <>
-            <Num label="Plan" value={plan} onChange={setPlan} hint="60/40, 10/50/40, 20/40/40 post" />
+            <Num label="Plan" value={plan} onChange={setPlan} hint="60/40, 10/50/40, 20/40/40 post, 20% + 1% monthly" />
             <Num label="Months to handover" value={months} onChange={setMonths} />
             <Num label="Post-handover months" value={postMonths} onChange={setPostMonths} />
           </>}
@@ -193,11 +200,13 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
               <Row label="Monthly payment" value={aed(result.m.payment)} strong />
               <Row label="Down payment" value={aed(result.m.downPayment)} />
               <Row label="Debt burden after" value={`${result.m.dbrPct}%`} />
+              {result.m.unconfirmed && <p className="t-caption mt-3 rounded-[10px] bg-warm-soft px-3 py-2 text-warm">{t("The loan limits for UAE nationals and second homes are common practice but not confirmed by our sources. Check with the bank.")}</p>}
             </>}
             {result.kind === "schedule" && <>
               {result.s.rows.map((r) => <Row key={r.label + r.month} label={r.label} value={`${aed(r.amount)} · ${r.pct}%`} note={r.date} />)}
               <Row label="Paid before handover" value={aed(result.s.beforeHandover)} strong />
               {result.s.monthlyPostHandover > 0 && <Row label="Monthly after handover" value={aed(result.s.monthlyPostHandover)} strong />}
+              {result.s.monthly > 0 && <Row label="Each monthly payment" value={aed(result.s.monthly)} strong note={`${t("Last payment")} ${result.s.endsOn}`} />}
             </>}
             {result.kind === "yield" && <>
               <Row label="Gross yield" value={`${result.y.grossPct}%`} strong />

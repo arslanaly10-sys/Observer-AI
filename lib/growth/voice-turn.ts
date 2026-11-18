@@ -46,6 +46,9 @@ const SORRY: Record<string, string> = {
   ar: "عذراً، أواجه مشكلة الآن. سيتصل بك أحد زملائي قريباً. مع السلامة.",
 };
 
+/** Can this call speak the language? ElevenLabs speaks all ten; Twilio's voice only those switched on. */
+const canSpeak = (lang: string) => lang === "en" || providers.tts() || sayLang(lang) !== "en-US";
+
 const link = (path: string, leadId: string, secret: string, extra = "") => `${APP_URL()}/api/webhooks/twilio/voice${path}?lead=${leadId}&t=${signToken(leadId, secret, 3600)}${extra}`;
 
 /** Speak a stored AI message and listen for the next utterance. */
@@ -64,7 +67,7 @@ export async function greeting(db: SupabaseClient, lead: LeadRecord) {
   if (!secret) return hangup();
   const s = await loadSettings(db, lead.workspace_id);
   const { data: ws } = await db.from("workspaces").select("name").eq("id", lead.workspace_id).single();
-  const g = GREETING[lead.language ?? "en"] ?? GREETING.en;
+  const g = (canSpeak(lead.language ?? "en") ? GREETING[lead.language ?? "en"] : GREETING.en) ?? GREETING.en;
   return speakMessage(lead, await store(db, lead, g(s.assistant_name, (ws?.name as string) ?? "our team")), secret);
 }
 
@@ -78,14 +81,16 @@ export async function heard(db: SupabaseClient, lead: LeadRecord, text: string) 
     try {
       const settings = await loadSettings(db, lead.workspace_id);
       const { data: ws } = await db.from("workspaces").select("name").eq("id", lead.workspace_id).single();
-      const t = await runTurn({ ctx: { db, settings, lead, channel: "voice", actions: [] }, company: (ws?.name as string) ?? "our team", agentName: null, inbound: text, firstContact: false, mode: "messages", budgetMs: 25_000 });
+      const lang = lead.language ?? "en";
+      const instruction = canSpeak(lang) ? undefined : "This phone line can only speak English. Answer in English, and offer to have a colleague who speaks the caller's language call them back.";
+      const t = await runTurn({ ctx: { db, settings, lead, channel: "voice", actions: [] }, company: (ws?.name as string) ?? "our team", agentName: null, inbound: text, firstContact: false, mode: "messages", budgetMs: 25_000, instruction });
       const bye = /\b(bye|goodbye)\b|مع السلامة|अलविदा|خدا حافظ|adiós|tchau|до свидания|au revoir|再见/i.test(text) || t.actions.some((a) => a.startsWith("handover"));
       await store(db, lead, t.text, bye);
     } catch {
       await store(db, lead, SORRY[lead.language ?? "en"] ?? SORRY.en, true);
     }
   });
-  const lang = lead.language ?? "en";
+  const lang = canSpeak(lead.language ?? "en") ? lead.language ?? "en" : "en";
   return xml(`<?xml version="1.0" encoding="UTF-8"?><Response><Say language="${sayLang(lang)}">${esc(ONE_MOMENT[lang] ?? ONE_MOMENT.en)}</Say><Redirect method="POST">${esc(link("/turn/wait", lead.id, secret, `&after=${inbound?.id ?? 0}&n=0`))}</Redirect></Response>`);
 }
 

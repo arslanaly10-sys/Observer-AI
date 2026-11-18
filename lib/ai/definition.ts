@@ -61,7 +61,7 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: "calculate_payment_plan",
-    description: "Estimate costs in AED for a price: monthly mortgage payment, developer instalments, Dubai Land Department fee (4%), agency and trustee fees, rental income and yearly return. Returns an itemised breakdown.",
+    description: "Monthly cost of a plan for a price: mortgage payment, illustrative developer or post-handover instalments, the same itemised fees as calculate_purchase_costs, and expected rent.",
     input_schema: { type: "object", properties: {
       price_aed: { type: "number" },
       plan: { type: "string", enum: ["mortgage", "developer", "cash", "posthandover"] },
@@ -98,10 +98,10 @@ export const TOOLS: ToolDef[] = [
   },
   {
     name: "build_payment_schedule",
-    description: "An off-plan payment schedule with dates and amounts, from a plan like 10/50/40 or 60/40, including post-handover instalments.",
+    description: "An off-plan payment schedule with dates and amounts, from a plan like 10/50/40 or 60/40, post-handover instalments, or 1%-a-month plans.",
     input_schema: { type: "object", properties: {
       price_aed: { type: "number" },
-      plan: { type: "string", description: "e.g. '60/40', '10/50/40', '20/40/40 post-handover'" },
+      plan: { type: "string", description: "e.g. '60/40', '10/50/40', '20/40/40 post-handover', '20% + 1% monthly'" },
       months_to_handover: { type: "number" },
       post_handover_months: { type: "number" },
     }, required: ["price_aed", "plan", "months_to_handover"] },
@@ -110,7 +110,7 @@ export const TOOLS: ToolDef[] = [
     name: "check_golden_visa",
     description: "Whether a property purchase is likely to qualify for the UAE 10-year Golden Visa (AED 2 million rule), with conditions to confirm.",
     input_schema: { type: "object", properties: {
-      value_aed: { type: "number" }, mortgaged: { type: "boolean" }, offplan: { type: "boolean" },
+      value_aed: { type: "number", description: "The official (DLD) valuation if known; otherwise the price, and say the valuation decides" }, mortgaged: { type: "boolean" }, offplan: { type: "boolean" },
       emirate: { type: "string", enum: ["dubai", "abu_dhabi", "sharjah", "rak"] },
     }, required: ["value_aed"] },
   },

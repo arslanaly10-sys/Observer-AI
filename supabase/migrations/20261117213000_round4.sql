@@ -55,3 +55,8 @@ as $$
 $$;
 revoke all on function public.workspace_health(uuid) from public, anon;
 grant execute on function public.workspace_health(uuid) to authenticated;
+
+-- ── Plan limits ─────────────────────────────────────────────────────────
+-- Leads per calendar month included in the workspace's plan (null = unlimited). Set by billing with the
+-- service key only; not in the authenticated update grant, so owners can't raise their own limit.
+alter table public.workspace_settings add column monthly_lead_limit integer check (monthly_lead_limit is null or monthly_lead_limit >= 0);

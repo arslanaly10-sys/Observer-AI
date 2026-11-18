@@ -134,6 +134,15 @@ export const growthAr: Record<string, string> = {
   "Most sources say about 4% plus an admin charge; confirm with RAK Lands and Properties.": "تذكر معظم المصادر حوالي 4% مع رسوم إدارية، تحقق منها لدى دائرة الأراضي في رأس الخيمة.",
   "Construction 1 of 1": "دفعة البناء", 
 
+  "Official valuation (DLD)": "التقييم الرسمي (دائرة الأراضي)", "not the asking price": "وليس السعر المطلوب", "Each monthly payment": "كل دفعة شهرية", "Last payment": "آخر دفعة",
+  "Most banks lend on off-plan homes only at handover, so these fees usually fall due then.": "معظم البنوك لا تموّل العقار على الخارطة إلا عند التسليم، فتستحق هذه الرسوم عادة حينها.",
+  "The loan limits for UAE nationals and second homes are common practice but not confirmed by our sources. Check with the bank.": "حدود التمويل للمواطنين والمنزل الثاني متعارف عليها لكن مصادرنا لم تؤكدها. تحقق مع البنك.",
+  "not confirmed": "غير مؤكد", "Developers & areas": "المطوّرون والمناطق",
+  "The market data the AI uses with clients. Indicative ranges from public sources, checked": "بيانات السوق التي يستخدمها الذكاء الاصطناعي مع العملاء. نطاقات تقريبية من مصادر عامة، بتاريخ",
+  "Quote them as ranges, not prices.": "اذكرها كنطاقات لا كأسعار.", "Not known": "غير معروف", "Sent by email.": "أُرسلت بالبريد.", "Sent on WhatsApp.": "أُرسلت على واتساب.",
+  "This lead can only be reached with the WhatsApp template right now. Ask them to reply on WhatsApp first, or add an email.": "لا يمكن الوصول إلى هذا العميل الآن إلا بقالب واتساب. اطلب منه الرد على واتساب أولاً أو أضف بريداً.",
+  "Write the plan like 60/40, 10/50/40, 20/40/40 post or 20% + 1% monthly.": "اكتب الخطة بصيغة 60/40 أو 10/50/40 أو 20/40/40 بعد التسليم أو 20% + 1% شهرياً.",
+
   // Health, score
   Health: "الحالة", "Is the engine actually running?": "هل يعمل المحرك فعلاً؟", "Background worker ran": "عمل المعالج في الخلفية قبل", "min ago": "دقيقة",
   "Background worker last ran": "آخر تشغيل للمعالج في الخلفية قبل", "min ago. Check the database job and the worker address.": "دقيقة. تحقق من مهمة قاعدة البيانات وعنوان المعالج.",

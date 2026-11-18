@@ -94,3 +94,14 @@ Every item from the third critical review is addressed:
 - Follow-ups re-arm after a reply goes quiet (max six); test leads are unique; routing counts in one query; the inbox "waiting" filter runs in the database; unassigned bookings can't double-book.
 - New: UAE market data with sources, broker calculator (costs, mortgage, schedule, yield, commission, Golden Visa) in workspaces and the demo, five new AI tools, Market page.
 - Tests: 81 unit, 85 database checks, end-to-end now covers repeat enquiries, WhatsApp-originated leads, market tools and score locks.
+
+## Review 5 (18 Nov 2026): fixes
+
+- One fee calculation for every tool and screen (the old payment-plan tool now uses the itemised purchase costs).
+- Market data re-sourced: every range spans only figures in its listed sources; unconfirmed mortgage rules are labelled "not confirmed" everywhere; unsourced developer details removed.
+- Timed-out AI turns are aborted, so nothing runs twice after the fallback.
+- Calculator sends pick a channel that will arrive and keep the AI on; schedule dates clamp to month ends; 1%-monthly plans supported; off-plan mortgage and Golden Visa valuation notes.
+- Demo shows the same sourced market data as workspaces; area counts corrected.
+- Twilio's own voice is English unless languages are switched on after a test call; the AI speaks English when the line can't speak the caller's language.
+- Monthly plan lead limits enforced.
+- New route tests: intake keys, honeypot, rate limits, Meta signatures and WhatsApp intake, worker auth, Twilio signatures, plan limit.

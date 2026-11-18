@@ -31,7 +31,8 @@ export function purchaseCosts(o: { price: number; emirate?: Emirate; status: "re
   }
   if (o.financing === "mortgage") {
     const loan = o.loan ?? 0;
-    if (f.mortgageRegPct !== null) lines.push({ label: `Mortgage registration (${f.mortgageRegPct}% + AED ${f.mortgageRegFixed})`, amount: loan * f.mortgageRegPct / 100 + f.mortgageRegFixed });
+    const offplanNote = o.status === "offplan" ? "Most banks lend on off-plan homes only at handover, so these fees usually fall due then." : undefined;
+    if (f.mortgageRegPct !== null) lines.push({ label: `Mortgage registration (${f.mortgageRegPct}% + AED ${f.mortgageRegFixed})`, amount: loan * f.mortgageRegPct / 100 + f.mortgageRegFixed, note: offplanNote });
     const arr = loan * COMMON.bankArrangementPct / 100;
     lines.push({ label: "Bank arrangement fee (up to 1% + VAT)", amount: arr + vat(arr), note: "Many banks waive or cap it." });
     lines.push({ label: "Property valuation", amount: COMMON.valuationFee });
@@ -49,7 +50,7 @@ export function monthlyPayment(loan: number, ratePct: number, years: number) {
 }
 
 /** What a buyer can borrow under UAE Central Bank rules, and whether their income supports it. */
-export function mortgageEligibility(o: { price: number; residency: "expat" | "national"; firstHome?: boolean; offplan?: boolean; monthlyIncome: number; monthlyDebts?: number; age: number; ratePct: number; years?: number; selfEmployed?: boolean }) {
+export function mortgageEligibility(o: { price: number; residency: "expat" | "national"; firstHome?: boolean; offplan?: boolean; monthlyIncome: number; monthlyDebts?: number; age: number; ratePct: number; years?: number }) {
   const L = MORTGAGE.ltv;
   const first = o.firstHome ?? true;
   const ltv = o.offplan ? L.offPlan
@@ -68,6 +69,8 @@ export function mortgageEligibility(o: { price: number; residency: "expat" | "na
     ltvPct: ltv, years, maxLoanByLtv: r2(maxLoanByLtv), maxLoanByIncome: r2(maxLoanByIncome), loan: r2(loan), payment: r2(payment),
     downPayment: r2(o.price - loan), dbrPct: o.monthlyIncome ? r2(((o.monthlyDebts ?? 0) + payment) / o.monthlyIncome * 100) : 0,
     limitedBy: limitedBy as "ltv" | "income" | "age",
+    // UAE-national and second-home caps (and the national age limit) are common practice but unconfirmed by our sources.
+    unconfirmed: !o.offplan && (o.residency === "national" || !first),
   };
 }
 
@@ -80,7 +83,7 @@ export function offplanSchedule(o: { price: number; bookingPct: number; construc
   const total = o.bookingPct + o.constructionPct + o.handoverPct + post;
   if (Math.round(total) !== 100) throw new Error(`The plan adds up to ${total}%, not 100%.`);
   const start = o.start ?? new Date();
-  const at = (m: number) => { const d = new Date(start); d.setMonth(d.getMonth() + m); return d.toISOString().slice(0, 10); };
+  const at = (m: number) => addMonths(start, m);
   const rows: { month: number; date: string; label: string; pct: number; amount: number }[] = [];
   rows.push({ month: 0, date: at(0), label: "Booking", pct: o.bookingPct, amount: o.price * o.bookingPct / 100 });
   const n = Math.max(1, o.constructionInstalments ?? Math.max(1, Math.round(o.monthsToHandover / 6)));
@@ -98,6 +101,46 @@ export function offplanSchedule(o: { price: number; bookingPct: number; construc
     monthlyPostHandover: post ? r2(o.price * post / 100 / Math.max(1, o.postHandoverMonths ?? 24)) : 0,
     beforeHandover: r2(o.price * (o.bookingPct + o.constructionPct) / 100),
   };
+}
+
+/** Calendar date `m` months after `start`, clamped to the month's last day (31 Jan + 1 = 28/29 Feb), as YYYY-MM-DD. */
+export function addMonths(start: Date, m: number) {
+  const y = start.getFullYear(), mo = start.getMonth() + m, d = start.getDate();
+  const last = new Date(y, mo + 1, 0).getDate();
+  const out = new Date(y, mo, Math.min(d, last));
+  return `${out.getFullYear()}-${String(out.getMonth() + 1).padStart(2, "0")}-${String(out.getDate()).padStart(2, "0")}`;
+}
+
+/**
+ * "1% monthly" plans (Danube, Samana and others): a booking payment, then a fixed share every month until
+ * the price is paid, often running past handover.
+ */
+export function monthlySchedule(o: { price: number; bookingPct: number; monthlyPct: number; monthsToHandover: number; handoverPct?: number; start?: Date }) {
+  const handover = o.handoverPct ?? 0;
+  const rest = 100 - o.bookingPct - handover;
+  if (rest <= 0 || o.monthlyPct <= 0) throw new Error("The booking and handover payments already cover the whole price.");
+  const months = Math.ceil(rest / o.monthlyPct - 1e-9);
+  const start = o.start ?? new Date();
+  const before = Math.min(months, o.monthsToHandover), after = months - before;
+  const per = o.price * o.monthlyPct / 100;
+  const lastPct = rest - o.monthlyPct * (months - 1);
+  const rows = [{ month: 0, date: addMonths(start, 0), label: "Booking", pct: o.bookingPct, amount: r2(o.price * o.bookingPct / 100) }];
+  if (before) rows.push({ month: 1, date: addMonths(start, 1), label: `Monthly ${o.monthlyPct}%: ${before} payments before handover`, pct: r2(o.monthlyPct * before - (after ? 0 : o.monthlyPct - lastPct)), amount: r2(per * before - (after ? 0 : (o.monthlyPct - lastPct) * o.price / 100)) });
+  if (handover) rows.push({ month: o.monthsToHandover, date: addMonths(start, o.monthsToHandover), label: "Handover", pct: handover, amount: r2(o.price * handover / 100) });
+  if (after) rows.push({ month: o.monthsToHandover + 1, date: addMonths(start, o.monthsToHandover + 1), label: `Monthly ${o.monthlyPct}%: ${after} payments after handover`, pct: r2(o.monthlyPct * (after - 1) + lastPct), amount: r2(per * (after - 1) + lastPct * o.price / 100) });
+  return { rows, months, monthlyAmount: r2(per), endsOn: addMonths(start, months), beforeHandover: r2(o.price * (o.bookingPct + o.monthlyPct * before) / 100) };
+}
+
+/** Parse "1% monthly", "20% + 1% monthly", "10 / 1% monthly / 10 handover" into a monthly plan. */
+export function parseMonthlyPlan(s: string) {
+  const m = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:a|per|\/)?\s*(?:monthly|month|mo\b|شهري)/i);
+  if (!m) return null;
+  const nums = (s.match(/\d+(?:\.\d+)?/g) ?? []).map(Number);
+  const monthlyPct = Number(m[1]);
+  const idx = nums.indexOf(monthlyPct);
+  const bookingPct = idx > 0 ? nums[0] : 10;
+  const handoverMatch = s.match(/(\d+(?:\.\d+)?)\s*%?\s*(?:on\s*)?handover/i);
+  return { bookingPct, monthlyPct, handoverPct: handoverMatch ? Number(handoverMatch[1]) : 0 };
 }
 
 /** Parse "60/40", "10/50/40", "20/40/40 post" style plans into percentages. */

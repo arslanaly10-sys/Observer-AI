@@ -143,7 +143,7 @@ const en = {
       ], shot: "dashboard" },
       { id: "market", h: "GCC market", t: "Tools that only make sense in the Gulf, and that buyers here expect.", items: [
         { h: "Broker calculator", t: "Buying costs by emirate, mortgage eligibility under Central Bank rules, off-plan schedules with dates, yields, commission splits and the Golden Visa. Send any result to a client." },
-        { h: "UAE market data", t: "Emaar, DAMAC, Sobha, Aldar and more, with their usual payment plans, plus price per square foot and yields for twenty areas. The AI quotes them as indicative ranges." },
+        { h: "UAE market data", t: "Emaar, DAMAC, Sobha, Aldar and more, with their usual payment plans, plus price per square foot and yields for 18 areas. The AI quotes them as indicative ranges." },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "Enterprise", t: "Built for brokerages and developers who answer to a board and a regulator.", items: [
         { h: "Escalation", t: "Hot scores, offers, upset buyers and legal or visa questions go straight to a person, with a WhatsApp alert." },
@@ -347,7 +347,7 @@ const ar: SiteDict = {
       ], shot: "dashboard" },
       { id: "market", h: "سوق الخليج", t: "أدوات لا معنى لها إلا في الخليج، ويتوقعها المشترون هنا.", items: [
         { h: "حاسبة الوسيط", t: "تكاليف الشراء حسب الإمارة، وأهلية التمويل وفق قواعد المصرف المركزي، وجداول السداد على الخارطة بالتواريخ، والعائد، وتقسيم العمولة، والإقامة الذهبية. وأرسل أي نتيجة للعميل." },
-        { h: "بيانات سوق الإمارات", t: "إعمار وداماك وشوبا والدار وغيرهم مع خطط السداد المعتادة، وسعر القدم المربع والعائد لعشرين منطقة. ويذكرها الذكاء الاصطناعي كنطاقات تقريبية." },
+        { h: "بيانات سوق الإمارات", t: "إعمار وداماك وشوبا والدار وغيرهم مع خطط السداد المعتادة، وسعر القدم المربع والعائد لـ18 منطقة. ويذكرها الذكاء الاصطناعي كنطاقات تقريبية." },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "المؤسسات", t: "لشركات الوساطة والمطوّرين المسؤولين أمام مجلس إدارة وجهة تنظيمية.", items: [
         { h: "تتبع مستوى الخدمة", t: "مؤقتات حية لكل عميل ينتظر، مع تصعيد قبل حدوث أي تجاوز." },

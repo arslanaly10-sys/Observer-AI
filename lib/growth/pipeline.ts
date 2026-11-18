@@ -87,7 +87,9 @@ export async function ingestLead(db: DB, workspaceId: string, n: NormalizedLead)
     await notify(db, { workspace_id: workspaceId, user_id, lead_id: lead.id, kind: hot ? "hot_lead" : "new_lead", urgent: hot,
       body: `${hot ? "Hot lead" : "New lead"}: ${n.name} from ${n.source}, score ${a.score}. ${a.reason}` }, settings);
   }
-  if (settings.ai_enabled && reachable(lead as LeadRecord).length) {
+  const overLimit = await overPlanLimit(db, workspaceId, settings);
+  if (overLimit) await pauseForLimit(db, workspaceId, lead.id);
+  else if (settings.ai_enabled && reachable(lead as LeadRecord).length) {
     await enqueue(db, workspaceId, lead.id, "first_contact", new Date(Date.now() + settings.first_contact_delay_s * 1000));
   }
   return { id: lead.id as string, duplicate: false, score: a.score, temp: a.temp, assigned_to: assigned?.user_id ?? null };
@@ -118,7 +120,28 @@ export async function createInboundLead(db: DB, workspaceId: string, i: { name: 
     await notify(db, { workspace_id: workspaceId, user_id, lead_id: lead.id, kind: hot ? "hot_lead" : "new_lead", urgent: hot,
       body: `${hot ? "Hot lead" : "New lead"} on ${i.channel === "phone" ? "the phone" : "WhatsApp"}: ${lead.name}, score ${a.score}. ${a.reason}` }, settings);
   }
+  if (await overPlanLimit(db, workspaceId, settings)) { await pauseForLimit(db, workspaceId, lead.id); lead.ai_mode = "paused"; }
   return lead as LeadRecord;
+}
+
+/** Has the workspace used this month's plan allowance? (The lead just added counts.) */
+async function overPlanLimit(db: DB, workspaceId: string, s: Settings) {
+  const limit = (s as Settings & { monthly_lead_limit?: number | null }).monthly_lead_limit;
+  if (limit === null || limit === undefined) return false;
+  const start = new Date(); start.setUTCDate(1); start.setUTCHours(0, 0, 0, 0);
+  const { count } = await db.from("leads").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).gte("created_at", start.toISOString());
+  return (count ?? 0) > limit;
+}
+
+/** Over the limit the lead is kept but the AI doesn't contact it; managers hear about it once a day. */
+async function pauseForLimit(db: DB, workspaceId: string, leadId: string) {
+  await db.from("leads").update({ ai_mode: "paused", handover_reason: "plan limit reached: the AI is paused for new leads this month" }).eq("id", leadId);
+  const today = new Date(); today.setUTCHours(0, 0, 0, 0);
+  const { count } = await db.from("notifications").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).eq("kind", "system").gte("created_at", today.toISOString());
+  if (count) return;
+  for (const user_id of await managers(db, workspaceId)) {
+    await notify(db, { workspace_id: workspaceId, user_id, lead_id: leadId, kind: "system", body: "This month's lead allowance is used up. New leads are still saved, but the AI won't contact them until the plan is upgraded or the month ends." });
+  }
 }
 
 async function managers(db: DB, workspaceId: string) {

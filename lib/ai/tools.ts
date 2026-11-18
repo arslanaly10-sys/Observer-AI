@@ -5,7 +5,7 @@ import "server-only";
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { calcPlan, fmtAED, type Plan } from "@/lib/engine";
-import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, goldenVisaCheck } from "@/lib/market/calc";
+import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, monthlySchedule, parseMonthlyPlan, goldenVisaCheck } from "@/lib/market/calc";
 import { AS_OF, AREAS, COMMON, EMIRATES, FEES, GOLDEN_VISA, MORTGAGE, RATES, findArea, findDeveloper, sourceList, type Emirate } from "@/lib/market/uae";
 import { freeSlots, formatLocal, type WeekHours } from "@/lib/growth/hours";
 import { deliver, type LeadRecord, type Settings, type OutChannel } from "@/lib/growth/send";
@@ -64,9 +64,10 @@ const TOOL_IMPL: Record<string, (i: In, c: ToolCtx) => Promise<unknown>> = {
     const r = calcPlan({ price, plan, dpPct: num(i.down_payment_pct) ?? 20, years: num(i.years) ?? 25, rate: num(i.rate_pct) ?? 4.5, yieldPct: num(i.rental_yield_pct) ?? 6.5 });
     const f = (n: number) => fmtAED(n);
     return {
-      estimate_only: true, plan, price: f(price), down_payment: f(r.dp), monthly: r.monthly ? f(r.monthly) : null,
-      dld_fee_4pct: f(r.dld), agency_fee_2pct: f(r.agency), trustee_fee: f(r.trustee), mortgage_registration: r.mortgageReg ? f(r.mortgageReg) : null,
-      total_fees: f(r.fees), expected_annual_rent: f(r.annualRent), gross_yield_pct: num(i.rental_yield_pct) ?? 6.5,
+      estimate_only: true, as_of: AS_OF, plan, price: f(price), down_payment: f(r.dp), monthly: r.monthly ? f(r.monthly) : null,
+      // Same itemised fees as calculate_purchase_costs.
+      fees: r.lines.map((l) => ({ label: l.label, amount: f(l.amount) })), total_fees: f(r.fees),
+      expected_annual_rent: f(r.annualRent), gross_yield_pct: num(i.rental_yield_pct) ?? 6.5,
     };
   },
 
@@ -83,14 +84,21 @@ const TOOL_IMPL: Record<string, (i: In, c: ToolCtx) => Promise<unknown>> = {
     const rate = num(i.rate_pct) ?? (RATES.fixedRangePct[0] + RATES.fixedRangePct[1]) / 2;
     const m = mortgageEligibility({ price, residency: i.residency === "national" ? "national" : "expat", firstHome: i.first_home !== false, offplan: i.offplan === true, monthlyIncome: income, monthlyDebts: num(i.monthly_debts_aed), age, ratePct: rate });
     return { estimate_only: true, as_of: AS_OF, rate_used_pct: Math.round(rate * 100) / 100, ...m, loan: fmtAED(m.loan), payment: fmtAED(m.payment), downPayment: fmtAED(m.downPayment),
-      note: "Banks decide; fees and the down payment come from the buyer's own money. A mortgage adviser should confirm." };
+      note: m.unconfirmed ? "The limits for UAE nationals and second homes are common practice but not confirmed; a mortgage adviser must confirm. Fees and the down payment come from the buyer's own money." : "Banks decide; fees and the down payment come from the buyer's own money. A mortgage adviser should confirm." };
   },
 
   async build_payment_schedule(i) {
     const price = num(i.price_aed), months = num(i.months_to_handover);
-    const plan = parsePlan(String(i.plan ?? ""));
-    if (!price || !months || !plan) return { error: "Give a price, a plan like 60/40 or 10/50/40, and months to handover." };
-    const s = offplanSchedule({ price, monthsToHandover: months, postHandoverMonths: num(i.post_handover_months), ...plan });
+    const text = String(i.plan ?? "");
+    const monthly = parseMonthlyPlan(text);
+    const plan = monthly ? null : parsePlan(text);
+    if (!price || !months || (!monthly && !plan)) return { error: "Give a price, a plan like 60/40, 10/50/40 or 20% + 1% monthly, and months to handover." };
+    if (monthly) {
+      const s = monthlySchedule({ price, monthsToHandover: months, ...monthly });
+      return { estimate_only: true, rows: s.rows.map((r) => ({ ...r, amount: fmtAED(r.amount) })), monthly_amount: fmtAED(s.monthlyAmount), payments: s.months, last_payment: s.endsOn,
+        beforeHandover: fmtAED(s.beforeHandover), note: "Illustrative. The developer's SPA sets the real milestones and dates." };
+    }
+    const s = offplanSchedule({ price, monthsToHandover: months, postHandoverMonths: num(i.post_handover_months), ...plan! });
     return { estimate_only: true, rows: s.rows.map((r) => ({ ...r, amount: fmtAED(r.amount) })), beforeHandover: fmtAED(s.beforeHandover), monthlyPostHandover: s.monthlyPostHandover ? fmtAED(s.monthlyPostHandover) : null,
       note: "Illustrative. The developer's SPA sets the real milestones and dates." };
   },

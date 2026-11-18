@@ -11,6 +11,7 @@ import { deliver, type LeadRecord, type OutChannel } from "@/lib/growth/send";
 import { ingestLead, loadSettings } from "@/lib/growth/pipeline";
 import { runDue } from "@/lib/growth/worker";
 import { WEEK, zonedToUtc } from "@/lib/growth/hours";
+import { replyChannel } from "@/lib/growth/policy";
 import type { ActionResult } from "./actions";
 
 const str = (f: FormData, k: string, max = 200) => String(f.get(k) ?? "").trim().slice(0, max);
@@ -95,12 +96,19 @@ export async function rotateKey(locale: string, workspaceId: string, which: "for
 export async function sendAgentMessage(locale: string, leadId: string, _: ActionResult | null, f: FormData): Promise<ActionResult> {
   const { supabase, id } = await requireUser();
   const body = str(f, "body", 4000);
-  const channel = (str(f, "channel", 10) === "email" ? "email" : "whatsapp") as OutChannel;
   if (!body) return { ok: false, error: "Write a message first." };
   // RLS: an agent can only see (and so only message) leads they are allowed to.
   const { data: lead } = await supabase.from("leads").select("*").eq("id", leadId).maybeSingle();
   if (!lead) return { ok: false, error: "You don’t have permission to do that in this workspace." };
   if (lead.opted_out) return { ok: false, error: "This person asked not to be contacted." };
+  // "auto" picks a channel that will arrive (WhatsApp inside its window, else email) instead of trying and failing.
+  const wanted = str(f, "channel", 10);
+  let channel: OutChannel;
+  if (wanted === "auto") {
+    const c = replyChannel(lead as LeadRecord, "auto");
+    if (c !== "whatsapp" && c !== "email") return { ok: false, error: "This lead can only be reached with the WhatsApp template right now. Ask them to reply on WhatsApp first, or add an email." };
+    channel = c;
+  } else channel = wanted === "email" ? "email" : "whatsapp";
   if (providers.supabaseAdmin()) {
     const db = adminClient();
     const settings = await loadSettings(db, lead.workspace_id);
@@ -110,11 +118,11 @@ export async function sendAgentMessage(locale: string, leadId: string, _: Action
     const { error } = await supabase.from("messages").insert({ workspace_id: lead.workspace_id, lead_id: leadId, channel, direction: "out", author: "agent", body });
     if (error) return { ok: false, error: friendly(error) };
   }
-  // A person replying takes over the conversation from the AI.
-  if (lead.ai_mode === "ai") await supabase.from("leads").update({ ai_mode: "human", handover_reason: "agent replied" }).eq("id", leadId);
+  // A person replying takes over from the AI, unless they're only sending a calculation.
+  if (lead.ai_mode === "ai" && f.get("keep_ai") !== "1") await supabase.from("leads").update({ ai_mode: "human", handover_reason: "agent replied" }).eq("id", leadId);
   revalidatePath(ws(locale, "/inbox"));
   revalidatePath(ws(locale, `/leads/${leadId}`));
-  return { ok: true };
+  return { ok: true, message: channel === "email" ? "Sent by email." : "Sent on WhatsApp." };
 }
 
 export async function setAiMode(locale: string, leadId: string, mode: "ai" | "human" | "paused"): Promise<ActionResult> {

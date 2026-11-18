@@ -3,6 +3,7 @@
  * Ported from v10's AIEngine: explainable, deterministic, no network calls.
  */
 import { weights, type Lead } from "./data";
+import { purchaseCosts, monthlyPayment } from "./market/calc";
 
 export const SOURCE_QUALITY: Record<string, number> = {
   WhatsApp: 0.95, Referral: 0.92, Bayut: 0.78, "Property Finder": 0.74,
@@ -167,29 +168,30 @@ export function rankActions(list: Lead[]) {
     .sort((a, b) => b.priority - a.priority);
 }
 
-/** Mortgage / payment plan maths (UAE fees), ported from v10 calcAll. */
+/**
+ * Monthly cost of a plan. Fees come from lib/market/calc purchaseCosts, the same itemised maths as the
+ * calculate_purchase_costs tool and the broker calculator, so every screen and the AI quote one number.
+ */
 export type Plan = "mortgage" | "developer" | "cash" | "posthandover";
-export function calcPlan(o: { price: number; dpPct: number; rate: number; years: number; yieldPct: number; plan: Plan }) {
+export function calcPlan(o: { price: number; dpPct: number; rate: number; years: number; yieldPct: number; plan: Plan; status?: "ready" | "offplan" }) {
   const { price, dpPct, rate, years, yieldPct, plan } = o;
   const dp = plan === "cash" ? price : price * dpPct / 100;
   const loan = price - dp;
-  const dld = price * 0.04, agency = price * 0.02, trustee = 4200;
-  const mortgageReg = plan === "mortgage" ? loan * 0.0025 + 290 : 0;
-  const fees = dld + agency + trustee + mortgageReg;
+  const status = o.status ?? (plan === "developer" || plan === "posthandover" ? "offplan" : "ready");
+  const costs = purchaseCosts({ price, status, financing: plan === "mortgage" ? "mortgage" : "cash", loan: plan === "mortgage" ? loan : 0 });
+  const line = (prefix: string) => costs.lines.find((l) => l.label.startsWith(prefix))?.amount ?? 0;
   let monthly = 0;
-  if (plan === "mortgage") {
-    const r = rate / 1200, n = years * 12;
-    monthly = r === 0 ? loan / n : (loan * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  } else if (plan === "developer") {
-    monthly = loan / 36; // 3-year construction-linked instalments
-  } else if (plan === "posthandover") {
-    monthly = (loan * 0.5) / 24 + (loan * 0.5) / 60; // blended: 50% pre, 50% over 5y post
-  }
-  const totalPaid = plan === "cash" ? price + fees : plan === "mortgage" ? dp + monthly * years * 12 + fees : price + fees;
+  if (plan === "mortgage") monthly = monthlyPayment(loan, rate, years);
+  else if (plan === "developer") monthly = loan / 36; // illustrative 3-year construction-linked instalments
+  else if (plan === "posthandover") monthly = (loan * 0.5) / 24 + (loan * 0.5) / 60; // illustrative: half before, half over 5 years after
+  const fees = costs.fees;
+  const totalPaid = plan === "mortgage" ? dp + monthly * years * 12 + fees : price + fees;
   const annualRent = price * yieldPct / 100;
-  const appreciation = price * 0.08;
-  const roi = ((annualRent + appreciation) / price) * 100;
-  return { dp, loan, fees, dld, agency, trustee, mortgageReg, monthly, totalPaid, interest: Math.max(0, totalPaid - price - fees), annualRent, monthlyRent: annualRent / 12, netYield: yieldPct - 1.5, roi, breakEven: annualRent ? price / annualRent : 0 };
+  return {
+    dp, loan, fees, lines: costs.lines, dld: line("Transfer fee") || line("DLD Oqood"), agency: line("Agency commission"), trustee: line("Registration trustee"),
+    mortgageReg: line("Mortgage registration"), monthly, totalPaid, interest: Math.max(0, totalPaid - price - fees),
+    annualRent, monthlyRent: annualRent / 12, breakEven: annualRent ? price / annualRent : 0,
+  };
 }
 
 export const fmtAED = (n: number) =>
