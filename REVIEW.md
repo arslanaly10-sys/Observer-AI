@@ -105,3 +105,15 @@ Every item from the third critical review is addressed:
 - Twilio's own voice is English unless languages are switched on after a test call; the AI speaks English when the line can't speak the caller's language.
 - Monthly plan lead limits enforced.
 - New route tests: intake keys, honeypot, rate limits, Meta signatures and WhatsApp intake, worker auth, Twilio signatures, plan limit.
+
+## Review 6 (18 Nov 2026): fixes
+
+- Demo requests always reach someone (Supabase, webhook or Resend email) or the form says booking isn't open; no more silent "thank you".
+- "Paid before handover" on monthly plans is the sum of the rows shown, never more than the price.
+- Placeholder addresses removed; contact emails and the legal-review notice are settings.
+- Arabic for area notes, developer descriptions and plans, and Golden Visa notes.
+- Leads paused by the plan limit resume automatically when there's room.
+- New UAE callers choose English or Arabic before the conversation starts.
+- Off-plan resale costs; ROI calculator rates are the visitor's own (defaults labelled as examples).
+- Accessible tabs (arrow keys, Home/End, linked panels); 90-day staleness warning on market data.
+- Route tests now run the background step after a response, and cover the call language menu and lead resume.

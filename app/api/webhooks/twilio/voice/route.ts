@@ -4,7 +4,7 @@ import { checkToken } from "@/lib/growth/verify";
 import { linkSecret } from "@/lib/growth/guard";
 import { normalizePhone, languageFromPhone } from "@/lib/growth/phone";
 import { loadLead, createInboundLead } from "@/lib/growth/pipeline";
-import { twilioParams, greeting } from "@/lib/growth/voice-turn";
+import { twilioParams, greeting, languageMenu } from "@/lib/growth/voice-turn";
 import type { LeadRecord } from "@/lib/growth/send";
 
 /**
@@ -28,7 +28,10 @@ export async function POST(req: NextRequest) {
     if (ws && phone) {
       const { data: existing } = await db.from("leads").select("*").eq("workspace_id", ws.workspace_id).eq("phone", phone).order("created_at", { ascending: false }).limit(1).maybeSingle();
       lead = existing as LeadRecord | null;
-      if (!lead) lead = await createInboundLead(db, ws.workspace_id as string, { name: null, phone, text: "", source: "Phone call", channel: "phone", language: languageFromPhone(phone) });
+      if (!lead) {
+        lead = await createInboundLead(db, ws.workspace_id as string, { name: null, phone, text: "", source: "Phone call", channel: "phone", language: languageFromPhone(phone) });
+        if (phone.startsWith("971")) return languageMenu(db, lead);
+      }
     }
   }
   if (!lead) return new Response(`<?xml version="1.0" encoding="UTF-8"?><Response><Hangup/></Response>`, { headers: { "Content-Type": "text/xml" } });

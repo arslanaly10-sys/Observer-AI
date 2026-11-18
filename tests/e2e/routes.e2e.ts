@@ -2,14 +2,17 @@
  * The public HTTP routes against Postgres + PostgREST: intake keys, honeypot, rate limits, Meta webhook
  * signatures and WhatsApp intake, the worker's auth, Twilio signatures, and the plan limit.
  */
-import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
+import { describe, it, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
 import { createServer, request, type Server } from "node:http";
 import { createHmac } from "node:crypto";
 import { NextRequest } from "next/server";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-// `after()` needs a live request scope; in tests, just run nothing after the response.
-vi.mock("next/server", async (orig) => ({ ...(await orig<typeof import("next/server")>()), after: () => {} }));
+// `after()` needs a live request scope. In tests it runs the work straight away and keeps the promise, so a
+// test can wait for the background step and check what it did.
+const bg = vi.hoisted(() => [] as Promise<unknown>[]);
+vi.mock("next/server", async (orig) => ({ ...(await orig<typeof import("next/server")>()), after: (fn: () => unknown) => { bg.push(Promise.resolve().then(fn)); } }));
+const settle = async () => { await Promise.all(bg.splice(0)); };
 
 const PGRST = process.env.POSTGREST_URL;
 const JWT_SECRET = process.env.PGRST_JWT_SECRET ?? "";
@@ -49,6 +52,7 @@ run("public routes", () => {
     worker = await import("@/app/api/worker/route");
     voice = await import("@/app/api/webhooks/twilio/voice/route");
   });
+  afterEach(settle); // each test's background work finishes before the next test starts
   afterAll(() => new Promise<void>((ok) => proxy?.close(() => ok())));
   const ctx = (token: string) => ({ params: Promise.resolve({ token }) });
 
@@ -64,6 +68,31 @@ run("public routes", () => {
     expect(j.ok).toBe(true);
     const { data } = await db.from("leads").select("source, channel").eq("id", j.lead_id).single();
     expect(data).toMatchObject({ source: "Website", channel: "website" });
+  });
+
+  it("runs the background step after a form lead: first contact goes out", async () => {
+    const r = await intake.POST(post("https://x/api/intake/k", { name: "Background Test", phone: "+971 50 444 0002", email: "bg@example.ae", message: "Hello" }, { "x-real-ip": "10.0.0.11" }), ctx(FORM));
+    const j = await r.json();
+    await settle();
+    const { data } = await db.from("messages").select("channel, status").eq("lead_id", j.lead_id).eq("direction", "out");
+    expect(data!.length).toBeGreaterThanOrEqual(1);
+    expect(data!.every((m) => m.status === "sandbox")).toBe(true);
+  });
+
+  it("asks a new UAE caller to choose English or Arabic, then remembers the choice", async () => {
+    const sign = (url: string, params: Record<string, string>) => createHmac("sha1", "twilio-token").update(url + Object.keys(params).sort().map((k) => k + params[k]).join("")).digest("base64");
+    const params = { CallSid: "CA-menu", From: "+971509990002", To: "+97140000000", Direction: "inbound" };
+    const url = "https://observer.test/api/webhooks/twilio/voice";
+    const r = await voice.POST(new NextRequest(url, { method: "POST", body: new URLSearchParams(params), headers: { "content-type": "application/x-www-form-urlencoded", "x-twilio-signature": sign(url, params) } }));
+    const twiml = await r.text();
+    expect(twiml).toContain("For English, press 1.");
+    const action = twiml.match(/action="([^"]+)"/)![1].replace(/&amp;/g, "&");
+    const lang = await import("@/app/api/webhooks/twilio/voice/lang/route");
+    const p2 = { CallSid: "CA-menu", Digits: "2" };
+    const r2 = await lang.POST(new NextRequest(action, { method: "POST", body: new URLSearchParams(p2), headers: { "content-type": "application/x-www-form-urlencoded", "x-twilio-signature": sign(action, p2) } }));
+    expect(r2.status).toBe(200);
+    const { data } = await db.from("leads").select("language").eq("phone", "971509990002").single();
+    expect(data!.language).toBe("ar");
   });
 
   it("pretends success for bots that fill the honeypot", async () => {
@@ -129,6 +158,14 @@ run("public routes", () => {
       expect(lead!.ai_mode).toBe("paused");
       const { count } = await db.from("jobs").select("id", { count: "exact", head: true }).eq("lead_id", j.lead_id).eq("kind", "first_contact");
       expect(count).toBe(0);
+      // Upgrading (no limit) brings the lead back: the next worker run resumes it and queues first contact.
+      await db.from("workspace_settings").update({ monthly_lead_limit: null }).eq("workspace_id", WS);
+      const { resumePlanPaused } = await import("@/lib/growth/pipeline");
+      expect(await resumePlanPaused(db)).toBeGreaterThanOrEqual(1);
+      const { data: back } = await db.from("leads").select("ai_mode").eq("id", j.lead_id).single();
+      expect(back!.ai_mode).toBe("ai");
+      const { count: queued } = await db.from("jobs").select("id", { count: "exact", head: true }).eq("lead_id", j.lead_id).eq("kind", "first_contact");
+      expect(queued).toBe(1);
     } finally {
       await db.from("workspace_settings").update({ monthly_lead_limit: null }).eq("workspace_id", WS);
     }

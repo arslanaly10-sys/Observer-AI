@@ -6,7 +6,7 @@ import type { SiteDict } from "@/dictionaries/site";
 type Errors = Partial<Record<"name" | "company" | "phone" | "email" | "consent", string>>;
 
 export function DemoForm({ t, locale }: { t: SiteDict["contact"]; locale: string }) {
-  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "done" | "error" | "unavailable">("idle");
   const [errors, setErrors] = useState<Errors>({});
 
   async function submit(e: FormEvent<HTMLFormElement>) {
@@ -26,6 +26,7 @@ export function DemoForm({ t, locale }: { t: SiteDict["contact"]; locale: string
     setState("sending");
     try {
       const res = await fetch("/api/demo", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...data, locale }) });
+      if (res.status === 503) { setState("unavailable"); return; }
       if (!res.ok) throw new Error(String(res.status));
       setState("done");
     } catch {
@@ -71,6 +72,7 @@ export function DemoForm({ t, locale }: { t: SiteDict["contact"]; locale: string
         {err("consent")}
       </div>
       {state === "error" && <p role="alert" className="t-caption text-hot sm:col-span-2">{t.error}</p>}
+      {state === "unavailable" && <p role="alert" className="t-caption text-hot sm:col-span-2">{t.unavailable}</p>}
       <button disabled={state === "sending"} className="btn btn-primary w-full disabled:opacity-60 sm:col-span-2">{state === "sending" ? t.sending : t.submit}</button>
     </form>
   );

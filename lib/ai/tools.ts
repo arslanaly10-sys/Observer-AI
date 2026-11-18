@@ -6,7 +6,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { calcPlan, fmtAED, type Plan } from "@/lib/engine";
 import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, monthlySchedule, parseMonthlyPlan, goldenVisaCheck } from "@/lib/market/calc";
-import { AS_OF, AREAS, COMMON, EMIRATES, FEES, GOLDEN_VISA, MORTGAGE, RATES, findArea, findDeveloper, sourceList, type Emirate } from "@/lib/market/uae";
+import { AS_OF, dataAge, AREAS, COMMON, EMIRATES, FEES, GOLDEN_VISA, MORTGAGE, RATES, findArea, findDeveloper, sourceList, type Emirate } from "@/lib/market/uae";
 import { freeSlots, formatLocal, type WeekHours } from "@/lib/growth/hours";
 import { deliver, type LeadRecord, type Settings, type OutChannel } from "@/lib/growth/send";
 import { notify } from "@/lib/growth/notify";
@@ -74,7 +74,7 @@ const TOOL_IMPL: Record<string, (i: In, c: ToolCtx) => Promise<unknown>> = {
   async calculate_purchase_costs(i) {
     const price = num(i.price_aed);
     if (!price || price < 50_000) return { error: "Give a property price in AED." };
-    const r = purchaseCosts({ price, emirate: (str(i.emirate) as Emirate) ?? "dubai", status: i.status === "offplan" ? "offplan" : "ready", financing: i.financing === "mortgage" ? "mortgage" : "cash", loan: num(i.loan_aed) });
+    const r = purchaseCosts({ price, emirate: (str(i.emirate) as Emirate) ?? "dubai", status: i.status === "offplan" || i.status === "offplan_resale" ? i.status : "ready", financing: i.financing === "mortgage" ? "mortgage" : "cash", loan: num(i.loan_aed) });
     return { estimate_only: true, as_of: AS_OF, ...r, lines: r.lines.map((l) => ({ ...l, amount: fmtAED(l.amount) })), fees: fmtAED(r.fees), cashNeeded: fmtAED(r.cashNeeded), downPayment: fmtAED(r.downPayment) };
   },
 
@@ -114,6 +114,7 @@ const TOOL_IMPL: Record<string, (i: In, c: ToolCtx) => Promise<unknown>> = {
     const area = str(i.area) ? findArea(String(i.area)) : null;
     const dev = str(i.developer) ? findDeveloper(String(i.developer)) : null;
     const out: Record<string, unknown> = { as_of: AS_OF, indicative: true };
+    if (dataAge().stale) out.warning = "This data is more than three months old. Tell the lead figures may have moved and a colleague will confirm.";
     if (area) out.area = { name: area.name, emirate: EMIRATES[area.emirate], price_per_sqft_aed: area.pricePsf, gross_yield_pct: area.yieldPct, service_charge_per_sqft_aed: area.serviceChargePsf ?? null, type: area.type, note: area.note ?? null, sources: sourceList(area.sources) };
     else if (str(i.area)) out.area = { note: "No market data for that area. Don't guess; offer to have a colleague check." };
     if (dev) out.developer = { name: dev.name, known_for: dev.knownFor, usual_plans: dev.plans, post_handover: dev.postHandover, sales_jan_aug_2026_aed_bn: dev.salesJanAug2026Bn ?? null, sources: sourceList(dev.sources) };

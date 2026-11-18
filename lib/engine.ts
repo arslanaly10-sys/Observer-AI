@@ -199,12 +199,13 @@ export const fmtAED = (n: number) =>
 export const fmtNum = (n: number) => Math.round(n).toLocaleString("en-US");
 
 /**
- * What slow first replies cost a brokerage each month. A transparent model, not a promise:
- * qualification falls with reply time (factors below), and qualified leads close at 18.75% (12 of every 64).
+ * What slow first replies cost a brokerage each month. A transparent model with ASSUMED inputs, not research:
+ * the share of leads that qualify when answered fast, how much that falls with slower replies (factors below),
+ * and how many qualified leads close. The pricing page lets visitors change the first and last to their own numbers.
  */
 export const REPLY_FACTOR: Record<string, number> = { "under5": 1, "5to15": 0.75, "15to60": 0.55, "over60": 0.4 };
-export function roiEstimate(o: { leads: number; dealAED: number; commissionPct: number; reply: keyof typeof REPLY_FACTOR }) {
-  const best = 0.64, closeFromQualified = 12 / 64;
+export function roiEstimate(o: { leads: number; dealAED: number; commissionPct: number; reply: keyof typeof REPLY_FACTOR; qualifyPct?: number; closePct?: number }) {
+  const best = (o.qualifyPct ?? 64) / 100, closeFromQualified = (o.closePct ?? 18.75) / 100;
   const now = best * (REPLY_FACTOR[o.reply] ?? 1);
   const lostQualified = Math.max(0, o.leads * (best - now));
   const extraDeals = lostQualified * closeFromQualified;

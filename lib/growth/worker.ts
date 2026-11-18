@@ -1,10 +1,12 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { processJob, type Job } from "./pipeline";
+import { processJob, resumePlanPaused, type Job } from "./pipeline";
 
 /** Claim due jobs (SKIP LOCKED, so overlapping runs never double-send) and process them within a time budget. */
 export async function runDue(db: SupabaseClient, opts: { max?: number; budgetMs?: number } = {}) {
   const started = Date.now(), budget = opts.budgetMs ?? 50_000;
+  // Leads paused by a plan limit come back once there's room (cheap: one indexed query when there are none).
+  await resumePlanPaused(db).catch((e) => console.error("resumePlanPaused", (e as Error).message));
   const { data: jobs, error } = await db.rpc("claim_due_jobs", { max_jobs: opts.max ?? 10 });
   if (error) throw error;
   const results: { id: number; kind: string; result: string }[] = [];

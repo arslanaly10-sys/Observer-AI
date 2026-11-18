@@ -41,6 +41,14 @@ Server-only. None of these may start with `NEXT_PUBLIC_`.
 
 Never paste keys into chat or commit them. Add them in Vercel, then redeploy.
 
+## Before launch: website settings
+
+| Variable | What it does |
+|---|---|
+| `DEMO_WEBHOOK_URL` and/or `DEMO_NOTIFY_EMAIL` + `DEMO_FROM_EMAIL` (with `RESEND_API_KEY`) | Where "Book a demo" requests go. Supabase also stores them once connected. With none of these set, the form tells visitors booking isn't open yet instead of thanking them for a request nobody will see. |
+| `NEXT_PUBLIC_SECURITY_EMAIL`, `NEXT_PUBLIC_PRIVACY_EMAIL`, `NEXT_PUBLIC_LEGAL_EMAIL` | Shown on the Security, Privacy and Terms pages. Until set, those pages point people to the contact page. |
+| `NEXT_PUBLIC_LEGAL_REVIEWED=1` | Removes the "draft, pending legal review" notice. Set it only after a lawyer has approved the Privacy and Terms text. |
+
 ## 1. Database
 
 Apply both migrations (`supabase db push`, or paste them into the SQL editor in order). The second one adds settings, routing profiles, messages, inventory, appointments, notifications, the job queue, and a private `brochures` storage bucket.
@@ -100,7 +108,7 @@ Verify your sending domain, then enter the from-address under *AI & channels*. F
 
 ## 6. Voice (Twilio + ElevenLabs)
 
-Buy a number with voice, enter it under *AI & channels*, and set its *A call comes in* webhook to `https://YOUR-APP/api/webhooks/twilio/voice` (POST). Calls run turn by turn: Twilio transcribes, Claude answers in the background while the caller hears a short "one moment", and ElevenLabs speaks. That keeps every webhook inside Twilio's 15-second limit. Expect a pause of a few seconds between turns. A real-time duplex voice needs a separate WebSocket server, which Vercel functions can't host.
+Buy a number with voice, enter it under *AI & channels*, and set its *A call comes in* webhook to `https://YOUR-APP/api/webhooks/twilio/voice` (POST). New callers from UAE numbers first choose English (1) or Arabic (2), because the country code can't tell an Emirati from an expat. Calls run turn by turn: Twilio transcribes, Claude answers in the background while the caller hears a short "one moment", and ElevenLabs speaks. That keeps every webhook inside Twilio's 15-second limit. Expect a pause of a few seconds between turns. A real-time duplex voice needs a separate WebSocket server, which Vercel functions can't host.
 
 Recording and calling rules differ by country. Check the rules for the countries you call before turning sandbox off.
 
@@ -126,11 +134,13 @@ Brokers use the same maths under **Calculator** (buying costs, mortgage, payment
 
 Every range spans only figures printed in its listed sources. Rules our sources didn't confirm (loan limits for UAE nationals and second homes, the age limit for nationals) are marked "not confirmed" in the calculator, the Market page and the AI's answers. Developer plan details we couldn't source say so. The payment-plan calculator understands `60/40`, `10/50/40`, `20/40/40 post` and `20% + 1% monthly`.
 
+Off-plan resales (buying an unfinished unit from another buyer) are priced separately: the Oqood transfer, agency and the developer's own transfer fee. After 90 days the Market page, the calculator and the AI's answers warn that the snapshot may be out of date.
+
 Review `lib/market/uae.ts` every quarter: rates and prices move, and several 2026 rules (Golden Visa, fees) changed during the year.
 
 ## Plan limits
 
-`workspace_settings.monthly_lead_limit` is the number of leads a workspace's plan includes each calendar month (empty means unlimited). Only the server key can set it. Over the limit, new leads are still saved and shown, but the AI doesn't contact them, and managers get one notice a day.
+`workspace_settings.monthly_lead_limit` is the number of leads a workspace's plan includes each calendar month (empty means unlimited). Only the server key can set it. Over the limit, new leads are still saved and shown, but the AI doesn't contact them, and managers get one notice a day. When there's room again (an upgrade or a new month), the next background run switches those leads back on and sends their first contact.
 
 ## Reliability
 

@@ -139,3 +139,28 @@ describe("schedule dates and monthly plans", async () => {
     expect(parseMonthlyPlan("60/40")).toBeNull();
   });
 });
+
+describe("review 6 calculator fixes", async () => {
+  const { monthlySchedule } = await import("@/lib/market/calc");
+  it("never shows more paid before handover than the price", () => {
+    const s = monthlySchedule({ price: 1_000_000, bookingPct: 20, monthlyPct: 1.5, monthsToHandover: 60, start: new Date(2026, 11, 1) });
+    expect(s.beforeHandover).toBe(1_000_000);
+    expect(s.rows.reduce((a, r) => a + r.amount, 0)).toBeCloseTo(1_000_000, 0);
+  });
+  it("prices an off-plan resale: Oqood transfer, agency, developer transfer fee, no trustee fee", () => {
+    const c = purchaseCosts({ price: 1_500_000, status: "offplan_resale", financing: "cash" });
+    const labels = c.lines.map((l) => l.label);
+    expect(labels[0]).toMatch(/Oqood/);
+    expect(labels).toContain("Agency commission (2% + VAT)");
+    expect(labels).toContain("Developer transfer fee (ask the developer)");
+    expect(labels.some((l) => l.startsWith("Registration trustee"))).toBe(false);
+  });
+});
+
+describe("data age", async () => {
+  const { dataAge } = await import("@/lib/market/uae");
+  it("flags the snapshot as stale after 90 days", () => {
+    expect(dataAge(Date.parse("2026-12-01")).stale).toBe(false);
+    expect(dataAge(Date.parse("2027-03-01")).stale).toBe(true);
+  });
+});

@@ -12,7 +12,9 @@ export function RoiCalculator({ t, locale }: { t: ExtraDict["roi"]; locale: stri
   const [deal, setDeal] = useState(1_500_000);
   const [pct, setPct] = useState(2);
   const [reply, setReply] = useState<keyof typeof REPLY_FACTOR>("15to60");
-  const r = roiEstimate({ leads, dealAED: deal, commissionPct: pct, reply });
+  const [qualify, setQualify] = useState(40);
+  const [close, setClose] = useState(10);
+  const r = roiEstimate({ leads, dealAED: deal, commissionPct: pct, reply, qualifyPct: qualify, closePct: close });
   const aed = (n: number) => (locale === "ar" ? `${fmt(n, locale)} درهم` : `AED ${fmt(n, locale)}`);
   const slider = "w-full accent-[var(--creek)]";
   const label = "flex justify-between gap-3 text-[15px]";
@@ -25,6 +27,10 @@ export function RoiCalculator({ t, locale }: { t: ExtraDict["roi"]; locale: stri
           <input type="range" min={500_000} max={15_000_000} step={50_000} value={deal} onChange={(e) => setDeal(+e.target.value)} className={slider} /></label>
         <label className="grid gap-2"><span className={label}>{t.commission}<b className="tnum">{pct}%</b></span>
           <input type="range" min={0.5} max={5} step={0.25} value={pct} onChange={(e) => setPct(+e.target.value)} className={slider} /></label>
+        <label className="grid gap-2"><span className={label}>{t.qualify}<b className="tnum">{qualify}%</b></span>
+          <input type="range" min={5} max={90} step={1} value={qualify} onChange={(e) => setQualify(+e.target.value)} className={slider} /></label>
+        <label className="grid gap-2"><span className={label}>{t.close}<b className="tnum">{close}%</b></span>
+          <input type="range" min={1} max={40} step={0.5} value={close} onChange={(e) => setClose(+e.target.value)} className={slider} /></label>
         <fieldset className="grid gap-2">
           <legend className="mb-2 text-[15px]">{t.reply}</legend>
           <div className="grid grid-cols-2 gap-2">

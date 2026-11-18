@@ -13,7 +13,7 @@ update public.member_profiles set available = false where user_id = '00000000-00
 -- Open every day, all day, so the test doesn't depend on the clock; follow-ups immediately.
 update public.workspace_settings set first_contact_delay_s = 0,
   office_hours = '{"mon":[["00:00","23:59"]],"tue":[["00:00","23:59"]],"wed":[["00:00","23:59"]],"thu":[["00:00","23:59"]],"fri":[["00:00","23:59"]],"sat":[["00:00","23:59"]],"sun":[["00:00","23:59"]]}',
-  ingest_token = '11111111-1111-1111-1111-111111111111', form_key = '22222222-2222-2222-2222-222222222222', whatsapp_phone_number_id = '1112223334'
+  ingest_token = '11111111-1111-1111-1111-111111111111', form_key = '22222222-2222-2222-2222-222222222222', whatsapp_phone_number_id = '1112223334', voice_from = '+97140000000'
   where workspace_id = '00000000-0000-0000-0000-00000000e2e0';
 insert into public.projects (id, workspace_id, name, developer, area, status, handover) values
   ('00000000-0000-0000-0000-00000000f001', '00000000-0000-0000-0000-00000000e2e0', 'Hills Grove', 'Emaar', 'Dubai Hills', 'off_plan', 'Q4 2028');

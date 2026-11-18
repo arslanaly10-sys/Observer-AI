@@ -4,8 +4,9 @@ import { Copy, Check, PaperPlaneTilt } from "@phosphor-icons/react";
 import { useT } from "@/components/app/i18n";
 import { cx } from "@/components/app/ui";
 import { field, labelCls } from "./forms";
+import { TabList } from "@/components/app/TabList";
 import { purchaseCosts, mortgageEligibility, offplanSchedule, parsePlan, monthlySchedule, parseMonthlyPlan, rentalYield, commissionSplit, goldenVisaCheck } from "@/lib/market/calc";
-import { AREAS, RATES, AS_OF, type Emirate } from "@/lib/market/uae";
+import { AREAS, RATES, AS_OF, dataAge, type Emirate } from "@/lib/market/uae";
 import { fmtAED } from "@/lib/engine";
 import * as G from "@/app/[locale]/workspace/growth-actions";
 
@@ -73,7 +74,7 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
   // Shared inputs
   const [price, setPrice] = useState("2,000,000");
   const [emirate, setEmirate] = useState<Emirate>("dubai");
-  const [status, setStatus] = useState<"ready" | "offplan">("ready");
+  const [status, setStatus] = useState<"ready" | "offplan" | "offplan_resale">("ready");
   const [financing, setFinancing] = useState<"cash" | "mortgage">("mortgage");
   const [residency, setResidency] = useState<"expat" | "national">("expat");
   const [income, setIncome] = useState("45,000");
@@ -99,11 +100,11 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
     try {
       if (P < 50_000) return { error: "Enter a price." };
       if (tab === "costs") {
-        const m = mortgageEligibility({ price: P, residency, offplan: status === "offplan", monthlyIncome: money(income) || 1e9, monthlyDebts: money(debts), age: Number(age) || 35, ratePct: Number(rate) || 4.5 });
+        const m = mortgageEligibility({ price: P, residency, offplan: status !== "ready", monthlyIncome: money(income) || 1e9, monthlyDebts: money(debts), age: Number(age) || 35, ratePct: Number(rate) || 4.5 });
         const c = purchaseCosts({ price: P, emirate, status, financing, loan: financing === "mortgage" ? m.maxLoanByLtv : 0 });
         return { kind: "costs" as const, c, loan: financing === "mortgage" ? m.maxLoanByLtv : 0 };
       }
-      if (tab === "mortgage") return { kind: "mortgage" as const, m: mortgageEligibility({ price: P, residency, offplan: status === "offplan", monthlyIncome: money(income), monthlyDebts: money(debts), age: Number(age), ratePct: Number(rate) }) };
+      if (tab === "mortgage") return { kind: "mortgage" as const, m: mortgageEligibility({ price: P, residency, offplan: status !== "ready", monthlyIncome: money(income), monthlyDebts: money(debts), age: Number(age), ratePct: Number(rate) }) };
       if (tab === "schedule") {
         const mp = parseMonthlyPlan(plan);
         if (mp) {
@@ -116,11 +117,11 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
       }
       if (tab === "yield") return { kind: "yield" as const, y: rentalYield({ price: P, annualRent: money(rent), sizeSqft: money(size), serviceChargePsf: sc, managementPct: Number(mgmt) || 0 }) };
       if (tab === "commission") return { kind: "commission" as const, x: commissionSplit({ price: P, ratePct: Number(commPct) || 2, coBroke, ourSharePct: 50, agentSharePct: Number(agentShare) || 0 }) };
-      return { kind: "visa" as const, v: goldenVisaCheck({ value: P, mortgaged: financing === "mortgage", offplan: status === "offplan", emirate }) };
+      return { kind: "visa" as const, v: goldenVisaCheck({ value: P, mortgaged: financing === "mortgage", offplan: status !== "ready", emirate, lang: locale === "ar" ? "ar" : "en" }) };
     } catch (e) {
       return { error: (e as Error).message };
     }
-  }, [tab, P, emirate, status, financing, residency, income, debts, age, rate, plan, months, postMonths, rent, size, sc, mgmt, commPct, coBroke, agentShare]);
+  }, [locale, tab, P, emirate, status, financing, residency, income, debts, age, rate, plan, months, postMonths, rent, size, sc, mgmt, commPct, coBroke, agentShare]);
 
   // A plain-text summary an agent can paste or send to the lead.
   const summary = useMemo(() => {
@@ -148,13 +149,11 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
   return (
     <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
       <div className="rounded-[18px] bg-canvas p-5 sm:p-6">
-        <div className="mb-5 flex flex-wrap gap-1.5" role="tablist" aria-label={t("Calculators")}>
-          {TABS.map(([v, l]) => <button key={v} role="tab" aria-selected={tab === v} onClick={() => setTab(v)} className={cx("h-9 rounded-full px-3.5 text-[14px]", tab === v ? "bg-ink text-canvas" : "bg-parchment text-ink-2")}>{t(l)}</button>)}
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <TabList id="calc" label={t("Calculators")} tabs={TABS.map(([v, l]) => [v, t(l)] as [Tab, string])} value={tab} onChange={setTab} className="mb-5" />
+        <div id="calc-panel" role="tabpanel" aria-labelledby={`calc-tab-${tab}`} className="grid gap-4 sm:grid-cols-2">
           <Num label={tab === "visa" ? "Official valuation (DLD)" : "Price"} value={price} onChange={setPrice} suffix="AED" hint={tab === "visa" ? "not the asking price" : "e.g. 2.4M"} />
           {tab !== "commission" && <Pick label="Emirate" value={emirate} onChange={setEmirate} options={[["dubai", "Dubai"], ["abu_dhabi", "Abu Dhabi"], ["sharjah", "Sharjah"], ["rak", "Ras Al Khaimah"]]} />}
-          {(tab === "costs" || tab === "mortgage" || tab === "visa") && <Pick label="Property" value={status} onChange={setStatus} options={[["ready", "Ready (resale)"], ["offplan", "Off-plan"]]} />}
+          {(tab === "costs" || tab === "mortgage" || tab === "visa") && <Pick label="Property" value={status} onChange={setStatus} options={[["ready", "Ready (resale)"], ["offplan", "Off-plan from the developer"], ["offplan_resale", "Off-plan resale"]]} />}
           {(tab === "costs" || tab === "visa") && <Pick label="Paying by" value={financing} onChange={setFinancing} options={[["mortgage", "Mortgage"], ["cash", "Cash"]]} />}
           {(tab === "costs" || tab === "mortgage") && <Pick label="Buyer" value={residency} onChange={setResidency} options={[["expat", "Expat resident"], ["national", "UAE national"]]} />}
           {tab === "mortgage" && <>
@@ -229,6 +228,7 @@ export function Calculator({ leads, demo }: { leads: { id: string; name: string 
               <p className="t-caption mt-3 text-ink-3">{result.v.confirm}</p>
             </>}
             <p className="t-fine mt-4 text-ink-3">{t("Estimates from public sources, as of")} {AS_OF}. {t("Banks, developers and the land department set the final figures.")}</p>
+            {dataAge().stale && <p role="note" className="t-caption mt-2 rounded-[10px] bg-warm-soft px-3 py-2 text-warm">{t("This market data is more than three months old. Check current figures before quoting them.")}</p>}
             {summary && (
               <div className="mt-5 grid gap-2 border-t border-hairline-soft pt-4">
                 <div className="flex flex-wrap items-center gap-2">

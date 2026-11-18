@@ -133,9 +133,34 @@ async function overPlanLimit(db: DB, workspaceId: string, s: Settings) {
   return (count ?? 0) > limit;
 }
 
+const LIMIT_REASON = "plan limit reached: the AI is paused for new leads this month";
+
+/**
+ * Turn the AI back on for leads paused by the plan limit once the workspace is under its allowance again
+ * (an upgrade, or a new month). Leads from the last 30 days only; each gets its first contact if it never had one.
+ */
+export async function resumePlanPaused(db: DB) {
+  const since = new Date(Date.now() - 30 * 86_400_000).toISOString();
+  const { data } = await db.from("leads").select("id, workspace_id").eq("ai_mode", "paused").eq("handover_reason", LIMIT_REASON).gte("created_at", since).limit(200);
+  const byWs = new Map<string, string[]>();
+  for (const l of data ?? []) byWs.set(l.workspace_id as string, [...(byWs.get(l.workspace_id as string) ?? []), l.id as string]);
+  let resumed = 0;
+  for (const [ws, ids] of byWs) {
+    const settings = await loadSettings(db, ws);
+    if (await overPlanLimit(db, ws, settings)) continue;
+    await db.from("leads").update({ ai_mode: "ai", handover_reason: null }).in("id", ids);
+    for (const id of ids) {
+      const { count } = await db.from("messages").select("id", { count: "exact", head: true }).eq("lead_id", id).eq("direction", "out");
+      if (!count && settings.ai_enabled) await enqueue(db, ws, id, "first_contact", new Date());
+    }
+    resumed += ids.length;
+  }
+  return resumed;
+}
+
 /** Over the limit the lead is kept but the AI doesn't contact it; managers hear about it once a day. */
 async function pauseForLimit(db: DB, workspaceId: string, leadId: string) {
-  await db.from("leads").update({ ai_mode: "paused", handover_reason: "plan limit reached: the AI is paused for new leads this month" }).eq("id", leadId);
+  await db.from("leads").update({ ai_mode: "paused", handover_reason: LIMIT_REASON }).eq("id", leadId);
   const today = new Date(); today.setUTCHours(0, 0, 0, 0);
   const { count } = await db.from("notifications").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).eq("kind", "system").gte("created_at", today.toISOString());
   if (count) return;

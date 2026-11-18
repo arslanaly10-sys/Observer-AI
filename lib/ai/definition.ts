@@ -77,7 +77,7 @@ export const TOOLS: ToolDef[] = [
     input_schema: { type: "object", properties: {
       price_aed: { type: "number" },
       emirate: { type: "string", enum: ["dubai", "abu_dhabi", "sharjah", "rak"] },
-      status: { type: "string", enum: ["ready", "offplan"] },
+      status: { type: "string", enum: ["ready", "offplan", "offplan_resale"], description: "offplan = bought from the developer; offplan_resale = an unfinished unit bought from another buyer" },
       financing: { type: "string", enum: ["cash", "mortgage"] },
       loan_aed: { type: "number", description: "Mortgage amount, if financing" },
     }, required: ["price_aed", "status", "financing"] },

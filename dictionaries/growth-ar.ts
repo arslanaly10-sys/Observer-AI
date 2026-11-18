@@ -143,6 +143,11 @@ export const growthAr: Record<string, string> = {
   "This lead can only be reached with the WhatsApp template right now. Ask them to reply on WhatsApp first, or add an email.": "لا يمكن الوصول إلى هذا العميل الآن إلا بقالب واتساب. اطلب منه الرد على واتساب أولاً أو أضف بريداً.",
   "Write the plan like 60/40, 10/50/40, 20/40/40 post or 20% + 1% monthly.": "اكتب الخطة بصيغة 60/40 أو 10/50/40 أو 20/40/40 بعد التسليم أو 20% + 1% شهرياً.",
 
+  "Off-plan from the developer": "على الخارطة من المطوّر", "Off-plan resale": "إعادة بيع على الخارطة", "Developer transfer fee (ask the developer)": "رسوم النقل لدى المطوّر (اسأل المطوّر)",
+  "Developers set their own charge for transferring an off-plan unit, and it can be much higher than a resale NOC; some only allow transfers after a share of the price is paid.": "يحدد كل مطوّر رسوم نقل الوحدة على الخارطة، وقد تكون أعلى بكثير من شهادة عدم الممانعة في إعادة البيع، وبعضهم لا يسمح بالنقل إلا بعد سداد نسبة من السعر.",
+
+  "This market data is more than three months old. Check current figures before quoting them.": "بيانات السوق هذه أقدم من ثلاثة أشهر. تحقق من الأرقام الحالية قبل ذكرها.", days: "يوماً",
+
   // Health, score
   Health: "الحالة", "Is the engine actually running?": "هل يعمل المحرك فعلاً؟", "Background worker ran": "عمل المعالج في الخلفية قبل", "min ago": "دقيقة",
   "Background worker last ran": "آخر تشغيل للمعالج في الخلفية قبل", "min ago. Check the database job and the worker address.": "دقيقة. تحقق من مهمة قاعدة البيانات وعنوان المعالج.",

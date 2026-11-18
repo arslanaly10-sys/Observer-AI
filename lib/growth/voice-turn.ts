@@ -62,6 +62,23 @@ async function store(db: SupabaseClient, lead: LeadRecord, body: string, hang = 
   return { id: data!.id as number, body, hangup: hang };
 }
 
+/**
+ * New callers from UAE numbers choose English or Arabic first: the country code can't tell an Emirati from an
+ * expat, and speech recognition listens in one language at a time.
+ */
+export async function languageMenu(db: SupabaseClient, lead: LeadRecord) {
+  const secret = linkSecret();
+  if (!secret) return hangup();
+  const action = esc(link("/lang", lead.id, secret));
+  let arabic = `<Say language="en-US">For Arabic, press 2.</Say>`;
+  if (providers.tts()) {
+    // ElevenLabs reads the Arabic line; store it so the signed audio link can find it.
+    const { data } = await db.from("messages").insert({ workspace_id: lead.workspace_id, lead_id: lead.id, channel: "voice", direction: "out", author: "system", body: "للعربية، اضغط 2.", status: "sent" }).select("id").single();
+    if (data) arabic = `<Play>${esc(`${APP_URL()}/api/voice/tts?m=${data.id}&t=${signToken(String(data.id), secret, 600)}`)}</Play>`;
+  } else if (sayLang("ar") !== "en-US") arabic = `<Say language="${sayLang("ar")}">للعربية، اضغط 2.</Say>`;
+  return xml(`<?xml version="1.0" encoding="UTF-8"?><Response><Gather input="dtmf" numDigits="1" timeout="6" action="${action}" method="POST"><Say language="en-US">For English, press 1.</Say>${arabic}</Gather><Redirect method="POST">${action}</Redirect></Response>`);
+}
+
 export async function greeting(db: SupabaseClient, lead: LeadRecord) {
   const secret = linkSecret();
   if (!secret) return hangup();

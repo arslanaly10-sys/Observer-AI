@@ -11,7 +11,11 @@ const vat = (n: number) => n * (COMMON.vatPct / 100);
 export interface CostLine { label: string; amount: number; note?: string }
 
 /** Everything a buyer pays on top of the price, itemised. */
-export function purchaseCosts(o: { price: number; emirate?: Emirate; status: "ready" | "offplan"; financing: "cash" | "mortgage"; loan?: number; resale?: boolean; agencyPct?: number }) {
+export function purchaseCosts(o: { price: number; emirate?: Emirate; status: "ready" | "offplan" | "offplan_resale"; financing: "cash" | "mortgage"; loan?: number; resale?: boolean; agencyPct?: number }) {
+  // An off-plan resale (buying a unit still under construction from an investor) pays the Oqood transfer like
+  // off-plan, plus agency and the developer's transfer charge like a resale.
+  if (o.status === "offplan_resale") return purchaseCosts({ ...o, status: "offplan", resale: true, offplanResale: true } as Parameters<typeof purchaseCosts>[0]);
+  const offplanResale = (o as { offplanResale?: boolean }).offplanResale === true;
   const em = o.emirate ?? "dubai";
   const f = FEES[em];
   const lines: CostLine[] = [];
@@ -27,7 +31,9 @@ export function purchaseCosts(o: { price: number; emirate?: Emirate; status: "re
     const pct = o.agencyPct ?? COMMON.agencyPct;
     const fee = o.price * pct / 100;
     lines.push({ label: `Agency commission (${pct}% + VAT)`, amount: fee + vat(fee) });
-    lines.push({ label: "Developer NOC (typical)", amount: 1500, note: `Usually AED ${COMMON.nocRange[0].toLocaleString("en-US")} to ${COMMON.nocRange[1].toLocaleString("en-US")}, often paid by the seller.` });
+    lines.push(offplanResale
+      ? { label: "Developer transfer fee (ask the developer)", amount: 1500, note: "Developers set their own charge for transferring an off-plan unit, and it can be much higher than a resale NOC; some only allow transfers after a share of the price is paid." }
+      : { label: "Developer NOC (typical)", amount: 1500, note: `Usually AED ${COMMON.nocRange[0].toLocaleString("en-US")} to ${COMMON.nocRange[1].toLocaleString("en-US")}, often paid by the seller.` });
   }
   if (o.financing === "mortgage") {
     const loan = o.loan ?? 0;
@@ -128,7 +134,9 @@ export function monthlySchedule(o: { price: number; bookingPct: number; monthlyP
   if (before) rows.push({ month: 1, date: addMonths(start, 1), label: `Monthly ${o.monthlyPct}%: ${before} payments before handover`, pct: r2(o.monthlyPct * before - (after ? 0 : o.monthlyPct - lastPct)), amount: r2(per * before - (after ? 0 : (o.monthlyPct - lastPct) * o.price / 100)) });
   if (handover) rows.push({ month: o.monthsToHandover, date: addMonths(start, o.monthsToHandover), label: "Handover", pct: handover, amount: r2(o.price * handover / 100) });
   if (after) rows.push({ month: o.monthsToHandover + 1, date: addMonths(start, o.monthsToHandover + 1), label: `Monthly ${o.monthlyPct}%: ${after} payments after handover`, pct: r2(o.monthlyPct * (after - 1) + lastPct), amount: r2(per * (after - 1) + lastPct * o.price / 100) });
-  return { rows, months, monthlyAmount: r2(per), endsOn: addMonths(start, months), beforeHandover: r2(o.price * (o.bookingPct + o.monthlyPct * before) / 100) };
+  // Paid before handover = booking + the monthly rows that fall before it (the last of them may be a part payment).
+  const beforeHandover = rows.filter((r) => r.label === "Booking" || r.label.endsWith("before handover")).reduce((a, r) => a + r.amount, 0);
+  return { rows, months, monthlyAmount: r2(per), endsOn: addMonths(start, months), beforeHandover: r2(beforeHandover) };
 }
 
 /** Parse "1% monthly", "20% + 1% monthly", "10 / 1% monthly / 10 handover" into a monthly plan. */
@@ -169,13 +177,16 @@ export function commissionSplit(o: { price: number; ratePct?: number; coBroke?: 
   return { gross: r2(gross), vatOnGross: r2(vat(gross)), ourShare: r2(ours), agent: r2(agent), brokerage: r2(ours - agent) };
 }
 
-/** A first read on Golden Visa eligibility through property. */
-export function goldenVisaCheck(o: { value: number; mortgaged?: boolean; offplan?: boolean; emirate?: Emirate }) {
+/** A first read on Golden Visa eligibility through property, in English or Arabic. */
+export function goldenVisaCheck(o: { value: number; mortgaged?: boolean; offplan?: boolean; emirate?: Emirate; lang?: "en" | "ar" }) {
+  const ar = o.lang === "ar";
   const ok = o.value >= GOLDEN_VISA.thresholdAed;
+  const short = (GOLDEN_VISA.thresholdAed - o.value).toLocaleString("en-US");
   const notes: string[] = [];
-  if (!ok) notes.push(`Needs at least AED ${GOLDEN_VISA.thresholdAed.toLocaleString("en-US")} of property at the official valuation (about AED ${(GOLDEN_VISA.thresholdAed - o.value).toLocaleString("en-US")} more).`);
-  if (o.mortgaged) notes.push("Mortgaged property needs a no-objection letter from the bank.");
-  if (o.offplan) notes.push("Off-plan qualifies when bought from an approved developer.");
-  if (o.emirate === "abu_dhabi" && o.mortgaged) notes.push("Abu Dhabi applies stricter rules to financed property.");
-  return { likelyEligible: ok, notes, confirm: GOLDEN_VISA.note };
+  if (!ok) notes.push(ar ? `يلزم عقار بقيمة مليوني درهم على الأقل حسب التقييم الرسمي (نحو ${short} درهم إضافية).` : `Needs at least AED ${GOLDEN_VISA.thresholdAed.toLocaleString("en-US")} of property at the official valuation (about AED ${short} more).`);
+  if (o.mortgaged) notes.push(ar ? "العقار المرهون يحتاج إلى خطاب عدم ممانعة من البنك." : "Mortgaged property needs a no-objection letter from the bank.");
+  if (o.offplan) notes.push(ar ? "العقار على الخارطة يتأهل عند شرائه من مطوّر معتمد." : "Off-plan qualifies when bought from an approved developer.");
+  if (o.emirate === "abu_dhabi" && o.mortgaged) notes.push(ar ? "تطبّق أبوظبي قواعد أشد على العقار الممول." : "Abu Dhabi applies stricter rules to financed property.");
+  const confirm = ar ? "تغيّرت القواعد عدة مرات في 2026، فتحقق مع الهيئة الاتحادية للهوية أو الإقامة أو دائرة الأراضي قبل تقديم المشورة." : GOLDEN_VISA.note;
+  return { likelyEligible: ok, notes, confirm };
 }
