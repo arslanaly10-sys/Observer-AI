@@ -54,7 +54,10 @@ export default async function Product({ params }: { params: Promise<{ locale: Lo
       <CloseBand
         h={p.close.h2}
         body={getExtra(locale).hero.sub}
-        cta={[p.close.cta, `/${locale}/contact`]}
+        locale={locale}
+        button={p.close.cta}
+        form={getExtra(locale).cta}
+        photo="villaSea"
         cta2={[t.nav.app, `/${locale}/app/dashboard`]}
       />
     </>

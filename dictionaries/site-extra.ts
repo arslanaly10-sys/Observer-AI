@@ -21,6 +21,11 @@ const en = {
     vals: { Buyer: "Buyer", Seller: "Seller", Unknown: "Unclear", High: "High", Medium: "Medium", Low: "Low", hot: "Hot", warm: "Warm", cold: "Cold" } as Record<string, string>,
     sig: { Buyer: "Buyer", Seller: "Seller", Urgent: "Urgent", "High budget": "High budget", Serious: "Serious", Researching: "Just looking", Investor: "Investor" } as Record<string, string>,
   },
+  cta: {
+    label: "Your WhatsApp number",
+    placeholder: "WhatsApp number",
+    reassure: "30 minutes, with your own enquiries. No card needed.",
+  },
   story: {
     problem: "11:42 pm · An enquiry arrives",
     next: "What happens next",
@@ -140,6 +145,11 @@ const ar: ExtraDict = {
     note: "يعمل هذا العرض بمحرك القواعد داخل متصفحك. في مساحة العمل، يقيّم Claude العميل ولا يقتبس الرد إلا من مخزونك.",
     vals: { Buyer: "مشترٍ", Seller: "بائع", Unknown: "غير واضح", High: "مرتفع", Medium: "متوسط", Low: "منخفض", hot: "ساخن", warm: "دافئ", cold: "بارد" },
     sig: { Buyer: "مشترٍ", Seller: "بائع", Urgent: "عاجل", "High budget": "ميزانية عالية", Serious: "جادّ", Researching: "يتصفح فقط", Investor: "مستثمر" },
+  },
+  cta: {
+    label: "رقم واتساب الخاص بك",
+    placeholder: "رقم واتساب",
+    reassure: "30 دقيقة، باستفساراتك أنت. دون بطاقة دفع.",
   },
   story: {
     problem: "11:42 م · يصل استفسار",

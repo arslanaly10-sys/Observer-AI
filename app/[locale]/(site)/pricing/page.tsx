@@ -68,7 +68,7 @@ export default async function Pricing({ params }: { params: Promise<{ locale: Lo
           </div>
         </div>
       </Tile>
-      <CloseBand h={getSite(locale).home.close.h2} body={getSite(locale).home.close.body} cta={[getSite(locale).home.close.cta, `/${locale}/contact`]} cta2={[getSite(locale).home.close.cta2, `/${locale}/app/dashboard`]} />
+      <CloseBand h={getSite(locale).home.close.h2} body={getSite(locale).home.close.body} locale={locale} button={getSite(locale).home.close.cta} form={getExtra(locale).cta} photo="villaWhite" cta2={[getSite(locale).home.close.cta2, `/${locale}/app/dashboard`]} />
     </>
   );
 }

@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { img, type PhotoKey } from "@/lib/img";
+import { InlineCta } from "@/components/site/InlineCta";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 type Ground = "canvas" | "parchment" | "tile" | "night";
@@ -71,21 +74,32 @@ export function Cta({ href, children, ghost, dark }: { href: string; children: R
   return <Link href={href} className="btn btn-primary">{children}</Link>;
 }
 
-/** Closing band on the night canvas: headline and buttons left, optional detail right. */
-export function CloseBand({ h, body, cta, cta2, aside }: { h: string; body?: string; cta: [string, string]; cta2?: [string, string]; aside?: ReactNode }) {
+type CtaCopy = { label: string; placeholder: string; reassure: string };
+
+/**
+ * Closing call to action: one photograph, a headline set across the width, and the ask
+ * as a single WhatsApp-number field with a reassurance line (patterns from CTA Gallery).
+ */
+export function CloseBand({ h, body, locale, button, form, cta2, aside, photo = "villaDusk" }: { h: string; body?: string; locale: string; button: string; form: CtaCopy; cta2?: [string, string]; aside?: ReactNode; photo?: PhotoKey }) {
   return (
-    <Tile ground="night">
-      <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-end">
-        <div>
-          <h2 className="t-display max-w-[16ch]">{h}</h2>
-          {body && <p className="t-lead mt-4 max-w-[48ch] text-white/65">{body}</p>}
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Cta href={cta[1]} dark>{cta[0]}</Cta>
-            {cta2 && <Cta href={cta2[1]} ghost dark>{cta2[0]}</Cta>}
+    <section className="relative isolate overflow-hidden bg-black text-white">
+      <Image src={img(photo, 2400)} alt="" fill sizes="100vw" className="-z-10 object-cover object-[50%_65%] opacity-75" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/75 to-black/25" />
+      <div className="mx-auto max-w-[1240px] px-4 pb-14 pt-28 sm:px-6 md:pb-16 md:pt-44">
+        <h2 className="t-giant max-w-[15ch]">{h}</h2>
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-16">
+          {body ? <p className="t-lead max-w-[46ch] text-white/75">{body}</p> : <span />}
+          <div>
+            <InlineCta locale={locale} label={form.label} placeholder={form.placeholder} button={button} reassure={form.reassure} size="lg" />
+            {cta2 && (
+              <Link href={cta2[1]} className="mt-4 inline-flex min-h-11 items-center gap-2 text-[15px] text-white/85 underline-offset-4 hover:underline">
+                {cta2[0]}<ArrowRight size={15} className="rtl:-scale-x-100" />
+              </Link>
+            )}
           </div>
         </div>
-        {aside}
+        {aside && <div className="mt-14 border-t border-white/12 pt-6">{aside}</div>}
       </div>
-    </Tile>
+    </section>
   );
 }

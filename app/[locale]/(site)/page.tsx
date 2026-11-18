@@ -60,7 +60,7 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Hero h={h.hero} x={x.hero} L={L} sources={x.integrations.items.slice(0, 9)} />
+      <Hero h={h.hero} x={x.hero} form={x.cta} locale={locale} L={L} sources={x.integrations.items.slice(0, 9)} />
 
       {/* 11:42 pm: the problem */}
       <Tile>
@@ -205,12 +205,14 @@ export default async function Home({ params }: { params: Promise<{ locale: Local
       <CloseBand
         h={h.close.h2}
         body={h.close.body}
-        cta={[h.close.cta, L("/contact")]}
+        locale={locale}
+        button={h.close.cta}
+        form={x.cta}
         cta2={[h.close.cta2, L("/app/dashboard")]}
         aside={
           <div>
             <p className="t-eyebrow text-white/55">{s.works}</p>
-            <ul className="mt-4 flex flex-wrap gap-2">
+            <ul className="mt-3 flex flex-wrap gap-2">
               {x.integrations.items.map((i) => <li key={i} className="rounded-full border border-white/15 px-3.5 py-1.5 text-[14px] text-white/80">{i}</li>)}
             </ul>
           </div>

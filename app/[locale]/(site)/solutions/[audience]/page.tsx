@@ -6,7 +6,8 @@ import { getSite, audienceIds, type AudienceId } from "@/dictionaries/site";
 import { locales, type Locale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/seo";
 import { img, type PhotoKey } from "@/lib/img";
-import { Tile, Cta } from "@/components/site/Section";
+import { Tile, Cta, CloseBand } from "@/components/site/Section";
+import { getExtra } from "@/dictionaries/site-extra";
 import { AppFrame, shot } from "@/components/site/Illustrations";
 
 const hero: Record<AudienceId, PhotoKey> = { brokerages: "teamMeeting", agents: "dealHighFive", developers: "museumFuture", investors: "skylineNight" };
@@ -65,21 +66,7 @@ export default async function Solution({ params }: { params: Promise<{ locale: L
         </div>
       </Tile>
 
-      <section className="bg-black text-white">
-        <div className="mx-auto grid max-w-[1240px] items-stretch lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-4 py-16 sm:px-6 lg:px-16 lg:py-24">
-            <h2 className="t-display max-w-[16ch]">{t.home.close.h2}</h2>
-            <p className="t-lead mt-5 text-white/70">{t.home.close.body}</p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Cta href={`/${locale}/contact`} dark>{t.common.bookDemo}</Cta>
-              <Cta href={`/${locale}/app/dashboard`} ghost dark>{t.common.seeApp}</Cta>
-            </div>
-          </div>
-          <div className="relative aspect-[4/3] lg:order-first lg:aspect-auto lg:min-h-[480px]">
-            <Image src={img(second[id], 1600)} alt="" fill sizes="(min-width:1024px) 620px, 100vw" className="object-cover" />
-          </div>
-        </div>
-      </section>
+      <CloseBand h={t.home.close.h2} body={t.home.close.body} locale={locale} button={t.common.bookDemo} form={getExtra(locale).cta} cta2={[t.common.seeApp, `/${locale}/app/dashboard`]} photo={second[id]} />
     </>
   );
 }

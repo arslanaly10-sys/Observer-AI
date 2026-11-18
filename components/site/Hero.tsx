@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CheckCircle, WhatsappLogo, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { img } from "@/lib/img";
+import { InlineCta } from "@/components/site/InlineCta";
 import type { ExtraDict } from "@/dictionaries/site-extra";
 
 type Copy = { h1: string; cta: string; cta2: string };
@@ -10,7 +11,7 @@ type Copy = { h1: string; cta: string; cta2: string };
  * Home hero: Burj Khalifa at night, full bleed, with one live moment from the product
  * (an enquiry answered, scored and booked) drawn in real UI rather than a screenshot.
  */
-export function Hero({ h, x, sources, L }: { h: Copy; x: ExtraDict["hero"]; sources: string[]; L: (p: string) => string }) {
+export function Hero({ h, x, form, sources, L, locale }: { h: Copy; x: ExtraDict["hero"]; form: ExtraDict["cta"]; sources: string[]; L: (p: string) => string; locale: string }) {
   const c = x.card;
   return (
     <section className="relative isolate overflow-hidden bg-black text-white">
@@ -28,14 +29,13 @@ export function Hero({ h, x, sources, L }: { h: Copy; x: ExtraDict["hero"]; sour
           </p>
           <h1 className="t-mega enter-rise enter-d1 mt-6 max-w-[12ch]">{h.h1}</h1>
           <p className="enter-rise enter-d2 mt-6 max-w-[44ch] text-[18px] leading-[1.5] text-white/75 md:text-[20px]">{x.sub}</p>
-          <div className="enter-rise enter-d2 mt-8 flex flex-wrap items-center gap-3">
-            <Link href={L("/contact")} className="btn bg-white text-[#1d1d1f] hover:bg-white/90">{h.cta}</Link>
-            <Link href={L("/app/dashboard")} className="btn btn-ghost btn-on-dark px-5">
-              <span>{h.cta2}</span>
-              <ArrowRight size={16} className="rtl:-scale-x-100" />
+          <div className="enter-rise enter-d2 mt-8">
+            <InlineCta locale={locale} label={form.label} placeholder={form.placeholder} button={h.cta} reassure={form.reassure} />
+            <Link href={L("/app/dashboard")} className="mt-3 inline-flex min-h-11 items-center gap-2 text-[15px] text-white/85 underline-offset-4 hover:underline">
+              {h.cta2}<ArrowRight size={15} className="rtl:-scale-x-100" />
             </Link>
           </div>
-          <dl className="enter-rise enter-d3 mt-12 grid max-w-[540px] grid-cols-3 gap-4 border-t border-white/15 pt-6">
+          <dl className="enter-rise enter-d3 mt-10 grid max-w-[540px] grid-cols-3 gap-4 border-t border-white/15 pt-6">
             {x.stats.map(([n, t]) => (
               <div key={t}>
                 <dt className="sr-only">{t}</dt>

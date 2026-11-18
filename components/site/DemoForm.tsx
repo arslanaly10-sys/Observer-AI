@@ -1,5 +1,5 @@
 "use client";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { CheckCircle } from "@phosphor-icons/react";
 import type { SiteDict } from "@/dictionaries/site";
 
@@ -8,6 +8,16 @@ type Errors = Partial<Record<"name" | "company" | "phone" | "email" | "consent",
 export function DemoForm({ t, locale }: { t: SiteDict["contact"]; locale: string }) {
   const [state, setState] = useState<"idle" | "sending" | "done" | "error" | "unavailable">("idle");
   const [errors, setErrors] = useState<Errors>({});
+  const formRef = useRef<HTMLFormElement>(null);
+  // Arriving from an inline "WhatsApp number" CTA: keep the number and start at the name
+  useEffect(() => {
+    const phone = new URLSearchParams(location.search).get("phone")?.trim().slice(0, 32);
+    const f = formRef.current;
+    if (!phone || !f) return;
+    const input = f.querySelector<HTMLInputElement>('[name="phone"]');
+    if (input && !input.value) input.value = phone;
+    f.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+  }, []);
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,7 +58,7 @@ export function DemoForm({ t, locale }: { t: SiteDict["contact"]; locale: string
   const aria = (k: keyof Errors) => ({ "aria-invalid": !!errors[k] || undefined, "aria-describedby": errors[k] ? `${k}-err` : undefined });
 
   return (
-    <form noValidate onSubmit={submit} className="grid gap-5 sm:grid-cols-2">
+    <form ref={formRef} noValidate onSubmit={submit} className="grid gap-5 sm:grid-cols-2">
       {/* Honeypot: hidden from people and screen readers; bots tend to fill it. */}
       <div aria-hidden="true" className="absolute -start-[9999px] h-0 w-0 overflow-hidden">
         <label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
