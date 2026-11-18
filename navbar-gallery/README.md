@@ -23,14 +23,14 @@ The `navbar-gallery` skill (`.claude/skills/navbar-gallery`) tells agents to use
 
 | Pattern | What it is | Best examples | In Observer |
 |---|---|---|---|
-| `audience-split` | The menu is organised by who the visitor is or what they want, not by product. | Relay (AngelList), Cal.com, HUTS, Wope | Solutions lists Brokerages, Agents, Developers, Investors |
-| `icon-items` | Each item is an icon, a title and one short line. | Stripe, Column, Attio, Notion Calendar | Solutions items have a title and a line, no icon yet |
-| `grouped-columns` | Items sit under small labels (By size, By partner). | Ramp, Stripe, Cloudflare | Not used: one group today |
-| `intro-panel` | The first column explains the section in a sentence before the links. | Wealthsimple, Evervault, Relay | Not used |
-| `featured-card` | One card in the menu promotes something specific, with an image. | Ramp, Sanity, Linear | Not used |
+| `audience-split` | The menu is organised by who the visitor is or what they want, not by product. | Relay (AngelList), Cal.com, HUTS, Wope | Solutions menu: Brokerages, Agents, Developers, Investors, each with an icon |
+| `icon-items` | Each item is an icon, a title and one short line. | Stripe, Column, Attio, Notion Calendar | Product and Solutions menus: icon, title, one line |
+| `grouped-columns` | Items sit under small labels (By size, By partner). | Ramp, Stripe, Cloudflare | Product menu groups the five product areas |
+| `intro-panel` | The first column explains the section in a sentence before the links. | Wealthsimple, Evervault, Relay | Intro panel on the left of both menus |
+| `featured-card` | One card in the menu promotes something specific, with an image. | Ramp, Sanity, Linear | Product menu card that plays the night-shift film |
 | `highlighted-cta` | One filled button in the bar; everything else is text. | Ramp, Titan, Clerk | Book a demo is the only filled button |
-| `photo-backdrop` / `split-panel` | Full-screen menus that keep a photograph visible beside large links. | Andrematt, Michel Beaulieu, Heid, Real Template | Phone menu is a plain list on white |
-| `contact-in-menu` | Phone, email or a field inside the menu itself. | Real Template, RRE Ventures | Not used |
+| `photo-backdrop` / `split-panel` | Full-screen menus that keep a photograph visible beside large links. | Andrematt, Michel Beaulieu, Heid, Real Template | Phone menu opens on a Dubai photograph |
+| `contact-in-menu` | Phone, email or a field inside the menu itself. | Real Template, RRE Ventures | WhatsApp demo field at the bottom of the phone menu |
 | `announcement` | One slim line above the bar for news or an offer. | Clerk, Evervault, Titan, Together AI | Not used |
 | `brand-colour` | The open menu uses the brand's colour, not a grey box. | Mistral, Warren and Mahoney, RRE Ventures | The bar turns transparent over dark photos |
 | **Caution:** `many-columns` | Four to six dense columns of text. | Jasper, Cloudflare | Avoid: Observer has few destinations. Cloudflare only works because every column is labelled. |
@@ -48,13 +48,19 @@ Before shipping a navigation change:
 - [ ] Right to left: dropdowns open from the start edge, chevrons and arrows mirror.
 - [ ] Over dark photography the bar is legible; once scrolled it gets a solid ground.
 - [ ] The skip link still reaches `#main`.
-- [ ] The bar is the same width as the page grid (1240px). Today it is 1180px: fix this when the nav is next touched.
+- [ ] The bar is the same width as the page grid (1240px).
+
+## Built from this library (18 Nov 2026)
+
+In `components/site/Nav.tsx`:
+
+- **Product mega menu** (after Ramp and Stripe): an intro panel, the five product areas with icons and one line each, and a featured card that jumps to the night-shift film on the home page.
+- **Solutions menu** (after Wealthsimple and Stripe): an intro panel and the four audiences with icons.
+- **Phone menu** (after Michel Beaulieu and Real Template): a Dubai photograph and tagline at the top, the links with arrows, and the WhatsApp demo field at the bottom.
+- **Behaviour:** menus open on hover, click and keyboard, close on Escape (focus returns to the button), on an outside click and on navigation; a click straight after hover keeps the menu open. The phone menu is a modal dialog that keeps focus inside, locks page scroll and closes on Escape. The bar now matches the 1240px page grid.
 
 ## Ideas not yet built
 
-- **Solutions menu with icons and an intro line** (after Stripe and Wealthsimple): add an icon to each audience and a one-sentence intro panel on the left ("Built for how property is sold in the Gulf").
-- **Product as a small mega menu** (after Ramp): group the five product areas (Intelligence, Channels, Analytics, GCC market, Enterprise) with a featured card for the broker calculator or the night-shift film.
-- **Phone menu with a photograph** (after Michel Beaulieu and Real Template): keep a Dubai photo at the top of the full-screen menu and put WhatsApp and the demo field at the bottom.
 - **Announcement bar for launches** (after Clerk): one line, dismissible, only while there is real news.
 
 ## Reviewed entries

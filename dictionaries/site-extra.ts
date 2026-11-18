@@ -21,6 +21,12 @@ const en = {
     vals: { Buyer: "Buyer", Seller: "Seller", Unknown: "Unclear", High: "High", Medium: "Medium", Low: "Low", hot: "Hot", warm: "Warm", cold: "Cold" } as Record<string, string>,
     sig: { Buyer: "Buyer", Seller: "Seller", Urgent: "Urgent", "High budget": "High budget", Serious: "Serious", Researching: "Just looking", Investor: "Investor" } as Record<string, string>,
   },
+  navx: {
+    product: { h: "One system for the whole desk.", t: "From the first WhatsApp reply to the booked viewing, in English and Arabic.", all: "Product overview" },
+    solutions: { h: "Built for how property is sold in the Gulf.", t: "Choose your side of the deal to see how Observer fits it.", all: "Talk to us about your team" },
+    featured: { eyebrow: "Watch", h: "One night at a Dubai brokerage", t: "11:42 pm to 7:30 am, in six moments." },
+    phone: { tag: "The AI sales desk for Gulf real estate.", ctaH: "See it with your own enquiries." },
+  },
   night: {
     eyebrow: "One night at a Dubai brokerage",
     hint: "Scroll to watch the night",
@@ -163,6 +169,12 @@ const ar: ExtraDict = {
     note: "يعمل هذا العرض بمحرك القواعد داخل متصفحك. في مساحة العمل، يقيّم Claude العميل ولا يقتبس الرد إلا من مخزونك.",
     vals: { Buyer: "مشترٍ", Seller: "بائع", Unknown: "غير واضح", High: "مرتفع", Medium: "متوسط", Low: "منخفض", hot: "ساخن", warm: "دافئ", cold: "بارد" },
     sig: { Buyer: "مشترٍ", Seller: "بائع", Urgent: "عاجل", "High budget": "ميزانية عالية", Serious: "جادّ", Researching: "يتصفح فقط", Investor: "مستثمر" },
+  },
+  navx: {
+    product: { h: "نظام واحد لفريق المبيعات كله.", t: "من أول رد على واتساب إلى المعاينة المحجوزة، بالعربية والإنجليزية.", all: "نظرة عامة على المنتج" },
+    solutions: { h: "مصمَّم لطريقة بيع العقارات في الخليج.", t: "اختر جانبك من الصفقة لترى كيف يناسبك أوبزرفر.", all: "تحدّث إلينا عن فريقك" },
+    featured: { eyebrow: "شاهد", h: "ليلة واحدة في شركة وساطة بدبي", t: "من 11:42 مساءً إلى 7:30 صباحاً، في ست لحظات." },
+    phone: { tag: "مكتب المبيعات الذكي لعقارات الخليج.", ctaH: "شاهده باستفساراتك أنت." },
   },
   night: {
     eyebrow: "ليلة واحدة في شركة وساطة بدبي",

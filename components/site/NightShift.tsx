@@ -113,7 +113,7 @@ export function NightShift({ n, card, heading, locale }: Props) {
 
   if (still)
     return (
-      <section key="still" aria-label={n.label} className="bg-black text-white" style={{ "--lp": 1 } as CSSProperties}>
+      <section key="still" id="night-shift" aria-label={n.label} className="bg-black text-white" style={{ "--lp": 1 } as CSSProperties}>
         <div className="mx-auto max-w-[1240px] px-4 py-16 sm:px-6 md:py-24">
           <p className="t-eyebrow text-white/55">{n.eyebrow}</p>
           <h2 className="t-display mt-4 max-w-[18ch]">{heading}</h2>
@@ -134,7 +134,7 @@ export function NightShift({ n, card, heading, locale }: Props) {
     );
 
   return (
-    <section ref={root} aria-label={n.label} className="relative bg-black text-white" style={{ height: `${SEG * 100 + 40}vh` }}>
+    <section ref={root} id="night-shift" aria-label={n.label} className="relative bg-black text-white" style={{ height: `${SEG * 100 + 40}vh` }}>
       <div className="sticky top-0 h-[100svh] overflow-hidden">
         {/* Sky */}
         <div ref={base} className="absolute inset-0 will-change-transform rtl:-scale-x-100">

@@ -11,7 +11,7 @@ export default async function SiteLayout({ children, params }: { children: React
   const t = getSite(locale);
   return (
     <>
-      <Nav locale={locale} t={t.nav} audiences={t.audiences} menuLabel={getExtra(locale).solutionsMenu} />
+      <Nav locale={locale} t={t.nav} audiences={t.audiences} menuLabel={getExtra(locale).solutionsMenu} groups={t.product.groups} x={getExtra(locale).navx} cta={getExtra(locale).cta} />
       <main id="main">{children}</main>
       <Footer locale={locale} t={t.footer} legal={getExtra(locale).footerLegal} />
     </>
