@@ -47,8 +47,15 @@ export function normaliseEmail(raw: string): string {
   return `${gmail ? u.replace(/\./g, "") : u}@${gmail ? "gmail.com" : domain}`;
 }
 
+/** A local mobile number (05x xxx xxxx) doesn't say whether it's UAE or Saudi, so it matches either. */
+function phonesMatch(x: string, y: string): boolean {
+  const isLocal = (r: string) => { const d = r.replace(/\D/g, ""); return d.startsWith("0") && !d.startsWith("00") && d.length === 10; };
+  if (isLocal(x) || isLocal(y)) return normalisePhone(x).slice(-9) === normalisePhone(y).slice(-9);
+  return normalisePhone(x) === normalisePhone(y);
+}
+
 export function sameClient(a: Pick<Registration, "phone" | "email">, b: Pick<Registration, "phone" | "email">): boolean {
-  if (a.phone && b.phone && normalisePhone(a.phone) === normalisePhone(b.phone)) return true;
+  if (a.phone && b.phone && phonesMatch(a.phone, b.phone)) return true;
   if (a.email && b.email && normaliseEmail(a.email) === normaliseEmail(b.email)) return true;
   return false;
 }

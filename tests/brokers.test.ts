@@ -20,6 +20,8 @@ describe("matching", () => {
     expect(sameClient({ phone: "0501234567" }, { phone: "+971501234567" })).toBe(true);
     expect(sameClient({ email: "a.b@gmail.com" }, { email: "ab@gmail.com" })).toBe(true);
     expect(sameClient({ phone: "0501234567" }, { phone: "0509999999" })).toBe(false);
+    expect(sameClient({ phone: "055 120 4471" }, { phone: "+966 55 120 4471" })).toBe(true);
+    expect(sameClient({ phone: "+971 55 120 4471" }, { phone: "+966 55 120 4471" })).toBe(false);
   });
 });
 
@@ -57,6 +59,17 @@ describe("registration check", () => {
   });
   it("ignores other projects", () => {
     expect(check(reg({ broker: "B", project: "p2", registeredAt: t0 + 2 * DAY }), [owner], t0 + 2 * DAY).kind).toBe("clear");
+  });
+});
+
+describe("demo data", () => {
+  it("produces each verdict the broker screen shows", async () => {
+    const { registrations, incoming, NOW } = await import("@/lib/demo/brokerdesk");
+    const kinds = Object.fromEntries(incoming.map((r) => [r.id, check(r, registrations, NOW).kind]));
+    expect(kinds).toEqual({ n1: "owned", n2: "dispute", n3: "clear", n4: "dispute" });
+    const st = Object.fromEntries(registrations.map((r) => [r.id, protection(r, NOW).status]));
+    expect(st.r4).toBe("released");
+    expect(st.r3).toBe("expiring");
   });
 });
 
