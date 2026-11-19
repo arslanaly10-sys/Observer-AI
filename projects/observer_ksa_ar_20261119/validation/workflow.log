@@ -1,0 +1,384 @@
+
+=== 2026-11-19T12:13:00.179Z NOTE id=b9943d79b37e ===
+Project initialized: profile=quick; path=/home/user/observer-ai/projects/observer_ksa_ar_20261119
+
+=== 2026-11-19T12:13:07.584Z PYTHON run=f66706effe2e ===
+cwd: /home/user/observer-ai/projects/observer_ksa_ar_20261119
+argv: ["/usr/local/bin/python3", "../../.claude/skills/ppt-master/scripts/image_search.py", "Riyadh skyline night", "--filename", "riyadh_night.jpg", "-o", "images", "--orientation", "landscape", "--min-width", "1600", "--require-terms", "Riyadh", "--purpose", "hero"]
+stderr:
+  Searching providers: openverse, wikimedia
+    -> trying openverse (all): 'Riyadh skyline night'
+    [openverse] error: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Riyadh+skyline+night&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Riyadh']; trying next provider/stage
+    -> trying wikimedia (all): 'Riyadh skyline night'
+    [wikimedia] error: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=Riyadh+skyline+night+filetype%3Abitmap&gsrlimit=20&prop=imageinfo&iiprop=url%7Csize%7Cextmetadata%7Cmime&iiurlwidth=1024&iiextmetadatafilter=LicenseShortName%7CLicense%7CLicenseUrl%7CArtist (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Riyadh']; trying next provider/stage
+  openverse: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Riyadh+skyline+night&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)'))); wikimedia: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&f. Try a shorter query, use default attribution mode if strict mode is enabled, or set an API key for a keyed provider.
+=== 2026-11-19T12:13:08.197Z END run=f66706effe2e elapsed_ms=612 output_lines=8 retained=8 omitted=0 ===
+
+=== 2026-11-19T12:13:08.421Z PYTHON run=3a04345c60cf ===
+cwd: /home/user/observer-ai/projects/observer_ksa_ar_20261119
+argv: ["/usr/local/bin/python3", "../../.claude/skills/ppt-master/scripts/image_search.py", "Kingdom Centre Riyadh", "--filename", "kingdom_centre.jpg", "-o", "images", "--orientation", "landscape", "--min-width", "1600", "--require-terms", "Kingdom", "--purpose", "hero"]
+stderr:
+  Searching providers: openverse, wikimedia
+    -> trying openverse (all): 'Kingdom Centre Riyadh'
+    [openverse] error: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Kingdom+Centre+Riyadh&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Kingdom']; trying next provider/stage
+    -> trying wikimedia (all): 'Kingdom Centre Riyadh'
+    [wikimedia] error: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=Kingdom+Centre+Riyadh+filetype%3Abitmap&gsrlimit=20&prop=imageinfo&iiprop=url%7Csize%7Cextmetadata%7Cmime&iiurlwidth=1024&iiextmetadatafilter=LicenseShortName%7CLicense%7CLicenseUrl%7CArtist (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Kingdom']; trying next provider/stage
+  openverse: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Kingdom+Centre+Riyadh&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)'))); wikimedia: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&. Try a shorter query, use default attribution mode if strict mode is enabled, or set an API key for a keyed provider.
+=== 2026-11-19T12:13:08.924Z END run=3a04345c60cf elapsed_ms=502 output_lines=8 retained=8 omitted=0 ===
+
+=== 2026-11-19T12:13:09.180Z PYTHON run=29e09b9c04fb ===
+cwd: /home/user/observer-ai/projects/observer_ksa_ar_20261119
+argv: ["/usr/local/bin/python3", "../../.claude/skills/ppt-master/scripts/image_search.py", "Diriyah At-Turaif", "--filename", "diriyah.jpg", "-o", "images", "--orientation", "landscape", "--min-width", "1600", "--require-terms", "Diriyah|Turaif", "--purpose", "hero"]
+stderr:
+  Searching providers: openverse, wikimedia
+    -> trying openverse (all): 'Diriyah At-Turaif'
+    [openverse] error: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Diriyah+At-Turaif&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Diriyah|Turaif']; trying next provider/stage
+    -> trying wikimedia (all): 'Diriyah At-Turaif'
+    [wikimedia] error: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=Diriyah+At-Turaif+filetype%3Abitmap&gsrlimit=20&prop=imageinfo&iiprop=url%7Csize%7Cextmetadata%7Cmime&iiurlwidth=1024&iiextmetadatafilter=LicenseShortName%7CLicense%7CLicenseUrl%7CArtist (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Diriyah|Turaif']; trying next provider/stage
+  openverse: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Diriyah+At-Turaif&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)'))); wikimedia: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&form. Try a shorter query, use default attribution mode if strict mode is enabled, or set an API key for a keyed provider.
+=== 2026-11-19T12:13:09.950Z END run=29e09b9c04fb elapsed_ms=770 output_lines=8 retained=8 omitted=0 ===
+
+=== 2026-11-19T12:13:10.164Z PYTHON run=7e36183ec296 ===
+cwd: /home/user/observer-ai/projects/observer_ksa_ar_20261119
+argv: ["/usr/local/bin/python3", "../../.claude/skills/ppt-master/scripts/image_search.py", "King Abdullah Financial District", "--filename", "kafd.jpg", "-o", "images", "--orientation", "landscape", "--min-width", "1600", "--require-terms", "Financial", "--purpose", "hero"]
+stderr:
+  Searching providers: openverse, wikimedia
+    -> trying openverse (all): 'King Abdullah Financial District'
+    [openverse] error: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=King+Abdullah+Financial+District&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Financial']; trying next provider/stage
+    -> trying wikimedia (all): 'King Abdullah Financial District'
+    [wikimedia] error: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=King+Abdullah+Financial+District+filetype%3Abitmap&gsrlimit=20&prop=imageinfo&iiprop=url%7Csize%7Cextmetadata%7Cmime&iiurlwidth=1024&iiextmetadatafilter=LicenseShortName%7CLicense%7CLicenseUrl%7CArtist (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Financial']; trying next provider/stage
+  openverse: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=King+Abdullah+Financial+District&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)'))); wikimedia: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?ac. Try a shorter query, use default attribution mode if strict mode is enabled, or set an API key for a keyed provider.
+=== 2026-11-19T12:13:10.953Z END run=7e36183ec296 elapsed_ms=789 output_lines=8 retained=8 omitted=0 ===
+
+=== 2026-11-19T12:13:11.177Z PYTHON run=4f0bc931e50f ===
+cwd: /home/user/observer-ai/projects/observer_ksa_ar_20261119
+argv: ["/usr/local/bin/python3", "../../.claude/skills/ppt-master/scripts/image_search.py", "Jeddah corniche", "--filename", "jeddah.jpg", "-o", "images", "--orientation", "landscape", "--min-width", "1600", "--require-terms", "Jeddah", "--purpose", "hero"]
+stderr:
+  Searching providers: openverse, wikimedia
+    -> trying openverse (all): 'Jeddah corniche'
+    [openverse] error: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Jeddah+corniche&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Jeddah']; trying next provider/stage
+    -> trying wikimedia (all): 'Jeddah corniche'
+    [wikimedia] error: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&format=json&generator=search&gsrnamespace=6&gsrsearch=Jeddah+corniche+filetype%3Abitmap&gsrlimit=20&prop=imageinfo&iiprop=url%7Csize%7Cextmetadata%7Cmime&iiurlwidth=1024&iiextmetadatafilter=LicenseShortName%7CLicense%7CLicenseUrl%7CArtist (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))
+      no candidate matched query / required_terms=['Jeddah']; trying next provider/stage
+  openverse: HTTPSConnectionPool(host='api.openverse.org', port=443): Max retries exceeded with url: /v1/images/?q=Jeddah+corniche&page_size=20&license=by%2Cby-sa%2Ccc0%2Cpdm&size=large&aspect_ratio=wide (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)'))); wikimedia: HTTPSConnectionPool(host='commons.wikimedia.org', port=443): Max retries exceeded with url: /w/api.php?action=query&format. Try a shorter query, use default attribution mode if strict mode is enabled, or set an API key for a keyed provider.
+=== 2026-11-19T12:13:11.997Z END run=4f0bc931e50f elapsed_ms=819 output_lines=8 retained=8 omitted=0 ===
+
+=== 2026-11-19T12:16:42.353Z PYTHON run=43e3ce1a48a8 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/text_measure.py", "calibrate", "projects/observer_ksa_ar_20261119", "--role", "title:Sakkal Majalla:56", "--role", "hero:Sakkal Majalla:84", "--role", "lead:Segoe UI:22", "--role", "body:Segoe UI:18", "--role", "small:Segoe UI:14", "--sample", "الذكاء الاصطناعي يرد على كل استفسار عقاري خلال دقيقة واحدة"]
+=== 2026-11-19T12:16:42.570Z END run=43e3ce1a48a8 elapsed_ms=217 output_lines=14 retained=0 omitted=14 ===
+
+=== 2026-11-19T12:19:25.757Z PYTHON run=93ed58cac14c ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [ERROR] 01_cover.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=1200, y=270; text='كل استفسار عقارييُجا…') exceeds <g id="title"> data-pptx-bounds on the horizontal axis: content (350.1, 191.8)-(1200.0, 408.2), container (560.0, 180.0)-(1200.0, 430.0), overflow horizontal 32.8%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈60.7 px per mixed char at 92px incl. headroom; ≈10 chars fit in 640 px
+     [ERROR] <text> (x=1200, y=486; text='مكتب مبيعات يعمل بال…') exceeds <g id="lead"> data-pptx-bounds on the horizontal axis: content (605.5, 465.6)-(1200.0, 532.4), container (640.0, 452.0)-(1200.0, 542.0), overflow horizontal 6.2%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈14.9 px per mixed char at 24px incl. headroom; ≈37 chars fit in 560 px
+     [ERROR] <text> (x=1200, y=640; text='الرياض · جدة · المنط…') exceeds <g id="cities"> data-pptx-bounds on the vertical axis: content (938.5, 625.5)-(1200.0, 646.0), container (640.0, 600.0)-(1200.0, 640.0), overflow horizontal 0.0%, vertical 14.9% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [ERROR] 02_moment.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="story"> data-pptx-bounds overlaps <g id="takeaway"> data-pptx-bounds by 620.0px x 32.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=586; text='يصله الرد في التاسعة…') exceeds <g id="story"> data-pptx-bounds on the vertical axis: content (848.7, 565.6)-(1200.0, 632.4), container (580.0, 452.0)-(1200.0, 622.0), overflow horizontal 0.0%, vertical 6.1% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+     [WARN] <text> (x=1200, y=210; text='الساعة 11:47مساءً، ع…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (717.0, 162.4)-(1200.0, 439.6), container (580.0, 100.0)-(1200.0, 436.0), overflow horizontal 0.0%, vertical 1.1% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [WARN] 03_leaks.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+     [WARN] <text> (x=1200, y=186; text='أربعة تسريبات صامتة …') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (462.1, 141.8)-(1200.0, 269.2), container (280.0, 80.0)-(1200.0, 267.0), overflow horizontal 0.0%, vertical 1.2% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 04_market.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="drivers"> data-pptx-bounds overlaps <g id="developers"> data-pptx-bounds by 660.0px x 2.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=473, y=580; text='العقارية') exceeds <g id="developers"> data-pptx-bounds on the horizontal axis: content (435.7, 566.4)-(510.3, 585.6), container (540.0, 507.0)-(1200.0, 639.0), overflow horizontal 15.8%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈9.3 px per mixed char at 16px incl. headroom; ≈70 chars fit in 660 px
+     [ERROR] <text> (x=326, y=580; text='جبل عمر') exceeds <g id="developers"> data-pptx-bounds on the horizontal axis: content (295.7, 566.4)-(356.3, 585.6), container (540.0, 507.0)-(1200.0, 639.0), overflow horizontal 37.0%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈10.1 px per mixed char at 16px incl. headroom; ≈65 chars fit in 660 px
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+     [WARN] <text> (x=1200, y=176; text='سوق يتسارع، وفرقمبيع…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (719.6, 131.8)-(1200.0, 259.2), container (540.0, 70.0)-(1200.0, 257.0), overflow horizontal 0.0%, vertical 1.2% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 05_ai.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <radialGradient id="glow"> effective focus (fx/fy, otherwise cx/cy) must lie within the canonical circle centered at 0.5,0.5 with radius 0.5; got (0.85, 0.1)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [ERROR] 06_whatsapp.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="note"> data-pptx-bounds by 430.0px x 50.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=640; text='يعرّف بنفسه دائماً ك…') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (873.6, 627.2)-(1200.0, 667.2), container (770.0, 610.0)-(1200.0, 660.0), overflow horizontal 0.0%, vertical 14.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [ERROR] 07_scoring.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="note"> data-pptx-bounds by 430.0px x 16.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=640; text='التقييم الذي لا يشرح…') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (886.7, 627.2)-(1200.0, 667.2), container (770.0, 610.0)-(1200.0, 660.0), overflow horizontal 0.0%, vertical 14.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [WARN] 08_voice.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [WARN] 09_next_action.svg - Passed (with warnings)
+  [ERROR] 10_launch.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="header"> data-pptx-bounds overlaps <g id="launch"> data-pptx-bounds by 700.0px x 4.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+     [WARN] <text> (x=1200, y=174; text='حين يفتح البيع فيالت…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (683.1, 128.1)-(1200.0, 260.9), container (500.0, 66.0)-(1200.0, 258.0), overflow horizontal 0.0%, vertical 1.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 11_automations.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="note"> data-pptx-bounds by 430.0px x 42.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=640; text='كل مسار يمكن تجربته …') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (843.2, 627.2)-(1200.0, 667.2), container (770.0, 610.0)-(1200.0, 660.0), overflow horizontal 0.0%, vertical 14.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [WARN] 12_control.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+  [ERROR] 14_ksa.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="footer"> data-pptx-bounds by 260.0px x 24.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+     [WARN] <text> (x=1200, y=174; text='مصمم لطريقة البيعفي …') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (707.5, 131.5)-(1200.0, 253.5), container (580.0, 70.0)-(1200.0, 252.0), overflow horizontal 0.0%, vertical 0.8% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 15_start.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=314, y=500; text='يطلب الذكاءالاصطناعي…') exceeds <g id="step-4"> data-pptx-bounds on the vertical axis: content (139.9, 485.6)-(314.0, 641.0), container (80.0, 312.0)-(342.0, 612.0), overflow horizontal 0.0%, vertical 9.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] Font stack exports non-PPT-safe typeface(s) to PPTX (latin=Sakkal Majalla): Sakkal Majalla, Amiri
+     [WARN] <text> (x=1200, y=184; text='من أول لقاء إلى التش…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (443.2, 141.5)-(1200.0, 263.5), container (200.0, 80.0)-(1200.0, 262.0), overflow horizontal 0.0%, vertical 0.8% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] <text> (x=1172, y=500; text='ثلاثون دقيقة، نحمّلف…') exceeds <g id="step-1"> data-pptx-bounds on the vertical axis: content (997.9, 485.6)-(1172.0, 614.0), container (938.0, 312.0)-(1200.0, 612.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [SUMMARY] Check Summary
+  Total files: 16
+    [OK] Fully passed: 0 (0%)
+    [WARN] With warnings: 6 (37%)
+    [ERROR] With errors: 10 (62%)
+  Provenance categories:
+    blocking: 18         hard findings; gate also requires exit 0
+    introduced: 33       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 16 | text: 172 | images: 13 | icons: 0
+    Geometry: SVG elements 99 | native presets 0 | page-frame elements 20 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T12:19:27.533Z END run=93ed58cac14c elapsed_ms=1776 output_lines=113 retained=84 omitted=29 ===
+
+=== 2026-11-19T12:19:35.673Z PYTHON run=2535b5f5f559 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [ERROR] 01_cover.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=1200, y=270; text='كل استفسار عقارييُجا…') exceeds <g id="title"> data-pptx-bounds on the horizontal axis: content (315.4, 191.8)-(1200.0, 408.2), container (560.0, 180.0)-(1200.0, 430.0), overflow horizontal 38.2%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈63.2 px per mixed char at 92px incl. headroom; ≈10 chars fit in 640 px
+     [ERROR] <text> (x=1200, y=486; text='مكتب مبيعات يعمل بال…') exceeds <g id="lead"> data-pptx-bounds on the horizontal axis: content (605.5, 465.6)-(1200.0, 532.4), container (640.0, 452.0)-(1200.0, 542.0), overflow horizontal 6.2%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈14.9 px per mixed char at 24px incl. headroom; ≈37 chars fit in 560 px
+     [ERROR] <text> (x=1200, y=640; text='الرياض · جدة · المنط…') exceeds <g id="cities"> data-pptx-bounds on the vertical axis: content (938.5, 625.5)-(1200.0, 646.0), container (640.0, 600.0)-(1200.0, 640.0), overflow horizontal 0.0%, vertical 14.9% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [ERROR] 02_moment.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="story"> data-pptx-bounds overlaps <g id="takeaway"> data-pptx-bounds by 620.0px x 32.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=586; text='يصله الرد في التاسعة…') exceeds <g id="story"> data-pptx-bounds on the vertical axis: content (848.7, 565.6)-(1200.0, 632.4), container (580.0, 452.0)-(1200.0, 622.0), overflow horizontal 0.0%, vertical 6.1% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <text> (x=1200, y=210; text='الساعة 11:47مساءً، ع…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (697.8, 162.4)-(1200.0, 439.6), container (580.0, 100.0)-(1200.0, 436.0), overflow horizontal 0.0%, vertical 1.1% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [WARN] 03_leaks.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <text> (x=1200, y=186; text='أربعة تسريبات صامتة …') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (435.5, 141.8)-(1200.0, 269.2), container (280.0, 80.0)-(1200.0, 267.0), overflow horizontal 0.0%, vertical 1.2% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 04_market.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="drivers"> data-pptx-bounds overlaps <g id="developers"> data-pptx-bounds by 660.0px x 2.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=473, y=580; text='العقارية') exceeds <g id="developers"> data-pptx-bounds on the horizontal axis: content (435.7, 566.4)-(510.3, 585.6), container (540.0, 507.0)-(1200.0, 639.0), overflow horizontal 15.8%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈9.3 px per mixed char at 16px incl. headroom; ≈70 chars fit in 660 px
+     [ERROR] <text> (x=326, y=580; text='جبل عمر') exceeds <g id="developers"> data-pptx-bounds on the horizontal axis: content (295.7, 566.4)-(356.3, 585.6), container (540.0, 507.0)-(1200.0, 639.0), overflow horizontal 37.0%, vertical 0.0% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text; ≈10.1 px per mixed char at 16px incl. headroom; ≈65 chars fit in 660 px
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <text> (x=1200, y=176; text='سوق يتسارع، وفرقمبيع…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (700.0, 131.8)-(1200.0, 259.2), container (540.0, 70.0)-(1200.0, 257.0), overflow horizontal 0.0%, vertical 1.2% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 05_ai.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <radialGradient id="glow"> effective focus (fx/fy, otherwise cx/cy) must lie within the canonical circle centered at 0.5,0.5 with radius 0.5; got (0.85, 0.1)
+  [ERROR] 06_whatsapp.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="note"> data-pptx-bounds by 430.0px x 50.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=640; text='يعرّف بنفسه دائماً ك…') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (873.6, 627.2)-(1200.0, 667.2), container (770.0, 610.0)-(1200.0, 660.0), overflow horizontal 0.0%, vertical 14.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 07_scoring.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="note"> data-pptx-bounds by 430.0px x 16.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=640; text='التقييم الذي لا يشرح…') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (886.7, 627.2)-(1200.0, 667.2), container (770.0, 610.0)-(1200.0, 660.0), overflow horizontal 0.0%, vertical 14.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [OK] 08_voice.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 09_next_action.svg - Passed
+     viewBox: 0 0 1280 720
+  [ERROR] 10_launch.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="header"> data-pptx-bounds overlaps <g id="launch"> data-pptx-bounds by 700.0px x 4.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [WARN] <text> (x=1200, y=174; text='حين يفتح البيع فيالت…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (665.7, 128.1)-(1200.0, 260.9), container (500.0, 66.0)-(1200.0, 258.0), overflow horizontal 0.0%, vertical 1.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 11_automations.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="note"> data-pptx-bounds by 430.0px x 42.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [ERROR] <text> (x=1200, y=640; text='كل مسار يمكن تجربته …') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (843.2, 627.2)-(1200.0, 667.2), container (770.0, 610.0)-(1200.0, 660.0), overflow horizontal 0.0%, vertical 14.5% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [OK] 12_control.svg - Passed
+     viewBox: 0 0 1280 720
+  [WARN] 13_platform.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[9]:font-weight 'bold' -> None; text[10]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [ERROR] 14_ksa.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="points"> data-pptx-bounds overlaps <g id="footer"> data-pptx-bounds by 260.0px x 24.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <text> (x=1200, y=174; text='مصمم لطريقة البيعفي …') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (686.9, 131.5)-(1200.0, 253.5), container (580.0, 70.0)-(1200.0, 252.0), overflow horizontal 0.0%, vertical 0.8% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [ERROR] 15_start.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=314, y=500; text='يطلب الذكاءالاصطناعي…') exceeds <g id="step-4"> data-pptx-bounds on the vertical axis: content (139.9, 485.6)-(314.0, 641.0), container (80.0, 312.0)-(342.0, 612.0), overflow horizontal 0.0%, vertical 9.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <text> (x=1200, y=184; text='من أول لقاء إلى التش…') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (418.5, 141.5)-(1200.0, 263.5), container (200.0, 80.0)-(1200.0, 262.0), overflow horizontal 0.0%, vertical 0.8% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] <text> (x=1172, y=500; text='ثلاثون دقيقة، نحمّلف…') exceeds <g id="step-1"> data-pptx-bounds on the vertical axis: content (997.9, 485.6)-(1172.0, 614.0), container (938.0, 312.0)-(1200.0, 612.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+     [WARN] <text> (x=600, y=500; text='ربط المنصاتالعقارية …') exceeds <g id="step-3"> data-pptx-bounds on the vertical axis: content (415.9, 485.6)-(600.0, 614.0), container (366.0, 312.0)-(628.0, 612.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [WARN] 16_close.svg - Passed (with warnings)
+  [SUMMARY] Check Summary
+  Total files: 16
+    [OK] Fully passed: 3 (18%)
+    [WARN] With warnings: 3 (18%)
+    [ERROR] With errors: 10 (62%)
+  Provenance categories:
+    blocking: 18         hard findings; gate also requires exit 0
+    introduced: 17       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 16 | text: 172 | images: 13 | icons: 0
+    Geometry: SVG elements 99 | native presets 0 | page-frame elements 20 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T12:19:37.238Z END run=2535b5f5f559 elapsed_ms=1564 output_lines=97 retained=78 omitted=19 ===
+
+=== 2026-11-19T12:20:11.869Z PYTHON run=91b8841a6501 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [WARN] 01_cover.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 02_moment.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [ERROR] 04_market.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="developers"> data-pptx-bounds overlaps <g id="footer"> data-pptx-bounds by 260.0px x 17.0px; keep ordinary direct-root module zones disjoint beyond the 1px tolerance
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [OK] 05_ai.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 06_whatsapp.svg - Passed
+  [OK] 07_scoring.svg - Passed
+  [ERROR] 11_automations.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=1200, y=663; text='كل مسار يمكن تجربته …') exceeds <g id="note"> data-pptx-bounds on the vertical axis: content (843.2, 650.2)-(1200.0, 690.2), container (770.0, 627.0)-(1200.0, 680.0), overflow horizontal 0.0%, vertical 19.3% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [OK] 12_control.svg - Passed
+     viewBox: 0 0 1280 720
+  [WARN] 13_platform.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+  [SUMMARY] Check Summary
+  Total files: 16
+    [OK] Fully passed: 7 (43%)
+    [WARN] With warnings: 7 (43%)
+    [ERROR] With errors: 2 (12%)
+  Provenance categories:
+    blocking: 2          hard findings; gate also requires exit 0
+    introduced: 12       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 16 | text: 171 | images: 13 | icons: 0
+    Geometry: SVG elements 99 | native presets 0 | page-frame elements 20 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T12:20:13.266Z END run=91b8841a6501 elapsed_ms=1397 output_lines=76 retained=33 omitted=43 ===
+
+=== 2026-11-19T12:20:29.215Z PYTHON run=6a919fb03102 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [WARN] 01_cover.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 02_moment.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [OK] 05_ai.svg - Passed
+  [SUMMARY] Check Summary
+  Total files: 16
+    [OK] Fully passed: 8 (50%)
+    [WARN] With warnings: 8 (50%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 12       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 16 | text: 170 | images: 13 | icons: 0
+    Geometry: SVG elements 99 | native presets 0 | page-frame elements 20 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T12:20:30.765Z END run=6a919fb03102 elapsed_ms=1550 output_lines=72 retained=19 omitted=53 ===
+
+=== 2026-11-19T12:21:15.848Z PYTHON run=945b0d604744 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [ERROR] 01_cover.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] Invalid image source manifest: projects/observer_ksa_ar_20261119/images/image_sources.json must contain an items array
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 02_moment.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <text> (x=1200, y=110; text='لحظة تتكرر كل ليلة') exceeds <g id="header"> data-pptx-bounds on the vertical axis: content (1028.3, 95.5)-(1200.0, 116.0), container (580.0, 100.0)-(1200.0, 338.0), overflow horizontal 0.0%, vertical 1.9% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text
+  [WARN] 03_leaks.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 04_market.svg - Passed (with warnings)
+  [OK] 05_ai.svg - Passed
+  [SUMMARY] Check Summary
+  Total files: 16
+    [OK] Fully passed: 8 (50%)
+    [WARN] With warnings: 7 (43%)
+    [ERROR] With errors: 1 (6%)
+  Provenance categories:
+    blocking: 1          hard findings; gate also requires exit 0
+    introduced: 12       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 16 | text: 170 | images: 13 | icons: 0
+    Geometry: SVG elements 99 | native presets 0 | page-frame elements 20 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T12:21:17.356Z END run=945b0d604744 elapsed_ms=1508 output_lines=75 retained=26 omitted=49 ===
+
+=== 2026-11-19T12:21:25.457Z PYTHON run=b8a20c7369e9 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [WARN] 01_cover.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 02_moment.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [OK] 05_ai.svg - Passed
+  [SUMMARY] Check Summary
+  Total files: 16
+    [OK] Fully passed: 8 (50%)
+    [WARN] With warnings: 8 (50%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 12       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 16 | text: 170 | images: 13 | icons: 0
+    Geometry: SVG elements 99 | native presets 0 | page-frame elements 20 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T12:21:26.816Z END run=b8a20c7369e9 elapsed_ms=1359 output_lines=72 retained=19 omitted=53 ===
+
+=== 2026-11-19T12:21:27.101Z PYTHON run=7e6397ae5f6d ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_to_pptx.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--no-notes"]
+stdout:
+  [Done] Saved: projects/observer_ksa_ar_20261119/exports/observer_ksa_ar_20261119_122128.pptx
+    [POSTFLIGHT] status=passed-with-warnings quality_gate=passed slides=16 warning_categories=1
+    [POSTFLIGHT][WARNING] quality_introduced_warnings=12
+    [PPTX] projects/observer_ksa_ar_20261119/exports/observer_ksa_ar_20261119_122128.pptx
+    [REPORT] projects/observer_ksa_ar_20261119/validation/observer_ksa_ar_20261119_122128.report.json
+=== 2026-11-19T12:21:29.091Z END run=7e6397ae5f6d elapsed_ms=1989 output_lines=72 retained=5 omitted=67 ===

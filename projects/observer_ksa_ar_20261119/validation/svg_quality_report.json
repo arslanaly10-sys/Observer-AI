@@ -1,0 +1,1208 @@
+{
+  "schema": "ppt-master.svg-quality-report.v1",
+  "stage": "final",
+  "target": "/home/user/observer-ai/projects/observer_ksa_ar_20261119",
+  "source_fingerprint": {
+    "algorithm": "sha256",
+    "digest": "48bcde6ab7a48aa364f3f957d79dfa29639edd426eaf07a3172860fecb413c89",
+    "file_count": 16,
+    "files": [
+      {
+        "file": "01_cover.svg",
+        "sha256": "30c40d0d87a9dcd52d694978997d2f613106de0da7f6804fa804e7c42a4cffc1"
+      },
+      {
+        "file": "02_moment.svg",
+        "sha256": "9c5d6a5be756e1952619be992d8bc1bf2e54bb413db337f61f90b6cb7752dfa9"
+      },
+      {
+        "file": "03_leaks.svg",
+        "sha256": "4b39551ea163a408c360e772224263958fe7250e1985334d3e3f54eb3f4b563e"
+      },
+      {
+        "file": "04_market.svg",
+        "sha256": "0ff90483a8363f2489887161e71e84417eab5e09236638785f6c5bc38b2331ad"
+      },
+      {
+        "file": "05_ai.svg",
+        "sha256": "62801fe8ade714806607698c6c92e04231c27118bf0788cf35f179f27277fe6a"
+      },
+      {
+        "file": "06_whatsapp.svg",
+        "sha256": "060082202507ec3c8961bbc4fb9c2a75b7a92b4e692ef7e41666dd58408164a3"
+      },
+      {
+        "file": "07_scoring.svg",
+        "sha256": "2568677c4cce6b40dfe63dceb8d31c08e79e570d2cecfeb1a4aba64bf6f05600"
+      },
+      {
+        "file": "08_voice.svg",
+        "sha256": "64c0749f3af3ab1c5209edbcc08563eb8b0fc92b1f762d1fefa4427410e3c485"
+      },
+      {
+        "file": "09_next_action.svg",
+        "sha256": "b4189ee8fffd27f0565c029d979efd12bb634939544799c5e0dd573717ba5f70"
+      },
+      {
+        "file": "10_launch.svg",
+        "sha256": "39ded8e2f147c97cd95024516b1ee47b2e0a3462e07a430830f5b9bb312ac6bf"
+      },
+      {
+        "file": "11_automations.svg",
+        "sha256": "32075e35dd657db57b97339853e2be0f471a64311ce30cd9d3c2444a62b0f6bb"
+      },
+      {
+        "file": "12_control.svg",
+        "sha256": "2a597476e1f7d72c74b672e41152676cdafbb1642abf4ef04241c9b8d82fafb5"
+      },
+      {
+        "file": "13_platform.svg",
+        "sha256": "23a118540f470fe297c284bf277faab7e725b942809e68637a32be679099ea22"
+      },
+      {
+        "file": "14_ksa.svg",
+        "sha256": "e80dbdf3e5281fe002eef45549a7194e18558e2159cd8c6301e4f85e15c0eece"
+      },
+      {
+        "file": "15_start.svg",
+        "sha256": "d4fa2aa84cdf8de44ccfe2b2ad1a502301c7db08e6688a4a9645c7bfdb161275"
+      },
+      {
+        "file": "16_close.svg",
+        "sha256": "f7d279746c84274a883c7c807152bbd4a809d34e35ce09044b2d9faa48ba0d0c"
+      }
+    ]
+  },
+  "summary": {
+    "total": 16,
+    "passed": 8,
+    "warnings": 8,
+    "errors": 0
+  },
+  "issue_types": {},
+  "categories": {
+    "blocking": {
+      "count": 0,
+      "issues": []
+    },
+    "introduced": {
+      "count": 12,
+      "issues": [
+        {
+          "file": "01_cover.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "02_moment.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "02_moment.svg",
+          "message": "<text> (x=1200, y=110; text='لحظة تتكرر كل ليلة') exceeds <g id=\"header\"> data-pptx-bounds on the vertical axis: content (1028.3, 95.5)-(1200.0, 116.0), container (580.0, 100.0)-(1200.0, 338.0), overflow horizontal 0.0%, vertical 1.9% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+        },
+        {
+          "file": "03_leaks.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "04_market.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "13_platform.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[9]:font-weight 'bold' -> None; text[10]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "14_ksa.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "14_ksa.svg",
+          "message": "<g id=\"points\"> data-pptx-bounds exceeds canvas viewBox on the vertical axis: content (580.0, 276.0)-(1200.0, 722.0), container (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 0.3% (error above 5%); keep the root module subcanvas inside the SVG viewBox"
+        },
+        {
+          "file": "15_start.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        },
+        {
+          "file": "15_start.svg",
+          "message": "<text> (x=1172, y=506; text='ثلاثون دقيقة، نحمّلف…') exceeds <g id=\"step-1\"> data-pptx-bounds on the vertical axis: content (997.9, 491.6)-(1172.0, 620.0), container (938.0, 318.0)-(1200.0, 618.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+        },
+        {
+          "file": "15_start.svg",
+          "message": "<text> (x=600, y=506; text='ربط المنصاتالعقارية …') exceeds <g id=\"step-3\"> data-pptx-bounds on the vertical axis: content (415.9, 491.6)-(600.0, 620.0), container (366.0, 318.0)-(628.0, 618.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+        },
+        {
+          "file": "16_close.svg",
+          "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): title:font-weight None -> 'bold'; text[11]:font-weight 'bold' -> None; text[12]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+        }
+      ]
+    },
+    "inherited": {
+      "count": 0,
+      "issues": []
+    },
+    "source-import": {
+      "count": 0,
+      "summary": {
+        "warning_count": 0,
+        "by_code": {}
+      }
+    }
+  },
+  "drift": {
+    "colors": {},
+    "fonts": {},
+    "sizes": {}
+  },
+  "carrier_receipt": {
+    "scope": "informational-not-a-quota",
+    "pages": 16,
+    "totals": {
+      "text_elements": 170,
+      "image_placements": 13,
+      "icons": 0,
+      "svg_geometry_elements": 99,
+      "preset_shapes": 0,
+      "page_frame_elements": 20,
+      "marker_uses": 0,
+      "inline_emphasis_runs": 0,
+      "gradient_uses": 4,
+      "filter_uses": 8,
+      "text_effects": 0
+    },
+    "pages_with": {
+      "images": 13,
+      "icons": 0,
+      "presets": 0,
+      "charts": 0,
+      "tables": 0,
+      "formulas": 0,
+      "inline_emphasis_runs": 0,
+      "gradient_uses": 4,
+      "filter_uses": 8,
+      "text_effects": 0
+    },
+    "relationship_pages": null,
+    "geometry_elements": {
+      "circle": 10,
+      "ellipse": 0,
+      "line": 0,
+      "path": 0,
+      "polygon": 0,
+      "polyline": 0,
+      "rect": 89
+    },
+    "preset_names": {},
+    "native_objects": {
+      "chart": 0,
+      "formula_block": 0,
+      "formula_inline": 0,
+      "other": 0,
+      "table": 0
+    },
+    "image_page_max_frame_share_range": [
+      0.261,
+      1.0
+    ]
+  },
+  "project_issues": {
+    "template": [],
+    "animation": [],
+    "illustration": [],
+    "communication_trace": [],
+    "pptx_structure": []
+  },
+  "files": [
+    {
+      "file": "01_cover.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/01_cover.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 4,
+          "images": {
+            "placements": 1,
+            "files": [
+              "riyadh_night.jpg"
+            ],
+            "max_frame_share": 1.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 4,
+        "tspan_elements": 2
+      },
+      "passed": true,
+      "source_sha256": "30c40d0d87a9dcd52d694978997d2f613106de0da7f6804fa804e7c42a4cffc1"
+    },
+    {
+      "file": "02_moment.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/02_moment.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "<text> (x=1200, y=110; text='لحظة تتكرر كل ليلة') exceeds <g id=\"header\"> data-pptx-bounds on the vertical axis: content (1028.3, 95.5)-(1200.0, 116.0), container (580.0, 100.0)-(1200.0, 338.0), overflow horizontal 0.0%, vertical 1.9% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 6,
+          "images": {
+            "placements": 1,
+            "files": [
+              "skyline_sunset.jpg"
+            ],
+            "max_frame_share": 0.4062
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 6,
+        "tspan_elements": 3
+      },
+      "passed": true,
+      "source_sha256": "9c5d6a5be756e1952619be992d8bc1bf2e54bb413db337f61f90b6cb7752dfa9"
+    },
+    {
+      "file": "03_leaks.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/03_leaks.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 15,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 5,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 15,
+        "tspan_elements": 11
+      },
+      "passed": true,
+      "source_sha256": "4b39551ea163a408c360e772224263958fe7250e1985334d3e3f54eb3f4b563e"
+    },
+    {
+      "file": "04_market.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/04_market.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 14,
+          "images": {
+            "placements": 1,
+            "files": [
+              "riyadh_aerial.jpg"
+            ],
+            "max_frame_share": 0.3594
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 14,
+        "tspan_elements": 3
+      },
+      "passed": true,
+      "source_sha256": "0ff90483a8363f2489887161e71e84417eab5e09236638785f6c5bc38b2331ad"
+    },
+    {
+      "file": "05_ai.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/05_ai.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 17,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 9,
+              "circle": 6,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 17,
+        "tspan_elements": 7
+      },
+      "passed": true,
+      "source_sha256": "62801fe8ade714806607698c6c92e04231c27118bf0788cf35f179f27277fe6a"
+    },
+    {
+      "file": "06_whatsapp.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/06_whatsapp.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 11,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_whatsapp.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 7,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 11,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "060082202507ec3c8961bbc4fb9c2a75b7a92b4e692ef7e41666dd58408164a3"
+    },
+    {
+      "file": "07_scoring.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/07_scoring.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 9,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_scoring.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 9,
+        "tspan_elements": 6
+      },
+      "passed": true,
+      "source_sha256": "2568677c4cce6b40dfe63dceb8d31c08e79e570d2cecfeb1a4aba64bf6f05600"
+    },
+    {
+      "file": "08_voice.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/08_voice.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_voice.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 4
+      },
+      "passed": true,
+      "source_sha256": "64c0749f3af3ab1c5209edbcc08563eb8b0fc92b1f762d1fefa4427410e3c485"
+    },
+    {
+      "file": "09_next_action.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/09_next_action.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_nba.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "b4189ee8fffd27f0565c029d979efd12bb634939544799c5e0dd573717ba5f70"
+    },
+    {
+      "file": "10_launch.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/10_launch.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 6,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_launch.jpg"
+            ],
+            "max_frame_share": 0.4253
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 6,
+        "tspan_elements": 4
+      },
+      "passed": true,
+      "source_sha256": "39ded8e2f147c97cd95024516b1ee47b2e0a3462e07a430830f5b9bb312ac6bf"
+    },
+    {
+      "file": "11_automations.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/11_automations.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 11,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_auto.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 7,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 11,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "32075e35dd657db57b97339853e2be0f471a64311ce30cd9d3c2444a62b0f6bb"
+    },
+    {
+      "file": "12_control.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/12_control.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_ai.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "2a597476e1f7d72c74b672e41152676cdafbb1642abf4ef04241c9b8d82fafb5"
+    },
+    {
+      "file": "13_platform.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/13_platform.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[9]:font-weight 'bold' -> None; text[10]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 12,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_board.jpg"
+            ],
+            "max_frame_share": 0.261
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 12,
+        "tspan_elements": 9
+      },
+      "passed": true,
+      "source_sha256": "23a118540f470fe297c284bf277faab7e725b942809e68637a32be679099ea22"
+    },
+    {
+      "file": "14_ksa.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/14_ksa.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "<g id=\"points\"> data-pptx-bounds exceeds canvas viewBox on the vertical axis: content (580.0, 276.0)-(1200.0, 722.0), container (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 0.3% (error above 5%); keep the root module subcanvas inside the SVG viewBox"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "balcony.jpg"
+            ],
+            "max_frame_share": 0.3906
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 5,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "e80dbdf3e5281fe002eef45549a7194e18558e2159cd8c6301e4f85e15c0eece"
+    },
+    {
+      "file": "15_start.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/15_start.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)",
+        "<text> (x=1172, y=506; text='ثلاثون دقيقة، نحمّلف…') exceeds <g id=\"step-1\"> data-pptx-bounds on the vertical axis: content (997.9, 491.6)-(1172.0, 620.0), container (938.0, 318.0)-(1200.0, 618.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text",
+        "<text> (x=600, y=506; text='ربط المنصاتالعقارية …') exceeds <g id=\"step-3\"> data-pptx-bounds on the vertical axis: content (415.9, 491.6)-(600.0, 620.0), container (366.0, 318.0)-(628.0, 618.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 19,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 5,
+              "circle": 4,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 19,
+        "tspan_elements": 14
+      },
+      "passed": true,
+      "source_sha256": "d4fa2aa84cdf8de44ccfe2b2ad1a502301c7db08e6688a4a9645c7bfdb161275"
+    },
+    {
+      "file": "16_close.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/16_close.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): title:font-weight None -> 'bold'; text[11]:font-weight 'bold' -> None; text[12]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 6,
+          "images": {
+            "placements": 1,
+            "files": [
+              "kingdom_dusk.jpg"
+            ],
+            "max_frame_share": 1.0
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 1,
+            "filter_uses": 0,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 3,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 2,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 6,
+        "tspan_elements": 2
+      },
+      "passed": true,
+      "source_sha256": "f7d279746c84274a883c7c807152bbd4a809d34e35ce09044b2d9faa48ba0d0c"
+    }
+  ]
+}
