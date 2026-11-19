@@ -36,7 +36,7 @@ export function Board() {
 
       <Stats>
         <Stat label="Sales this year" value={`AED ${kpi.salesYTD}B`} delta="+18%" note="on last year" />
-        <Stat label="Open pipeline" value={`AED ${kpi.pipeline}B`} note="across 12 projects" />
+        <Stat label="Open pipeline" value={`AED ${kpi.pipeline}B`} note={`${t("across")} ${kpi.projects} ${t("projects")}`} />
         <Stat label="SPAs signed this month" value={kpi.spas} delta="+41" note="on October" />
         <Stat label="First replies by AI" value={`${kpi.aiFirstReplies}%`} note={`median ${kpi.medianReply} seconds`} />
       </Stats>

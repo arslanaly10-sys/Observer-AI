@@ -451,6 +451,7 @@ export const deskAr: Record<string, string> = {
   "Dubai Hills": "دبي هيلز",
 
   // tour
+  "across": "عبر", "projects": "مشاريع",
   "The whole business, on one page.": "العمل كله في صفحة واحدة.",
   "AED 10.4 billion sold this year across Dubai and Riyadh. Every figure moves as your consultants and the AI work. All sample data.": "مبيعات بقيمة 10.4 مليار درهم هذا العام في دبي والرياض، وكل رقم يتحرك مع عمل المستشارين والذكاء الاصطناعي. جميعها بيانات نموذجية.",
   "When demand outruns the team.": "حين يفوق الطلب طاقة الفريق.",
