@@ -169,6 +169,14 @@
       "computedHash": "3bc44e7faccb949583f4af6c8a15b5a50acc04a5e656f5168a96e5aa43e9f3cd",
       "installMode": "copy"
     },
+    "ppt-master": {
+      "source": "hugohe3/ppt-master",
+      "commit": "d8f704bc8c1552d53a8769b55d1eecd22c782042",
+      "sourceType": "github",
+      "skillPath": "skills/ppt-master/SKILL.md",
+      "computedHash": "77b848e36550bed33e84808ef73edc22e8fbcf36b8cba3a5c1ee0d58a51a99d8",
+      "installMode": "copy"
+    },
     "prototype": {
       "source": "emilkowalski/skills",
       "commit": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
