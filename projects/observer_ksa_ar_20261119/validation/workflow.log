@@ -382,3 +382,79 @@ stdout:
     [PPTX] projects/observer_ksa_ar_20261119/exports/observer_ksa_ar_20261119_122128.pptx
     [REPORT] projects/observer_ksa_ar_20261119/validation/observer_ksa_ar_20261119_122128.report.json
 === 2026-11-19T12:21:29.091Z END run=7e6397ae5f6d elapsed_ms=1989 output_lines=72 retained=5 omitted=67 ===
+
+=== 2026-11-19T14:39:01.872Z PYTHON run=e23a926c316f ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [WARN] 01_cover.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 02_moment.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [OK] 05_ai.svg - Passed
+  [ERROR] 11_surge.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <text> (x=1200, y=718; text='الأرقام على الشاشة ب…') exceeds the root viewBox on the vertical axis: content (945.5, 705.2)-(1200.0, 723.2), canvas (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 0.5%; move or reflow the text until its estimated bounds stay on-page
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): note:fill None -> '#CDB284'; rect[30]:fill '#CDB284' -> None; text[31]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [OK] 12_automations.svg - Passed
+     viewBox: 0 0 1280 720
+  [OK] 13_control.svg - Passed
+  [ERROR] 16_noapi.svg - Failed
+     viewBox: 0 0 1280 720
+     [ERROR] <g id="note"> data-pptx-bounds must use positive width and height
+     [ERROR] <text> (x=1200, y=746; text='معظم المطورين لا يتي…') exceeds the root viewBox on the vertical axis: content (855.1, 733.2)-(1200.0, 773.2), canvas (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 7.4%; move or reflow the text until its estimated bounds stay on-page
+  [WARN] 17_ksa.svg - Passed (with warnings)
+     viewBox: 0 0 1280 720
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+     [WARN] <g id="points"> data-pptx-bounds exceeds canvas viewBox on the vertical axis: content (580.0, 276.0)-(1200.0, 722.0), container (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 0.3% (error above 5%); keep the root module subcanvas inside the SVG viewBox
+  [SUMMARY] Check Summary
+  Total files: 19
+    [OK] Fully passed: 8 (42%)
+    [WARN] With warnings: 9 (47%)
+    [ERROR] With errors: 2 (10%)
+  Provenance categories:
+    blocking: 3          hard findings; gate also requires exit 0
+    introduced: 14       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 19 | text: 201 | images: 16 | icons: 0
+    Geometry: SVG elements 118 | native presets 0 | page-frame elements 23 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T14:39:04.677Z END run=e23a926c316f elapsed_ms=2805 output_lines=86 retained=34 omitted=52 ===
+
+=== 2026-11-19T14:39:12.712Z PYTHON run=27540f05bf79 ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_quality_checker.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--canonical-authoring", "--stage", "final", "--json"]
+stdout:
+  [WARN] 01_cover.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): cities:fill None -> '#CDB284'; rect[19]:fill '#CDB284' -> None; text[20]:fill '#CDB284' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [WARN] 02_moment.svg - Passed (with warnings)
+     [WARN] Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (9 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[10]:font-weight 'bold' -> None; text[11]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)
+  [OK] 05_ai.svg - Passed
+  [SUMMARY] Check Summary
+  Total files: 19
+    [OK] Fully passed: 10 (52%)
+    [WARN] With warnings: 9 (47%)
+    [ERROR] With errors: 0 (0%)
+  Provenance categories:
+    blocking: 0          hard findings; gate also requires exit 0
+    introduced: 13       advisory; new or changed
+    inherited: 0         informational; prototype-identical
+    source-import: 0     informational; source-conversion loss
+  [CARRIERS] Actual-use receipt (informational; not a quota)
+    Pages: 19 | text: 200 | images: 16 | icons: 0
+    Geometry: SVG elements 116 | native presets 0 | page-frame elements 23 | marker uses 0
+  [REPORT] JSON quality report exported: projects/observer_ksa_ar_20261119/validation/svg_quality_report.json
+=== 2026-11-19T14:39:14.238Z END run=27540f05bf79 elapsed_ms=1526 output_lines=79 retained=19 omitted=60 ===
+
+=== 2026-11-19T14:39:20.573Z PYTHON run=0edd14ed546d ===
+cwd: /home/user/observer-ai
+argv: ["/usr/local/bin/python3", ".claude/skills/ppt-master/scripts/svg_to_pptx.py", "projects/observer_ksa_ar_20261119", "--quick-generate", "--no-notes", "-o", "projects/observer_ksa_ar_20261119/exports/Observer-AI-KSA-Arabic.pptx"]
+stdout:
+  [Done] Saved: projects/observer_ksa_ar_20261119/exports/Observer-AI-KSA-Arabic.pptx
+    [POSTFLIGHT] status=passed-with-warnings quality_gate=passed slides=19 warning_categories=1
+    [POSTFLIGHT][WARNING] quality_introduced_warnings=13
+    [PPTX] projects/observer_ksa_ar_20261119/exports/Observer-AI-KSA-Arabic.pptx
+    [REPORT] projects/observer_ksa_ar_20261119/validation/Observer-AI-KSA-Arabic.report.json
+=== 2026-11-19T14:39:22.600Z END run=0edd14ed546d elapsed_ms=2027 output_lines=80 retained=5 omitted=75 ===
