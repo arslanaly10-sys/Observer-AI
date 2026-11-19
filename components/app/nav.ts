@@ -2,7 +2,7 @@ import {
   SquaresFour, Kanban, UsersThree, Target, ChatTeardropText, Lightning, Headset, WhatsappLogo,
   PaperPlaneTilt, InstagramLogo, Funnel, ChartPieSlice, Trophy, Buildings, Calculator, Timer,
   ShieldCheck, Bell, Crown, AddressBook, Handshake, CheckSquare, BuildingApartment, RocketLaunch,
-  Sparkle, FlowArrow, Microphone, UsersFour, Storefront, Sliders, Database, LockKey, GlobeHemisphereEast, type Icon,
+  Sparkle, FlowArrow, Microphone, UsersFour, Storefront, Sliders, Database, LockKey, GlobeHemisphereEast, Moon, ChatCenteredText, UsersThree as Room, Broadcast, type Icon,
 } from "@phosphor-icons/react";
 import type { ViewId } from "@/lib/views";
 import type { RoleId } from "@/lib/demo/group";
@@ -41,6 +41,10 @@ const items: Record<ViewId, Item> = {
   brokers: { id: "brokers", label: "Broker network", icon: UsersFour },
   "gcc-developers": { id: "gcc-developers", label: "Developers & areas", icon: Buildings },
   "gcc-intel": { id: "gcc-intel", label: "GCC intelligence", icon: GlobeHemisphereEast },
+  overnight: { id: "overnight", label: "Overnight desk", icon: Moon, badge: "14" },
+  "reply-desk": { id: "reply-desk", label: "Developer reply desk", icon: ChatCenteredText },
+  "deal-room": { id: "deal-room", label: "Deal room", icon: Room },
+  "demand-radar": { id: "demand-radar", label: "Demand radar", icon: Broadcast },
   "payment-plans": { id: "payment-plans", label: "Broker calculator", icon: Calculator },
   sla: { id: "sla", label: "SLA tracking", icon: Timer, badge: "2" },
   compliance: { id: "compliance", label: "Compliance", icon: ShieldCheck },
@@ -52,12 +56,14 @@ const byRole: Record<RoleId, { label: string; ids: ViewId[] }[]> = {
   chairman: [
     { label: "Overview", ids: ["board"] },
     { label: "Portfolio", ids: ["projects", "launch", "gcc-intel", "gcc-developers"] },
+    { label: "Marketplace", ids: ["demand-radar", "overnight", "reply-desk"] },
     { label: "Sales", ids: ["deals", "dashboard", "agents", "brokers"] },
     { label: "AI", ids: ["ai-activity", "voice", "automations"] },
     { label: "Governance", ids: ["compliance", "notifications"] },
   ],
   director: [
     { label: "Command", ids: ["dashboard", "ai-activity", "tasks"] },
+    { label: "Marketplace", ids: ["overnight", "deal-room", "reply-desk", "demand-radar"] },
     { label: "Clients", ids: ["clients", "leads", "pipeline", "deals"] },
     { label: "Inventory", ids: ["projects", "inventory-sources", "holds", "launch", "launch-controls"] },
     { label: "AI", ids: ["automations", "voice", "scoring", "intent", "next-best-action", "live-call"] },
@@ -68,13 +74,13 @@ const byRole: Record<RoleId, { label: string; ids: ViewId[] }[]> = {
     { label: "Governance", ids: ["compliance", "notifications"] },
   ],
   agent: [
-    { label: "Today", ids: ["next-best-action", "tasks", "whatsapp", "live-call"] },
+    { label: "Today", ids: ["next-best-action", "overnight", "deal-room", "tasks", "whatsapp", "live-call"] },
     { label: "Clients", ids: ["clients", "pipeline", "deals"] },
     { label: "Inventory", ids: ["projects", "holds", "payment-plans", "gcc-intel"] },
     { label: "Inbox", ids: ["notifications"] },
   ],
   broker: [
-    { label: "Partner", ids: ["partner"] },
+    { label: "Partner", ids: ["partner", "overnight", "deal-room"] },
     { label: "Inventory", ids: ["projects", "payment-plans", "gcc-intel"] },
   ],
 };

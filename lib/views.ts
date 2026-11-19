@@ -13,6 +13,8 @@ export const viewIds = [
   "funnel", "channel-roi", "agents", "brokers",
   // Market
   "gcc-developers", "gcc-intel", "payment-plans",
+  // Marketplace
+  "overnight", "reply-desk", "deal-room", "demand-radar",
   // Governance
   "sla", "compliance", "notifications",
 ] as const;

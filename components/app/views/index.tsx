@@ -14,6 +14,7 @@ import { Brokers, Partner, Holds } from "./network";
 import { InventorySources } from "./sources";
 import { LaunchControls } from "./controls";
 import { GccIntel } from "./gcc";
+import { Overnight, ReplyDesk, DealRoom, DemandRadar } from "./marketplace";
 import { AiActivity, Automations, Voice } from "./ai";
 import { LaunchNight } from "./launch";
 
@@ -25,7 +26,8 @@ const views: Record<ViewId, () => React.JSX.Element> = {
   scoring: Scoring, intent: Intent, "next-best-action": NextBestAction, "live-call": LiveCall,
   whatsapp: WhatsApp, sequences: Sequences, social: Social,
   funnel: Funnel, "channel-roi": ChannelROI, agents: Agents, brokers: Brokers,
-  "gcc-developers": DemoMarket, "gcc-intel": GccIntel, "payment-plans": DemoCalculator,
+  "gcc-developers": DemoMarket, "gcc-intel": GccIntel,
+  overnight: Overnight, "reply-desk": ReplyDesk, "deal-room": DealRoom, "demand-radar": DemandRadar, "payment-plans": DemoCalculator,
   sla: Sla, compliance: Compliance, notifications: Notifications,
 };
 
