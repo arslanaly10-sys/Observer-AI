@@ -141,6 +141,12 @@ const en = {
         { h: "Channel ROI", t: "Cost per enquiry and sales by source, so budget follows what works.", soon: true },
         { h: "Consultant performance", t: "Reply times, viewings booked and conversion for every consultant, in one table.", soon: true },
       ], shot: "dashboard" },
+      { id: "marketplace", h: "Marketplace", t: "Developers won’t open an API. Observer doesn’t need one: it is the channel developers want to keep up to date.", items: [
+        { h: "Availability confidence", t: "Every unit carries a confidence score built from the latest price list, the developer’s own updates, aggregator feeds, resale listings and sales the Land Department has registered since.", soon: true },
+        { h: "The overnight desk", t: "At midnight the AI quotes only what it is at least 80% sure of, reads the passport and proof of funds, sends the developer’s own refundable deposit link and queues a hold for 9:00. No money passes through Observer.", soon: true },
+        { h: "Developer reply desk", t: "Sales admin updates units in plain words, “A-1204 sold”, on WhatsApp, a no-login link or a forwarded price list. A developer AI answers agencies overnight; a person approves every hold.", soon: true },
+        { h: "Deal room and demand radar", t: "Client, broker and developer in one thread when the desk opens. Developers see anonymised demand by area, size and budget, from consenting clients only.", soon: true },
+      ], shot: "overnight" },
       { id: "brokers", h: "Selling through brokers", t: "One project, many agencies, and no arguments about who brought the client.", items: [
         { h: "Client protection", t: "The first agency to register a client keeps them for 30 days, renewed by every call, viewing or offer. Duplicates are caught on phone and email in any format.", soon: true },
         { h: "Disputes, ruled on evidence", t: "When two agencies claim one client, sales admin sees the full timeline and rules in a tap. Both agencies hear on WhatsApp.", soon: true },
@@ -353,6 +359,12 @@ const ar: SiteDict = {
         { h: "عائد القنوات", t: "تكلفة الاستفسار والمبيعات لكل مصدر، لتتبع الميزانية ما ينجح.", soon: true },
         { h: "أداء المستشارين", t: "زمن الرد والمعاينات المحجوزة ونسبة التحويل لكل مستشار، في جدول واحد.", soon: true },
       ], shot: "dashboard" },
+      { id: "marketplace", h: "السوق", t: "المطورون لا يتيحون واجهة برمجية، وأوبزرفر لا يحتاج إليها: إنه القناة التي يحرص المطورون على تحديثها.", items: [
+        { h: "درجة التأكد من التوفر", t: "لكل وحدة درجة تأكد مبنية على آخر قائمة أسعار، وتحديثات المطور نفسه، ومنصات التجميع، ووحدات إعادة البيع، والمبيعات التي سجّلتها دائرة الأراضي منذ ذلك الحين.", soon: true },
+        { h: "المكتب الليلي", t: "عند منتصف الليل لا يذكر الذكاء الاصطناعي إلا ما هو متأكد منه بنسبة 80% على الأقل، ويقرأ الجواز وإثبات الأموال، ويرسل رابط عربون المطور المسترد، ويُدرج طلب الحجز للساعة 9:00. لا يمر أي مبلغ عبر أوبزرفر.", soon: true },
+        { h: "مكتب ردود المطور", t: "تحدّث إدارة المبيعات الوحدات بكلمات بسيطة مثل «A-1204 مباعة» عبر واتساب أو رابط دون تسجيل دخول أو قائمة أسعار مُعاد توجيهها. ويجيب ذكاء المطور الوكالات ليلاً، ويوافق موظف على كل حجز.", soon: true },
+        { h: "غرفة الصفقة ورادار الطلب", t: "العميل والوسيط والمطور في محادثة واحدة عند فتح المكتب، ويرى المطورون طلباً مجهّل الهوية حسب المنطقة والمساحة والميزانية، من عملاء وافقوا فقط.", soon: true },
+      ], shot: "overnight" },
       { id: "brokers", h: "البيع عبر الوسطاء", t: "مشروع واحد ووكالات كثيرة، دون خلاف على من جاء بالعميل.", items: [
         { h: "حماية العميل", t: "أول وكالة تسجّل العميل تحتفظ به 30 يوماً، وتتجدد الحماية مع كل مكالمة أو معاينة أو عرض. ويُكتشف التكرار بالهاتف والبريد بأي صيغة.", soon: true },
         { h: "نزاعات تُحسم بالأدلة", t: "حين تطالب وكالتان بالعميل نفسه، ترى إدارة المبيعات التسلسل الزمني كاملاً وتحسم بنقرة، وتُبلغ الوكالتان عبر واتساب.", soon: true },
