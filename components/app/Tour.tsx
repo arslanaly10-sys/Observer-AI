@@ -14,15 +14,21 @@ import type { RoleId } from "@/lib/demo/group";
 const KEY = "obs-tour";
 type Step = { role: RoleId; view: string; h: string; t: string };
 const steps: Step[] = [
-  { role: "chairman", view: "board", h: "The group, on one page.", t: "AED 10.4 billion sold this year across Dubai, Abu Dhabi and Riyadh. Every figure moves as your consultants and the AI work." },
+  { role: "chairman", view: "board", h: "The whole business, on one page.", t: "AED 10.4 billion sold this year across Dubai and Riyadh. Every figure moves as your consultants and the AI work. All sample data." },
   { role: "chairman", view: "launch", h: "Tonight, Riyadh Gate opens.", t: "Scroll the evening forward, then raise demand from the dock. Watch the AI answer, qualify and hold units while the launch runs." },
-  { role: "chairman", view: "ai-activity", h: "Nothing important happens without a person.", t: "The AI handles routine work and asks first on unit holds, price concessions and anything above the limits you set." },
+  { role: "director", view: "launch-controls", h: "When demand outruns the team.", t: "Consultants take the top scores, the AI keeps the rest warm, qualified clients overflow to brokers or get a callback time, and deposits set the pick order." },
+  { role: "director", view: "overnight", h: "00:30 in Dubai.", t: "A buyer wants a unit before flying home. The AI quotes only what it is 80% sure of, reads the passport, sends the developer's own deposit link and queues the hold for 9:00." },
+  { role: "director", view: "deal-room", h: "Client, broker and developer, in one thread.", t: "At 9:00 the deal room opens with everything in it. The two sides' AIs pass hold requests and availability checks, on record." },
+  { role: "director", view: "reply-desk", h: "No developer API needed.", t: "The developer's sales admin types “A-1204 sold” on WhatsApp, and every agency sees it within a minute. A developer AI answers brokers overnight." },
+  { role: "director", view: "inventory-sources", h: "Inventory however it arrives.", t: "Price lists, forwarded emails, shared sheets, portals and calls. Every project shows how fresh its data is, and the AI asks before quoting anything over a day old." },
+  { role: "director", view: "brokers", h: "Many agencies, one rule.", t: "The first agency to register a client keeps them for 30 days, renewed by every call, viewing or offer. Duplicates and disputes are caught and ruled on evidence." },
+  { role: "director", view: "holds", h: "One hold per unit.", t: "Timed holds release themselves unless a deposit arrives, and the next agency in the queue gets the unit. No double bookings." },
+  { role: "chairman", view: "demand-radar", h: "Why developers keep Observer current.", t: "Anonymised demand by area, size and budget, from consenting clients, plus the public data behind availability." },
   { role: "director", view: "clients", h: "Every client, complete.", t: "One record per family: conversations in their language, viewings, offers, documents and Golden Visa status, in one place." },
-  { role: "director", view: "projects", h: "Inventory, floor by floor.", t: "Twelve projects, live. Sold, booked, held and available units, with the price list and payment plan beside them." },
-  { role: "director", view: "deals", h: "From EOI to Oqood, with the money.", t: "Every deal by stage, the documents still missing, and the commission owed to each consultant and partner agency." },
-  { role: "director", view: "brokers", h: "184 agencies, protected and paid.", t: "Partner brokers register clients, keep them protected for 90 days, and see their commission without calling anyone." },
+  { role: "director", view: "projects", h: "Inventory, floor by floor.", t: "Six Emaar communities, live. Sold, booked, held and available units, with the price list and payment plan beside them." },
   { role: "agent", view: "next-best-action", h: "A consultant's morning.", t: "The most valuable call first, the client's home behind it, and the WhatsApp reply already drafted in the client's language." },
-  { role: "broker", view: "partner", h: "Partners see only what is theirs.", t: "A partner agency registers a client, checks live availability and follows its commission. Nothing else is visible to them." },
+  { role: "broker", view: "partner", h: "Partners see only what is theirs.", t: "A partner agency registers a client, holds units from one price list and follows its commission. Nothing else is visible to them." },
+  { role: "chairman", view: "gcc-intel", h: "Six GCC markets, sourced.", t: "2025 figures for every market with their sources, and buying costs by country. Where a rule couldn't be confirmed, Observer says so." },
   { role: "chairman", view: "voice", h: "And it answers the phone.", t: "Calls in Arabic, English, Russian and more, transcribed and logged. The ledger shows the hours saved and the sales it touched." },
 ];
 

@@ -32,7 +32,7 @@ export const kpi = {
   agents: 652,
   agentsOnline: 418,
   agencies: 184,
-  projects: 12,
+  projects: 6,
   aiFirstReplies: 71, // % of first replies sent by the AI
   medianReply: 38, // seconds
   aiConversations: 18420,

@@ -56,7 +56,7 @@ const en = {
     },
     gulf: {
       h2: "Built for how property is sold here.",
-      body: "Dubai, Abu Dhabi and Riyadh. That shapes the details, not just the language.",
+      body: "Dubai, Abu Dhabi, Riyadh and the rest of the Gulf. That shapes the details, not just the language.",
       items: [
         { h: "Off-plan, done properly", t: "EOI, booking, SPA and Oqood in one flow, with payment plans, the 4% DLD fee and trustee costs calculated per unit." },
         { h: "Arabic first, and nine more", t: "A complete right-to-left interface, and replies written in Arabic, not translated into it." },
