@@ -19,6 +19,7 @@ const base = [
   ["live-call", "live-call", 1440, 900, "dark"],
   ["payment-plans", "payment-plans", 1440, 900, "light"],
   ["scoring", "scoring", 1440, 900, "light"],
+  ["brokers", "brokers", 1440, 900, "light"],
   ["dashboard", "dashboard-mobile", 390, 844, "light"],
 ];
 const productShots = base.flatMap(([v, f, w, h, th]) => [

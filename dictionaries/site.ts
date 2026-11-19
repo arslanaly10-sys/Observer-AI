@@ -103,9 +103,9 @@ const en = {
       h1: "Launch night, without losing a single buyer.",
       sub: "A launch brings thousands of enquiries in an evening. Observer answers each one, qualifies it against live inventory and payment plans, and brings serious buyers to your sales gallery.",
       points: [
-        { h: "Capacity on launch night", t: "Thousands of personal conversations at once, without temporary staff." },
+        { h: "Capacity on launch night", t: "Thousands of personal conversations at once. Your top scores go to people, the rest to the AI, brokers or a promised callback, and deposits set the pick order." },
         { h: "Payment plans that close", t: "Developer and post-handover plans with real fees, worked out for the exact unit a client asked about." },
-        { h: "Inventory the AI quotes exactly", t: "Projects, unit prices, payment plans and brochures, uploaded or imported. Observer answers from them and never invents a price." },
+        { h: "Inventory the AI quotes exactly", t: "No API needed: a CRM sync, an Excel or PDF price list, a forwarded email or a shared sheet. Every unit shows how fresh it is, and the AI checks with sales admin before quoting anything over a day old." },
       ],
     },
     investors: {
@@ -141,9 +141,16 @@ const en = {
         { h: "Channel ROI", t: "Cost per enquiry and sales by source, so budget follows what works.", soon: true },
         { h: "Consultant performance", t: "Reply times, viewings booked and conversion for every consultant, in one table.", soon: true },
       ], shot: "dashboard" },
+      { id: "brokers", h: "Selling through brokers", t: "One project, many agencies, and no arguments about who brought the client.", items: [
+        { h: "Client protection", t: "The first agency to register a client keeps them for 30 days, renewed by every call, viewing or offer. Duplicates are caught on phone and email in any format.", soon: true },
+        { h: "Disputes, ruled on evidence", t: "When two agencies claim one client, sales admin sees the full timeline and rules in a tap. Both agencies hear on WhatsApp.", soon: true },
+        { h: "Unit holds", t: "One timed hold per unit, released automatically unless a deposit arrives, with the next agency queued behind it. No double bookings.", soon: true },
+        { h: "A portal for every agency", t: "Agencies register clients, see one live price list, hold units and follow commission, with WhatsApp alerts.", soon: true },
+      ], shot: "brokers" },
       { id: "market", h: "GCC market", t: "Tools that only make sense in the Gulf, and that buyers here expect.", items: [
         { h: "Broker calculator", t: "Buying costs by emirate, mortgage eligibility under Central Bank rules, off-plan schedules with dates, yields, commission splits and the Golden Visa. Any result can be sent to a client." },
         { h: "UAE market data", t: "Emaar, DAMAC, Sobha, Aldar and others with their usual payment plans, plus price per square foot and yields for 18 communities, quoted by the AI as indicative ranges." },
+        { h: "GCC intelligence", t: "2025 figures for all six GCC markets, each linked to its source, with buying costs and lending limits by country. Where a rule couldn't be confirmed, Observer says so.", soon: true },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "Enterprise", t: "For brokerages and developers accountable to a board and a regulator.", items: [
         { h: "Escalation", t: "High scores, offers, unhappy clients and legal or visa questions go straight to a person, with a WhatsApp alert." },
@@ -308,9 +315,9 @@ const ar: SiteDict = {
       h1: "ليلة إطلاق، دون أن يضيع مشترٍ واحد.",
       sub: "يجلب الإطلاق آلاف الاستفسارات في أمسية واحدة. يجيب أوبزرفر على كل منها، ويؤهّلها وفق المخزون الحي وخطط السداد، ويأتي بالمشترين الجادّين إلى صالة مبيعاتك.",
       points: [
-        { h: "طاقة ليلة الإطلاق", t: "آلاف المحادثات الشخصية في آن واحد، دون موظفين مؤقتين." },
+        { h: "طاقة ليلة الإطلاق", t: "آلاف المحادثات الشخصية في آن واحد. أعلى التقييمات لفريقكم، والبقية للذكاء الاصطناعي أو الوسطاء أو موعد اتصال مؤكد، ويحدد العربون ترتيب الاختيار." },
         { h: "خطط سداد تُغلق الصفقات", t: "خطط المطوّر وما بعد التسليم برسومها الحقيقية، محسوبة للوحدة التي سأل عنها العميل بالضبط." },
-        { h: "مخزون يقتبسه الذكاء الاصطناعي بدقة", t: "المشاريع وأسعار الوحدات وخطط السداد والكتيّبات، تُرفع أو تُستورد، ويجيب أوبزرفر منها ولا يخترع سعراً." },
+        { h: "مخزون يقتبسه الذكاء الاصطناعي بدقة", t: "دون واجهة برمجية: مزامنة نظام العملاء، أو قائمة أسعار إكسل أو PDF، أو بريد مُعاد توجيهه، أو جدول مشترك. تُظهر كل وحدة حداثة بياناتها، ويتأكد الذكاء الاصطناعي من إدارة المبيعات قبل ذكر أي بيانات عمرها أكثر من يوم." },
       ],
     },
     investors: {
@@ -346,9 +353,16 @@ const ar: SiteDict = {
         { h: "عائد القنوات", t: "تكلفة الاستفسار والمبيعات لكل مصدر، لتتبع الميزانية ما ينجح.", soon: true },
         { h: "أداء المستشارين", t: "زمن الرد والمعاينات المحجوزة ونسبة التحويل لكل مستشار، في جدول واحد.", soon: true },
       ], shot: "dashboard" },
+      { id: "brokers", h: "البيع عبر الوسطاء", t: "مشروع واحد ووكالات كثيرة، دون خلاف على من جاء بالعميل.", items: [
+        { h: "حماية العميل", t: "أول وكالة تسجّل العميل تحتفظ به 30 يوماً، وتتجدد الحماية مع كل مكالمة أو معاينة أو عرض. ويُكتشف التكرار بالهاتف والبريد بأي صيغة.", soon: true },
+        { h: "نزاعات تُحسم بالأدلة", t: "حين تطالب وكالتان بالعميل نفسه، ترى إدارة المبيعات التسلسل الزمني كاملاً وتحسم بنقرة، وتُبلغ الوكالتان عبر واتساب.", soon: true },
+        { h: "حجز الوحدات", t: "حجز واحد مؤقت لكل وحدة يُلغى تلقائياً ما لم يصل العربون، والوكالة التالية في الطابور. لا حجوزات مزدوجة.", soon: true },
+        { h: "بوابة لكل وكالة", t: "تسجّل الوكالات عملاءها، وترى قائمة أسعار واحدة محدّثة، وتحجز الوحدات وتتابع عمولتها، مع تنبيهات واتساب.", soon: true },
+      ], shot: "brokers" },
       { id: "market", h: "سوق الخليج", t: "أدوات لا معنى لها إلا في الخليج، ويتوقعها المشترون هنا.", items: [
         { h: "حاسبة الوسيط", t: "تكاليف الشراء حسب الإمارة، وأهلية التمويل وفق قواعد المصرف المركزي، وجداول البيع على الخارطة بتواريخها، والعوائد وتقسيم العمولة والإقامة الذهبية. وتُرسل أي نتيجة إلى العميل." },
         { h: "بيانات سوق الإمارات", t: "إعمار وداماك وشوبا والدار وغيرها مع خطط سدادها المعتادة، وسعر القدم المربعة والعوائد في 18 مجتمعاً، يذكرها الذكاء الاصطناعي كنطاقات تقديرية." },
+        { h: "معلومات سوق الخليج", t: "أرقام 2025 للأسواق الخليجية الستة، وكل رقم مرتبط بمصدره، مع تكاليف الشراء وحدود التمويل في كل دولة. وحيث لم تتأكد قاعدة يقول أوبزرفر ذلك.", soon: true },
       ], shot: "payment-plans" },
       { id: "enterprise", h: "المؤسسات", t: "لشركات الوساطة والمطوّرين المسؤولين أمام مجلس إدارة وجهة تنظيمية.", items: [
         { h: "التصعيد", t: "التقييمات العالية والعروض والعملاء غير الراضين وأسئلة القانون والإقامة تذهب مباشرة إلى شخص، مع تنبيه على واتساب." },
