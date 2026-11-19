@@ -1,12 +1,12 @@
 /**
  * Demo workspace data, ported from the v10 prototype.
- * Tenant and user are fictional (Nawafir Holdings / Layla Haddad).
+ * Tenant and user are fictional (Emaar Properties / Layla Haddad).
  * GCC developer directory figures are illustrative and must be verified before any public use.
  */
 import type { PhotoKey } from "./img";
 
 export const workspace = {
-  tenant: "Nawafir Holdings",
+  tenant: "Emaar Properties",
   city: "Dubai",
   user: { name: "Layla Haddad", first: "Layla", role: "Sales Director, UAE", initials: "LH" },
 };
@@ -84,10 +84,10 @@ export type Tone = "hot" | "ok" | "creek" | "warm" | "cold" | "wa";
 
 export const activity: { tone: Tone; who?: string; text: string; time: string }[] = [
   { tone: "hot", who: "Abdullah Al Qahtani", text: "asked for a whole floor in Riyadh Gate, Gate 1. Escalated to Faisal Al Harbi.", time: "2m" },
-  { tone: "wa", who: "Nour Al Mansouri", text: "replied on WhatsApp: “Send me the frond plan, I want to see it with my family.”", time: "12m" },
-  { tone: "ok", who: "Mariam Al Hashimi", text: "booked a Saturday viewing at Sobha Hartland II with Viktor Sokolov.", time: "38m" },
-  { tone: "creek", text: "The AI held A-4601 to A-4603 at Harbour One for Hamdan Al Suwaidi, pending your approval.", time: "41m" },
-  { tone: "ok", who: "Mohammed Al Shamsi", text: "Oqood issued: AED 12.1M villa at Saadiyat Lagoons.", time: "1h" },
+  { tone: "wa", who: "Nour Al Mansouri", text: "replied on WhatsApp: “Send me the villa plan, I want to see it with my family.”", time: "12m" },
+  { tone: "ok", who: "Mariam Al Hashimi", text: "booked a Saturday viewing at Dubai Creek Harbour with Viktor Sokolov.", time: "38m" },
+  { tone: "creek", text: "The AI held A-4601 to A-4603 at Creek Harbour for Hamdan Al Suwaidi, pending your approval.", time: "41m" },
+  { tone: "ok", who: "Mohammed Al Shamsi", text: "Oqood issued: AED 12.1M villa at Dubai Hills Estate.", time: "1h" },
   { tone: "cold", text: "1,386 enquiries answered overnight. 214 quiet clients replied again.", time: "6h" },
 ];
 
@@ -108,30 +108,30 @@ export interface WaContact {
 
 export const waContacts: WaContact[] = [
   { initials: "HS", name: "Hamdan Al Suwaidi", preview: "Can you hold all three until Thursday?", time: "2m", unread: 3, score: 89, temp: "hot",
-    listing: { photo: "skylineNight", title: "Nawafir Harbour One · Tower A", detail: "Sky floor 46 · three 3-bed units", price: "AED 9,400,000" },
-    profile: [["Looking to", "Invest, three units"], ["Budget", "AED 8–10M"], ["Project", "Nawafir Harbour One"], ["Timing", "This month"], ["Came from", "Instagram"], ["Financing", "Cash"]],
+    listing: { photo: "skylineNight", title: "Dubai Creek Harbour · Tower A", detail: "Sky floor 46 · three 3-bed units", price: "AED 9,400,000" },
+    profile: [["Looking to", "Invest, three units"], ["Budget", "AED 8–10M"], ["Project", "Dubai Creek Harbour"], ["Timing", "This month"], ["Came from", "Instagram"], ["Financing", "Cash"]],
     suggestion: "Hamdan, I have asked sales admin to hold A-4601 to A-4603 for 48 hours against the EOI. Shall I send the reservation form now?",
     thread: [
-      { dir: "in", text: "Good evening. I saw Harbour One on Instagram. Do you have three units together on a high floor?", time: "20:41" },
-      { dir: "out", text: "Good evening Hamdan, this is the Nawafir AI assistant. Yes: floor 46 in Tower A has three adjoining 3-bed units, A-4601 to A-4603, all with a Creek view.", time: "20:41" },
+      { dir: "in", text: "Good evening. I saw Creek Harbour on Instagram. Do you have three units together on a high floor?", time: "20:41" },
+      { dir: "out", text: "Good evening Hamdan, this is the Emaar AI assistant. Yes: floor 46 in Tower A has three adjoining 3-bed units, A-4601 to A-4603, all with a Creek view.", time: "20:41" },
       { dir: "out", time: "20:41", listing: true },
       { dir: "in", text: "Price for the three, and the payment plan?", time: "20:44" },
       { dir: "out", text: "AED 9.4M together. The plan is 60/40: 60% during construction, 40% on handover in Q4 2029. Expected gross yield in the area is about 6–7%.", time: "20:45" },
       { dir: "in", text: "Can you hold all three until Thursday?", time: "20:52" },
     ] },
   { initials: "NM", name: "Nour Al Mansouri", preview: "أرسل لي مخطط السعفة", time: "12m", unread: 1, score: 94, temp: "hot",
-    listing: { photo: "palmAerial", title: "Palm Jebel Ali · Frond K", detail: "Beach villa 14 · 6 bedrooms", price: "AED 19,800,000" },
-    profile: [["Looking to", "Buy, family home"], ["Budget", "AED 18–22M"], ["Project", "Palm Jebel Ali"], ["Timing", "Before summer"], ["Came from", "Private referral"], ["Financing", "Cash"]],
+    listing: { photo: "palmAerial", title: "Dubai Hills Estate · Fairway villas", detail: "Beach villa 14 · 6 bedrooms", price: "AED 19,800,000" },
+    profile: [["Looking to", "Buy, family home"], ["Budget", "AED 18–22M"], ["Project", "Dubai Hills Estate"], ["Timing", "Before summer"], ["Came from", "Private referral"], ["Financing", "Cash"]],
     suggestion: "تفضّل أستاذة نور، هذا مخطط السعفة K مع موقع الفيلا 14. هل يناسبكم الخميس الساعة 5 مساءً لزيارة الموقع مع العائلة؟",
     thread: [
-      { dir: "in", text: "مساء الخير، أبحث عن فيلا على البحر في نخلة جبل علي للعائلة.", time: "19:02" },
-      { dir: "out", text: "مساء النور أستاذة نور، معك عمر صديقي من نوافير. لدينا فيلا 14 في السعفة K، ست غرف وواجهة بحرية مباشرة.", time: "19:05" },
+      { dir: "in", text: "مساء الخير، أبحث عن فيلا على البحر في دبي هيلز إستيت للعائلة.", time: "19:02" },
+      { dir: "out", text: "مساء النور أستاذة نور، معك عمر صديقي من إعمار. لدينا فيلا 14 في السعفة K، ست غرف وواجهة بحرية مباشرة.", time: "19:05" },
       { dir: "out", time: "19:05", listing: true },
       { dir: "in", text: "ممتاز. أرسل لي مخطط السعفة، أبي أشوفه مع أهلي.", time: "21:30" },
     ] },
   { initials: "VS", name: "Viktor Sokolov", preview: "Saturday morning works.", time: "38m", unread: 0, score: 82, temp: "hot",
-    listing: { photo: "villaSea", title: "Sobha Hartland II · H2-1408", detail: "2-bed apartment · park view", price: "AED 2,150,000" },
-    profile: [["Looking to", "Buy, Golden Visa"], ["Budget", "AED 2–2.5M"], ["Project", "Sobha Hartland II"], ["Timing", "2 months"], ["Came from", "Property Finder"], ["Financing", "Cash"]],
+    listing: { photo: "villaSea", title: "Dubai Creek Harbour · H2-1408", detail: "2-bed apartment · park view", price: "AED 2,150,000" },
+    profile: [["Looking to", "Buy, Golden Visa"], ["Budget", "AED 2–2.5M"], ["Project", "Dubai Creek Harbour"], ["Timing", "2 months"], ["Came from", "Property Finder"], ["Financing", "Cash"]],
     suggestion: "Viktor, Saturday at 11:00 is confirmed with Mariam. I have also attached the Golden Visa checklist for a property of AED 2 million or more.",
     thread: [
       { dir: "in", text: "Добрый день. Квартира за 2 миллиона даёт визу на 10 лет?", time: "18:10" },
@@ -140,22 +140,22 @@ export const waContacts: WaContact[] = [
       { dir: "in", text: "Saturday morning works.", time: "18:31" },
     ] },
   { initials: "AQ", name: "Abdullah Al Qahtani", preview: "أبي الدور كامل في البرج الأول", time: "8m", unread: 2, score: 91, temp: "hot",
-    listing: { photo: "towerAbstract", title: "Nawafir Riyadh Gate · Gate 1", detail: "Floor 28 · 8 units, whole floor", price: "SAR 7,600,000" },
-    profile: [["Looking to", "Buy, extended family"], ["Budget", "SAR 6–8M"], ["Project", "Nawafir Riyadh Gate"], ["Timing", "Tonight's launch"], ["Came from", "Launch event"], ["Financing", "Cash"]],
+    listing: { photo: "towerAbstract", title: "Riyadh Gate · Gate 1", detail: "Floor 28 · 8 units, whole floor", price: "SAR 7,600,000" },
+    profile: [["Looking to", "Buy, extended family"], ["Budget", "SAR 6–8M"], ["Project", "Riyadh Gate"], ["Timing", "Tonight's launch"], ["Came from", "Launch event"], ["Financing", "Cash"]],
     suggestion: "أستاذ عبدالله، فيصل الحربي يتواصل معك الآن لتأكيد تخصيص الطابق 28 كاملاً قبل فتح البيع الساعة 9.",
     thread: [
       { dir: "in", text: "السلام عليكم، أبي الدور كامل في البرج الأول للعائلة.", time: "20:12" },
-      { dir: "out", text: "وعليكم السلام أستاذ عبدالله، معك المساعد الذكي من نوافير. الطابق 28 في البوابة 1 متاح كاملاً، ثماني وحدات.", time: "20:12" },
+      { dir: "out", text: "وعليكم السلام أستاذ عبدالله، معك المساعد الذكي من إعمار. الطابق 28 في البوابة 1 متاح كاملاً، ثماني وحدات.", time: "20:12" },
       { dir: "out", time: "20:12", listing: true },
       { dir: "in", text: "تمام، كيف نحجز قبل الإطلاق؟", time: "20:15" },
     ] },
   { initials: "RH", name: "Rania Hassan", preview: "Send me the payment plan in Arabic please", time: "6h", unread: 1, score: 69, temp: "warm",
-    listing: { photo: "beach", title: "DAMAC Lagoons · Venice cluster", detail: "4-bed townhouse", price: "AED 3,150,000" },
-    profile: [["Looking to", "Buy, to live in"], ["Budget", "AED 3.2M"], ["Project", "DAMAC Lagoons"], ["Timing", "3 months"], ["Came from", "Referral"], ["Financing", "Mortgage"]],
+    listing: { photo: "beach", title: "The Valley · Phase 2", detail: "4-bed townhouse", price: "AED 3,150,000" },
+    profile: [["Looking to", "Buy, to live in"], ["Budget", "AED 3.2M"], ["Project", "The Valley"], ["Timing", "3 months"], ["Came from", "Referral"], ["Financing", "Mortgage"]],
     suggestion: "رانيا، أرسلت لك خطة الدفع 75/25 بالعربية، مع حساب رسوم دائرة الأراضي والقسط الشهري التقريبي.",
     thread: [
       { dir: "in", text: "Hi, I liked the Lagoons townhouses at the weekend.", time: "13:20" },
-      { dir: "out", text: "Hi Rania, Ahmed Tariq from Nawafir. The 4-bed in the Venice cluster is AED 3.15M with a 75/25 plan.", time: "13:26" },
+      { dir: "out", text: "Hi Rania, Ahmed Tariq from Emaar. The 4-bed in the Phase 2 cluster is AED 3.15M with a 75/25 plan.", time: "13:26" },
       { dir: "out", time: "13:26", listing: true },
       { dir: "in", text: "Send me the payment plan in Arabic please", time: "14:02" },
     ] },
@@ -166,7 +166,7 @@ export const waThread: Msg[] = waContacts[0].thread;
 
 export const sequences = [
   { name: "Bayut hot lead", channel: "whatsapp", trigger: "Score above 70 from Bayut", enrolled: 6240, sent: 31870, openRate: 91, steps: [
-    { delay: "Immediately", msg: "Hello {name}, thank you for your Bayut enquiry. I’m your consultant at Nawafir. Which community and budget should I search for you?" },
+    { delay: "Immediately", msg: "Hello {name}, thank you for your Bayut enquiry. I’m your consultant at Emaar. Which community and budget should I search for you?" },
     { delay: "+2 hours", msg: "{name}, five units that match your search are not yet on the portals. Shall I arrange a private preview?" },
     { delay: "+1 day", msg: "Good morning {name}. New units were released in {area} this week. When would suit you for a ten-minute call?" },
   ] },
@@ -179,17 +179,17 @@ export const sequences = [
     { delay: "+1 day", msg: "{name}, any questions I can answer? I can prepare the reservation form whenever you are ready." },
   ] },
   { name: "Cold lead reactivation", channel: "sms", trigger: "Cold, 7+ days without contact", enrolled: 8860, sent: 24110, openRate: 68, steps: [
-    { delay: "Day 7", msg: "{name}, {agent} from Nawafir. Dubai prices rose 8% last quarter. Worth a short conversation about your search? Reply YES." },
+    { delay: "Day 7", msg: "{name}, {agent} from Emaar. Dubai prices rose 8% last quarter. Worth a short conversation about your search? Reply YES." },
     { delay: "+5 days", msg: "{name}, a new unit in {area} within {budget} has just been released. Reply YES for details." },
   ] },
   { name: "First touch for every new lead", channel: "sms", trigger: "Any new lead, any source", enrolled: 41280, sent: 41280, openRate: 72, steps: [
-    { delay: "Within 3 minutes", msg: "Hello {name}, {agent} from Nawafir. Are you looking to buy to live in, to invest, or to sell? Reply 1, 2 or 3." },
+    { delay: "Within 3 minutes", msg: "Hello {name}, {agent} from Emaar. Are you looking to buy to live in, to invest, or to sell? Reply 1, 2 or 3." },
   ] },
   { name: "Monthly market letter", channel: "email", trigger: "All leads, 1st of each month", enrolled: 52400, sent: 52400, openRate: 31, steps: [
     { delay: "1st of the month, 9am", msg: "Subject: {area} this month\n\n{name}, what moved in {area}: transactions, new launches, and where the value is now." },
   ] },
   { name: "AI call for unclosed hot leads", channel: "ai_call", trigger: "Hot lead, no close in 72h", enrolled: 1214, sent: 1214, openRate: 84, steps: [
-    { delay: "72h after scoring hot", msg: "Observer calls: “Hello {name}, this is the Nawafir AI assistant, calling for your consultant. Two units in {area} have just been released. Do you have three minutes?”" },
+    { delay: "72h after scoring hot", msg: "Observer calls: “Hello {name}, this is the Emaar AI assistant, calling for your consultant. Two units in {area} have just been released. Do you have three minutes?”" },
     { delay: "+2 days if unanswered", msg: "Second call, with a short voicemail if there’s no answer." },
   ] },
 ];
@@ -214,11 +214,11 @@ export const journeys = [
 export const notifs = [
   { tone: "hot" as Tone, text: "Abdullah Al Qahtani wants a whole floor at Riyadh Gate. Faisal Al Harbi has it.", time: "2m ago", unread: true },
   { tone: "warm" as Tone, text: "The AI asks to hold A-4601 to A-4603 for Hamdan Al Suwaidi. Approval needed.", time: "5m ago", unread: true },
-  { tone: "wa" as Tone, text: "Nour Al Mansouri on WhatsApp: “Send me the frond plan.”", time: "12m ago", unread: true },
+  { tone: "wa" as Tone, text: "Nour Al Mansouri on WhatsApp: “Send me the villa plan.”", time: "12m ago", unread: true },
   { tone: "creek" as Tone, text: "Riyadh Gate opens at 21:00. 1,840 expressions of interest so far.", time: "1h ago", unread: true },
-  { tone: "ok" as Tone, text: "Oqood issued: Mohammed Al Shamsi, AED 12.1M, Saadiyat Lagoons.", time: "1h ago", unread: false },
+  { tone: "ok" as Tone, text: "Oqood issued: Mohammed Al Shamsi, AED 12.1M, Dubai Hills Estate.", time: "1h ago", unread: false },
   { tone: "cold" as Tone, text: "Overnight: 1,386 enquiries answered, 41 viewings booked.", time: "6h ago", unread: false },
-  { tone: "creek" as Tone, text: "Crescent Gate Realty registered Chen Wei for Diamondz. Protected for 90 days.", time: "7h ago", unread: false },
+  { tone: "creek" as Tone, text: "Crescent Gate Realty registered Chen Wei for Emaar Beachfront. Protected for 90 days.", time: "7h ago", unread: false },
   { tone: "cold" as Tone, text: "Marina Bay Properties tried to register Viktor Sokolov. Duplicate, explained.", time: "8h ago", unread: false },
   { tone: "warm" as Tone, text: "Two SPAs are waiting for an Emirates ID copy. The AI has asked both clients.", time: "1d ago", unread: false },
 ];
@@ -309,24 +309,6 @@ export interface Developer {
   founded: number; projects: number; units: string; value: string; photo?: PhotoKey; place: string;
   flagship: string[]; desc: string;
 }
-/** Public market directory. Figures are illustrative placeholders. */
-export const developers: Developer[] = [
-  { id: "emaar", name: "Emaar Properties", country: "UAE", founded: 1997, projects: 84, units: "180K+", value: "AED 580B", photo: "downtownDay", place: "Downtown Dubai", flagship: ["Burj Khalifa", "Dubai Creek Harbour", "The Valley"], desc: "The UAE’s largest master developer." },
-  { id: "damac", name: "DAMAC Properties", country: "UAE", founded: 2002, projects: 43, units: "46K+", value: "AED 300B", photo: "skylineNight", place: "Dubai", flagship: ["DAMAC Hills", "DAMAC Lagoons", "Safa Two"], desc: "Branded luxury residences." },
-  { id: "meraas", name: "Meraas", country: "UAE", founded: 2007, projects: 22, units: "30K+", value: "AED 180B", photo: "marinaCamels", place: "Dubai", flagship: ["City Walk", "Bluewaters", "La Mer"], desc: "Lifestyle-led destinations." },
-  { id: "nakheel", name: "Nakheel", country: "UAE", founded: 2000, projects: 31, units: "55K+", value: "AED 250B", photo: "palmAerial", place: "Palm Jumeirah", flagship: ["Palm Jumeirah", "Palm Jebel Ali", "Dubai Islands"], desc: "Waterfront master communities." },
-  { id: "aldar", name: "Aldar Properties", country: "UAE", founded: 2004, projects: 38, units: "60K+", value: "AED 200B", photo: "grandMosque", place: "Abu Dhabi", flagship: ["Yas Island", "Saadiyat Island", "Al Raha Beach"], desc: "Abu Dhabi’s leading developer." },
-  { id: "sobha", name: "Sobha Realty", country: "UAE", founded: 1976, projects: 14, units: "28K+", value: "AED 120B", photo: "villaDusk", place: "MBR City", flagship: ["Sobha Hartland", "Sobha One", "SeaHaven"], desc: "Builds in-house, end to end." },
-  { id: "roshn", name: "ROSHN", country: "KSA", founded: 2019, projects: 7, units: "400K+", value: "SAR 200B", place: "Riyadh", flagship: ["SEDRA", "ALAROUS", "WAREFA"], desc: "National community developer." },
-  { id: "dar", name: "Dar Al Arkan", country: "KSA", founded: 1994, projects: 18, units: "65K+", value: "SAR 90B", place: "Riyadh", flagship: ["Shams Ar Riyadh", "Al Qasr"], desc: "Riyadh and Jeddah residential." },
-  { id: "rsg", name: "Red Sea Global", country: "KSA", founded: 2018, projects: 4, units: "8K+", value: "SAR 500B", photo: "beach", place: "Red Sea coast", flagship: ["The Red Sea", "AMAALA"], desc: "Regenerative coastal tourism." },
-  { id: "neom", name: "NEOM", country: "KSA", founded: 2017, projects: 9, units: "N/A", value: "SAR 1.5T", place: "Tabuk", flagship: ["The Line", "Sindalah", "Trojena"], desc: "Giga-project region." },
-  { id: "barwa", name: "Barwa Real Estate", country: "Qatar", founded: 2005, projects: 12, units: "25K+", value: "QAR 80B", place: "Doha", flagship: ["Barwa City", "Madinat Al Mawater"], desc: "Qatar’s largest listed developer." },
-  { id: "qd", name: "Qatari Diar", country: "Qatar", founded: 2005, projects: 10, units: "20K+", value: "QAR 120B", place: "Lusail", flagship: ["Lusail City", "Simaisma"], desc: "State-backed master developer." },
-  { id: "mabanee", name: "Mabanee", country: "Kuwait", founded: 1964, projects: 8, units: "10K+", value: "KWD 2B", place: "Kuwait City", flagship: ["The Avenues", "Al Khiran"], desc: "Mixed-use and retail destinations." },
-  { id: "eskan", name: "Eskan Bank Realty", country: "Bahrain", founded: 1979, projects: 6, units: "7K+", value: "BHD 500M", place: "Manama", flagship: ["Dannat Al Lawzi", "Sakniya"], desc: "Housing finance and development." },
-  { id: "omran", name: "OMRAN Group", country: "Oman", founded: 2005, projects: 9, units: "12K+", value: "OMR 3B", place: "Muscat", flagship: ["Jebel Sifah", "Yiti"], desc: "Tourism and Vision 2040 projects." },
-];
 
 export const socialFlows = [
   { name: "Lead ad → WhatsApp", desc: "Every Facebook and Instagram lead form gets a WhatsApp reply in under a minute.", runs: 2104 },

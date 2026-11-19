@@ -259,7 +259,7 @@ export function Partner() {
 
   const alerts = [
     { icon: Clock, text: "Your hold on A-3902 ends in 6 hours. Record a deposit or it goes to the next agency." },
-    { icon: BellRinging, text: "Price list updated for Harbour One: 4 units changed price. Your shared links already show the new prices." },
+    { icon: BellRinging, text: "Price list updated for Creek Harbour: 4 units changed price. Your shared links already show the new prices." },
     { icon: ShieldCheck, text: "Chen Wei: another agency tried to register this client. Your protection holds for 24 more days." },
   ];
 
@@ -283,7 +283,7 @@ export function Partner() {
               <label className={labelCls}>{t("Project")}<select name="project" className={field}>{[...new Set(seedHolds.map((h) => h.project).concat(seedRegs.map((r) => r.project)))].map((p) => <option key={p} value={p}>{t(p)}</option>)}</select></label>
               <Btn type="submit"><UserPlus size={16} />{t("Register and protect")}</Btn>
               {result && <p role="status" className={cx("flex items-start gap-1.5 text-[13.5px]", result.tone === "ok" ? "text-ok" : result.tone === "warm" ? "text-warm" : "text-hot")}>{result.tone === "ok" ? <CheckCircle size={16} weight="fill" className="mt-0.5 shrink-0" /> : <Warning size={16} className="mt-0.5 shrink-0" />}{result.text}</p>}
-              <p className="t-fine text-ink-3">{t("Try mobile “+49 151 2290 1144” on Harbour One to see a duplicate caught.")}</p>
+              <p className="t-fine text-ink-3">{t("Try mobile “+49 151 2290 1144” on Creek Harbour to see a duplicate caught.")}</p>
             </form>
           </Card>
           <Card>

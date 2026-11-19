@@ -1,6 +1,8 @@
 /** Arabic for the broker desk, unit holds, inventory sources, launch controls and GCC intelligence. */
 export const deskAr: Record<string, string> = {
   // nav
+  "Villa and townhouse communities": "مجتمعات الفلل والتاون هاوس",
+  "Sample availability and indicative prices for each community.": "توفر نموذجي وأسعار تقريبية لكل مجتمع.",
   "Launch controls": "ضوابط الإطلاق",
   "Inventory sources": "مصادر المخزون",
   "Unit holds": "حجوزات الوحدات",
@@ -112,7 +114,7 @@ export const deskAr: Record<string, string> = {
   "Reserved with a deposit. Not available.": "محجوزة بعربون وغير متاحة.",
   "You already hold this unit.": "أنت تحجز هذه الوحدة بالفعل.",
   "Your hold on A-3902 ends in 6 hours. Record a deposit or it goes to the next agency.": "ينتهي حجزك على A-3902 خلال 6 ساعات. سجّل العربون وإلا انتقلت إلى الوكالة التالية.",
-  "Price list updated for Harbour One: 4 units changed price. Your shared links already show the new prices.": "تحدّثت قائمة أسعار هاربر ون: تغيّر سعر 4 وحدات، وروابطك المشتركة تعرض الأسعار الجديدة.",
+  "Price list updated for Creek Harbour: 4 units changed price. Your shared links already show the new prices.": "تحدّثت قائمة أسعار كريك هاربر: تغيّر سعر 4 وحدات، وروابطك المشتركة تعرض الأسعار الجديدة.",
   "Chen Wei: another agency tried to register this client. Your protection holds for 24 more days.": "تشن وي: حاولت وكالة أخرى تسجيل هذا العميل، وحمايتك سارية 24 يوماً أخرى.",
   "Partner home": "صفحة الشريك",
   "Platinum partner": "شريك بلاتيني",
@@ -129,7 +131,7 @@ export const deskAr: Record<string, string> = {
   "Mobile": "الجوال",
   "Email": "البريد الإلكتروني",
   "Register and protect": "تسجيل وحماية",
-  "Try mobile “+49 151 2290 1144” on Harbour One to see a duplicate caught.": "جرّب الرقم ‎+49 151 2290 1144 على هاربر ون لترى اكتشاف التكرار.",
+  "Try mobile “+49 151 2290 1144” on Creek Harbour to see a duplicate caught.": "جرّب الرقم ‎+49 151 2290 1144 على كريك هاربر لترى اكتشاف التكرار.",
   "WhatsApp alerts": "تنبيهات واتساب",
   "What this agency received today": "ما وصل هذه الوكالة اليوم",
   "My protected clients": "عملائي المحميون",

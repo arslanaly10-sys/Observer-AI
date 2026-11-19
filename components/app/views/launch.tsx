@@ -1,6 +1,6 @@
 "use client";
 /**
- * Launch night: a scroll-driven scene for tonight's Nawafir Riyadh Gate launch (after Scrolltide's ARÊTE:
+ * Launch night: a scroll-driven scene for tonight's Riyadh Gate launch (after Scrolltide's ARÊTE:
  * scroll moves the day, a dock sets the conditions, glass cards explain each moment).
  * Scroll runs the clock from 18:00 to midnight; the dock sets demand, adds a surge, or holds the AI
  * so the difference it makes is visible. All figures are simulated for the demonstration.
@@ -103,7 +103,7 @@ export function LaunchNight() {
         {/* Header strip */}
         <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-4 p-5 sm:p-8">
           <div>
-            <p className="t-eyebrow !mb-1 !text-[#e7d6b3]">{t("Launch night")} · {t("Nawafir Riyadh Gate")}</p>
+            <p className="t-eyebrow !mb-1 !text-[#e7d6b3]">{t("Launch night")} · {t("Riyadh Gate")}</p>
             <h1 className="text-[34px] leading-none sm:text-[52px]">{t("Riyadh Gate, tonight")}</h1>
           </div>
           <div className="text-end">

@@ -71,7 +71,7 @@ function ShellInner({ children }: { children: ReactNode }) {
         <Link href={`/${locale}/app/${seat.home}`} className="flex items-center gap-3" aria-label={ar ? group.nameAr : group.name}>
           <span className="grid size-9 place-items-center border border-[#cdb284]/60 font-[family-name:var(--font-display)] text-[20px] text-[#e7d6b3]">{group.monogram}</span>
           <span className="leading-tight">
-            <span className="lux-wordmark block text-[12px]">{ar ? group.nameAr : "Nawafir"}</span>
+            <span className="lux-wordmark block text-[12px]">{ar ? group.nameAr : "Emaar"}</span>
             <span className="t-eyebrow !mb-0 block !text-[10px] text-[#cdb284]">{t("Sales platform")}</span>
           </span>
         </Link>
@@ -164,7 +164,7 @@ function ShellInner({ children }: { children: ReactNode }) {
         </header>
         {/* Demo bar: says plainly the data is sample data, with one small ask (CTA Gallery: announcement pattern) */}
         <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 border-b border-hairline-soft bg-[#efe5d3]/60 px-4 py-2 text-[13px] text-ink-2 sm:px-6">
-          <span>{t("Demonstration: Nawafir Holdings and every client here are invented.")}</span>
+          <span>{t("Sample data: an Emaar Properties workspace, shown with permission. Figures, consultants, clients and brokers are invented.")}</span>
           <span className="flex items-center gap-3">
             <Link href={`/${locale}/contact`} className="inline-flex h-7 items-center gap-1.5 bg-ink px-3 text-[12px] font-medium text-canvas hover:opacity-90">{t("See it with your own leads")}<ArrowRight size={13} className="rtl:-scale-x-100" /></Link>
             <Link href={`/${locale}/demo`} className="font-medium text-creek hover:underline">{t("Switch seat")}</Link>

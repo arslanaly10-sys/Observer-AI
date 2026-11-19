@@ -66,7 +66,7 @@ const en = {
     },
     results: {
       h2: "One month at a top-tier group.",
-      note: "Figures from the demonstration group, Nawafir Holdings, to show what Observer reports. Not customer results.",
+      note: "Sample figures from the demo workspace, to show what Observer reports. Not customer results.",
       items: [
         { n: "41,280", t: "enquiries in a month, every one answered" },
         { n: "38 s", t: "median from enquiry to first reply" },
@@ -271,7 +271,7 @@ const ar: SiteDict = {
     },
     results: {
       h2: "شهر واحد في مجموعة من الصف الأول.",
-      note: "أرقام من المجموعة التجريبية نوافير القابضة، لتوضيح ما يعرضه أوبزرفر. ليست نتائج عملاء.",
+      note: "أرقام من المجموعة التجريبية إعمار العقارية، لتوضيح ما يعرضه أوبزرفر. ليست نتائج عملاء.",
       items: [
         { n: "41,280", t: "استفساراً في شهر، تلقّى كلٌّ منها رداً" },
         { n: "38 ث", t: "متوسط الوقت من الاستفسار إلى أول رد" },

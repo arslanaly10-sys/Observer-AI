@@ -11,10 +11,10 @@ const kindLabel: Record<AiKind, string> = { reply: "Replies", hold: "Unit holds"
 type Mode = "auto" | "ask" | "off";
 
 const pool = [
-  { kind: "reply" as AiKind, text: "Replied in Hindi with two Diamondz studios and the 1% monthly plan", client: "Arjun Mehta" },
-  { kind: "route" as AiKind, text: "Routed a Property Finder enquiry for Nawafir Pearl to Ahmed Tariq (Abu Dhabi)", client: "Sara Al Blooshi" },
-  { kind: "followup" as AiKind, text: "Sent the day-3 follow-up with the Harbour One floor plans", client: "James Whitaker" },
-  { kind: "reply" as AiKind, text: "Answered a service-charge question for Saadiyat Lagoons in Arabic", client: "Mohammed Al Shamsi" },
+  { kind: "reply" as AiKind, text: "Replied in Hindi with two Emaar Beachfront studios and the payment plan", client: "Arjun Mehta" },
+  { kind: "route" as AiKind, text: "Routed a Property Finder enquiry for Emaar Beachfront to Ahmed Tariq (Dubai)", client: "Sara Al Blooshi" },
+  { kind: "followup" as AiKind, text: "Sent the day-3 follow-up with the Creek Harbour floor plans", client: "James Whitaker" },
+  { kind: "reply" as AiKind, text: "Answered a service-charge question for Dubai Hills Estate in Arabic", client: "Mohammed Al Shamsi" },
   { kind: "call" as AiKind, text: "Returned a missed call in English and confirmed Saturday's viewing", client: "Elena Rossi" },
 ];
 

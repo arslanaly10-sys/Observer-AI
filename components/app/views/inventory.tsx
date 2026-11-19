@@ -121,8 +121,8 @@ export function Projects() {
         </div>
       </div>
 
-      <h2 className="lux-serif mt-10 text-[30px]">{t("Partner launches we sell")}</h2>
-      <p className="mt-1 text-ink-2">{t("Projects by other developers, named as market data. Prices and plans are indicative.")}</p>
+      <h2 className="lux-serif mt-10 text-[30px]">{t("Villa and townhouse communities")}</h2>
+      <p className="mt-1 text-ink-2">{t("Sample availability and indicative prices for each community.")}</p>
       <ul className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {projects.filter((x) => !x.towers).map((x) => (
           <li key={x.id}>

@@ -41,7 +41,7 @@ export function PageHead({ title, sub, actions }: { title: string; sub?: string;
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
-        {group && <p className="t-eyebrow mb-2 text-ink-3">{t(group)}</p>}
+        <p className="t-eyebrow mb-2 flex flex-wrap items-center gap-2 text-ink-3">{group && <span>{t(group)}</span>}<span className="rounded-full border border-hairline px-2 py-0.5 normal-case tracking-normal">{t("Sample data")}</span></p>
         <h1 className="lux-title">{t(title)}</h1>
         {sub && <p className="mt-1.5 max-w-[62ch] text-ink-2">{t(sub)}</p>}
       </div>

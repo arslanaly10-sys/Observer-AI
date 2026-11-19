@@ -17,7 +17,7 @@ export function Board() {
   return (
     <>
       <section className="relative isolate mb-6 overflow-hidden bg-black text-white">
-        <Image src={img("palmAerial", 1800)} alt="" fill priority sizes="(min-width:1024px) 1100px, 100vw" className="-z-10 object-cover opacity-55" />
+        <Image src={img("skylineNight", 1800)} alt="" fill priority sizes="(min-width:1024px) 1100px, 100vw" className="-z-10 object-cover opacity-55" />
         <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-black via-black/70 to-black/10 rtl:bg-gradient-to-l" />
         <div className="p-6 sm:p-10 lg:p-12">
           <p className="t-eyebrow !text-[#cdb284]">{t("Good evening")}, {t("Rashid")} · {t(group.name)}</p>
@@ -43,13 +43,13 @@ export function Board() {
 
       <div className="grid gap-5 xl:grid-cols-[1.5fr_1fr]">
         <Card>
-          <CardHead title="Projects" sub="Own developments and partner launches, sell-through to date" aside={<Link href={`/${locale}/app/projects`} className="t-caption text-creek hover:underline">{t("Inventory")}</Link>} />
+          <CardHead title="Projects" sub="Every development, sell-through to date" aside={<Link href={`/${locale}/app/projects`} className="t-caption text-creek hover:underline">{t("Inventory")}</Link>} />
           <ul className="divide-y divide-hairline-soft">
             {projects.map((p) => (
               <li key={p.id} className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 py-3 sm:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_110px_auto]">
                 <div className="min-w-0">
                   <p className="truncate font-medium">{t(p.name)}</p>
-                  <p className="t-caption truncate text-ink-2">{p.own ? t("Nawafir development") : `${t("By")} ${t(p.developer)}`} · {t(p.area)}, {t(p.city)}</p>
+                  <p className="t-caption truncate text-ink-2">{p.own ? t("Emaar development") : `${t("By")} ${t(p.developer)}`} · {t(p.area)}, {t(p.city)}</p>
                 </div>
                 <div className="col-span-2 flex items-center gap-3 sm:col-span-1">
                   <Meter value={p.sold} tone={p.sold >= 75 ? "hot" : "creek"} className="flex-1" />

@@ -75,7 +75,7 @@ export function Tour() {
         <p className="t-eyebrow !mb-0 text-[#cdb284]">{done ? t("Tour complete") : `${t("Guided tour")} · ${i + 1}/${steps.length}`}</p>
         <button onClick={exit} aria-label={t("Exit the tour")} className="-me-2 -mt-2 grid size-9 place-items-center text-[#efe9df]/70 hover:text-white"><X size={18} /></button>
       </div>
-      <h2 className="lux-serif mt-2 text-[26px] leading-[1.1] sm:text-[30px]">{done ? t("That was one evening at Nawafir.") : t(s.h)}</h2>
+      <h2 className="lux-serif mt-2 text-[26px] leading-[1.1] sm:text-[30px]">{done ? t("That was one evening at Emaar.") : t(s.h)}</h2>
       <p className="mt-2 text-[15px] leading-relaxed text-[#efe9df]/75">{done ? t("Now picture it with your own projects, your consultants and this week's enquiries.") : t(s.t)}</p>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         {done ? (

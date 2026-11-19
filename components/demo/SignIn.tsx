@@ -12,7 +12,7 @@ import type { Locale } from "@/lib/i18n";
 const copy = {
   en: {
     platform: "Sales platform",
-    tonight: "Tonight 21:00 · Nawafir Riyadh Gate opens for sale",
+    tonight: "Tonight 21:00 · Riyadh Gate opens for sale",
     line: `${kpi.enquiries.toLocaleString("en")} enquiries this month. Every one answered.`,
     welcome: "Welcome back.",
     sub: "Sign in with your company account.",
@@ -22,10 +22,10 @@ const copy = {
     or: "Or enter the demonstration as",
     tour: "New to Observer? Take the five-minute tour",
     secure: "Single sign-on, role-based access, every client record view logged.",
-    note: "Sample data. Nawafir Holdings, its people and its clients are invented. Projects by Emaar, Sobha, Danube, DAMAC, Nakheel, Aldar and ROSHN are named as market data with indicative prices; no affiliation is implied.",
+    note: "Sample data, shown with Emaar's permission. Sales figures, consultants, clients and brokers are invented. Project names are Emaar communities; the Riyadh launch is a sample scenario.",
     back: "Back to the website",
     lang: "العربية",
-    labels: { chairman: "Chairman", director: "Sales director", agent: "Consultant", broker: "Broker partner" } as Record<RoleId, string>,
+    labels: { chairman: "Executive", director: "Sales director", agent: "Consultant", broker: "Broker partner" } as Record<RoleId, string>,
     blurbs: {
       chairman: "The group on one page: sales, launches, inventory and what the AI did overnight.",
       director: "652 consultants, their pipeline, and every AI action awaiting your approval.",
@@ -35,7 +35,7 @@ const copy = {
   },
   ar: {
     platform: "منصة المبيعات",
-    tonight: "الليلة 21:00 · افتتاح البيع في بوابة الرياض من نوافير",
+    tonight: "الليلة 21:00 · افتتاح البيع في بوابة الرياض",
     line: `${kpi.enquiries.toLocaleString("ar-AE")} استفساراً هذا الشهر، ولم يبقَ واحد منها بلا رد.`,
     welcome: "أهلاً بعودتك.",
     sub: "سجّل الدخول بحساب شركتك.",
@@ -45,10 +45,10 @@ const copy = {
     or: "أو ادخل النسخة التجريبية بصفة",
     tour: "جديد على أوبزرفر؟ جولة في خمس دقائق",
     secure: "دخول موحّد، وصلاحيات حسب الدور، وكل اطلاع على ملف عميل مسجّل.",
-    note: "بيانات نموذجية. نوافير القابضة وفريقها وعملاؤها شخصيات مُتخيَّلة. مشاريع إعمار وشوبا ودانوب وداماك ونخيل والدار وروشن مذكورة كبيانات سوق بأسعار تقديرية، ولا يُقصد بها أي ارتباط.",
+    note: "بيانات نموذجية تُعرض بإذن من إعمار. أرقام المبيعات والمستشارون والعملاء والوسطاء مُتخيَّلون، وأسماء المشاريع لمجتمعات إعمار، أما إطلاق الرياض فسيناريو نموذجي.",
     back: "العودة إلى الموقع",
     lang: "English",
-    labels: { chairman: "رئيس مجلس الإدارة", director: "مديرة المبيعات", agent: "مستشارة عقارية", broker: "شريك وسيط" } as Record<RoleId, string>,
+    labels: { chairman: "الإدارة التنفيذية", director: "مديرة المبيعات", agent: "مستشارة عقارية", broker: "شريك وسيط" } as Record<RoleId, string>,
     blurbs: {
       chairman: "المجموعة في صفحة واحدة: المبيعات والإطلاقات والمخزون، وما أنجزه الذكاء الاصطناعي ليلاً.",
       director: "652 مستشاراً ومسار صفقاتهم، وكل إجراء ذكي ينتظر موافقتك.",
@@ -59,7 +59,7 @@ const copy = {
 };
 const order: RoleId[] = ["chairman", "director", "agent", "broker"];
 const names: Record<RoleId, { en: string; ar: string; titleAr: string }> = {
-  chairman: { en: roles.chairman.person, ar: "راشد المنصوري", titleAr: "رئيس مجلس إدارة المجموعة" },
+  chairman: { en: roles.chairman.person, ar: "راشد المنصوري", titleAr: "المكتب التنفيذي" },
   director: { en: roles.director.person, ar: "ليلى حداد", titleAr: "مديرة المبيعات، الإمارات" },
   agent: { en: roles.agent.person, ar: "مريم الهاشمي", titleAr: "مستشارة عقارية، دبي" },
   broker: { en: roles.broker.person, ar: "بريا نير", titleAr: "مديرة، كريسنت غيت العقارية · ORN 41827" },

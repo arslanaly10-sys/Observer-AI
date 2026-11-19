@@ -18,13 +18,13 @@ const KIND: Record<SourceKind, { label: string; icon: typeof Database; how: stri
 };
 
 const feeds: { project: string; kind: SourceKind; system: string; lastAt: number; units: number }[] = [
-  { project: "Nawafir Harbour One", kind: "crm", system: "Salesforce", lastAt: NOW - 0.6 * H, units: 612 },
-  { project: "Nawafir Riyadh Gate", kind: "sales-admin", system: "Launch desk", lastAt: NOW - 0.5 * H, units: 720 },
-  { project: "Nawafir Pearl", kind: "sheet", system: "Google Sheet", lastAt: NOW - 3 * H, units: 386 },
-  { project: "DAMAC Lagoons", kind: "sales-admin", system: "Calls to the developer", lastAt: NOW - 5 * H, units: 132 },
-  { project: "Nawafir Grove Villas", kind: "email", system: "Price list by email", lastAt: NOW - 9 * H, units: 214 },
-  { project: "Sobha Hartland II", kind: "broker-portal", system: "Developer portal export", lastAt: NOW - 26 * H, units: 118 },
-  { project: "Diamondz", kind: "price-list", system: "PDF price list", lastAt: NOW - 52 * H, units: 160 },
+  { project: "Dubai Creek Harbour", kind: "crm", system: "Salesforce", lastAt: NOW - 0.6 * H, units: 612 },
+  { project: "Riyadh Gate", kind: "sales-admin", system: "Launch desk", lastAt: NOW - 0.5 * H, units: 720 },
+  { project: "Emaar Beachfront", kind: "sheet", system: "Google Sheet", lastAt: NOW - 3 * H, units: 386 },
+  { project: "The Valley", kind: "sales-admin", system: "Calls to the developer", lastAt: NOW - 5 * H, units: 132 },
+  { project: "Arabian Ranches III", kind: "email", system: "Price list by email", lastAt: NOW - 9 * H, units: 214 },
+  { project: "Dubai Creek Harbour", kind: "broker-portal", system: "Developer portal export", lastAt: NOW - 26 * H, units: 118 },
+  { project: "Emaar Beachfront", kind: "price-list", system: "PDF price list", lastAt: NOW - 52 * H, units: 160 },
 ];
 
 const POLICY = {
@@ -47,8 +47,8 @@ B-2211,22,2BR,2.7M,Available
 B-2212,22,Studio,1.2M,Available`;
 
 const questions = [
-  { unit: "Diamondz DZ-1804", ask: "Is DZ-1804 still available at AED 1.38M? Last list is 52 hours old.", client: "Arjun Mehta", waiting: "6 min" },
-  { unit: "Sobha Hartland II H2-0912", ask: "Is H2-0912 still available, and is the 60/40 plan unchanged?", client: "Elena Rossi", waiting: "14 min" },
+  { unit: "Emaar Beachfront DZ-1804", ask: "Is DZ-1804 still available at AED 1.38M? Last list is 52 hours old.", client: "Arjun Mehta", waiting: "6 min" },
+  { unit: "Dubai Creek Harbour H2-0912", ask: "Is H2-0912 still available, and is the 60/40 plan unchanged?", client: "Elena Rossi", waiting: "14 min" },
 ];
 
 /** Inventory without an API: every way data comes in, how fresh it is, and what the AI may say. */
