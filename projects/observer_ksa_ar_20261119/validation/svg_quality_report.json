@@ -4,8 +4,8 @@
   "target": "/home/user/observer-ai/projects/observer_ksa_ar_20261119",
   "source_fingerprint": {
     "algorithm": "sha256",
-    "digest": "7a151fa76135a049d7dc681243903099201463b52ceef2ec74f0cf932e1ef076",
-    "file_count": 19,
+    "digest": "ff1596e736bf3feb1f5d3f8aad808877d9a24a423d35252b49ac09a2b86f0036",
+    "file_count": 23,
     "files": [
       {
         "file": "01_cover.svg",
@@ -72,23 +72,39 @@
         "sha256": "716b3a9393789975733f446112a771dafcb6975b137ab108ebdad872f87af5b0"
       },
       {
-        "file": "17_ksa.svg",
+        "file": "17_midnight.svg",
+        "sha256": "a299d5173778276b9ee445d4ae1f8cf6169e49961f1216fd76cb48640f350edb"
+      },
+      {
+        "file": "18_replydesk.svg",
+        "sha256": "eca2f6a5546f90925c19dc263354c09b68b491107d2e3e1d32f5d0d251f891e8"
+      },
+      {
+        "file": "19_dealroom.svg",
+        "sha256": "5def0cda9e071f541cbe3c7801740b4ee1f9e6dfe1e33d1b92ca9c08dc013550"
+      },
+      {
+        "file": "20_radar.svg",
+        "sha256": "d2bb4436322a3dce96d303cb30c54da8f8b9ced254f09df3156d1f1352c1b665"
+      },
+      {
+        "file": "21_ksa.svg",
         "sha256": "e80dbdf3e5281fe002eef45549a7194e18558e2159cd8c6301e4f85e15c0eece"
       },
       {
-        "file": "18_start.svg",
+        "file": "22_start.svg",
         "sha256": "d4fa2aa84cdf8de44ccfe2b2ad1a502301c7db08e6688a4a9645c7bfdb161275"
       },
       {
-        "file": "19_close.svg",
+        "file": "23_close.svg",
         "sha256": "f7d279746c84274a883c7c807152bbd4a809d34e35ce09044b2d9faa48ba0d0c"
       }
     ]
   },
   "summary": {
-    "total": 19,
-    "passed": 10,
-    "warnings": 9,
+    "total": 23,
+    "passed": 13,
+    "warnings": 10,
     "errors": 0
   },
   "issue_types": {},
@@ -98,7 +114,7 @@
       "issues": []
     },
     "introduced": {
-      "count": 13,
+      "count": 14,
       "issues": [
         {
           "file": "01_cover.svg",
@@ -129,27 +145,31 @@
           "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[9]:font-weight 'bold' -> None; text[10]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
         },
         {
-          "file": "17_ksa.svg",
+          "file": "20_radar.svg",
+          "message": "<g id=\"points\"> data-pptx-bounds exceeds canvas viewBox on the vertical axis: content (770.0, 365.0)-(1200.0, 727.0), container (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 1.0% (error above 5%); keep the root module subcanvas inside the SVG viewBox"
+        },
+        {
+          "file": "21_ksa.svg",
           "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[6]:font-weight 'bold' -> None; text[7]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
         },
         {
-          "file": "17_ksa.svg",
+          "file": "21_ksa.svg",
           "message": "<g id=\"points\"> data-pptx-bounds exceeds canvas viewBox on the vertical axis: content (580.0, 276.0)-(1200.0, 722.0), container (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 0.3% (error above 5%); keep the root module subcanvas inside the SVG viewBox"
         },
         {
-          "file": "18_start.svg",
+          "file": "22_start.svg",
           "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): header:font-weight None -> 'bold'; text[5]:font-weight 'bold' -> None; text[6]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
         },
         {
-          "file": "18_start.svg",
+          "file": "22_start.svg",
           "message": "<text> (x=1172, y=506; text='ثلاثون دقيقة، نحمّلف…') exceeds <g id=\"step-1\"> data-pptx-bounds on the vertical axis: content (997.9, 491.6)-(1172.0, 620.0), container (938.0, 318.0)-(1200.0, 618.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
         },
         {
-          "file": "18_start.svg",
+          "file": "22_start.svg",
           "message": "<text> (x=600, y=506; text='ربط المنصاتالعقارية …') exceeds <g id=\"step-3\"> data-pptx-bounds on the vertical axis: content (415.9, 491.6)-(600.0, 620.0), container (366.0, 318.0)-(628.0, 618.0), overflow horizontal 0.0%, vertical 0.7% (error above 5%); expand the root module bounds into available non-overlapping space; otherwise reflow the text"
         },
         {
-          "file": "19_close.svg",
+          "file": "23_close.svg",
           "message": "Noncanonical compact authoring: Authoring SVG contains noncanonical or redundant inherited style declarations (3 change(s)); examples (group:attr None -> value hoists the shared value onto that group; child:attr value -> None drops the copy the child now inherits): title:font-weight None -> 'bold'; text[11]:font-weight 'bold' -> None; text[12]:font-weight 'bold' -> None (advisory; normalize with `python3 scripts/compact_svg_styles.py <svg_output> --inplace`, re-stamp pages that carry Chart/Table fallbacks, and rerun the final gate, or leave the explicit form)"
         }
       ]
@@ -173,22 +193,22 @@
   },
   "carrier_receipt": {
     "scope": "informational-not-a-quota",
-    "pages": 19,
+    "pages": 23,
     "totals": {
-      "text_elements": 200,
-      "image_placements": 16,
+      "text_elements": 240,
+      "image_placements": 20,
       "icons": 0,
-      "svg_geometry_elements": 116,
+      "svg_geometry_elements": 140,
       "preset_shapes": 0,
-      "page_frame_elements": 23,
+      "page_frame_elements": 27,
       "marker_uses": 0,
       "inline_emphasis_runs": 0,
       "gradient_uses": 4,
-      "filter_uses": 11,
+      "filter_uses": 15,
       "text_effects": 0
     },
     "pages_with": {
-      "images": 16,
+      "images": 20,
       "icons": 0,
       "presets": 0,
       "charts": 0,
@@ -196,7 +216,7 @@
       "formulas": 0,
       "inline_emphasis_runs": 0,
       "gradient_uses": 4,
-      "filter_uses": 11,
+      "filter_uses": 15,
       "text_effects": 0
     },
     "relationship_pages": null,
@@ -207,7 +227,7 @@
       "path": 0,
       "polygon": 0,
       "polyline": 0,
-      "rect": 106
+      "rect": 130
     },
     "preset_names": {},
     "native_objects": {
@@ -1216,8 +1236,254 @@
       "source_sha256": "716b3a9393789975733f446112a771dafcb6975b137ab108ebdad872f87af5b0"
     },
     {
-      "file": "17_ksa.svg",
-      "path": "projects/observer_ksa_ar_20261119/svg_output/17_ksa.svg",
+      "file": "17_midnight.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/17_midnight.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_overnight.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "a299d5173778276b9ee445d4ae1f8cf6169e49961f1216fd76cb48640f350edb"
+    },
+    {
+      "file": "18_replydesk.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/18_replydesk.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_replydesk.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "eca2f6a5546f90925c19dc263354c09b68b491107d2e3e1d32f5d0d251f891e8"
+    },
+    {
+      "file": "19_dealroom.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/19_dealroom.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_dealroom.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 5
+      },
+      "passed": true,
+      "source_sha256": "5def0cda9e071f541cbe3c7801740b4ee1f9e6dfe1e33d1b92ca9c08dc013550"
+    },
+    {
+      "file": "20_radar.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/20_radar.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "<g id=\"points\"> data-pptx-bounds exceeds canvas viewBox on the vertical axis: content (770.0, 365.0)-(1200.0, 727.0), container (0.0, 0.0)-(1280.0, 720.0), overflow horizontal 0.0%, vertical 1.0% (error above 5%); keep the root module subcanvas inside the SVG viewBox"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 10,
+          "images": {
+            "placements": 1,
+            "files": [
+              "ar_radar.jpg"
+            ],
+            "max_frame_share": 0.2778
+          },
+          "icons": 0,
+          "effects": {
+            "inline_emphasis_runs": 0,
+            "gradient_uses": 0,
+            "filter_uses": 1,
+            "text_effects": 0
+          },
+          "geometry": {
+            "svg_elements": {
+              "rect": 6,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 0,
+              "polyline": 0,
+              "polygon": 0,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 1,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Segoe UI, IBM Plex Sans Arabic",
+          "Times New Roman, Amiri"
+        ],
+        "text_elements": 10,
+        "tspan_elements": 7
+      },
+      "passed": true,
+      "source_sha256": "d2bb4436322a3dce96d303cb30c54da8f8b9ced254f09df3156d1f1352c1b665"
+    },
+    {
+      "file": "21_ksa.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/21_ksa.svg",
       "exists": true,
       "errors": [],
       "warnings": [
@@ -1280,8 +1546,8 @@
       "source_sha256": "e80dbdf3e5281fe002eef45549a7194e18558e2159cd8c6301e4f85e15c0eece"
     },
     {
-      "file": "18_start.svg",
-      "path": "projects/observer_ksa_ar_20261119/svg_output/18_start.svg",
+      "file": "22_start.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/22_start.svg",
       "exists": true,
       "errors": [],
       "warnings": [
@@ -1343,8 +1609,8 @@
       "source_sha256": "d4fa2aa84cdf8de44ccfe2b2ad1a502301c7db08e6688a4a9645c7bfdb161275"
     },
     {
-      "file": "19_close.svg",
-      "path": "projects/observer_ksa_ar_20261119/svg_output/19_close.svg",
+      "file": "23_close.svg",
+      "path": "projects/observer_ksa_ar_20261119/svg_output/23_close.svg",
       "exists": true,
       "errors": [],
       "warnings": [
